@@ -1,11 +1,11 @@
-import React from 'react';
-
-import './App.css';
-import { CoverBoard } from './conva/CoverBoard';
+import { useCoverContext } from 'contexts';
+import { CoverBoard } from 'CoverBoard';
 
 function App() {
+  const { configs } = useCoverContext();
+
   return (
-    <div className="App">
+    <div className="App" style={{ backgroundColor: configs.backColor }}>
       <CoverBoard />
     </div>
   );

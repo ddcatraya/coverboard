@@ -1,0 +1,1 @@
+export { getAlign } from './getAlign';

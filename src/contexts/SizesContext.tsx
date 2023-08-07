@@ -1,16 +1,25 @@
-import React, { createContext, useState, useContext, useEffect } from 'react';
-import { DragLimits } from 'types';
+import React, {
+  createContext,
+  useState,
+  useContext,
+  useEffect,
+  useCallback,
+} from 'react';
+
+import { DragLimits, ToolConfigIDs } from 'types';
+import { useCoverContext } from './CoverContext/CoverContext';
 
 interface SizeContextData {
   dragLimits: DragLimits;
   toolBarLimits: DragLimits;
   coverSize: number;
   initialX: number;
+  initialY: number;
   getCurrentX: (index: number) => number;
   toobarIconSize: number;
   fontSize: number;
   windowSize: { width: number; height: number };
-  setCoverSize: React.Dispatch<React.SetStateAction<number>>;
+  circleRadius: number;
 }
 
 const SizesContext = createContext<SizeContextData>({} as SizeContextData);
@@ -26,7 +35,8 @@ export const useSizesContext = () => {
 export const SizesProvider: React.FC<{ children: React.ReactNode }> = ({
   children,
 }) => {
-  const [coverSize, setCoverSize] = useState(100);
+  const { configs } = useCoverContext();
+  const coverSize = configs.size;
   const [windowSize, setWindowSize] = useState({
     width: window.innerWidth,
     height: window.innerHeight,
@@ -52,8 +62,10 @@ export const SizesProvider: React.FC<{ children: React.ReactNode }> = ({
   const spaceBetween = coverSize / 4;
   const fontSize = coverSize / 7;
 
-  const getCurrentX = (index: number) =>
-    initialY + index * (toobarIconSize + spaceBetween);
+  const getCurrentX = useCallback(
+    (index: number) => initialY + index * (toobarIconSize + spaceBetween),
+    [initialY, spaceBetween, toobarIconSize],
+  );
 
   const dragLimits = {
     x: initialX + 2 * toobarIconSize,
@@ -66,8 +78,10 @@ export const SizesProvider: React.FC<{ children: React.ReactNode }> = ({
     x: initialX - toobarIconSize / 2,
     y: initialY - toobarIconSize / 2,
     width: toobarIconSize * 2,
-    height: getCurrentX(5) + toobarIconSize,
+    height: getCurrentX(Object.keys(ToolConfigIDs).length - 1) + toobarIconSize,
   };
+
+  const circleRadius = fontSize / 1.5;
 
   return (
     <SizesContext.Provider
@@ -80,7 +94,8 @@ export const SizesProvider: React.FC<{ children: React.ReactNode }> = ({
         toobarIconSize,
         fontSize,
         windowSize,
-        setCoverSize,
+        initialY,
+        circleRadius,
       }}>
       {children}
     </SizesContext.Provider>
