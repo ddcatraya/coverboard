@@ -9,7 +9,8 @@ import {
 import { Colors, ToolConfig, ToolConfigIDs } from 'types';
 
 export const Toolbar: React.FC = () => {
-  const { erase, setErase, editLines, setEditLines } = useCoverContext();
+  const { erase, setErase, editLines, setEditLines, undo, action } =
+    useCoverContext();
   const {
     openSearch,
     setOpenSearch,
@@ -63,6 +64,15 @@ export const Toolbar: React.FC = () => {
       emoji: '🗑️',
       value: erase,
       valueModifier: setErase,
+      reverse: true,
+    },
+    {
+      id: ToolConfigIDs.UNDO,
+      tooltip: 'Undo up to 10 moves',
+      color: Colors.PINK,
+      emoji: '↩️',
+      value: action.length < 2,
+      valueModifier: undo,
       reverse: true,
     },
   ];

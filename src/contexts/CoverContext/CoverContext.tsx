@@ -8,7 +8,14 @@ import React, {
   useCallback,
 } from 'react';
 
-import { Point, LocalStorageKeys, LocalStorageData } from 'types';
+import {
+  Point,
+  LocalStorageKeys,
+  LocalStorageData,
+  CoverImage,
+  LinePoint,
+  ToolbarConfigParams,
+} from 'types';
 import {
   useConfigs,
   UseConfigsParams,
@@ -17,6 +24,12 @@ import {
   useLines,
   UseLinesParams,
 } from '.';
+
+interface Actions {
+  configs: ToolbarConfigParams;
+  lines: LinePoint[];
+  cover: CoverImage[];
+}
 
 interface CoverContextData
   extends Omit<UseCoverParams, 'setCover'>,
@@ -32,9 +45,12 @@ interface CoverContextData
   resetTitle: () => void;
   getLocalStorage: () => LocalStorageData;
   setLocalStorage: (data: LocalStorageData) => void;
+  undo: () => void;
+  action: Array<Actions>;
 }
 
 const CoverContext = createContext<CoverContextData>({} as CoverContextData);
+const MAX_UNDO = 10;
 
 export const useCoverContext = () => {
   const context = useContext(CoverContext);
@@ -53,6 +69,62 @@ export const CoverProvider: React.FC<{ children: React.ReactNode }> = ({
   const [erase, setErase] = useState(false);
   const [editLines, setEditLines] = useState(false);
   const [points, setPoints] = useState<Point | null>(null);
+  const [action, setAction] = useState<Array<Actions>>([]);
+
+  useEffect(() => {
+    setPoints(null);
+  }, [cover]);
+
+  useEffect(() => {
+    if (erase) {
+      setEditLines(false);
+    }
+  }, [erase]);
+
+  useEffect(() => {
+    if (editLines) {
+      setErase(false);
+    }
+  }, [editLines]);
+
+  useEffect(() => {
+    if (action.length === 0) {
+      setAction((currentAction) => [
+        ...currentAction,
+        { configs, lines, cover },
+      ]);
+      return;
+    }
+    if (
+      JSON.stringify(configs) !==
+        JSON.stringify(action[action.length - 1].configs) ||
+      JSON.stringify(lines) !==
+        JSON.stringify(action[action.length - 1].lines) ||
+      JSON.stringify(cover) !== JSON.stringify(action[action.length - 1].cover)
+    ) {
+      setAction((currentAction) =>
+        currentAction.length < MAX_UNDO
+          ? [...currentAction, { configs, lines, cover }]
+          : [
+              ...currentAction.slice(currentAction.length - (MAX_UNDO - 1)),
+              { configs, lines, cover },
+            ],
+      );
+    }
+  }, [action, configs, cover, lines]);
+
+  const undo = () => {
+    const copyArray = [...action];
+    copyArray.pop();
+    const another = copyArray.pop();
+
+    if (another) {
+      setConfigs(another.configs);
+      setLines(another.lines);
+      setCover(another.cover);
+      setAction(copyArray);
+    }
+  };
 
   const getLocalStorage = useCallback<() => LocalStorageData>(
     () => ({
@@ -78,22 +150,6 @@ export const CoverProvider: React.FC<{ children: React.ReactNode }> = ({
     [setConfigs, setCover, setLines],
   );
 
-  useEffect(() => {
-    setPoints(null);
-  }, [cover]);
-
-  useEffect(() => {
-    if (erase) {
-      setEditLines(false);
-    }
-  }, [erase]);
-
-  useEffect(() => {
-    if (editLines) {
-      setErase(false);
-    }
-  }, [editLines]);
-
   return (
     <CoverContext.Provider
       value={{
@@ -110,6 +166,8 @@ export const CoverProvider: React.FC<{ children: React.ReactNode }> = ({
         setConfigs,
         getLocalStorage,
         setLocalStorage,
+        undo,
+        action,
         ...restCover,
         ...restLines,
         ...restConfigs,

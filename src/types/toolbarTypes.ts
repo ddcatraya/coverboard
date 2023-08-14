@@ -10,6 +10,7 @@ export enum ToolConfigIDs {
   SHARE = 'share',
   ARROW = 'arrow',
   ERASE = 'erase',
+  UNDO = 'undo',
 }
 
 export interface ToolConfig {
