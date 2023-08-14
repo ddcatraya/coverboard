@@ -31,7 +31,7 @@ export interface UseConfigsParams {
   updateTitle: (title: string) => void;
 }
 
-export const useConfigs = (): UseConfigsParams => {
+export const useConfigs = (updateAction: () => void): UseConfigsParams => {
   const [configs, setConfigs] = useLocalStorage<ToolbarConfigParams>(
     LocalStorageKeys.CONFIG,
     {
@@ -43,19 +43,25 @@ export const useConfigs = (): UseConfigsParams => {
     configs,
     setConfigs,
     resetConfigs: () => setConfigs({ ...initialConfigValues }),
-    updateConfigs: (newConfig) =>
+    updateConfigs: (newConfig) => {
       setConfigs({
         ...newConfig,
-      }),
-    resetTitle: () =>
+      });
+      updateAction();
+    },
+    resetTitle: () => {
       setConfigs((currentConfigs) => ({
         ...currentConfigs,
         title: initialConfigValues.title,
-      })),
-    updateTitle: (title) =>
+      }));
+      updateAction();
+    },
+    updateTitle: (title) => {
       setConfigs((currentConfigs) => ({
         ...currentConfigs,
         title,
-      })),
+      }));
+      updateAction();
+    },
   };
 };

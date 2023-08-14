@@ -27,7 +27,7 @@ export interface UseCoverParams {
   updateCoverPosition: (coverId: string, { x, y }: Vector2d) => void;
 }
 
-export const useCover = (): UseCoverParams => {
+export const useCover = (updateAction: () => void): UseCoverParams => {
   const [cover, setCover] = useLocalStorage<Array<CoverImage>>(
     LocalStorageKeys.COVER,
     [],
@@ -43,6 +43,7 @@ export const useCover = (): UseCoverParams => {
           dir,
         })),
       );
+      updateAction();
     },
     updateCoverDir(coverId, dir) {
       setCover((currentCover) =>
@@ -55,6 +56,7 @@ export const useCover = (): UseCoverParams => {
             : star,
         ),
       );
+      updateAction();
     },
     resetAllCovers() {
       setCover((currentCover) =>
@@ -71,6 +73,7 @@ export const useCover = (): UseCoverParams => {
           dir: PosTypes.BOTTOM,
         })),
       );
+      updateAction();
     },
     resetCoverLabel(coverId, coverLabel) {
       setCover((currentCover) =>
@@ -87,6 +90,7 @@ export const useCover = (): UseCoverParams => {
             : star,
         ),
       );
+      updateAction();
     },
     updateCoverLabel(coverId, coverLabel, text) {
       setCover((currentCover) =>
@@ -102,9 +106,11 @@ export const useCover = (): UseCoverParams => {
             : star;
         }),
       );
+      updateAction();
     },
     removeCover(coverId) {
       setCover((currentCover) => currentCover.filter((c) => c.id !== coverId));
+      updateAction();
     },
     updateCoversText(artistText, albumText) {
       setCover((currentCover) =>
@@ -120,9 +126,11 @@ export const useCover = (): UseCoverParams => {
           },
         })),
       );
+      updateAction();
     },
     addCovers(filteredAlbums) {
       setCover((currentAlbums) => [...currentAlbums, ...filteredAlbums]);
+      updateAction();
     },
     updateCoverPosition(coverId, { x, y }) {
       setCover((currentCover) =>
@@ -130,6 +138,7 @@ export const useCover = (): UseCoverParams => {
           return coverId === star.id ? { ...star, x, y } : star;
         }),
       );
+      updateAction();
     },
   };
 };

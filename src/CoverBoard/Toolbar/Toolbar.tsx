@@ -71,7 +71,7 @@ export const Toolbar: React.FC = () => {
       tooltip: 'Undo up to 10 moves',
       color: Colors.PINK,
       emoji: '↩️',
-      value: action.length < 2,
+      value: action.length < 1,
       valueModifier: undo,
       reverse: true,
     },

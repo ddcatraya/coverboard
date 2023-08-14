@@ -1,7 +1,6 @@
 import React, {
   createContext,
   useState,
-  useEffect,
   useContext,
   Dispatch,
   SetStateAction,
@@ -63,59 +62,26 @@ export const useCoverContext = () => {
 export const CoverProvider: React.FC<{ children: React.ReactNode }> = ({
   children,
 }) => {
-  const { configs, setConfigs, ...restConfigs } = useConfigs();
-  const { lines, setLines, ...restLines } = useLines();
-  const { cover, setCover, ...restCover } = useCover();
   const [erase, setErase] = useState(false);
   const [editLines, setEditLines] = useState(false);
   const [points, setPoints] = useState<Point | null>(null);
   const [action, setAction] = useState<Array<Actions>>([]);
-
-  useEffect(() => {
-    setPoints(null);
-  }, [cover]);
-
-  useEffect(() => {
-    if (erase) {
-      setEditLines(false);
-    }
-  }, [erase]);
-
-  useEffect(() => {
-    if (editLines) {
-      setErase(false);
-    }
-  }, [editLines]);
-
-  useEffect(() => {
-    if (action.length === 0) {
-      setAction((currentAction) => [
-        ...currentAction,
-        { configs, lines, cover },
-      ]);
-      return;
-    }
-    if (
-      JSON.stringify(configs) !==
-        JSON.stringify(action[action.length - 1].configs) ||
-      JSON.stringify(lines) !==
-        JSON.stringify(action[action.length - 1].lines) ||
-      JSON.stringify(cover) !== JSON.stringify(action[action.length - 1].cover)
-    ) {
-      setAction((currentAction) =>
-        currentAction.length < MAX_UNDO
-          ? [...currentAction, { configs, lines, cover }]
-          : [
-              ...currentAction.slice(currentAction.length - (MAX_UNDO - 1)),
-              { configs, lines, cover },
-            ],
-      );
-    }
-  }, [action, configs, cover, lines]);
+  const updateAction = () => {
+    setAction((currentAction) =>
+      currentAction.length < MAX_UNDO
+        ? [...currentAction, { configs, lines, cover }]
+        : [
+            ...currentAction.slice(currentAction.length - (MAX_UNDO - 1)),
+            { configs, lines, cover },
+          ],
+    );
+  };
+  const { configs, setConfigs, ...restConfigs } = useConfigs(updateAction);
+  const { lines, setLines, ...restLines } = useLines(updateAction);
+  const { cover, setCover, ...restCover } = useCover(updateAction);
 
   const undo = () => {
     const copyArray = [...action];
-    copyArray.pop();
     const another = copyArray.pop();
 
     if (another) {
@@ -176,53 +142,3 @@ export const CoverProvider: React.FC<{ children: React.ReactNode }> = ({
     </CoverContext.Provider>
   );
 };
-
-/* useEffect(() => {
-    try {
-      const search = window.location.search;
-      const params = new URLSearchParams(search);
-      const share = params.get('share');
-
-      if (share) {
-        const decoded = window.atob(share);
-        const parsed = JSON.parse(decoded);
-
-        if (parsed.cover) {
-          setCover(
-            parsed.cover.map((star: CoverImage) => ({
-              ...star,
-              isDragging: false,
-            })),
-          );
-        }
-        if (parsed.lines) {
-          setLines(parsed.lines);
-        }
-        if (parsed.coverSize) {
-          setCoverSize(parsed.coverSize);
-        }
-
-        params.delete('share');
-        window.history.replaceState(
-          {},
-          '',
-          `${window.location.pathname}?${params.toString()}`,
-        );
-      }
-    } catch (err) {
-      showErrorMessage('Invalid share URL given');
-
-      const search = window.location.search;
-      const params = new URLSearchParams(search);
-      const share = params.get('share');
-
-      if (share) {
-        params.delete('share');
-        window.history.replaceState(
-          {},
-          '',
-          `${window.location.pathname}?${params.toString()}`,
-        );
-      }
-    }
-  }, [setCover, setCoverSize, setLines, showErrorMessage]); */

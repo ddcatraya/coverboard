@@ -12,7 +12,7 @@ interface ToolbarIconProps {
 }
 
 export const ToolbarIcon: React.FC<ToolbarIconProps> = ({ config, index }) => {
-  const { setErase, setPoints } = useCoverContext();
+  const { setErase, setPoints, setEditLines } = useCoverContext();
   const { initialX, getCurrentX, toobarIconSize } = useSizesContext();
   const { setTooltip } = useToolbarContext();
 
@@ -34,6 +34,9 @@ export const ToolbarIcon: React.FC<ToolbarIconProps> = ({ config, index }) => {
 
         if (config.id !== ToolConfigIDs.ERASE) {
           setErase(false);
+        }
+        if (config.id !== ToolConfigIDs.ARROW) {
+          setEditLines(false);
         }
 
         return config.value

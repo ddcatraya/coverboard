@@ -19,7 +19,7 @@ export interface UseLinesParams {
   createLine: (id: string, points: Point, pos: PosTypes) => void;
 }
 
-export const useLines = (): UseLinesParams => {
+export const useLines = (updateAction: () => void): UseLinesParams => {
   const [lines, setLines] = useLocalStorage<Array<LinePoint>>(
     LocalStorageKeys.LINES,
     [],
@@ -73,6 +73,7 @@ export const useLines = (): UseLinesParams => {
           },
         ];
       });
+      updateAction();
     },
     resetAllLines() {
       setLines((currentLines) =>
@@ -84,6 +85,7 @@ export const useLines = (): UseLinesParams => {
           },
         })),
       );
+      updateAction();
     },
     resetLine(linedId) {
       setLines((currentLines) =>
@@ -100,6 +102,7 @@ export const useLines = (): UseLinesParams => {
           return currentLine;
         }),
       );
+      updateAction();
     },
     updateLineDir(linedId, dir) {
       setLines((currentLines) =>
@@ -116,6 +119,7 @@ export const useLines = (): UseLinesParams => {
           return currentLine;
         }),
       );
+      updateAction();
     },
     updateLineText(linedId, text) {
       setLines((currentLines) =>
@@ -132,11 +136,13 @@ export const useLines = (): UseLinesParams => {
           return currentLine;
         }),
       );
+      updateAction();
     },
     removeLine(linedId) {
       setLines((currentLines) =>
         currentLines.filter((currentLine) => !(currentLine.id === linedId)),
       );
+      updateAction();
     },
   };
 };
