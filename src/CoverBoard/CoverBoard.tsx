@@ -3,6 +3,7 @@ import { Stage, Layer, Group, Rect } from 'react-konva';
 
 import { AlbumCover, DrawLine, Toolbar, TitleLabel } from './';
 import { useCoverContext, useSizesContext, ToolbarProvider } from 'contexts';
+import { Logo } from './AlbumCover';
 
 export const CoverBoard: React.FC = () => {
   const { cover, lines, configs } = useCoverContext();
@@ -22,6 +23,7 @@ export const CoverBoard: React.FC = () => {
           <ToolbarProvider>
             <Toolbar />
           </ToolbarProvider>
+          <Logo />
         </Group>
         <Group>
           <Rect

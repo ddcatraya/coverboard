@@ -1,4 +1,3 @@
-import { Vector2d } from 'konva/lib/types';
 import { Dispatch, SetStateAction } from 'react';
 import {
   LinePoint,

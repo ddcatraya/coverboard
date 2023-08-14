@@ -11,8 +11,8 @@ export enum LabelType {
 }
 
 export interface AlbumCoverValues {
-  [LabelType.ARTIST]: string;
-  [LabelType.ALBUM]: string;
+  [LabelType.ARTIST]: CoverImageParamsText;
+  [LabelType.ALBUM]: CoverImageParamsText;
 }
 
 export interface CoverImage {

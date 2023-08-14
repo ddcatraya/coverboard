@@ -30,7 +30,10 @@ export const AlbumCoverImage: React.FC<CoverImageProps> = ({ albumCover }) => {
   };
 
   const handleSubmit = (values: AlbumCoverValues) => {
-    updateCoversText(values[LabelType.ARTIST], values[LabelType.ALBUM]);
+    updateCoversText(
+      values[LabelType.ARTIST].text,
+      values[LabelType.ALBUM].text,
+    );
   };
 
   return (
@@ -49,8 +52,8 @@ export const AlbumCoverImage: React.FC<CoverImageProps> = ({ albumCover }) => {
             onSubmit={handleSubmit}
             onReset={resetAllCovers}
             values={{
-              [LabelType.ARTIST]: albumCover[LabelType.ARTIST].text,
-              [LabelType.ALBUM]: albumCover[LabelType.ALBUM].text,
+              [LabelType.ARTIST]: albumCover[LabelType.ARTIST],
+              [LabelType.ALBUM]: albumCover[LabelType.ALBUM],
             }}
           />
         </Html>

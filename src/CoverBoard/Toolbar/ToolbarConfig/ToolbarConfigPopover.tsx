@@ -8,7 +8,6 @@ import {
   Slider,
   Typography,
   FormControl,
-  FormLabel,
   Radio,
   RadioGroup,
   TextField,

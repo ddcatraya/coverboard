@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Modal, TextField, Button } from '@mui/material';
+import { Modal, TextField, Button, Link } from '@mui/material';
 import { LabelType, AlbumCoverValues } from 'types';
 
 interface PopupProps {
@@ -51,14 +51,14 @@ export const AlbumCoverImagePopover: React.FC<PopupProps> = ({
         }}>
         <TextField
           label={`Artist`}
-          value={text[LabelType.ARTIST]}
+          value={text[LabelType.ARTIST].text}
           onChange={(evt: any) => handTextChange(evt, LabelType.ARTIST)}
           fullWidth
           style={{ marginBottom: '20px' }}
         />
         <TextField
           label={`Album`}
-          value={text[LabelType.ALBUM]}
+          value={text[LabelType.ALBUM].text}
           onChange={(evt: any) => handTextChange(evt, LabelType.ALBUM)}
           fullWidth
           style={{ marginBottom: '20px' }}
@@ -77,8 +77,19 @@ export const AlbumCoverImagePopover: React.FC<PopupProps> = ({
           onClick={() => {
             onReset();
             onClose();
-          }}>
+          }}
+          style={{ marginRight: '10px' }}>
           Reset
+        </Button>
+        <Button
+          variant="contained"
+          color="primary"
+          target="_blank"
+          component={Link}
+          href={`http://www.last.fm/music/${
+            values[LabelType.ARTIST].originalText
+          }/${values[LabelType.ALBUM].originalText}`}>
+          Last FM
         </Button>
       </form>
     </Modal>

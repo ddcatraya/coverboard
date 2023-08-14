@@ -31,6 +31,7 @@ export const TitleLabel: React.FC = () => {
 
   return (
     <TextLabel
+      title="title"
       listening={!erase && !editLines && !!configs.title}
       open={open}
       setOpen={setOpen}

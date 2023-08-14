@@ -29,6 +29,7 @@ export const AlbumCoverLabel: React.FC<AlbumCoverLabelProps> = ({
 
   return (
     <TextLabel
+      title={coverLabel}
       hasReset
       open={open}
       setOpen={setOpen}

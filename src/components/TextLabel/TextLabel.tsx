@@ -19,6 +19,7 @@ interface TitleTexProps {
   onReset: () => void;
   listening?: boolean;
   hasReset?: boolean;
+  title?: string;
 }
 
 export const TextLabel: React.FC<TitleTexProps> = ({
@@ -31,6 +32,7 @@ export const TextLabel: React.FC<TitleTexProps> = ({
   onReset,
   listening = true,
   hasReset = false,
+  title,
 }) => {
   const { fontSize } = useSizesContext();
   const { configs } = useCoverContext();
@@ -79,6 +81,7 @@ export const TextLabel: React.FC<TitleTexProps> = ({
               setOpen(false);
             }}
             hasReset={hasReset}
+            title={title}
           />
         </Html>
       )}
