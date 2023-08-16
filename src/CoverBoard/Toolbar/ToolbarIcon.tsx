@@ -3,6 +3,7 @@ import { Group, Rect, Text } from 'react-konva';
 
 import { useCoverContext, useSizesContext, useToolbarContext } from 'contexts';
 import { ToolConfig, ToolConfigIDs } from 'types';
+import { clearHash, setHash } from 'utils';
 
 const MIN_OPACITY = 0.3;
 
@@ -35,17 +36,17 @@ export const ToolbarIcon: React.FC<ToolbarIconProps> = ({ config, index }) => {
         if (config.id !== ToolConfigIDs.ERASE) {
           setErase(false);
         } else if (config.id === ToolConfigIDs.ERASE) {
-          window.location.hash = ToolConfigIDs.ERASE;
+          setHash(ToolConfigIDs.ERASE);
         }
 
         if (config.id !== ToolConfigIDs.ARROW) {
           setEditLines(false);
         } else if (config.id === ToolConfigIDs.ARROW) {
-          window.location.hash = ToolConfigIDs.ARROW;
+          setHash(ToolConfigIDs.ARROW);
         }
 
         if (config.value) {
-          window.location.hash = '';
+          clearHash();
         }
 
         return config.value

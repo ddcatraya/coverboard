@@ -14,8 +14,8 @@ export const Toolbar: React.FC = () => {
   const {
     openSearch,
     setOpenSearch,
-    openResize,
-    setOpenResize,
+    openConfig,
+    setOpenConfig,
     openShare,
     setOpenShare,
   } = useToolbarContext();
@@ -34,8 +34,8 @@ export const Toolbar: React.FC = () => {
       tooltip: 'Settings',
       color: Colors.PURPLE,
       emoji: '⚙️',
-      value: openResize,
-      valueModifier: setOpenResize,
+      value: openConfig,
+      valueModifier: setOpenConfig,
     },
     {
       id: ToolConfigIDs.SHARE,

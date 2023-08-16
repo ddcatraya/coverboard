@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { Modal, TextField, Button, Grid } from '@mui/material';
 
 import { SearchParams, PopupState, ToolConfigIDs } from 'types';
+import { clearHash, setHash } from 'utils';
 
 interface PopupProps {
   open: boolean;
@@ -25,7 +26,7 @@ export const ToolbarSearchPopover: React.FC<PopupProps> = ({
   const [inputs, setInputs] = useState<Array<SearchParams>>(initialState());
   const [loading, setLoading] = useState(false);
 
-  window.location.hash = ToolConfigIDs.SEARCH;
+  setHash(ToolConfigIDs.SEARCH);
 
   const handleInputChange = (
     index: number,
@@ -52,12 +53,8 @@ export const ToolbarSearchPopover: React.FC<PopupProps> = ({
       onClose();
     } finally {
       setLoading(false);
+      clearHash();
     }
-  };
-
-  const handleClose = () => {
-    setInputs(initialState());
-    onClose();
   };
 
   const isInputDisabled =
@@ -71,8 +68,8 @@ export const ToolbarSearchPopover: React.FC<PopupProps> = ({
     <Modal
       open={open}
       onClose={() => {
-        window.location.hash = '';
-        handleClose();
+        clearHash();
+        onClose();
       }}>
       <form
         onSubmit={handleSubmit}

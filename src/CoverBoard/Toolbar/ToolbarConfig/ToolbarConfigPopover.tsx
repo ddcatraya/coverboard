@@ -19,6 +19,7 @@ import {
   ToolbarConfigValues,
   ToolConfigIDs,
 } from 'types';
+import { clearHash, setHash } from 'utils';
 
 interface ToolbarConfigPopoverProps {
   open: boolean;
@@ -44,7 +45,7 @@ export const ToolbarConfigPopover: React.FC<ToolbarConfigPopoverProps> = ({
 }) => {
   const [param, setParams] = useState(config);
 
-  window.location.hash = ToolConfigIDs.CONFIG;
+  setHash(ToolConfigIDs.CONFIG);
 
   const handleNumberChange = (
     event: any,
@@ -81,7 +82,7 @@ export const ToolbarConfigPopover: React.FC<ToolbarConfigPopoverProps> = ({
     <Modal
       open={open}
       onClose={() => {
-        window.location.hash = '';
+        clearHash();
         onClose();
       }}>
       <form

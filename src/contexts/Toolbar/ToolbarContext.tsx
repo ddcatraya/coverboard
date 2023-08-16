@@ -1,11 +1,12 @@
 import React, { createContext, useState, useContext } from 'react';
-import { TooltipValues } from 'types';
+import { ToolConfigIDs, TooltipValues } from 'types';
+import { getHash } from 'utils';
 
 interface ToolbarContextData {
   openSearch: boolean;
   setOpenSearch: React.Dispatch<React.SetStateAction<boolean>>;
-  openResize: boolean;
-  setOpenResize: React.Dispatch<React.SetStateAction<boolean>>;
+  openConfig: boolean;
+  setOpenConfig: React.Dispatch<React.SetStateAction<boolean>>;
   tooltip: TooltipValues | null;
   setTooltip: React.Dispatch<React.SetStateAction<TooltipValues | null>>;
   openShare: boolean;
@@ -27,18 +28,19 @@ export const useToolbarContext = () => {
 export const ToolbarProvider: React.FC<{ children: React.ReactNode }> = ({
   children,
 }) => {
-  const [openSearch, setOpenSearch] = useState(false);
-  const [openResize, setOpenResize] = useState(false);
+  const hash = getHash();
+  const [openSearch, setOpenSearch] = useState(hash === ToolConfigIDs.SEARCH);
+  const [openConfig, setOpenConfig] = useState(hash === ToolConfigIDs.CONFIG);
   const [tooltip, setTooltip] = useState<TooltipValues | null>(null);
-  const [openShare, setOpenShare] = useState(false);
+  const [openShare, setOpenShare] = useState(hash === ToolConfigIDs.SHARE);
 
   return (
     <ToolbarContext.Provider
       value={{
         openSearch,
         setOpenSearch,
-        openResize,
-        setOpenResize,
+        openConfig,
+        setOpenConfig,
         tooltip,
         setTooltip,
         openShare,

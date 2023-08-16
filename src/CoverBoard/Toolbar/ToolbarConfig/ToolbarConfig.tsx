@@ -5,7 +5,7 @@ import { ToolbarConfigPopover } from '.';
 import { ToolbarConfigParams, ToolbarConfigValues } from 'types';
 
 export const ToolbarConfig: React.FC = () => {
-  const { openResize, setOpenResize } = useToolbarContext();
+  const { openConfig, setOpenConfig } = useToolbarContext();
   const {
     updateConfigs,
     resetConfigs,
@@ -44,13 +44,13 @@ export const ToolbarConfig: React.FC = () => {
     resetConfigs();
   };
 
-  if (!openResize) return null;
+  if (!openConfig) return null;
 
   return (
     <Html>
       <ToolbarConfigPopover
-        open={openResize}
-        onClose={() => setOpenResize(false)}
+        open={openConfig}
+        onClose={() => setOpenConfig(false)}
         onSubmit={handleUpdateCover}
         config={configs}
         handleResetSettings={resetConfigs}

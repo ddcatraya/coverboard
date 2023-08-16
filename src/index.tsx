@@ -2,7 +2,7 @@ import React from 'react';
 import ReactDOM from 'react-dom/client';
 import './index.css';
 import reportWebVitals from './reportWebVitals';
-import { BrowserRouter, Routes, Route } from 'react-router-dom';
+import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
 import { AppProviders } from 'AppProviders';
 
 const root = ReactDOM.createRoot(
@@ -12,7 +12,7 @@ root.render(
   <BrowserRouter>
     <Routes>
       <Route path="coverboard/:saveId" Component={AppProviders} />
-      <Route path="coverboard" Component={AppProviders} />
+      <Route path="coverboard" element={<Navigate to="default" />} />
     </Routes>
   </BrowserRouter>,
 );

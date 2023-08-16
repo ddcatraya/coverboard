@@ -4,6 +4,8 @@ import { Close as CloseIcon } from '@mui/icons-material';
 
 import { LocalStorageData, ToolConfigIDs } from 'types';
 import { NavigateFunction } from 'react-router-dom';
+import { clearHash, setHash } from 'utils';
+import { DEFAULT_KEY } from 'contexts/CoverContext/CoverContext';
 
 interface SaveProps {
   open: boolean;
@@ -27,7 +29,7 @@ export const ToolbarSharePopover: React.FC<SaveProps> = ({
   const [jsonData, setJsonData] = useState(JSON.stringify(instance));
   const [storage, setStorage] = useState(window.localStorage);
 
-  window.location.hash = ToolConfigIDs.SHARE;
+  setHash(ToolConfigIDs.SHARE);
 
   const handleCopyText = () => {
     try {
@@ -44,7 +46,7 @@ export const ToolbarSharePopover: React.FC<SaveProps> = ({
     )}`;
     const link = document.createElement('a');
     link.href = jsonString;
-    link.download = 'data.json';
+    link.download = `${saveId}.json`;
 
     link.click();
   };
@@ -62,11 +64,16 @@ export const ToolbarSharePopover: React.FC<SaveProps> = ({
     }
   }, [jsonData]);
 
+  const keyList = [
+    DEFAULT_KEY,
+    ...Object.keys(storage).filter((key) => key !== DEFAULT_KEY),
+  ];
+
   return (
     <Modal
       open={open}
       onClose={() => {
-        window.location.hash = '';
+        clearHash();
         onClose();
       }}>
       <Grid
@@ -83,7 +90,7 @@ export const ToolbarSharePopover: React.FC<SaveProps> = ({
           width: '50%',
         }}>
         <Grid item xs={12}>
-          {Object.keys(storage).map((currentSave) => (
+          {keyList.map((currentSave) => (
             <Chip
               href={`/coverboard/${currentSave}#${ToolConfigIDs.SHARE}`}
               component="a"
@@ -91,7 +98,7 @@ export const ToolbarSharePopover: React.FC<SaveProps> = ({
               label={currentSave}
               color={saveId === currentSave ? 'primary' : 'default'}
               onDelete={
-                saveId !== currentSave
+                currentSave !== DEFAULT_KEY
                   ? () => {
                       window.localStorage.removeItem(currentSave);
                       setStorage((prevStorage) => {
@@ -99,10 +106,18 @@ export const ToolbarSharePopover: React.FC<SaveProps> = ({
 
                         return restStorage;
                       });
+
+                      if (saveId === currentSave) {
+                        window.location.replace(
+                          `/coverboard/${DEFAULT_KEY}#${ToolConfigIDs.SHARE}`,
+                        );
+                      }
                     }
                   : undefined
               }
-              deleteIcon={saveId !== currentSave ? <CloseIcon /> : undefined}
+              deleteIcon={
+                currentSave !== DEFAULT_KEY ? <CloseIcon /> : undefined
+              }
               style={{ margin: '4px' }}
             />
           ))}

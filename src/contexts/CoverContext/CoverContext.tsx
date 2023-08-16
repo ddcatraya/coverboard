@@ -15,8 +15,10 @@ import {
   CoverImage,
   LinePoint,
   ToolbarConfigParams,
+  ToolConfigIDs,
 } from 'types';
 import { useLocalStorage } from 'usehooks-ts';
+import { getHash } from 'utils';
 
 import {
   useConfigs,
@@ -63,6 +65,7 @@ interface CoverContextData
 
 const CoverContext = createContext<CoverContextData>({} as CoverContextData);
 const MAX_UNDO = 10;
+export const DEFAULT_KEY = 'default';
 
 export const useCoverContext = () => {
   const context = useContext(CoverContext);
@@ -75,10 +78,11 @@ export const useCoverContext = () => {
 export const CoverProvider: React.FC<{ children: React.ReactNode }> = ({
   children,
 }) => {
-  const { saveId = 'default' } = useParams();
+  const { saveId = DEFAULT_KEY } = useParams();
+  const hash = getHash();
 
-  const [erase, setErase] = useState(false);
-  const [editLines, setEditLines] = useState(false);
+  const [erase, setErase] = useState(hash === ToolConfigIDs.ERASE);
+  const [editLines, setEditLines] = useState(hash === ToolConfigIDs.ARROW);
   const [points, setPoints] = useState<Point | null>(null);
   const [action, setAction] = useState<Array<Actions>>([]);
 
