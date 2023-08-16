@@ -6,6 +6,7 @@ import React, {
   SetStateAction,
   useCallback,
 } from 'react';
+import { useParams } from 'react-router-dom';
 
 import {
   Point,
@@ -72,11 +73,15 @@ export const useCoverContext = () => {
 export const CoverProvider: React.FC<{ children: React.ReactNode }> = ({
   children,
 }) => {
-  const [instance, setInstance] = useLocalStorage<LocalStorageData>('save', {
-    [LocalStorageKeys.CONFIG]: { ...initialConfigValues },
-    [LocalStorageKeys.COVER]: [],
-    [LocalStorageKeys.LINES]: [],
-  });
+  const { saveId } = useParams();
+  const [instance, setInstance] = useLocalStorage<LocalStorageData>(
+    saveId ?? 'default',
+    {
+      [LocalStorageKeys.CONFIG]: { ...initialConfigValues },
+      [LocalStorageKeys.COVER]: [],
+      [LocalStorageKeys.LINES]: [],
+    },
+  );
 
   const { configs, lines, cover } = instance;
 
