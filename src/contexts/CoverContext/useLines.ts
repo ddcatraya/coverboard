@@ -1,16 +1,6 @@
-import { Dispatch, SetStateAction } from 'react';
-import {
-  LinePoint,
-  LocalStorageData,
-  LocalStorageKeys,
-  Point,
-  PosTypes,
-} from 'types';
-import { useLocalStorage } from 'usehooks-ts';
+import { LinePoint, Point, PosTypes } from 'types';
 import { v4 as uuidv4 } from 'uuid';
 export interface UseLinesParams {
-  [LocalStorageKeys.LINES]: LocalStorageData[LocalStorageKeys.LINES];
-  setLines: Dispatch<SetStateAction<LocalStorageData[LocalStorageKeys.LINES]>>;
   resetLine: (linedId: string) => void;
   updateLineDir: (linedId: string, dir: PosTypes) => void;
   updateLineText: (linedId: string, text: string) => void;
@@ -20,18 +10,12 @@ export interface UseLinesParams {
   clearAllLines: () => void;
 }
 
-export const useLines = (updateAction: () => void): UseLinesParams => {
-  const [lines, setLines] = useLocalStorage<Array<LinePoint>>(
-    LocalStorageKeys.LINES,
-    [],
-  );
-
+export const useLines = (
+  setLines: (currentLines: (curr: LinePoint[]) => LinePoint[]) => void,
+): UseLinesParams => {
   return {
-    lines,
-    setLines,
     clearAllLines() {
-      setLines([]);
-      updateAction();
+      setLines(() => []);
     },
     createLine(id, points, pos) {
       setLines((currentLines) => {
@@ -78,7 +62,6 @@ export const useLines = (updateAction: () => void): UseLinesParams => {
           },
         ];
       });
-      updateAction();
     },
     resetAllLines() {
       setLines((currentLines) =>
@@ -90,7 +73,6 @@ export const useLines = (updateAction: () => void): UseLinesParams => {
           },
         })),
       );
-      updateAction();
     },
     resetLine(linedId) {
       setLines((currentLines) =>
@@ -107,7 +89,6 @@ export const useLines = (updateAction: () => void): UseLinesParams => {
           return currentLine;
         }),
       );
-      updateAction();
     },
     updateLineDir(linedId, dir) {
       setLines((currentLines) =>
@@ -124,7 +105,6 @@ export const useLines = (updateAction: () => void): UseLinesParams => {
           return currentLine;
         }),
       );
-      updateAction();
     },
     updateLineText(linedId, text) {
       setLines((currentLines) =>
@@ -141,13 +121,11 @@ export const useLines = (updateAction: () => void): UseLinesParams => {
           return currentLine;
         }),
       );
-      updateAction();
     },
     removeLine(linedId) {
       setLines((currentLines) =>
         currentLines.filter((currentLine) => !(currentLine.id === linedId)),
       );
-      updateAction();
     },
   };
 };

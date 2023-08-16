@@ -1,17 +1,6 @@
 import { Vector2d } from 'konva/lib/types';
-import { Dispatch, SetStateAction } from 'react';
-import {
-  CoverImage,
-  LocalStorageKeys,
-  PosTypes,
-  LabelType,
-  LocalStorageData,
-} from 'types';
-import { useLocalStorage } from 'usehooks-ts';
-
+import { CoverImage, PosTypes, LabelType } from 'types';
 export interface UseCoverParams {
-  [LocalStorageKeys.COVER]: LocalStorageData[LocalStorageKeys.COVER];
-  setCover: Dispatch<SetStateAction<LocalStorageData[LocalStorageKeys.COVER]>>;
   updateCoverDir: (coverId: string, dir: PosTypes) => void;
   updateAllCoversDir: (dir: PosTypes) => void;
   resetAllCovers: () => void;
@@ -28,18 +17,12 @@ export interface UseCoverParams {
   clearAllCovers: () => void;
 }
 
-export const useCover = (updateAction: () => void): UseCoverParams => {
-  const [cover, setCover] = useLocalStorage<Array<CoverImage>>(
-    LocalStorageKeys.COVER,
-    [],
-  );
-
+export const useCover = (
+  setCover: (currentCover: (curr: CoverImage[]) => CoverImage[]) => void,
+): UseCoverParams => {
   return {
-    cover,
-    setCover,
     clearAllCovers() {
-      setCover([]);
-      updateAction();
+      setCover(() => []);
     },
     updateAllCoversDir(dir) {
       setCover((currentCover) =>
@@ -48,7 +31,6 @@ export const useCover = (updateAction: () => void): UseCoverParams => {
           dir,
         })),
       );
-      updateAction();
     },
     updateCoverDir(coverId, dir) {
       setCover((currentCover) =>
@@ -61,7 +43,6 @@ export const useCover = (updateAction: () => void): UseCoverParams => {
             : star,
         ),
       );
-      updateAction();
     },
     resetAllCovers() {
       setCover((currentCover) =>
@@ -78,7 +59,6 @@ export const useCover = (updateAction: () => void): UseCoverParams => {
           dir: PosTypes.BOTTOM,
         })),
       );
-      updateAction();
     },
     resetCoverLabel(coverId, coverLabel) {
       setCover((currentCover) =>
@@ -95,7 +75,6 @@ export const useCover = (updateAction: () => void): UseCoverParams => {
             : star,
         ),
       );
-      updateAction();
     },
     updateCoverLabel(coverId, coverLabel, text) {
       setCover((currentCover) =>
@@ -111,11 +90,9 @@ export const useCover = (updateAction: () => void): UseCoverParams => {
             : star;
         }),
       );
-      updateAction();
     },
     removeCover(coverId) {
       setCover((currentCover) => currentCover.filter((c) => c.id !== coverId));
-      updateAction();
     },
     updateCoversText(artistText, albumText) {
       setCover((currentCover) =>
@@ -131,11 +108,9 @@ export const useCover = (updateAction: () => void): UseCoverParams => {
           },
         })),
       );
-      updateAction();
     },
     addCovers(filteredAlbums) {
       setCover((currentAlbums) => [...currentAlbums, ...filteredAlbums]);
-      updateAction();
     },
     updateCoverPosition(coverId, { x, y }) {
       setCover((currentCover) =>
@@ -143,7 +118,6 @@ export const useCover = (updateAction: () => void): UseCoverParams => {
           return coverId === star.id ? { ...star, x, y } : star;
         }),
       );
-      updateAction();
     },
   };
 };

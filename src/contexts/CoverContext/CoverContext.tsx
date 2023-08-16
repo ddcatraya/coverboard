@@ -15,6 +15,7 @@ import {
   LinePoint,
   ToolbarConfigParams,
 } from 'types';
+import { useLocalStorage } from 'usehooks-ts';
 import {
   useConfigs,
   UseConfigsParams,
@@ -23,6 +24,7 @@ import {
   useLines,
   UseLinesParams,
 } from '.';
+import { initialConfigValues } from './useConfigs';
 
 interface Actions {
   configs: ToolbarConfigParams;
@@ -46,6 +48,14 @@ interface CoverContextData
   setLocalStorage: (data: LocalStorageData) => void;
   undo: () => void;
   action: Array<Actions>;
+  cover: CoverImage[];
+  lines: LinePoint[];
+  configs: ToolbarConfigParams;
+  setCover: (currentCover: (curr: CoverImage[]) => CoverImage[]) => void;
+  setLines: (currentLines: (curr: LinePoint[]) => LinePoint[]) => void;
+  setConfigs: (
+    currentConfig: (curr: ToolbarConfigParams) => ToolbarConfigParams,
+  ) => void;
 }
 
 const CoverContext = createContext<CoverContextData>({} as CoverContextData);
@@ -62,11 +72,15 @@ export const useCoverContext = () => {
 export const CoverProvider: React.FC<{ children: React.ReactNode }> = ({
   children,
 }) => {
-  const [erase, setErase] = useState(false);
-  const [editLines, setEditLines] = useState(false);
-  const [points, setPoints] = useState<Point | null>(null);
-  const [action, setAction] = useState<Array<Actions>>([]);
-  const updateAction = () => {
+  const [instance, setInstance] = useLocalStorage<LocalStorageData>('save', {
+    [LocalStorageKeys.CONFIG]: { ...initialConfigValues },
+    [LocalStorageKeys.COVER]: [],
+    [LocalStorageKeys.LINES]: [],
+  });
+
+  const { configs, lines, cover } = instance;
+
+  const updateAction = useCallback(() => {
     setAction((currentAction) =>
       currentAction.length < MAX_UNDO
         ? [...currentAction, { configs, lines, cover }]
@@ -75,19 +89,58 @@ export const CoverProvider: React.FC<{ children: React.ReactNode }> = ({
             { configs, lines, cover },
           ],
     );
-  };
-  const { configs, setConfigs, ...restConfigs } = useConfigs(updateAction);
-  const { lines, setLines, ...restLines } = useLines(updateAction);
-  const { cover, setCover, ...restCover } = useCover(updateAction);
+  }, [configs, cover, lines]);
+
+  const setConfigs = useCallback(
+    (currentConfigs: (curr: ToolbarConfigParams) => ToolbarConfigParams) => {
+      setInstance((currentInstance) => ({
+        ...currentInstance,
+        configs: currentConfigs(currentInstance.configs),
+      }));
+      updateAction();
+    },
+    [setInstance, updateAction],
+  );
+
+  const setLines = useCallback(
+    (currentLines: (curr: LinePoint[]) => LinePoint[]) => {
+      setInstance((currentInstance) => ({
+        ...currentInstance,
+        lines: currentLines(currentInstance.lines),
+      }));
+      updateAction();
+    },
+    [setInstance, updateAction],
+  );
+
+  const setCover = useCallback(
+    (currentCover: (curr: CoverImage[]) => CoverImage[]) => {
+      setInstance((currentInstance) => ({
+        ...currentInstance,
+        cover: currentCover(currentInstance.cover),
+      }));
+      updateAction();
+    },
+    [setInstance, updateAction],
+  );
+
+  const [erase, setErase] = useState(false);
+  const [editLines, setEditLines] = useState(false);
+  const [points, setPoints] = useState<Point | null>(null);
+  const [action, setAction] = useState<Array<Actions>>([]);
+
+  const restConfigs = useConfigs(setConfigs);
+  const restLines = useLines(setLines);
+  const restCover = useCover(setCover);
 
   const undo = () => {
     const copyArray = [...action];
     const another = copyArray.pop();
 
     if (another) {
-      setConfigs(another.configs);
-      setLines(another.lines);
-      setCover(another.cover);
+      setConfigs(() => another.configs);
+      setLines(() => another.lines);
+      setCover(() => another.cover);
       setAction(copyArray);
     }
   };
@@ -108,9 +161,9 @@ export const CoverProvider: React.FC<{ children: React.ReactNode }> = ({
         data[LocalStorageKeys.LINES] &&
         data[LocalStorageKeys.CONFIG]
       ) {
-        setCover(data[LocalStorageKeys.COVER]);
-        setLines(data[LocalStorageKeys.LINES]);
-        setConfigs(data[LocalStorageKeys.CONFIG]);
+        setCover(() => data[LocalStorageKeys.COVER]);
+        setLines(() => data[LocalStorageKeys.LINES]);
+        setConfigs(() => data[LocalStorageKeys.CONFIG]);
       }
     },
     [setConfigs, setCover, setLines],
@@ -120,6 +173,7 @@ export const CoverProvider: React.FC<{ children: React.ReactNode }> = ({
     <CoverContext.Provider
       value={{
         cover,
+        setCover,
         erase,
         setErase,
         points,

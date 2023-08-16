@@ -7,9 +7,8 @@ import {
   LocalStorageKeys,
   LocalStorageData,
 } from 'types';
-import { useLocalStorage } from 'usehooks-ts';
 
-const initialConfigValues = {
+export const initialConfigValues = {
   size: 100,
   title: 'Album covers',
   color: Colors.YELLOW,
@@ -21,50 +20,37 @@ const initialConfigValues = {
 };
 
 export interface UseConfigsParams {
-  [LocalStorageKeys.CONFIG]: LocalStorageData[LocalStorageKeys.CONFIG];
-  setConfigs: Dispatch<
-    SetStateAction<LocalStorageData[LocalStorageKeys.CONFIG]>
-  >;
   resetConfigs: () => void;
   updateConfigs: (newConfig: ToolbarConfigParams) => void;
   resetTitle: () => void;
   updateTitle: (title: string) => void;
 }
 
-export const useConfigs = (updateAction: () => void): UseConfigsParams => {
-  const [configs, setConfigs] = useLocalStorage<ToolbarConfigParams>(
-    LocalStorageKeys.CONFIG,
-    {
-      ...initialConfigValues,
-    },
-  );
-
+export const useConfigs = (
+  setConfigs: (
+    currentConfig: (curr: ToolbarConfigParams) => ToolbarConfigParams,
+  ) => void,
+): UseConfigsParams => {
   return {
-    configs,
-    setConfigs,
     resetConfigs: () => {
-      setConfigs({ ...initialConfigValues });
-      updateAction();
+      setConfigs(() => ({ ...initialConfigValues }));
     },
     updateConfigs: (newConfig) => {
-      setConfigs({
+      setConfigs(() => ({
         ...newConfig,
-      });
-      updateAction();
+      }));
     },
     resetTitle: () => {
       setConfigs((currentConfigs) => ({
         ...currentConfigs,
         title: initialConfigValues.title,
       }));
-      updateAction();
     },
     updateTitle: (title) => {
       setConfigs((currentConfigs) => ({
         ...currentConfigs,
         title,
       }));
-      updateAction();
     },
   };
 };
