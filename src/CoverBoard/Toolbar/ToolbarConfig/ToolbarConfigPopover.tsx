@@ -17,6 +17,7 @@ import {
   PosTypes,
   ToolbarConfigParams,
   ToolbarConfigValues,
+  ToolConfigIDs,
 } from 'types';
 
 interface ToolbarConfigPopoverProps {
@@ -42,6 +43,8 @@ export const ToolbarConfigPopover: React.FC<ToolbarConfigPopoverProps> = ({
   handleDeleteElements,
 }) => {
   const [param, setParams] = useState(config);
+
+  window.location.hash = ToolConfigIDs.CONFIG;
 
   const handleNumberChange = (
     event: any,
@@ -75,7 +78,12 @@ export const ToolbarConfigPopover: React.FC<ToolbarConfigPopoverProps> = ({
   };
 
   return (
-    <Modal open={open} onClose={onClose}>
+    <Modal
+      open={open}
+      onClose={() => {
+        window.location.hash = '';
+        onClose();
+      }}>
       <form
         onSubmit={handleSubmit}
         style={{

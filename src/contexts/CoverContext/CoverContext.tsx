@@ -16,7 +16,8 @@ import {
   LinePoint,
   ToolbarConfigParams,
 } from 'types';
-import { useLocalStorage } from 'react-use';
+import { useLocalStorage } from 'usehooks-ts';
+
 import {
   useConfigs,
   UseConfigsParams,

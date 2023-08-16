@@ -34,9 +34,18 @@ export const ToolbarIcon: React.FC<ToolbarIconProps> = ({ config, index }) => {
 
         if (config.id !== ToolConfigIDs.ERASE) {
           setErase(false);
+        } else if (config.id === ToolConfigIDs.ERASE) {
+          window.location.hash = ToolConfigIDs.ERASE;
         }
+
         if (config.id !== ToolConfigIDs.ARROW) {
           setEditLines(false);
+        } else if (config.id === ToolConfigIDs.ARROW) {
+          window.location.hash = ToolConfigIDs.ARROW;
+        }
+
+        if (config.value) {
+          window.location.hash = '';
         }
 
         return config.value
@@ -63,15 +72,7 @@ export const ToolbarIcon: React.FC<ToolbarIconProps> = ({ config, index }) => {
         width={toobarIconSize}
         height={toobarIconSize}
         fill={config.color}
-        opacity={
-          config.reverse
-            ? config.value
-              ? MIN_OPACITY
-              : 1
-            : config.value
-            ? 1
-            : MIN_OPACITY
-        }
+        opacity={config.value ? MIN_OPACITY : 1}
       />
       <Text
         x={0}
@@ -82,15 +83,7 @@ export const ToolbarIcon: React.FC<ToolbarIconProps> = ({ config, index }) => {
         text={config.emoji}
         fontSize={toobarIconSize / 2}
         fill="black"
-        opacity={
-          config.reverse
-            ? config.value
-              ? MIN_OPACITY
-              : 1
-            : config.value
-            ? 1
-            : MIN_OPACITY
-        }
+        opacity={config.value ? MIN_OPACITY : 1}
       />
     </Group>
   );

@@ -6,7 +6,7 @@ export interface TooltipValues {
 
 export enum ToolConfigIDs {
   SEARCH = 'search',
-  RESIZE = 'resize',
+  CONFIG = 'config',
   SHARE = 'share',
   ARROW = 'arrow',
   ERASE = 'erase',
@@ -20,5 +20,4 @@ export interface ToolConfig {
   emoji: string;
   value: boolean;
   valueModifier: React.Dispatch<React.SetStateAction<boolean>>;
-  reverse: boolean;
 }

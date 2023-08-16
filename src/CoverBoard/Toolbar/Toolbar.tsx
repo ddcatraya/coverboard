@@ -28,16 +28,14 @@ export const Toolbar: React.FC = () => {
       emoji: '🔍',
       value: openSearch,
       valueModifier: setOpenSearch,
-      reverse: true,
     },
     {
-      id: ToolConfigIDs.RESIZE,
+      id: ToolConfigIDs.CONFIG,
       tooltip: 'Settings',
       color: Colors.PURPLE,
       emoji: '⚙️',
       value: openResize,
       valueModifier: setOpenResize,
-      reverse: true,
     },
     {
       id: ToolConfigIDs.SHARE,
@@ -46,7 +44,6 @@ export const Toolbar: React.FC = () => {
       emoji: '🔗',
       value: openShare,
       valueModifier: setOpenShare,
-      reverse: true,
     },
     {
       id: ToolConfigIDs.ARROW,
@@ -55,7 +52,6 @@ export const Toolbar: React.FC = () => {
       emoji: '➜',
       value: editLines,
       valueModifier: setEditLines,
-      reverse: true,
     },
     {
       id: ToolConfigIDs.ERASE,
@@ -64,7 +60,6 @@ export const Toolbar: React.FC = () => {
       emoji: '🗑️',
       value: erase,
       valueModifier: setErase,
-      reverse: true,
     },
     {
       id: ToolConfigIDs.UNDO,
@@ -73,7 +68,6 @@ export const Toolbar: React.FC = () => {
       emoji: '↩️',
       value: action.length < 1,
       valueModifier: undo,
-      reverse: true,
     },
   ];
 

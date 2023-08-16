@@ -2,7 +2,7 @@ import React, { useState, useMemo } from 'react';
 import { Modal, Grid, TextareaAutosize, Button, Chip } from '@mui/material';
 import { Close as CloseIcon } from '@mui/icons-material';
 
-import { LocalStorageData } from 'types';
+import { LocalStorageData, ToolConfigIDs } from 'types';
 import { NavigateFunction } from 'react-router-dom';
 
 interface SaveProps {
@@ -26,6 +26,8 @@ export const ToolbarSharePopover: React.FC<SaveProps> = ({
 }) => {
   const [jsonData, setJsonData] = useState(JSON.stringify(instance));
   const [storage, setStorage] = useState(window.localStorage);
+
+  window.location.hash = ToolConfigIDs.SHARE;
 
   const handleCopyText = () => {
     try {
@@ -61,7 +63,12 @@ export const ToolbarSharePopover: React.FC<SaveProps> = ({
   }, [jsonData]);
 
   return (
-    <Modal open={open} onClose={onClose}>
+    <Modal
+      open={open}
+      onClose={() => {
+        window.location.hash = '';
+        onClose();
+      }}>
       <Grid
         container
         spacing={2}
@@ -78,21 +85,24 @@ export const ToolbarSharePopover: React.FC<SaveProps> = ({
         <Grid item xs={12}>
           {Object.keys(storage).map((currentSave) => (
             <Chip
+              href={`/coverboard/${currentSave}#${ToolConfigIDs.SHARE}`}
+              component="a"
               key={currentSave}
               label={currentSave}
               color={saveId === currentSave ? 'primary' : 'default'}
-              onDelete={() => {
-                window.localStorage.removeItem(currentSave);
-                setStorage((prevStorage) => {
-                  const { currentSave, ...restStorage } = prevStorage;
+              onDelete={
+                saveId !== currentSave
+                  ? () => {
+                      window.localStorage.removeItem(currentSave);
+                      setStorage((prevStorage) => {
+                        const { currentSave, ...restStorage } = prevStorage;
 
-                  return restStorage;
-                });
-              }}
-              onClick={() => {
-                navigate(`/coverboard/${currentSave}`);
-              }}
-              deleteIcon={<CloseIcon />}
+                        return restStorage;
+                      });
+                    }
+                  : undefined
+              }
+              deleteIcon={saveId !== currentSave ? <CloseIcon /> : undefined}
               style={{ margin: '4px' }}
             />
           ))}
@@ -135,18 +145,3 @@ export const ToolbarSharePopover: React.FC<SaveProps> = ({
     </Modal>
   );
 };
-
-/*
-const handleCopyText = () => {
-    const encoded = window.btoa(params);
-
-    const getBaseURL = () => {
-      const protocol = window.location.protocol;
-      const hostname = window.location.hostname;
-      const port = window.location.port;
-      return `${protocol}//${hostname}${port ? ':' + port : ''}/coverboard/`;
-    };
-
-    navigator.clipboard.writeText(getBaseURL() + '?share=' + encoded);
-  };
-*/

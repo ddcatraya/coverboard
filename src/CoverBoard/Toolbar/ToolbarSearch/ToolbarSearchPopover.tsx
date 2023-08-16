@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { Modal, TextField, Button, Grid } from '@mui/material';
 
-import { SearchParams, PopupState } from 'types';
+import { SearchParams, PopupState, ToolConfigIDs } from 'types';
 
 interface PopupProps {
   open: boolean;
@@ -24,6 +24,8 @@ export const ToolbarSearchPopover: React.FC<PopupProps> = ({
 }) => {
   const [inputs, setInputs] = useState<Array<SearchParams>>(initialState());
   const [loading, setLoading] = useState(false);
+
+  window.location.hash = ToolConfigIDs.SEARCH;
 
   const handleInputChange = (
     index: number,
@@ -66,7 +68,12 @@ export const ToolbarSearchPopover: React.FC<PopupProps> = ({
     ) || !inputs.some((input) => input.artist !== '' && input.album !== '');
 
   return (
-    <Modal open={open} onClose={handleClose}>
+    <Modal
+      open={open}
+      onClose={() => {
+        window.location.hash = '';
+        handleClose();
+      }}>
       <form
         onSubmit={handleSubmit}
         style={{
