@@ -17,6 +17,7 @@ export interface UseLinesParams {
   removeLine: (linedId: string) => void;
   resetAllLines: () => void;
   createLine: (id: string, points: Point, pos: PosTypes) => void;
+  clearAllLines: () => void;
 }
 
 export const useLines = (updateAction: () => void): UseLinesParams => {
@@ -28,6 +29,10 @@ export const useLines = (updateAction: () => void): UseLinesParams => {
   return {
     lines,
     setLines,
+    clearAllLines() {
+      setLines([]);
+      updateAction();
+    },
     createLine(id, points, pos) {
       setLines((currentLines) => {
         const lineCopy = [...currentLines];

@@ -29,6 +29,7 @@ interface ToolbarConfigPopoverProps {
   config: ToolbarConfigParams;
   handleResetSettings: () => void;
   handleResetElements: () => void;
+  handleDeleteElements: () => void;
 }
 
 export const ToolbarConfigPopover: React.FC<ToolbarConfigPopoverProps> = ({
@@ -38,6 +39,7 @@ export const ToolbarConfigPopover: React.FC<ToolbarConfigPopoverProps> = ({
   config,
   handleResetSettings,
   handleResetElements,
+  handleDeleteElements,
 }) => {
   const [param, setParams] = useState(config);
 
@@ -221,11 +223,22 @@ export const ToolbarConfigPopover: React.FC<ToolbarConfigPopoverProps> = ({
               variant="contained"
               color="primary"
               type="button"
+              style={{ marginRight: '20px' }}
               onClick={() => {
                 handleResetElements();
                 onClose();
               }}>
               Reset Elements
+            </Button>
+            <Button
+              variant="contained"
+              color="primary"
+              type="button"
+              onClick={() => {
+                handleDeleteElements();
+                onClose();
+              }}>
+              Delete Elements
             </Button>
           </Grid>
         </Grid>
