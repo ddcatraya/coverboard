@@ -1,12 +1,4 @@
-import { Dispatch, SetStateAction } from 'react';
-import {
-  Colors,
-  BackColors,
-  PosTypes,
-  ToolbarConfigParams,
-  LocalStorageKeys,
-  LocalStorageData,
-} from 'types';
+import { Colors, BackColors, PosTypes, ToolbarConfigParams } from 'types';
 
 export const initialConfigValues = {
   size: 100,

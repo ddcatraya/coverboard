@@ -1,24 +1,31 @@
 import React, { useState, useMemo } from 'react';
-import { Modal, Grid, TextareaAutosize, Button } from '@mui/material';
+import { Modal, Grid, TextareaAutosize, Button, Chip } from '@mui/material';
+import { Close as CloseIcon } from '@mui/icons-material';
 
 import { LocalStorageData } from 'types';
+import { NavigateFunction } from 'react-router-dom';
 
 interface SaveProps {
   open: boolean;
   onClose: () => void;
-  localStorage: LocalStorageData;
+  instance: LocalStorageData;
   handleImport: (data: string) => void;
   handleCopy: (success: boolean) => void;
+  navigate: NavigateFunction;
+  saveId: string;
 }
 
 export const ToolbarSharePopover: React.FC<SaveProps> = ({
   open,
-  localStorage,
+  instance,
   onClose,
   handleImport,
   handleCopy,
+  navigate,
+  saveId,
 }) => {
-  const [jsonData, setJsonData] = useState(JSON.stringify(localStorage));
+  const [jsonData, setJsonData] = useState(JSON.stringify(instance));
+  const [storage, setStorage] = useState(window.localStorage);
 
   const handleCopyText = () => {
     try {
@@ -68,6 +75,28 @@ export const ToolbarSharePopover: React.FC<SaveProps> = ({
           borderRadius: '5px',
           width: '50%',
         }}>
+        <Grid item xs={12}>
+          {Object.keys(storage).map((currentSave) => (
+            <Chip
+              key={currentSave}
+              label={currentSave}
+              color={saveId === currentSave ? 'primary' : 'default'}
+              onDelete={() => {
+                window.localStorage.removeItem(currentSave);
+                setStorage((prevStorage) => {
+                  const { currentSave, ...restStorage } = prevStorage;
+
+                  return restStorage;
+                });
+              }}
+              onClick={() => {
+                navigate(`/coverboard/${currentSave}`);
+              }}
+              deleteIcon={<CloseIcon />}
+              style={{ margin: '4px' }}
+            />
+          ))}
+        </Grid>
         <Grid item xs={12}>
           <TextareaAutosize
             defaultValue={jsonData}

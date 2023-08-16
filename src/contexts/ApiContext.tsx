@@ -1,5 +1,4 @@
-import React, { createContext, useContext } from 'react';
-import { useLocalStorage } from 'usehooks-ts';
+import React, { createContext, useContext, useState } from 'react';
 
 import { apiConfig } from 'api';
 import { ApiKey } from 'types';
@@ -22,7 +21,7 @@ export const useApiContext = () => {
 export const ApiProvider: React.FC<{ children: React.ReactNode }> = ({
   children,
 }) => {
-  const [apiKey, setApikeys] = useLocalStorage('apiKey', {
+  const [apiKey, setApikeys] = useState({
     LastFMKey: apiConfig.LastFMKey,
   });
 
