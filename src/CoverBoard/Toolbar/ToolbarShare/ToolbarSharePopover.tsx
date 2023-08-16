@@ -99,12 +99,15 @@ export const ToolbarSharePopover: React.FC<SaveProps> = ({
               color={saveId === currentSave ? 'primary' : 'default'}
               onDelete={
                 currentSave !== DEFAULT_KEY
-                  ? () => {
+                  ? (evt) => {
+                      evt.preventDefault();
+
                       window.localStorage.removeItem(currentSave);
                       setStorage((prevStorage) => {
-                        const { currentSave, ...restStorage } = prevStorage;
+                        const prevStorageCopy = { ...prevStorage };
+                        delete prevStorageCopy[currentSave];
 
-                        return restStorage;
+                        return prevStorageCopy;
                       });
 
                       if (saveId === currentSave) {

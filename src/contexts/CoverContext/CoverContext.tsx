@@ -90,11 +90,7 @@ export const CoverProvider: React.FC<{ children: React.ReactNode }> = ({
     [LocalStorageKeys.CONFIG]: { ...initialConfigValues },
     [LocalStorageKeys.COVER]: [],
     [LocalStorageKeys.LINES]: [],
-  }) as unknown as [
-    LocalStorageData,
-    Dispatch<SetStateAction<LocalStorageData>>,
-    () => void,
-  ];
+  });
 
   const { configs, lines, cover } = instance;
 
