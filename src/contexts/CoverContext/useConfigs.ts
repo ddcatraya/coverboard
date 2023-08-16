@@ -42,7 +42,10 @@ export const useConfigs = (updateAction: () => void): UseConfigsParams => {
   return {
     configs,
     setConfigs,
-    resetConfigs: () => setConfigs({ ...initialConfigValues }),
+    resetConfigs: () => {
+      setConfigs({ ...initialConfigValues });
+      updateAction();
+    },
     updateConfigs: (newConfig) => {
       setConfigs({
         ...newConfig,

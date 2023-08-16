@@ -39,6 +39,7 @@ export const useCover = (updateAction: () => void): UseCoverParams => {
     setCover,
     clearAllCovers() {
       setCover([]);
+      updateAction();
     },
     updateAllCoversDir(dir) {
       setCover((currentCover) =>
