@@ -92,11 +92,12 @@ export const ToolbarSharePopover: React.FC<SaveProps> = ({
         <Grid item xs={12}>
           {keyList.map((currentSave) => (
             <Chip
-              href={`/coverboard/${currentSave}#${ToolConfigIDs.SHARE}`}
-              component="a"
               key={currentSave}
               label={currentSave}
               color={saveId === currentSave ? 'primary' : 'default'}
+              onClick={() => {
+                navigate(`/coverboard/${currentSave}#${ToolConfigIDs.SHARE}`);
+              }}
               onDelete={
                 currentSave !== DEFAULT_KEY
                   ? (evt) => {
@@ -111,7 +112,7 @@ export const ToolbarSharePopover: React.FC<SaveProps> = ({
                       });
 
                       if (saveId === currentSave) {
-                        window.location.replace(
+                        navigate(
                           `/coverboard/${DEFAULT_KEY}#${ToolConfigIDs.SHARE}`,
                         );
                       }

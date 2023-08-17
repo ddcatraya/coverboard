@@ -5,19 +5,19 @@ import React, {
   Dispatch,
   SetStateAction,
   useCallback,
+  useEffect,
 } from 'react';
 import { useParams } from 'react-router-dom';
 
 import {
   Point,
-  LocalStorageKeys,
   LocalStorageData,
   CoverImage,
   LinePoint,
   ToolbarConfigParams,
   ToolConfigIDs,
+  LocalStorageKeys,
 } from 'types';
-import { useLocalStorage } from 'usehooks-ts';
 import { getHash } from 'utils';
 
 import {
@@ -49,7 +49,7 @@ interface CoverContextData
   resetConfigs: () => void;
   resetTitle: () => void;
   instance: LocalStorageData;
-  setInstance: (data: LocalStorageData) => void;
+  setInstance: React.Dispatch<React.SetStateAction<LocalStorageData>>;
   undo: () => void;
   action: Array<Actions>;
   cover: CoverImage[];
@@ -67,6 +67,14 @@ const CoverContext = createContext<CoverContextData>({} as CoverContextData);
 const MAX_UNDO = 10;
 export const DEFAULT_KEY = 'default';
 
+const initial = () => {
+  return {
+    [LocalStorageKeys.CONFIG]: { ...initialConfigValues },
+    [LocalStorageKeys.COVER]: [],
+    [LocalStorageKeys.LINES]: [],
+  };
+};
+
 export const useCoverContext = () => {
   const context = useContext(CoverContext);
   if (!context) {
@@ -75,24 +83,34 @@ export const useCoverContext = () => {
   return context;
 };
 
-export const CoverProvider: React.FC<{ children: React.ReactNode }> = ({
-  children,
-}) => {
+interface CoverProviderProps {
+  children: React.ReactNode;
+}
+
+export const CoverProvider: React.FC<CoverProviderProps> = ({ children }) => {
   const { saveId = DEFAULT_KEY } = useParams();
   const hash = getHash();
+  const [instance, setInstance] = useState<LocalStorageData>(initial());
 
   const [erase, setErase] = useState(hash === ToolConfigIDs.ERASE);
   const [editLines, setEditLines] = useState(hash === ToolConfigIDs.ARROW);
   const [points, setPoints] = useState<Point | null>(null);
   const [action, setAction] = useState<Array<Actions>>([]);
 
-  const [instance, setInstance] = useLocalStorage<LocalStorageData>(saveId, {
-    [LocalStorageKeys.CONFIG]: { ...initialConfigValues },
-    [LocalStorageKeys.COVER]: [],
-    [LocalStorageKeys.LINES]: [],
-  });
-
   const { configs, lines, cover } = instance;
+
+  useEffect(() => {
+    try {
+      const item = window.localStorage.getItem(saveId);
+
+      if (!item) {
+        window.localStorage.setItem(saveId, JSON.stringify(initial()));
+      }
+      setInstance(item ? JSON.parse(item) : initial());
+    } catch (error) {
+      setInstance(initial());
+    }
+  }, [saveId]);
 
   const updateAction = useCallback(() => {
     setAction((currentAction) =>
