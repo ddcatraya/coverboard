@@ -11,7 +11,7 @@ import { Close as CloseIcon } from '@mui/icons-material';
 
 import { LocalStorageData, ToolConfigIDs, DEFAULT_KEY } from 'types';
 import { NavigateFunction } from 'react-router-dom';
-import { clearHash, setHash } from 'utils';
+import { addPrefix, clearHash, haxPrefix, removePrefix, setHash } from 'utils';
 
 interface SaveProps {
   open: boolean;
@@ -72,10 +72,12 @@ export const ToolbarSharePopover: React.FC<SaveProps> = ({
 
   const keyList = [
     DEFAULT_KEY,
-    ...Object.keys(storage).filter((key) => key !== DEFAULT_KEY),
+    ...Object.keys(storage).filter(
+      (key) => key !== addPrefix(DEFAULT_KEY) && haxPrefix(key),
+    ),
   ];
 
-  const hasDefault = window.localStorage.getItem(DEFAULT_KEY);
+  const hasDefault = window.localStorage.getItem(addPrefix(DEFAULT_KEY));
 
   return (
     <Modal
@@ -106,7 +108,8 @@ export const ToolbarSharePopover: React.FC<SaveProps> = ({
           <Typography gutterBottom>
             Pick a saved state (change URL for new one):
           </Typography>
-          {keyList.map((currentSave) => {
+          {keyList.map((currentSaveWithPrefix) => {
+            const currentSave = removePrefix(currentSaveWithPrefix);
             const showDelete =
               currentSave !== DEFAULT_KEY ||
               (currentSave === DEFAULT_KEY &&
@@ -125,7 +128,7 @@ export const ToolbarSharePopover: React.FC<SaveProps> = ({
                     ? (evt) => {
                         evt.preventDefault();
 
-                        window.localStorage.removeItem(currentSave);
+                        window.localStorage.removeItem(addPrefix(currentSave));
                         setStorage((prevStorage) => {
                           const prevStorageCopy = { ...prevStorage };
                           delete prevStorageCopy[currentSave];

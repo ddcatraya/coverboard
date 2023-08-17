@@ -11,7 +11,6 @@ import {
   LocalStorageData,
   PosTypes,
 } from 'types';
-import { useCallback } from 'react';
 
 const schema = (cover: CoverImage[]) =>
   z.object({

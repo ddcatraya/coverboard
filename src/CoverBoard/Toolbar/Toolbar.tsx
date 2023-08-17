@@ -7,6 +7,7 @@ import {
   ToolbarTooltip,
 } from '.';
 import { colorMap, Colors, ToolConfig, ToolConfigIDs } from 'types';
+import { haxPrefix } from 'utils';
 
 export const Toolbar: React.FC = () => {
   const {
@@ -29,7 +30,9 @@ export const Toolbar: React.FC = () => {
     setOpenShare,
   } = useToolbarContext();
 
-  const savesNumber = Object.values(window.localStorage).length;
+  const savesNumber = Object.keys(window.localStorage).filter((key) =>
+    haxPrefix(key),
+  ).length;
   const configSize = configs.size / 100;
 
   const configTools: Array<ToolConfig> = [

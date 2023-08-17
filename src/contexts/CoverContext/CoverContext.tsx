@@ -19,7 +19,7 @@ import {
   LocalStorageKeys,
   DEFAULT_KEY,
 } from 'types';
-import { getHash } from 'utils';
+import { addPrefix, getHash } from 'utils';
 
 import {
   useConfigs,
@@ -101,7 +101,7 @@ export const CoverProvider: React.FC<CoverProviderProps> = ({ children }) => {
 
   useEffect(() => {
     try {
-      const item = window.localStorage.getItem(saveId);
+      const item = window.localStorage.getItem(addPrefix(saveId));
       setInstance(item ? JSON.parse(item) : initial());
     } catch (error) {
       setInstance(initial());
@@ -109,7 +109,7 @@ export const CoverProvider: React.FC<CoverProviderProps> = ({ children }) => {
   }, [saveId]);
 
   useEffect(() => {
-    window.localStorage.setItem(saveId, JSON.stringify(instance));
+    window.localStorage.setItem(addPrefix(saveId), JSON.stringify(instance));
   }, [instance, saveId]);
 
   const updateAction = useCallback(() => {
