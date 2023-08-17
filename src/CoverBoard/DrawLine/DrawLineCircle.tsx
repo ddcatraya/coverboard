@@ -17,8 +17,6 @@ export const DrawLineCircle: React.FC<LineProps> = (props) => {
 
   return (
     <Circle
-      x={0}
-      y={0}
       radius={circleRadius}
       fill={colorMap[configs.color]}
       onClick={() => handleOpen(line)}

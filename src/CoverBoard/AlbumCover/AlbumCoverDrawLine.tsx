@@ -53,7 +53,6 @@ export const AlbumCoverDrawLine: React.FC<AlbumCoverDrawLineProps> = ({
         onClick={() => handleDrawLine(id, PosTypes.RIGHT)}
       />
       <Rect
-        x={0}
         y={coverSize / 8}
         width={coverSize / 2}
         height={coverSize / 2}

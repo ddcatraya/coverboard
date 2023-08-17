@@ -4,17 +4,15 @@ import { Group, Image, Text } from 'react-konva';
 import useImage from 'use-image';
 
 export const Logo: React.FC = () => {
-  const { toolBarLimits, dragLimits, toobarIconSize, fontSize } =
-    useSizesContext();
+  const { dragLimits, toobarIconSize, fontSize } = useSizesContext();
   const [image] = useImage(
     'https://www.last.fm/static/images/footer_logo@2x.49ca51948b0a.png',
   );
 
   return (
     <Group
+      y={dragLimits.height - toobarIconSize / 2}
       onClick={() => window.open('https://www.last.fm')}
-      x={toolBarLimits.x}
-      y={dragLimits.height}
       onMouseMove={(evt: KonvaEventObject<MouseEvent>) => {
         const container = evt.target.getStage()?.container();
 
@@ -37,8 +35,6 @@ export const Logo: React.FC = () => {
         y={(-toobarIconSize / 2) * 1.1}
       />
       <Text
-        x={0}
-        y={0}
         fonSize={fontSize}
         width={toobarIconSize * 2}
         fill="white"

@@ -13,8 +13,6 @@ interface SizeContextData {
   dragLimits: DragLimits;
   toolBarLimits: DragLimits;
   coverSize: number;
-  initialX: number;
-  initialY: number;
   getCurrentX: (index: number) => number;
   toobarIconSize: number;
   fontSize: number;
@@ -56,32 +54,35 @@ export const SizesProvider: React.FC<{ children: React.ReactNode }> = ({
     };
   }, []);
 
-  const initialX = coverSize / 2;
-  const initialY = coverSize / 2;
   const toobarIconSize = coverSize / 2;
   const spaceBetween = coverSize / 4;
   const fontSize = coverSize / 7;
+  const circleRadius = fontSize / 1.5;
 
   const getCurrentX = useCallback(
-    (index: number) => initialY + index * (toobarIconSize + spaceBetween),
-    [initialY, spaceBetween, toobarIconSize],
+    (index: number) => 0 + index * (toobarIconSize + spaceBetween),
+    [spaceBetween, toobarIconSize],
   );
 
+  const startX = coverSize / 2 + 2 * toobarIconSize;
+  const startY = coverSize / 2;
+
   const dragLimits = {
-    x: initialX + 2 * toobarIconSize,
-    y: initialY - toobarIconSize / 2,
-    width: windowSize.width - 1.5 * initialX - 2 * toobarIconSize,
-    height: windowSize.height - initialY,
+    x: startX,
+    y: startY - toobarIconSize / 2,
+    width: windowSize.width - startX - toobarIconSize / 2,
+    height: windowSize.height - startY,
   };
 
+  //  x={dragLimits.x + configs.size / 2}
+  // y={dragLimits.y + configs.size / 2}>
   const toolBarLimits = {
-    x: initialX - toobarIconSize / 2,
-    y: initialY - toobarIconSize / 2,
+    x: coverSize / 2 - toobarIconSize / 2,
+    y: coverSize / 2 - toobarIconSize / 2,
     width: toobarIconSize * 2,
-    height: getCurrentX(Object.keys(ToolConfigIDs).length - 1) + toobarIconSize,
+    height:
+      getCurrentX(Object.keys(ToolConfigIDs).length - 1) + 2 * toobarIconSize,
   };
-
-  const circleRadius = fontSize / 1.5;
 
   return (
     <SizesContext.Provider
@@ -89,12 +90,10 @@ export const SizesProvider: React.FC<{ children: React.ReactNode }> = ({
         dragLimits,
         toolBarLimits,
         coverSize,
-        initialX,
         getCurrentX,
         toobarIconSize,
         fontSize,
         windowSize,
-        initialY,
         circleRadius,
       }}>
       {children}

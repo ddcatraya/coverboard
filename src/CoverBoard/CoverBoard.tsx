@@ -13,11 +13,11 @@ export const CoverBoard: React.FC = () => {
   return (
     <Stage width={windowSize.width} height={windowSize.height}>
       <Layer>
-        <Group>
+        <Group x={toolBarLimits.x} y={toolBarLimits.y}>
           <Logo />
           <Rect
-            x={toolBarLimits.x}
-            y={toolBarLimits.y}
+            x={0}
+            y={0}
             width={toolBarLimits.width}
             height={toolBarLimits.height}
             stroke={colorMap[configs.color]}

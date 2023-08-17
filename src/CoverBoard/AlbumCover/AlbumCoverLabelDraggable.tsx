@@ -19,8 +19,8 @@ export const AlbumCoverLabelDraggable = ({
   offset,
   offSetTop,
 }: DraggableGroupProps) => {
-  const { erase, editLines } = useCoverContext();
-  const { coverSize, fontSize } = useSizesContext();
+  const { erase, editLines, configs } = useCoverContext();
+  const { coverSize, fontSize, dragLimits } = useSizesContext();
   const [isDragging, setDragging] = useState(false);
   const [id, setId] = useState(uuidv4());
 
@@ -48,11 +48,11 @@ export const AlbumCoverLabelDraggable = ({
     }
 
     let dir: PosTypes;
-    if (e.evt.y > albumCover.y + coverSize) {
+    if (e.evt.y > dragLimits.y + configs.size / 2 + albumCover.y + coverSize) {
       dir = PosTypes.BOTTOM;
-    } else if (e.evt.y < albumCover.y) {
+    } else if (e.evt.y < albumCover.y + dragLimits.y + configs.size / 2) {
       dir = PosTypes.TOP;
-    } else if (e.evt.x < albumCover.x) {
+    } else if (e.evt.x < albumCover.x + dragLimits.x + configs.size / 2) {
       dir = PosTypes.LEFT;
     } else {
       dir = PosTypes.RIGHT;

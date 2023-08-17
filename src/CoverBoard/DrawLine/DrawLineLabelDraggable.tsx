@@ -18,8 +18,8 @@ export const DrawLineLabelDraggable = ({
   setUpdate,
   children,
 }: DraggableGroupProps) => {
-  const { erase, editLines } = useCoverContext();
-  const { coverSize, fontSize, circleRadius } = useSizesContext();
+  const { erase, editLines, configs } = useCoverContext();
+  const { coverSize, fontSize, circleRadius, dragLimits } = useSizesContext();
   const [isDragging, setDragging] = useState(false);
   const [id, setId] = useState(uuidv4());
 
@@ -47,11 +47,17 @@ export const DrawLineLabelDraggable = ({
     }
 
     let dir: PosTypes;
-    if (e.evt.y > lineParams.midY + fontSize) {
+    if (
+      e.evt.y >
+      dragLimits.y + configs.size / 2 + lineParams.midY + fontSize
+    ) {
       dir = PosTypes.BOTTOM;
-    } else if (e.evt.y < lineParams.midY - fontSize) {
+    } else if (
+      e.evt.y <
+      dragLimits.y + configs.size / 2 + lineParams.midY - fontSize
+    ) {
       dir = PosTypes.TOP;
-    } else if (e.evt.x < lineParams.midX) {
+    } else if (e.evt.x < dragLimits.x + configs.size / 2 + lineParams.midX) {
       dir = PosTypes.LEFT;
     } else {
       dir = PosTypes.RIGHT;
