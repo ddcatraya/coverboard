@@ -39,9 +39,9 @@ export const AlbumCoverLabel: React.FC<AlbumCoverLabelProps> = ({
         updateCoverLabel(albumCover.id, coverLabel, label);
       }}
       pos={{
-        x: -coverSize / 2,
+        x: -coverSize,
         y: coverSize + fontSize / 2 + offset,
-        width: coverSize * 2,
+        width: coverSize * 3,
         align: getAlign(albumCover.dir),
       }}
     />

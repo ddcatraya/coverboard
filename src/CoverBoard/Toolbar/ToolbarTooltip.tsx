@@ -1,10 +1,11 @@
 import { Group, Rect, Text } from 'react-konva';
 
-import { useSizesContext, useToolbarContext } from 'contexts';
+import { useCoverContext, useSizesContext, useToolbarContext } from 'contexts';
+import { backColorMap } from 'types';
 
 export const ToolbarTooltip: React.FC = () => {
-  const { coverSize } = useSizesContext();
-  const { fontSize } = useSizesContext();
+  const { coverSize, fontSize } = useSizesContext();
+  const { configs } = useCoverContext();
   const { tooltip } = useToolbarContext();
 
   if (!tooltip) return null;
@@ -16,7 +17,7 @@ export const ToolbarTooltip: React.FC = () => {
         y={tooltip.y}
         width={coverSize * 2}
         height={fontSize}
-        fill="#282c34"
+        fill={backColorMap[configs.backColor]}
       />
       <Text
         x={tooltip.x + fontSize}

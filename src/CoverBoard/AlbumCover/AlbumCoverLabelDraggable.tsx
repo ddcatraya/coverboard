@@ -74,12 +74,12 @@ export const AlbumCoverLabelDraggable = ({
       };
     } else if (albumCover.dir === PosTypes.RIGHT) {
       return {
-        x: coverSize + coverSize / 2 + fontSize,
+        x: 2 * coverSize + fontSize,
         y: -coverSize / 2 - fontSize - offset / 2,
       };
     } else {
       return {
-        x: -coverSize - coverSize / 2 - fontSize,
+        x: -2 * coverSize - fontSize,
         y: -coverSize / 2 - fontSize - offset / 2,
       };
     }
