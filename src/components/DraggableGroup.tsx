@@ -85,7 +85,7 @@ export function DraggableGroup<T extends { x: number; y: number }>({
       onMouseMove={(evt: KonvaEventObject<MouseEvent>) => {
         const container = evt.target.getStage()?.container();
 
-        if (container && !erase && !editLines) {
+        if (container && !erase) {
           container.style.cursor = 'grab';
         } else if (container && erase) {
           container.style.cursor = 'not-allowed';
