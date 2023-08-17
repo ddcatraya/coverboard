@@ -152,6 +152,7 @@ export const ToolbarSharePopover: React.FC<SaveProps> = ({
           <Typography gutterBottom>JSON for: {saveId}</Typography>
           <TextareaAutosize
             defaultValue={jsonData}
+            value={jsonData}
             minRows={2}
             maxRows={20}
             style={{ resize: 'none', width: '95%' }}
@@ -163,25 +164,25 @@ export const ToolbarSharePopover: React.FC<SaveProps> = ({
             variant="contained"
             color="primary"
             onClick={handleCopyText}
-            style={{ marginRight: '10px' }}
+            style={{ marginRight: '20px' }}
             disabled={!isValidJSON}>
-            Copy JSON
+            Copy
           </Button>
           <Button
             variant="contained"
             color="primary"
             onClick={exportData}
-            style={{ marginRight: '10px' }}
+            style={{ marginRight: '20px' }}
             disabled={!isValidJSON}>
-            Download JSON
+            Download
           </Button>
           <Button
             variant="contained"
             color="primary"
             onClick={() => handleImport(jsonData)}
             disabled={!isValidJSON}
-            style={{ marginRight: '10px' }}>
-            Apply JSON
+            style={{ marginRight: '20px' }}>
+            Apply
           </Button>
           <Button
             variant="contained"
