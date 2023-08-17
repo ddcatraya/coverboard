@@ -16,8 +16,6 @@ export const CoverBoard: React.FC = () => {
         <Group x={toolBarLimits.x} y={toolBarLimits.y}>
           <Logo />
           <Rect
-            x={0}
-            y={0}
             width={toolBarLimits.width}
             height={toolBarLimits.height}
             stroke={colorMap[configs.color]}
@@ -27,12 +25,8 @@ export const CoverBoard: React.FC = () => {
             <Toolbar />
           </ToolbarProvider>
         </Group>
-        <Group
-          x={dragLimits.x + configs.size / 2}
-          y={dragLimits.y + configs.size / 2}>
+        <Group x={dragLimits.x} y={dragLimits.y}>
           <Rect
-            x={-configs.size / 2}
-            y={-configs.size / 2}
             width={dragLimits.width}
             height={dragLimits.height}
             stroke={colorMap[configs.color]}

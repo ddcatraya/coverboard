@@ -14,7 +14,7 @@ interface ToolbarIconProps {
 
 export const ToolbarIcon: React.FC<ToolbarIconProps> = ({ config, index }) => {
   const { setErase, setPoints, setEditLines } = useCoverContext();
-  const { getCurrentX, toobarIconSize, fontSize } = useSizesContext();
+  const { getCurrentY, toobarIconSize, fontSize } = useSizesContext();
   const { setTooltip } = useToolbarContext();
 
   const handleMouseMove = (evt: KonvaEventObject<MouseEvent>, tip: string) => {
@@ -29,7 +29,7 @@ export const ToolbarIcon: React.FC<ToolbarIconProps> = ({ config, index }) => {
     <Group
       key={config.id}
       x={toobarIconSize / 2}
-      y={getCurrentX(index) + toobarIconSize / 2}
+      y={getCurrentY(index) + toobarIconSize / 2}
       onClick={() => {
         setPoints(null);
 

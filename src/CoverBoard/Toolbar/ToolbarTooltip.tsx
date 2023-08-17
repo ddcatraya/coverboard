@@ -13,15 +13,11 @@ export const ToolbarTooltip: React.FC = () => {
   return (
     <Group x={tooltip.x - fontSize / 2} y={tooltip.y - fontSize / 2}>
       <Rect
-        x={0}
-        y={0}
         width={coverSize * 2}
         height={fontSize}
         fill={backColorMap[configs.backColor]}
       />
       <Text
-        x={0}
-        y={0}
         width={coverSize * 2}
         align="left"
         text={tooltip.text}

@@ -9,7 +9,6 @@ import {
   AlbumCoverLabelDraggable,
 } from '.';
 import { DraggableGroup } from 'components';
-import { Group } from 'react-konva';
 import { Vector2d } from 'konva/lib/types';
 
 interface CoverImageProps {
@@ -19,7 +18,8 @@ interface CoverImageProps {
 export const AlbumCover: React.FC<CoverImageProps> = ({ albumCover }) => {
   const { id } = albumCover;
   const { updateCoverPosition, configs, updateCoverDir } = useCoverContext();
-  const { fontSize, dragLimits, toobarIconSize } = useSizesContext();
+  const { fontSize, dragLimits, toobarIconSize, coverSize, windowSize } =
+    useSizesContext();
 
   const handleDragEnd = ({ x, y }: Vector2d) => {
     updateCoverPosition(albumCover.id, { x, y });
@@ -55,32 +55,31 @@ export const AlbumCover: React.FC<CoverImageProps> = ({ albumCover }) => {
         y: dragLimits.y,
       }}
       max={{
-        x: window.innerWidth - 2.5 * toobarIconSize,
-        y: window.innerHeight - 2.5 * toobarIconSize,
+        x: windowSize.width - coverSize - toobarIconSize / 2,
+        y: windowSize.height - coverSize - toobarIconSize / 2,
       }}>
       <AlbumCoverDrawLine id={id} />
       <AlbumCoverImage albumCover={albumCover} />
-      <Group x={0} y={0}>
-        <AlbumCoverLabelDraggable
-          albumCover={albumCover}
-          setUpdate={handleUpdate}
-          offset={offSet}
-          offSetTop={offSetTop}>
-          {configs.showArtist && albumCover[LabelType.ARTIST].text && (
-            <AlbumCoverLabel
-              coverLabel={LabelType.ARTIST}
-              albumCover={albumCover}
-            />
-          )}
-          {configs.showAlbum && albumCover[LabelType.ALBUM].text && (
-            <AlbumCoverLabel
-              coverLabel={LabelType.ALBUM}
-              albumCover={albumCover}
-              offset={offSet}
-            />
-          )}
-        </AlbumCoverLabelDraggable>
-      </Group>
+
+      <AlbumCoverLabelDraggable
+        albumCover={albumCover}
+        setUpdate={handleUpdate}
+        offset={offSet}
+        offSetTop={offSetTop}>
+        {configs.showArtist && albumCover[LabelType.ARTIST].text && (
+          <AlbumCoverLabel
+            coverLabel={LabelType.ARTIST}
+            albumCover={albumCover}
+          />
+        )}
+        {configs.showAlbum && albumCover[LabelType.ALBUM].text && (
+          <AlbumCoverLabel
+            coverLabel={LabelType.ALBUM}
+            albumCover={albumCover}
+            offset={offSet}
+          />
+        )}
+      </AlbumCoverLabelDraggable>
     </DraggableGroup>
   );
 };

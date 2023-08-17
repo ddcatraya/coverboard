@@ -4,6 +4,7 @@ import { useMemo, useState } from 'react';
 import { useCoverContext, useSizesContext } from 'contexts';
 import { CoverImage, PosTypes } from 'types';
 import { v4 as uuidv4 } from 'uuid';
+
 interface DraggableGroupProps {
   children: React.ReactNode;
   albumCover: CoverImage;
@@ -19,7 +20,7 @@ export const AlbumCoverLabelDraggable = ({
   offset,
   offSetTop,
 }: DraggableGroupProps) => {
-  const { erase, editLines, configs } = useCoverContext();
+  const { erase, editLines } = useCoverContext();
   const { coverSize, fontSize, dragLimits } = useSizesContext();
   const [isDragging, setDragging] = useState(false);
   const [id, setId] = useState(uuidv4());
@@ -48,11 +49,11 @@ export const AlbumCoverLabelDraggable = ({
     }
 
     let dir: PosTypes;
-    if (e.evt.y > dragLimits.y + configs.size / 2 + albumCover.y + coverSize) {
+    if (e.evt.y > dragLimits.y + albumCover.y + coverSize) {
       dir = PosTypes.BOTTOM;
-    } else if (e.evt.y < albumCover.y + dragLimits.y + configs.size / 2) {
+    } else if (e.evt.y < albumCover.y + dragLimits.y) {
       dir = PosTypes.TOP;
-    } else if (e.evt.x < albumCover.x + dragLimits.x + configs.size / 2) {
+    } else if (e.evt.x < albumCover.x + dragLimits.x) {
       dir = PosTypes.LEFT;
     } else {
       dir = PosTypes.RIGHT;

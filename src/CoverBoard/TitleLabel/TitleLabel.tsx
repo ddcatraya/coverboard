@@ -38,8 +38,8 @@ export const TitleLabel: React.FC = () => {
       label={titleMode}
       setLabel={handleSetLabel}
       pos={{
-        x: -configs.size / 2 + dragLimits.width / 4,
-        y: 0,
+        x: dragLimits.width / 4,
+        y: dragLimits.y,
         width: dragLimits.width / 2,
         align: 'center',
       }}
