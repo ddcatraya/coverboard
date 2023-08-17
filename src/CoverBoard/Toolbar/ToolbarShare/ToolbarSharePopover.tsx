@@ -33,7 +33,7 @@ export const ToolbarSharePopover: React.FC<SaveProps> = ({
   navigate,
   saveId,
 }) => {
-  const [jsonData, setJsonData] = useState(JSON.stringify(instance));
+  const [jsonData, setJsonData] = useState(JSON.stringify(instance, null, 4));
   const [storage, setStorage] = useState(window.localStorage);
 
   setHash(ToolConfigIDs.SHARE);
@@ -105,39 +105,42 @@ export const ToolbarSharePopover: React.FC<SaveProps> = ({
           <Typography gutterBottom>
             Pick a saved state (change URL for new one):
           </Typography>
-          {keyList.map((currentSave) => (
-            <Chip
-              key={currentSave}
-              label={currentSave}
-              color={saveId === currentSave ? 'primary' : 'default'}
-              onClick={() => {
-                navigate(`/${currentSave}#${ToolConfigIDs.SHARE}`);
-              }}
-              onDelete={
-                currentSave !== DEFAULT_KEY
-                  ? (evt) => {
-                      evt.preventDefault();
+          {keyList.map((currentSave) => {
+            const showDelete =
+              currentSave !== DEFAULT_KEY ||
+              (currentSave === DEFAULT_KEY && currentSave !== saveId);
+            return (
+              <Chip
+                key={currentSave}
+                label={currentSave}
+                color={saveId === currentSave ? 'primary' : 'default'}
+                onClick={() => {
+                  navigate(`/${currentSave}#${ToolConfigIDs.SHARE}`);
+                }}
+                onDelete={
+                  showDelete
+                    ? (evt) => {
+                        evt.preventDefault();
 
-                      window.localStorage.removeItem(currentSave);
-                      setStorage((prevStorage) => {
-                        const prevStorageCopy = { ...prevStorage };
-                        delete prevStorageCopy[currentSave];
+                        window.localStorage.removeItem(currentSave);
+                        setStorage((prevStorage) => {
+                          const prevStorageCopy = { ...prevStorage };
+                          delete prevStorageCopy[currentSave];
 
-                        return prevStorageCopy;
-                      });
+                          return prevStorageCopy;
+                        });
 
-                      if (saveId === currentSave) {
-                        navigate(`/${DEFAULT_KEY}#${ToolConfigIDs.SHARE}`);
+                        if (saveId === currentSave) {
+                          navigate(`/${DEFAULT_KEY}#${ToolConfigIDs.SHARE}`);
+                        }
                       }
-                    }
-                  : undefined
-              }
-              deleteIcon={
-                currentSave !== DEFAULT_KEY ? <CloseIcon /> : undefined
-              }
-              style={{ margin: '4px' }}
-            />
-          ))}
+                    : undefined
+                }
+                deleteIcon={showDelete ? <CloseIcon /> : undefined}
+                style={{ margin: '4px' }}
+              />
+            );
+          })}
         </Grid>
         <Grid item xs={12}>
           <Typography gutterBottom>JSON for: {saveId}</Typography>

@@ -102,15 +102,15 @@ export const CoverProvider: React.FC<CoverProviderProps> = ({ children }) => {
   useEffect(() => {
     try {
       const item = window.localStorage.getItem(saveId);
-
-      if (!item) {
-        window.localStorage.setItem(saveId, JSON.stringify(initial()));
-      }
       setInstance(item ? JSON.parse(item) : initial());
     } catch (error) {
       setInstance(initial());
     }
   }, [saveId]);
+
+  useEffect(() => {
+    window.localStorage.setItem(saveId, JSON.stringify(instance));
+  }, [instance, saveId]);
 
   const updateAction = useCallback(() => {
     setAction((currentAction) =>
@@ -121,7 +121,7 @@ export const CoverProvider: React.FC<CoverProviderProps> = ({ children }) => {
             { configs, lines, cover },
           ],
     );
-  }, [configs, cover, lines]);
+  }, [configs, lines, cover]);
 
   const setConfigs = useCallback(
     (currentConfigs: (curr: ToolbarConfigParams) => ToolbarConfigParams) => {
@@ -188,7 +188,7 @@ export const CoverProvider: React.FC<CoverProviderProps> = ({ children }) => {
         undo,
         action,
         saveId,
-        ...useCover(setCover),
+        ...useCover(setCover, setLines),
         ...useLines(setLines),
         ...useConfigs(setConfigs),
       }}>

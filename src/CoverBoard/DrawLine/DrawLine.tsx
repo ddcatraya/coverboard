@@ -39,15 +39,13 @@ export const DrawLine: React.FC<LineProps> = ({ line }) => {
   const [textEdit, setTextEdit] = useState(false);
 
   const lineParams = useMemo((): LineParams | undefined => {
-    const { origin, target } = line;
-
-    if (target) {
+    if (line.target) {
       const originSquare = cover.find((cov) => cov.id === line.origin.id);
       const targetSquare = cover.find((cov) => cov.id === line.target?.id);
 
       if (originSquare && targetSquare) {
-        const originPos = convertPosToXY(coverSize, origin.pos);
-        const targetPos = convertPosToXY(coverSize, target.pos);
+        const originPos = convertPosToXY(coverSize, line.origin.pos);
+        const targetPos = convertPosToXY(coverSize, line.target.pos);
 
         const points = [
           originSquare.x + originPos.x,
@@ -66,7 +64,7 @@ export const DrawLine: React.FC<LineProps> = ({ line }) => {
         };
       }
     }
-  }, [cover, coverSize, line]);
+  }, [cover, coverSize, line.origin, line.target]);
 
   const handleOpen = (line: LinePoint) => {
     if (erase) {

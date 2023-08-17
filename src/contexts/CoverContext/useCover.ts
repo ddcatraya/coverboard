@@ -1,5 +1,5 @@
 import { Vector2d } from 'konva/lib/types';
-import { CoverImage, PosTypes, LabelType } from 'types';
+import { CoverImage, PosTypes, LabelType, LinePoint } from 'types';
 export interface UseCoverParams {
   updateCoverDir: (coverId: string, dir: PosTypes) => void;
   updateAllCoversDir: (dir: PosTypes) => void;
@@ -19,10 +19,12 @@ export interface UseCoverParams {
 
 export const useCover = (
   setCover: (currentCover: (curr: CoverImage[]) => CoverImage[]) => void,
+  setLines: (currentLines: (curr: LinePoint[]) => LinePoint[]) => void,
 ): UseCoverParams => {
   return {
     clearAllCovers() {
       setCover(() => []);
+      setLines(() => []);
     },
     updateAllCoversDir(dir) {
       setCover((currentCover) =>
@@ -93,6 +95,11 @@ export const useCover = (
     },
     removeCover(coverId) {
       setCover((currentCover) => currentCover.filter((c) => c.id !== coverId));
+      setLines((currentLine) =>
+        currentLine.filter(
+          (l) => l.origin.id !== coverId && l.target.id !== coverId,
+        ),
+      );
     },
     updateCoversText(artistText, albumText) {
       setCover((currentCover) =>
