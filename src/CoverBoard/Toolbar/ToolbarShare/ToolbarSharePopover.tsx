@@ -9,10 +9,9 @@ import {
 } from '@mui/material';
 import { Close as CloseIcon } from '@mui/icons-material';
 
-import { LocalStorageData, ToolConfigIDs } from 'types';
+import { LocalStorageData, ToolConfigIDs, DEFAULT_KEY } from 'types';
 import { NavigateFunction } from 'react-router-dom';
 import { clearHash, setHash } from 'utils';
-import { DEFAULT_KEY } from 'contexts/CoverContext/CoverContext';
 
 interface SaveProps {
   open: boolean;

@@ -11,3 +11,7 @@ export interface DragLimits {
   width: number;
   height: number;
 }
+
+export const NAME_SPACE = 'coverboard';
+
+export const DEFAULT_KEY = 'default';

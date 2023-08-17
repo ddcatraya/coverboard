@@ -17,6 +17,7 @@ import {
   ToolbarConfigParams,
   ToolConfigIDs,
   LocalStorageKeys,
+  DEFAULT_KEY,
 } from 'types';
 import { getHash } from 'utils';
 
@@ -65,7 +66,6 @@ interface CoverContextData
 
 const CoverContext = createContext<CoverContextData>({} as CoverContextData);
 const MAX_UNDO = 10;
-export const DEFAULT_KEY = 'default';
 
 const initial = () => {
   return {
