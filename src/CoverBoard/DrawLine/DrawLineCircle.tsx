@@ -3,7 +3,7 @@ import { Circle } from 'react-konva';
 import { KonvaEventObject } from 'konva/lib/Node';
 
 import { useCoverContext, useSizesContext } from 'contexts';
-import { LinePoint } from 'types';
+import { colorMap, LinePoint } from 'types';
 
 interface LineProps {
   line: LinePoint;
@@ -20,7 +20,7 @@ export const DrawLineCircle: React.FC<LineProps> = (props) => {
       x={0}
       y={0}
       radius={circleRadius}
-      fill={configs.color}
+      fill={colorMap[configs.color]}
       onClick={() => handleOpen(line)}
       onMouseMove={(evt: KonvaEventObject<MouseEvent>) => {
         const container = evt.target.getStage()?.container();

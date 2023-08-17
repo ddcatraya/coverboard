@@ -13,6 +13,9 @@ import {
   TextField,
 } from '@mui/material';
 import {
+  backColorMap,
+  BackColors,
+  colorMap,
   Colors,
   PosTypes,
   ToolbarConfigParams,
@@ -129,13 +132,35 @@ export const ToolbarConfigPopover: React.FC<ToolbarConfigPopoverProps> = ({
                 value={color}
                 onClick={(evt) => handleChange(evt, ToolbarConfigValues.COLOR)}
                 style={{
-                  backgroundColor: color,
+                  backgroundColor: colorMap[color],
                   height: '30px',
                   width: '30px',
                   margin: '0px 5px',
                   border:
                     color === param[ToolbarConfigValues.COLOR]
                       ? '2px solid black'
+                      : undefined,
+                }}
+              />
+            ))}
+          </Grid>
+          <Grid item xs={12}>
+            <Typography gutterBottom>Pick a background color:</Typography>
+            {Object.values(BackColors).map((color) => (
+              <Button
+                key={color}
+                value={color}
+                onClick={(evt) =>
+                  handleChange(evt, ToolbarConfigValues.BACK_COLOR)
+                }
+                style={{
+                  backgroundColor: backColorMap[color],
+                  height: '30px',
+                  width: '30px',
+                  margin: '0px 5px',
+                  border:
+                    color === param[ToolbarConfigValues.BACK_COLOR]
+                      ? '2px solid red'
                       : undefined,
                 }}
               />

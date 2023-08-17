@@ -13,7 +13,13 @@ export type { AlbumCoverValues, CoverImage } from './coverTypes';
 export { LabelType } from './coverTypes';
 
 export type { ToolbarConfigParams, ApiKey } from './configTypes';
-export { Colors, BackColors, ToolbarConfigValues } from './configTypes';
+export {
+  Colors,
+  BackColors,
+  ToolbarConfigValues,
+  colorMap,
+  backColorMap,
+} from './configTypes';
 
 export type { LocalStorageData } from './localStorageTypes';
 export { LocalStorageKeys } from './localStorageTypes';

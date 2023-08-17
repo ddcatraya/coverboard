@@ -6,7 +6,7 @@ import {
   ToolbarIcon,
   ToolbarTooltip,
 } from '.';
-import { Colors, ToolConfig, ToolConfigIDs } from 'types';
+import { colorMap, Colors, ToolConfig, ToolConfigIDs } from 'types';
 
 export const Toolbar: React.FC = () => {
   const { erase, setErase, editLines, setEditLines, undo, action } =
@@ -24,7 +24,7 @@ export const Toolbar: React.FC = () => {
     {
       id: ToolConfigIDs.SEARCH,
       tooltip: 'Add albums',
-      color: Colors.GREEN,
+      color: colorMap[Colors.GREEN],
       emoji: '🔍',
       value: openSearch,
       valueModifier: setOpenSearch,
@@ -32,7 +32,7 @@ export const Toolbar: React.FC = () => {
     {
       id: ToolConfigIDs.CONFIG,
       tooltip: 'Settings',
-      color: Colors.PURPLE,
+      color: colorMap[Colors.PURPLE],
       emoji: '⚙️',
       value: openConfig,
       valueModifier: setOpenConfig,
@@ -40,7 +40,7 @@ export const Toolbar: React.FC = () => {
     {
       id: ToolConfigIDs.SHARE,
       tooltip: 'Share options',
-      color: Colors.BLUE,
+      color: colorMap[Colors.BLUE],
       emoji: '🔗',
       value: openShare,
       valueModifier: setOpenShare,
@@ -48,7 +48,7 @@ export const Toolbar: React.FC = () => {
     {
       id: ToolConfigIDs.ARROW,
       tooltip: 'Create arrow mode',
-      color: Colors.GOLD,
+      color: colorMap[Colors.GOLD],
       emoji: '➜',
       value: editLines,
       valueModifier: setEditLines,
@@ -56,7 +56,7 @@ export const Toolbar: React.FC = () => {
     {
       id: ToolConfigIDs.ERASE,
       tooltip: 'Erase mode',
-      color: Colors.ORANGE,
+      color: colorMap[Colors.ORANGE],
       emoji: '🗑️',
       value: erase,
       valueModifier: setErase,
@@ -64,7 +64,7 @@ export const Toolbar: React.FC = () => {
     {
       id: ToolConfigIDs.UNDO,
       tooltip: 'Undo up to 10 moves',
-      color: Colors.PINK,
+      color: colorMap[Colors.PINK],
       emoji: '↩️',
       value: action.length < 1,
       valueModifier: undo,

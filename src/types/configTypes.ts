@@ -2,18 +2,41 @@ import { PosTypes } from './generalTypes';
 
 export enum Colors {
   YELLOW = 'yellow',
-  RED = '#DC143C',
-  GREEN = '#32CD32',
-  PINK = '#FF69B4',
-  GOLD = '#FFD700',
-  BLUE = '#1E90FF',
-  PURPLE = '#9370DB',
-  ORANGE = '#FF6347',
+  RED = 'red',
+  GREEN = 'green',
+  PINK = 'pink',
+  GOLD = 'gold',
+  BLUE = 'blue',
+  PURPLE = 'purple',
+  ORANGE = 'orange',
 }
 
+export const colorMap = {
+  [Colors.YELLOW]: 'yellow',
+  [Colors.RED]: '#DC143C',
+  [Colors.GREEN]: '#32CD32',
+  [Colors.PINK]: '#FF69B4',
+  [Colors.GOLD]: '#FFD700',
+  [Colors.BLUE]: '#1E90FF',
+  [Colors.PURPLE]: '#9370DB',
+  [Colors.ORANGE]: '#FF6347',
+};
+
 export enum BackColors {
-  DARK = '#282c34',
+  DARKER = 'darker',
+  DARK = 'dark',
+  MEDIUM = 'medium',
+  LIGHT = 'light',
+  LIGHTER = 'lighter',
 }
+
+export const backColorMap = {
+  [BackColors.DARKER]: '#1E2B38',
+  [BackColors.DARK]: '#303952',
+  [BackColors.MEDIUM]: '#475B6B',
+  [BackColors.LIGHT]: '#5C6F7E',
+  [BackColors.LIGHTER]: '#728496',
+};
 
 export enum ToolbarConfigValues {
   TITLE = 'title',

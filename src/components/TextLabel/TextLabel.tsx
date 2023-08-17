@@ -3,6 +3,7 @@ import { Text } from 'react-konva';
 import { Html } from 'react-konva-utils';
 import { TextLabelPopover } from '.';
 import { KonvaEventObject } from 'konva/lib/Node';
+import { colorMap } from 'types';
 
 interface TitleTexProps {
   label: string;
@@ -52,7 +53,7 @@ export const TextLabel: React.FC<TitleTexProps> = ({
         y={pos.y}
         width={pos.width}
         fontSize={fontSize * labelSize}
-        fill={configs.color}
+        fill={colorMap[configs.color]}
         onClick={() => setOpen(true)}
         onMouseMove={(evt: KonvaEventObject<MouseEvent>) => {
           const container = evt.target.getStage()?.container();
