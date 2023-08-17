@@ -9,8 +9,17 @@ import {
 import { colorMap, Colors, ToolConfig, ToolConfigIDs } from 'types';
 
 export const Toolbar: React.FC = () => {
-  const { erase, setErase, editLines, setEditLines, undo, action } =
-    useCoverContext();
+  const {
+    erase,
+    setErase,
+    editLines,
+    setEditLines,
+    undo,
+    action,
+    cover,
+    lines,
+    configs,
+  } = useCoverContext();
   const {
     openSearch,
     setOpenSearch,
@@ -20,6 +29,9 @@ export const Toolbar: React.FC = () => {
     setOpenShare,
   } = useToolbarContext();
 
+  const savesNumber = Object.values(window.localStorage).length;
+  const configSize = configs.size / 100;
+
   const configTools: Array<ToolConfig> = [
     {
       id: ToolConfigIDs.SEARCH,
@@ -28,6 +40,7 @@ export const Toolbar: React.FC = () => {
       emoji: '🔍',
       value: openSearch,
       valueModifier: setOpenSearch,
+      badge: cover.length,
     },
     {
       id: ToolConfigIDs.CONFIG,
@@ -36,6 +49,7 @@ export const Toolbar: React.FC = () => {
       emoji: '⚙️',
       value: openConfig,
       valueModifier: setOpenConfig,
+      badge: configSize === 1 ? 0 : configSize,
     },
     {
       id: ToolConfigIDs.SHARE,
@@ -44,6 +58,7 @@ export const Toolbar: React.FC = () => {
       emoji: '🔗',
       value: openShare,
       valueModifier: setOpenShare,
+      badge: savesNumber === 1 ? 0 : savesNumber,
     },
     {
       id: ToolConfigIDs.ARROW,
@@ -52,6 +67,7 @@ export const Toolbar: React.FC = () => {
       emoji: '➜',
       value: editLines,
       valueModifier: setEditLines,
+      badge: lines.length,
     },
     {
       id: ToolConfigIDs.ERASE,
@@ -60,6 +76,7 @@ export const Toolbar: React.FC = () => {
       emoji: '🗑️',
       value: erase,
       valueModifier: setErase,
+      badge: lines.length + cover.length,
     },
     {
       id: ToolConfigIDs.UNDO,
@@ -68,6 +85,7 @@ export const Toolbar: React.FC = () => {
       emoji: '↩️',
       value: action.length < 1,
       valueModifier: undo,
+      badge: action.length,
     },
   ];
 

@@ -20,4 +20,5 @@ export interface ToolConfig {
   emoji: string;
   value: boolean;
   valueModifier: React.Dispatch<React.SetStateAction<boolean>>;
+  badge: number | null;
 }

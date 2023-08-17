@@ -6,7 +6,7 @@ import { useCoverContext, useSizesContext } from 'contexts';
 export const TitleLabel: React.FC = () => {
   const { updateTitle, resetTitle, configs, erase, editLines } =
     useCoverContext();
-  const { dragLimits, windowSize, coverSize, initialX } = useSizesContext();
+  const { dragLimits } = useSizesContext();
   const [open, setOpen] = useState(false);
 
   const handleReset = () => {

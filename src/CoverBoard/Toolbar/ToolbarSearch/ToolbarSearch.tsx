@@ -4,7 +4,6 @@ import { getLastFMAlbums } from 'api';
 import {
   useApiContext,
   useCoverContext,
-  useSizesContext,
   useToastContext,
   useToolbarContext,
 } from 'contexts';
@@ -13,8 +12,7 @@ import { PosTypes, SearchParams } from 'types';
 import { v4 as uuidv4 } from 'uuid';
 
 export const ToolbarSearch: React.FC = () => {
-  const { cover, addCovers, configs } = useCoverContext();
-  const { dragLimits } = useSizesContext();
+  const { cover, addCovers } = useCoverContext();
   const { showSuccessMessage, showErrorMessage } = useToastContext();
   const { apiKey } = useApiContext();
   const { openSearch, setOpenSearch } = useToolbarContext();
