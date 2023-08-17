@@ -177,8 +177,17 @@ export const ToolbarSharePopover: React.FC<SaveProps> = ({
             variant="contained"
             color="primary"
             onClick={() => handleImport(jsonData)}
-            disabled={!isValidJSON}>
+            disabled={!isValidJSON}
+            style={{ marginRight: '10px' }}>
             Apply JSON
+          </Button>
+          <Button
+            variant="contained"
+            color="primary"
+            onClick={() => {
+              setJsonData(JSON.stringify(instance, null, 4));
+            }}>
+            Reset
           </Button>
         </Grid>
       </Grid>
