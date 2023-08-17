@@ -4,7 +4,8 @@ import { Group, Image, Text } from 'react-konva';
 import useImage from 'use-image';
 
 export const Logo: React.FC = () => {
-  const { toolBarLimits, dragLimits, toobarIconSize } = useSizesContext();
+  const { toolBarLimits, dragLimits, toobarIconSize, fontSize } =
+    useSizesContext();
   const [image] = useImage(
     'https://www.last.fm/static/images/footer_logo@2x.49ca51948b0a.png',
   );
@@ -30,14 +31,15 @@ export const Logo: React.FC = () => {
       }}>
       <Image
         image={image}
-        width={toobarIconSize * 0.8}
-        height={toobarIconSize * 0.5}
+        width={toobarIconSize * 0.7}
+        height={toobarIconSize * 0.4}
         x={(toobarIconSize / 2) * 1.2}
-        y={(-toobarIconSize / 2) * 1.3}
+        y={(-toobarIconSize / 2) * 1.1}
       />
       <Text
         x={0}
         y={0}
+        fonSize={fontSize}
         width={toobarIconSize * 2}
         fill="white"
         align="center"

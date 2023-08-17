@@ -35,7 +35,7 @@ export const Toolbar: React.FC = () => {
   const configTools: Array<ToolConfig> = [
     {
       id: ToolConfigIDs.SEARCH,
-      tooltip: 'Add albums',
+      tooltip: `Add albums (covers: ${cover.length})`,
       color: colorMap[Colors.GREEN],
       emoji: '🔍',
       value: openSearch,
@@ -44,7 +44,7 @@ export const Toolbar: React.FC = () => {
     },
     {
       id: ToolConfigIDs.CONFIG,
-      tooltip: 'Settings',
+      tooltip: `Settings (scale: ${configSize})`,
       color: colorMap[Colors.PURPLE],
       emoji: '⚙️',
       value: openConfig,
@@ -53,7 +53,7 @@ export const Toolbar: React.FC = () => {
     },
     {
       id: ToolConfigIDs.SHARE,
-      tooltip: 'Share options',
+      tooltip: `Share options (saves: ${savesNumber})`,
       color: colorMap[Colors.BLUE],
       emoji: '🔗',
       value: openShare,
@@ -62,7 +62,7 @@ export const Toolbar: React.FC = () => {
     },
     {
       id: ToolConfigIDs.ARROW,
-      tooltip: 'Create arrow mode',
+      tooltip: `Create arrow mode (arrows: ${lines.length})`,
       color: colorMap[Colors.GOLD],
       emoji: '➜',
       value: editLines,
@@ -71,7 +71,7 @@ export const Toolbar: React.FC = () => {
     },
     {
       id: ToolConfigIDs.ERASE,
-      tooltip: 'Erase mode',
+      tooltip: `Erase mode (elements: ${lines.length + cover.length})`,
       color: colorMap[Colors.ORANGE],
       emoji: '🗑️',
       value: erase,
@@ -80,7 +80,7 @@ export const Toolbar: React.FC = () => {
     },
     {
       id: ToolConfigIDs.UNDO,
-      tooltip: 'Undo up to 10 moves',
+      tooltip: `Undo (moves: ${action.length}/10)`,
       color: colorMap[Colors.PINK],
       emoji: '↩️',
       value: action.length < 1,

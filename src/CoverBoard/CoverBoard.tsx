@@ -4,7 +4,7 @@ import { Stage, Layer, Group, Rect } from 'react-konva';
 import { AlbumCover, DrawLine, Toolbar, TitleLabel } from './';
 import { useCoverContext, useSizesContext, ToolbarProvider } from 'contexts';
 import { Logo } from './AlbumCover';
-import { colorMap } from 'types';
+import { backColorMap, colorMap } from 'types';
 
 export const CoverBoard: React.FC = () => {
   const { cover, lines, configs } = useCoverContext();
@@ -14,17 +14,18 @@ export const CoverBoard: React.FC = () => {
     <Stage width={windowSize.width} height={windowSize.height}>
       <Layer>
         <Group>
+          <Logo />
           <Rect
             x={toolBarLimits.x}
             y={toolBarLimits.y}
             width={toolBarLimits.width}
             height={toolBarLimits.height}
             stroke={colorMap[configs.color]}
+            fill={backColorMap[configs.backColor]}
           />
           <ToolbarProvider>
             <Toolbar />
           </ToolbarProvider>
-          <Logo />
         </Group>
         <Group
           x={dragLimits.x + configs.size / 2}
