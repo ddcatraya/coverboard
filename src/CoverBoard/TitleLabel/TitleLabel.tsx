@@ -6,8 +6,7 @@ import { useCoverContext, useSizesContext } from 'contexts';
 export const TitleLabel: React.FC = () => {
   const { updateTitle, resetTitle, configs, erase, editLines } =
     useCoverContext();
-  const { dragLimits, windowSize, initialY, fontSize, initialX } =
-    useSizesContext();
+  const { dragLimits, windowSize, coverSize, initialX } = useSizesContext();
   const [open, setOpen] = useState(false);
 
   const handleReset = () => {
@@ -39,8 +38,8 @@ export const TitleLabel: React.FC = () => {
       label={titleMode}
       setLabel={handleSetLabel}
       pos={{
-        x: initialX + windowSize.width / 2 - dragLimits.width / 4,
-        y: initialY + fontSize,
+        x: -configs.size / 2 + dragLimits.width / 4,
+        y: 0,
         width: dragLimits.width / 2,
         align: 'center',
       }}

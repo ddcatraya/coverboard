@@ -15,7 +15,7 @@ interface CoverImageProps {
 export const AlbumCoverImage: React.FC<CoverImageProps> = ({ albumCover }) => {
   const { id, link } = albumCover;
   const [image] = useImage(link);
-  const { erase, resetAllCovers, removeCover, updateCoversText } =
+  const { erase, resetCoverLabel, removeCover, updateCoversText } =
     useCoverContext();
   const { coverSize } = useSizesContext();
   const [open, setOpen] = useState(false);
@@ -50,7 +50,10 @@ export const AlbumCoverImage: React.FC<CoverImageProps> = ({ albumCover }) => {
             open={open}
             onClose={() => setOpen(false)}
             onSubmit={handleSubmit}
-            onReset={resetAllCovers}
+            onReset={() => {
+              resetCoverLabel(id, LabelType.ARTIST);
+              resetCoverLabel(id, LabelType.ALBUM);
+            }}
             values={{
               [LabelType.ARTIST]: albumCover[LabelType.ARTIST],
               [LabelType.ALBUM]: albumCover[LabelType.ALBUM],

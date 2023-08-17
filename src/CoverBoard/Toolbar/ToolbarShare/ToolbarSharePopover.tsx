@@ -76,6 +76,8 @@ export const ToolbarSharePopover: React.FC<SaveProps> = ({
     ...Object.keys(storage).filter((key) => key !== DEFAULT_KEY),
   ];
 
+  const hasDefault = window.localStorage.getItem(DEFAULT_KEY);
+
   return (
     <Modal
       open={open}
@@ -108,7 +110,9 @@ export const ToolbarSharePopover: React.FC<SaveProps> = ({
           {keyList.map((currentSave) => {
             const showDelete =
               currentSave !== DEFAULT_KEY ||
-              (currentSave === DEFAULT_KEY && currentSave !== saveId);
+              (currentSave === DEFAULT_KEY &&
+                currentSave !== saveId &&
+                hasDefault);
             return (
               <Chip
                 key={currentSave}

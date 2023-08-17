@@ -19,7 +19,7 @@ interface CoverImageProps {
 export const AlbumCover: React.FC<CoverImageProps> = ({ albumCover }) => {
   const { id } = albumCover;
   const { updateCoverPosition, configs, updateCoverDir } = useCoverContext();
-  const { fontSize, dragLimits, coverSize } = useSizesContext();
+  const { fontSize, dragLimits, toobarIconSize } = useSizesContext();
 
   const handleDragEnd = ({ x, y }: Vector2d) => {
     updateCoverPosition(albumCover.id, { x, y });
@@ -55,8 +55,8 @@ export const AlbumCover: React.FC<CoverImageProps> = ({ albumCover }) => {
         y: dragLimits.y,
       }}
       max={{
-        x: window.innerWidth - 1.5 * coverSize,
-        y: window.innerHeight - 1.5 * coverSize,
+        x: window.innerWidth - 2.5 * toobarIconSize,
+        y: window.innerHeight - 2.5 * toobarIconSize,
       }}>
       <AlbumCoverDrawLine id={id} />
       <AlbumCoverImage albumCover={albumCover} />

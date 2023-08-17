@@ -13,6 +13,7 @@ export const ToolbarConfig: React.FC = () => {
     updateAllCoversDir,
     clearAllCovers,
     clearAllLines,
+    resetAllCovers,
   } = useCoverContext();
 
   const handleUpdateCover = (
@@ -24,6 +25,12 @@ export const ToolbarConfig: React.FC = () => {
     } else {
       updateConfigs(config);
     }
+  };
+
+  const handleResetElements = () => {
+    resetAllCovers();
+
+    clearAllLines();
   };
 
   const handleDeleteElements = () => {
@@ -44,6 +51,7 @@ export const ToolbarConfig: React.FC = () => {
         onSubmit={handleUpdateCover}
         config={configs}
         handleDeleteElements={handleDeleteElements}
+        handleResetElements={handleResetElements}
       />
     </Html>
   );

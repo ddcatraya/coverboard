@@ -37,8 +37,8 @@ export const ToolbarSearch: React.FC = () => {
           filteredAlbums.map((filteredAlbum) => ({
             id: uuidv4(),
             link: filteredAlbum.link,
-            x: dragLimits.x + configs.size / 2,
-            y: dragLimits.y + configs.size / 2,
+            x: 0,
+            y: 0,
             artistLabel: {
               originalText: filteredAlbum.artist,
               text: filteredAlbum.artist,

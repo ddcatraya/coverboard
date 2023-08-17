@@ -70,8 +70,8 @@ export const SizesProvider: React.FC<{ children: React.ReactNode }> = ({
   const dragLimits = {
     x: initialX + 2 * toobarIconSize,
     y: initialY - toobarIconSize / 2,
-    width: windowSize.width - initialX - 3 * toobarIconSize,
-    height: windowSize.height - initialY - toobarIconSize / 2,
+    width: windowSize.width - 1.5 * initialX - 2 * toobarIconSize,
+    height: windowSize.height - initialY,
   };
 
   const toolBarLimits = {

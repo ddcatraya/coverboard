@@ -26,10 +26,12 @@ export const CoverBoard: React.FC = () => {
           </ToolbarProvider>
           <Logo />
         </Group>
-        <Group>
+        <Group
+          x={dragLimits.x + configs.size / 2}
+          y={dragLimits.y + configs.size / 2}>
           <Rect
-            x={dragLimits.x}
-            y={dragLimits.y}
+            x={-configs.size / 2}
+            y={-configs.size / 2}
             width={dragLimits.width}
             height={dragLimits.height}
             stroke={colorMap[configs.color]}

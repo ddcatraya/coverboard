@@ -59,6 +59,8 @@ export const useCover = (
             text: star.albumLabel.originalText,
           },
           dir: PosTypes.BOTTOM,
+          x: 0,
+          y: 0,
         })),
       );
     },
