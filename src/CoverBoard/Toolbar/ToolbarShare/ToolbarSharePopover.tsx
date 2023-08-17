@@ -1,5 +1,12 @@
 import React, { useState, useMemo } from 'react';
-import { Modal, Grid, TextareaAutosize, Button, Chip } from '@mui/material';
+import {
+  Modal,
+  Grid,
+  TextareaAutosize,
+  Button,
+  Chip,
+  Typography,
+} from '@mui/material';
 import { Close as CloseIcon } from '@mui/icons-material';
 
 import { LocalStorageData, ToolConfigIDs } from 'types';
@@ -90,6 +97,14 @@ export const ToolbarSharePopover: React.FC<SaveProps> = ({
           width: '50%',
         }}>
         <Grid item xs={12}>
+          <Typography variant="h4" component="h4">
+            Share options
+          </Typography>
+        </Grid>
+        <Grid item xs={12}>
+          <Typography gutterBottom>
+            Pick a saved state (change URL for new one):
+          </Typography>
           {keyList.map((currentSave) => (
             <Chip
               key={currentSave}
@@ -127,6 +142,7 @@ export const ToolbarSharePopover: React.FC<SaveProps> = ({
           ))}
         </Grid>
         <Grid item xs={12}>
+          <Typography gutterBottom>JSON for: {saveId}</Typography>
           <TextareaAutosize
             defaultValue={jsonData}
             minRows={2}

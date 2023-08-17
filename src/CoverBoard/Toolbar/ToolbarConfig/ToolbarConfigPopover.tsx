@@ -29,8 +29,6 @@ interface ToolbarConfigPopoverProps {
     updatedParam?: ToolbarConfigValues,
   ) => void;
   config: ToolbarConfigParams;
-  handleResetSettings: () => void;
-  handleResetElements: () => void;
   handleDeleteElements: () => void;
 }
 
@@ -39,8 +37,6 @@ export const ToolbarConfigPopover: React.FC<ToolbarConfigPopoverProps> = ({
   onClose,
   onSubmit,
   config,
-  handleResetSettings,
-  handleResetElements,
   handleDeleteElements,
 }) => {
   const [param, setParams] = useState(config);
@@ -98,6 +94,11 @@ export const ToolbarConfigPopover: React.FC<ToolbarConfigPopoverProps> = ({
         }}>
         <Grid container spacing={2}>
           <Grid item xs={12}>
+            <Typography variant="h4" component="h4">
+              Settings
+            </Typography>
+          </Grid>
+          <Grid item xs={12}>
             <TextField
               fullWidth
               label="Title"
@@ -121,7 +122,7 @@ export const ToolbarConfigPopover: React.FC<ToolbarConfigPopoverProps> = ({
             />
           </Grid>
           <Grid item xs={12}>
-            <label>Pick a font color: </label>
+            <Typography gutterBottom>Pick a font color:</Typography>
             {Object.values(Colors).map((color) => (
               <Button
                 key={color}
@@ -221,33 +222,11 @@ export const ToolbarConfigPopover: React.FC<ToolbarConfigPopoverProps> = ({
               variant="contained"
               color="primary"
               type="button"
-              style={{ marginRight: '20px' }}
-              onClick={() => {
-                handleResetSettings();
-                onClose();
-              }}>
-              Reset Settings
-            </Button>
-            <Button
-              variant="contained"
-              color="primary"
-              type="button"
-              style={{ marginRight: '20px' }}
-              onClick={() => {
-                handleResetElements();
-                onClose();
-              }}>
-              Reset Elements
-            </Button>
-            <Button
-              variant="contained"
-              color="primary"
-              type="button"
               onClick={() => {
                 handleDeleteElements();
                 onClose();
               }}>
-              Delete Elements
+              Clear all elements
             </Button>
           </Grid>
         </Grid>

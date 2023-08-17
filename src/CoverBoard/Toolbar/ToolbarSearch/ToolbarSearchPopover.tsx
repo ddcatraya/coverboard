@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Modal, TextField, Button, Grid } from '@mui/material';
+import { Modal, TextField, Button, Grid, Typography } from '@mui/material';
 
 import { SearchParams, PopupState, ToolConfigIDs } from 'types';
 import { clearHash, setHash } from 'utils';
@@ -82,6 +82,13 @@ export const ToolbarSearchPopover: React.FC<PopupProps> = ({
           padding: '20px',
           borderRadius: '5px',
         }}>
+        <Grid container spacing={2}>
+          <Grid item xs={12}>
+            <Typography variant="h4" component="h4">
+              Search albums
+            </Typography>
+          </Grid>
+        </Grid>
         {inputs.map((input, index) => (
           <Grid container key={`input-${index}`} spacing="8">
             <Grid item xs={6}>
@@ -106,14 +113,15 @@ export const ToolbarSearchPopover: React.FC<PopupProps> = ({
             </Grid>
           </Grid>
         ))}
-        <br />
-        <Button
-          variant="contained"
-          color="primary"
-          disabled={isInputDisabled || loading}
-          type="submit">
-          Submit
-        </Button>
+        <Grid item xs={12}>
+          <Button
+            variant="contained"
+            color="primary"
+            disabled={isInputDisabled || loading}
+            type="submit">
+            Submit
+          </Button>
+        </Grid>
       </form>
     </Modal>
   );

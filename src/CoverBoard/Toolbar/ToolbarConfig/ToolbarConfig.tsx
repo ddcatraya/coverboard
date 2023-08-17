@@ -10,8 +10,6 @@ export const ToolbarConfig: React.FC = () => {
     updateConfigs,
     resetConfigs,
     configs,
-    resetAllCovers,
-    resetAllLines,
     updateAllCoversDir,
     clearAllCovers,
     clearAllLines,
@@ -26,14 +24,6 @@ export const ToolbarConfig: React.FC = () => {
     } else {
       updateConfigs(config);
     }
-  };
-
-  const handleResetElements = () => {
-    resetAllCovers();
-
-    resetAllLines();
-
-    resetConfigs();
   };
 
   const handleDeleteElements = () => {
@@ -53,8 +43,6 @@ export const ToolbarConfig: React.FC = () => {
         onClose={() => setOpenConfig(false)}
         onSubmit={handleUpdateCover}
         config={configs}
-        handleResetSettings={resetConfigs}
-        handleResetElements={handleResetElements}
         handleDeleteElements={handleDeleteElements}
       />
     </Html>
