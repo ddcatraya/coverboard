@@ -97,7 +97,7 @@ export const useCover = (
       setCover((currentCover) => currentCover.filter((c) => c.id !== coverId));
       setLines((currentLine) =>
         currentLine.filter(
-          (l) => l.origin.id !== coverId && l.target.id !== coverId,
+          (l) => l.origin.id !== coverId || l.target.id !== coverId,
         ),
       );
     },

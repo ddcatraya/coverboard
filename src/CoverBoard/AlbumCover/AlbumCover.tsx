@@ -55,8 +55,8 @@ export const AlbumCover: React.FC<CoverImageProps> = ({ albumCover }) => {
         y: dragLimits.y,
       }}
       max={{
-        x: dragLimits.width - coverSize / 2,
-        y: dragLimits.height - coverSize / 2,
+        x: window.innerWidth - 1.5 * coverSize,
+        y: window.innerHeight - 1.5 * coverSize,
       }}>
       <AlbumCoverDrawLine id={id} />
       <AlbumCoverImage albumCover={albumCover} />
