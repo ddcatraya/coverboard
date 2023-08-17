@@ -8,11 +8,33 @@ import { backColorMap, colorMap } from 'types';
 
 export const CoverBoard: React.FC = () => {
   const { cover, lines, configs } = useCoverContext();
-  const { toolBarLimits, dragLimits, windowSize } = useSizesContext();
+  const { toolBarLimits, dragLimits, windowSize, toobarIconSize } =
+    useSizesContext();
 
   return (
     <Stage width={windowSize.width} height={windowSize.height}>
       <Layer>
+        <Group x={dragLimits.x} y={dragLimits.y}>
+          {cover.map((star) => (
+            <AlbumCover albumCover={star} key={star.id} />
+          ))}
+          {lines.map((line) => (
+            <DrawLine line={line} key={line.id} />
+          ))}
+          <TitleLabel />
+          <Rect
+            width={dragLimits.width}
+            height={dragLimits.height}
+            stroke={colorMap[configs.color]}
+            listening={false}
+          />
+        </Group>
+        <Rect
+          width={3 * toobarIconSize}
+          height={windowSize.height}
+          fill={backColorMap[configs.backColor]}
+          listening={false}
+        />
         <Group x={toolBarLimits.x} y={toolBarLimits.y}>
           <Logo />
           <Rect
@@ -25,20 +47,13 @@ export const CoverBoard: React.FC = () => {
             <Toolbar />
           </ToolbarProvider>
         </Group>
-        <Group x={dragLimits.x} y={dragLimits.y}>
-          <Rect
-            width={dragLimits.width}
-            height={dragLimits.height}
-            stroke={colorMap[configs.color]}
-          />
-          <TitleLabel />
-          {lines.map((line) => (
-            <DrawLine line={line} key={line.id} />
-          ))}
-          {cover.map((star) => (
-            <AlbumCover albumCover={star} key={star.id} />
-          ))}
-        </Group>
+        <Rect
+          width={windowSize.width}
+          height={windowSize.height}
+          stroke={backColorMap[configs.backColor]}
+          strokeWidth={toobarIconSize - 2}
+          listening={false}
+        />
       </Layer>
     </Stage>
   );
