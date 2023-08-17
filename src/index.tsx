@@ -9,10 +9,10 @@ const root = ReactDOM.createRoot(
   document.getElementById('root') as HTMLElement,
 );
 root.render(
-  <BrowserRouter>
+  <BrowserRouter basename="/coverboard">
     <Routes>
-      <Route path="coverboard/:saveId" Component={AppProviders} />
-      <Route path="coverboard" element={<Navigate to="default" />} />
+      <Route path="/:saveId" Component={AppProviders} />
+      <Route path="/" element={<Navigate to="default" />} />
     </Routes>
   </BrowserRouter>,
 );

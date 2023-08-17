@@ -111,7 +111,7 @@ export const ToolbarSharePopover: React.FC<SaveProps> = ({
               label={currentSave}
               color={saveId === currentSave ? 'primary' : 'default'}
               onClick={() => {
-                navigate(`/coverboard/${currentSave}#${ToolConfigIDs.SHARE}`);
+                navigate(`/${currentSave}#${ToolConfigIDs.SHARE}`);
               }}
               onDelete={
                 currentSave !== DEFAULT_KEY
@@ -127,9 +127,7 @@ export const ToolbarSharePopover: React.FC<SaveProps> = ({
                       });
 
                       if (saveId === currentSave) {
-                        navigate(
-                          `/coverboard/${DEFAULT_KEY}#${ToolConfigIDs.SHARE}`,
-                        );
+                        navigate(`/${DEFAULT_KEY}#${ToolConfigIDs.SHARE}`);
                       }
                     }
                   : undefined
