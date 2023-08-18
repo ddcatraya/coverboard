@@ -151,7 +151,6 @@ export const ToolbarSharePopover: React.FC<SaveProps> = ({
         <Grid item xs={12}>
           <Typography gutterBottom>JSON for: {saveId}</Typography>
           <TextareaAutosize
-            defaultValue={jsonData}
             value={jsonData}
             minRows={2}
             maxRows={20}
