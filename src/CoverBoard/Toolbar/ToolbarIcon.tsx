@@ -55,7 +55,7 @@ export const ToolbarIcon: React.FC<ToolbarIconProps> = ({ config, index }) => {
       x={toobarIconSize / 2}
       y={getCurrentY(index) + toobarIconSize / 2}
       listening={config.enabled}
-      onDblTap={handleClick}
+      onTap={handleClick}
       onClick={handleClick}
       onMouseMove={(evt: KonvaEventObject<MouseEvent>) => {
         handleMouseMove(evt, config.tooltip);
