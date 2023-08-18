@@ -256,7 +256,7 @@ export const ToolbarConfigPopover: React.FC<ToolbarConfigPopoverProps> = ({
                 handleResetElements();
                 onClose();
               }}>
-              Reset elements
+              Move elements into view
             </Button>
             <Button
               variant="contained"

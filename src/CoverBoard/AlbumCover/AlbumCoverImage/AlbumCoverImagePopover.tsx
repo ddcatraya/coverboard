@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Modal, TextField, Button, Link } from '@mui/material';
+import { Modal, TextField, Button, Link, Grid } from '@mui/material';
 import { LabelType, AlbumCoverValues } from 'types';
 
 interface PopupProps {
@@ -26,7 +26,10 @@ export const AlbumCoverImagePopover: React.FC<PopupProps> = ({
   ) => {
     setText((currentText) => ({
       ...currentText,
-      [label]: event.target.value,
+      [label]: {
+        ...currentText[label],
+        text: event.target.value,
+      },
     }));
   };
 
@@ -49,48 +52,56 @@ export const AlbumCoverImagePopover: React.FC<PopupProps> = ({
           padding: '20px',
           borderRadius: '5px',
         }}>
-        <TextField
-          label={`Artist`}
-          value={text[LabelType.ARTIST].text}
-          onChange={(evt: any) => handTextChange(evt, LabelType.ARTIST)}
-          fullWidth
-          style={{ marginBottom: '20px' }}
-        />
-        <TextField
-          label={`Album`}
-          value={text[LabelType.ALBUM].text}
-          onChange={(evt: any) => handTextChange(evt, LabelType.ALBUM)}
-          fullWidth
-          style={{ marginBottom: '20px' }}
-        />
-        <Button
-          variant="contained"
-          color="primary"
-          type="submit"
-          style={{ marginRight: '10px' }}>
-          Submit
-        </Button>
-        <Button
-          variant="contained"
-          color="primary"
-          type="button"
-          onClick={() => {
-            onReset();
-            onClose();
-          }}
-          style={{ marginRight: '10px' }}>
-          Reset
-        </Button>
-        <Button
-          variant="contained"
-          color="primary"
-          target="_blank"
-          component={Link}
-          href={`http://www.last.fm/music/${
-            values[LabelType.ARTIST].originalText
-          }/${values[LabelType.ALBUM].originalText}`}>
-          Last FM
-        </Button>
+        <Grid container spacing={2}>
+          <Grid item xs={12}>
+            <TextField
+              label="Artist"
+              fullWidth
+              value={text[LabelType.ARTIST].text}
+              onChange={(evt: any) => handTextChange(evt, LabelType.ARTIST)}
+              style={{ marginBottom: '20px' }}
+            />
+          </Grid>
+          <Grid item xs={12}>
+            <TextField
+              label="Album"
+              fullWidth
+              value={text[LabelType.ALBUM].text}
+              onChange={(evt: any) => handTextChange(evt, LabelType.ALBUM)}
+              style={{ marginBottom: '20px' }}
+            />
+          </Grid>
+          <Grid item xs={12}>
+            <Button
+              variant="contained"
+              color="primary"
+              type="submit"
+              style={{ marginRight: '10px' }}>
+              Submit
+            </Button>
+            <Button
+              variant="contained"
+              color="primary"
+              type="button"
+              onClick={() => {
+                onReset();
+                onClose();
+              }}
+              style={{ marginRight: '10px' }}>
+              Reset
+            </Button>
+            <Button
+              variant="contained"
+              color="primary"
+              target="_blank"
+              component={Link}
+              href={`http://www.last.fm/music/${
+                values[LabelType.ARTIST].originalText
+              }/${values[LabelType.ALBUM].originalText}`}>
+              Last FM
+            </Button>
+          </Grid>
+        </Grid>
       </form>
     </Modal>
   );

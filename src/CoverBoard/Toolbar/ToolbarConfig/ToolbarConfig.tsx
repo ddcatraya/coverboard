@@ -1,6 +1,6 @@
 import { Html } from 'react-konva-utils';
 
-import { useCoverContext, useToolbarContext } from 'contexts';
+import { useCoverContext, useSizesContext, useToolbarContext } from 'contexts';
 import { ToolbarConfigPopover } from '.';
 import { ToolbarConfigParams, ToolbarConfigValues } from 'types';
 
@@ -13,8 +13,8 @@ export const ToolbarConfig: React.FC = () => {
     updateAllCoversDir,
     clearAllCovers,
     clearAllLines,
-    resetAllCovers,
   } = useCoverContext();
+  const { moveIntoView } = useSizesContext();
 
   const handleUpdateCover = (
     config: ToolbarConfigParams,
@@ -28,9 +28,7 @@ export const ToolbarConfig: React.FC = () => {
   };
 
   const handleResetElements = () => {
-    resetAllCovers();
-
-    clearAllLines();
+    moveIntoView();
   };
 
   const handleDeleteElements = () => {

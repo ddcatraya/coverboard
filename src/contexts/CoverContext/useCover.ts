@@ -14,6 +14,7 @@ export interface UseCoverParams {
   updateCoversText: (artistText: string, albumText: string) => void;
   addCovers: (filteredAlbums: Array<CoverImage>) => void;
   updateCoverPosition: (coverId: string, { x, y }: Vector2d) => void;
+  updateAllCoverPosition: (arrayPos: Array<Vector2d>) => void;
   clearAllCovers: () => void;
 }
 
@@ -125,6 +126,13 @@ export const useCover = (
       setCover((currentCover) =>
         currentCover.map((star) => {
           return coverId === star.id ? { ...star, x, y } : star;
+        }),
+      );
+    },
+    updateAllCoverPosition(posArray) {
+      setCover((currentCover) =>
+        currentCover.map((star, index) => {
+          return { ...star, x: posArray[index].x, y: posArray[index].y };
         }),
       );
     },

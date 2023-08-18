@@ -25,7 +25,7 @@ export function DraggableGroup<T extends { x: number; y: number }>({
   max,
   children,
 }: DraggableGroupProps<T>) {
-  const { erase, editLines } = useCoverContext();
+  const { erase } = useCoverContext();
   const [isDragging, setDragging] = useState(false);
 
   const handleDragBound = (pos: Vector2d) => {

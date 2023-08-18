@@ -1,3 +1,4 @@
+import { Vector2d } from 'konva/lib/types';
 import React, {
   createContext,
   useState,
@@ -18,6 +19,7 @@ interface SizeContextData {
   fontSize: number;
   windowSize: { width: number; height: number };
   circleRadius: number;
+  moveIntoView: () => void;
 }
 
 const SizesContext = createContext<SizeContextData>({} as SizeContextData);
@@ -33,26 +35,12 @@ export const useSizesContext = () => {
 export const SizesProvider: React.FC<{ children: React.ReactNode }> = ({
   children,
 }) => {
-  const { configs } = useCoverContext();
+  const { configs, cover, updateAllCoverPosition } = useCoverContext();
   const coverSize = configs.size;
   const [windowSize, setWindowSize] = useState({
     width: window.innerWidth,
     height: window.innerHeight,
   });
-
-  useEffect(() => {
-    const handleResize = () => {
-      setWindowSize({
-        width: window.innerWidth,
-        height: window.innerHeight,
-      });
-    };
-
-    window.addEventListener('resize', handleResize);
-    return () => {
-      window.removeEventListener('resize', handleResize);
-    };
-  }, []);
 
   const toobarIconSize = coverSize / 2;
   const spaceBetween = coverSize / 4;
@@ -79,6 +67,48 @@ export const SizesProvider: React.FC<{ children: React.ReactNode }> = ({
       getCurrentY(Object.keys(ToolConfigIDs).length - 1) + 2 * toobarIconSize,
   };
 
+  const moveIntoView = useCallback(() => {
+    const posArray = cover.map(({ x, y }) => {
+      let pos: Vector2d = { x, y };
+      if (x > dragLimits.width - coverSize && x > 0) {
+        pos.x = dragLimits.width - coverSize;
+      }
+      if (y > dragLimits.height - coverSize && y > 0) {
+        pos.y = dragLimits.height - coverSize;
+      }
+      return pos;
+    });
+    if (posArray.length) {
+      updateAllCoverPosition(posArray);
+    }
+  }, [
+    cover,
+    coverSize,
+    dragLimits.height,
+    dragLimits.width,
+    updateAllCoverPosition,
+  ]);
+
+  useEffect(() => {
+    const handleResize = () => {
+      setWindowSize({
+        width: window.innerWidth,
+        height: window.innerHeight,
+      });
+    };
+
+    window.addEventListener('resize', handleResize);
+    return () => {
+      window.removeEventListener('resize', handleResize);
+    };
+  }, [
+    cover,
+    coverSize,
+    dragLimits.height,
+    dragLimits.width,
+    updateAllCoverPosition,
+  ]);
+
   return (
     <SizesContext.Provider
       value={{
@@ -90,6 +120,7 @@ export const SizesProvider: React.FC<{ children: React.ReactNode }> = ({
         fontSize,
         windowSize,
         circleRadius,
+        moveIntoView,
       }}>
       {children}
     </SizesContext.Provider>
