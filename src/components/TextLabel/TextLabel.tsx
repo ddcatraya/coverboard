@@ -58,14 +58,14 @@ export const TextLabel: React.FC<TitleTexProps> = ({
         onDblTap={() => setOpen(true)}
         onMouseMove={(evt: KonvaEventObject<MouseEvent>) => {
           const container = evt.target.getStage()?.container();
-
+          evt.currentTarget.opacity(0.5);
           if (container) {
             container.style.cursor = 'pointer';
           }
         }}
         onMouseLeave={(evt: KonvaEventObject<MouseEvent>) => {
           const container = evt.target.getStage()?.container();
-
+          evt.currentTarget.opacity(1);
           if (container) {
             container.style.cursor = 'default';
           }

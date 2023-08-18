@@ -16,6 +16,7 @@ export const ToolbarTooltip: React.FC = () => {
         width={coverSize * 2}
         height={fontSize}
         fill={backColorMap[configs.backColor]}
+        listening={false}
       />
       <Text
         width={coverSize * 2}
@@ -23,6 +24,7 @@ export const ToolbarTooltip: React.FC = () => {
         text={tooltip.text}
         fontSize={fontSize}
         fill="white"
+        listening={false}
       />
     </Group>
   );

@@ -99,6 +99,7 @@ export const BoundaryArrow: React.FC<BoundaryArrowProps> = ({ albumCover }) => {
             width={coverSize * 2}
             height={fontSize}
             fill={backColorMap[configs.backColor]}
+            listening={false}
           />
           <Text
             width={coverSize * 2}
@@ -106,6 +107,7 @@ export const BoundaryArrow: React.FC<BoundaryArrowProps> = ({ albumCover }) => {
             text={albumCover.albumLabel.text}
             fontSize={fontSize}
             fill="white"
+            listening={false}
           />
         </Group>
       )}

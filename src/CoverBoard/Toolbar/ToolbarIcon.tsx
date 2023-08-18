@@ -59,6 +59,7 @@ export const ToolbarIcon: React.FC<ToolbarIconProps> = ({ config, index }) => {
       onClick={handleClick}
       onMouseMove={(evt: KonvaEventObject<MouseEvent>) => {
         handleMouseMove(evt, config.tooltip);
+        evt.currentTarget.opacity(0.5);
         const container = evt.target.getStage()?.container();
 
         if (container) {
@@ -67,6 +68,7 @@ export const ToolbarIcon: React.FC<ToolbarIconProps> = ({ config, index }) => {
       }}
       onMouseLeave={(evt: KonvaEventObject<MouseEvent>) => {
         setTooltip(null);
+        evt.currentTarget.opacity(1);
         const container = evt.target.getStage()?.container();
 
         if (container) {

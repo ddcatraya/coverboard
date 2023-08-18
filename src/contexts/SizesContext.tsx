@@ -55,7 +55,7 @@ export const useSizesContext = () => {
         width: 1,
         height: 1,
       },
-      getCurrentY: () => 0,
+      getCurrentY: () => 1,
     };
   }
   return context;

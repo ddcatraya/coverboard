@@ -61,7 +61,7 @@ export function AlbumCoverDraggable<T extends { x: number; y: number }>({
     const container = e.target.getStage()?.container();
 
     if (container && !erase) {
-      container.style.cursor = 'grab';
+      container.style.cursor = 'pointer';
     } else if (container && erase) {
       container.style.cursor = 'not-allowed';
     }

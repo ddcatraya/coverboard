@@ -79,7 +79,6 @@ export const DrawLine: React.FC<LineProps> = ({ line }) => {
 
   return (
     <Group>
-      <DrawLineArrow lineParams={lineParams} />
       <Group x={lineParams.midX} y={lineParams.midY}>
         <DrawLineCircle line={line} handleOpen={handleOpen} />
         <DrawLineLabel
@@ -89,6 +88,7 @@ export const DrawLine: React.FC<LineProps> = ({ line }) => {
           lineParams={lineParams}
         />
       </Group>
+      <DrawLineArrow lineParams={lineParams} />
     </Group>
   );
 };

@@ -7,6 +7,7 @@ import { useCoverContext, useSizesContext } from 'contexts';
 import { AlbumCoverValues, CoverImage, LabelType } from 'types';
 import { Html } from 'react-konva-utils';
 import { AlbumCoverImagePopover } from '.';
+import { KonvaEventObject } from 'konva/lib/Node';
 
 interface CoverImageProps {
   albumCover: CoverImage;
@@ -15,7 +16,7 @@ interface CoverImageProps {
 export const AlbumCoverImage: React.FC<CoverImageProps> = ({ albumCover }) => {
   const { id, link } = albumCover;
   const [image] = useImage(link, 'anonymous');
-  const { erase, resetCoverLabel, removeCover, updateCoversText } =
+  const { erase, resetCoverLabel, removeCover, updateCoversText, editLines } =
     useCoverContext();
   const { coverSize } = useSizesContext();
   const [open, setOpen] = useState(false);
@@ -42,8 +43,16 @@ export const AlbumCoverImage: React.FC<CoverImageProps> = ({ albumCover }) => {
         image={image}
         width={coverSize}
         height={coverSize}
-        onClick={() => handleEraseImage(id)}
-        onDblTap={() => handleEraseImage(id)}
+        onClick={!editLines ? () => handleEraseImage(id) : undefined}
+        onDblTap={!editLines ? () => handleEraseImage(id) : undefined}
+        onMouseMove={(evt: KonvaEventObject<MouseEvent>) => {
+          if (!editLines) {
+            evt.currentTarget.opacity(0.5);
+          }
+        }}
+        onMouseLeave={(evt: KonvaEventObject<MouseEvent>) => {
+          evt.currentTarget.opacity(1);
+        }}
       />
       {open && (
         <Html>

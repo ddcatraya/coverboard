@@ -3,6 +3,7 @@ import { Group, Rect } from 'react-konva';
 
 import { useCoverContext, useSizesContext } from 'contexts';
 import { CoverImage, PosTypes } from 'types';
+import { KonvaEventObject } from 'konva/lib/Node';
 
 interface AlbumCoverDrawLineProps {
   id: CoverImage['id'];
@@ -26,57 +27,56 @@ export const AlbumCoverDrawLine: React.FC<AlbumCoverDrawLineProps> = ({
     }
   };
 
+  const posArray = [
+    {
+      dir: PosTypes.TOP,
+      x: coverSize / 2,
+      y: -coverSize / 4 - coverSize / 8,
+    },
+    {
+      dir: PosTypes.RIGHT,
+      x: coverSize,
+      y: coverSize / 8,
+    },
+    {
+      dir: PosTypes.LEFT,
+      x: 0,
+      y: coverSize / 8,
+    },
+    {
+      dir: PosTypes.BOTTOM,
+      x: coverSize / 2,
+      y: coverSize - coverSize / 4 - coverSize / 8,
+    },
+  ];
+
   if (!editLines) return null;
 
   return (
     <Group listening={!erase}>
-      <Rect
-        x={coverSize / 2}
-        y={-coverSize / 4 - coverSize / 8}
-        width={coverSize / 2}
-        height={coverSize / 2}
-        fill={selection === PosTypes.TOP ? 'red' : 'white'}
-        rotation={45}
-        opacity={selection === PosTypes.TOP ? 0.3 : 0.05}
-        visible={!(!!selection && selection !== PosTypes.TOP)}
-        onClick={() => handleDrawLine(id, PosTypes.TOP)}
-        onTap={() => handleDrawLine(id, PosTypes.TOP)}
-      />
-      <Rect
-        x={coverSize}
-        y={coverSize / 8}
-        width={coverSize / 2}
-        height={coverSize / 2}
-        fill={selection && selection === PosTypes.RIGHT ? 'red' : 'white'}
-        rotation={45}
-        visible={!(!!selection && selection !== PosTypes.RIGHT)}
-        opacity={selection === PosTypes.RIGHT ? 0.3 : 0.05}
-        onClick={() => handleDrawLine(id, PosTypes.RIGHT)}
-        onTap={() => handleDrawLine(id, PosTypes.RIGHT)}
-      />
-      <Rect
-        y={coverSize / 8}
-        width={coverSize / 2}
-        height={coverSize / 2}
-        fill={selection === PosTypes.LEFT ? 'red' : 'white'}
-        rotation={45}
-        opacity={selection === PosTypes.LEFT ? 0.3 : 0.05}
-        visible={!(!!selection && selection !== PosTypes.LEFT)}
-        onClick={() => handleDrawLine(id, PosTypes.LEFT)}
-        onTap={() => handleDrawLine(id, PosTypes.LEFT)}
-      />
-      <Rect
-        x={coverSize / 2}
-        y={coverSize - coverSize / 4 - coverSize / 8}
-        width={coverSize / 2}
-        height={coverSize / 2}
-        fill={selection === PosTypes.BOTTOM ? 'red' : 'white'}
-        rotation={45}
-        opacity={selection === PosTypes.BOTTOM ? 0.3 : 0.05}
-        visible={!(!!selection && selection !== PosTypes.BOTTOM)}
-        onClick={() => handleDrawLine(id, PosTypes.BOTTOM)}
-        onTap={() => handleDrawLine(id, PosTypes.BOTTOM)}
-      />
+      {posArray.map((pos) => (
+        <Rect
+          key={pos.dir}
+          x={pos.x}
+          y={pos.y}
+          width={coverSize / 2}
+          height={coverSize / 2}
+          fill={selection === pos.dir ? 'red' : 'white'}
+          rotation={45}
+          opacity={selection === pos.dir ? 0.3 : 0.05}
+          visible={!(!!selection && selection !== pos.dir)}
+          onClick={() => handleDrawLine(id, pos.dir)}
+          onTap={() => handleDrawLine(id, pos.dir)}
+          onMouseMove={(evt: KonvaEventObject<MouseEvent>) => {
+            if (selection !== pos.dir) {
+              evt.currentTarget.opacity(0.3);
+            }
+          }}
+          onMouseLeave={(evt: KonvaEventObject<MouseEvent>) => {
+            evt.currentTarget.opacity(selection === pos.dir ? 0.3 : 0.05);
+          }}
+        />
+      ))}
     </Group>
   );
 };

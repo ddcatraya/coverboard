@@ -20,7 +20,8 @@ export const DrawLineLabel: React.FC<LineProps> = ({
   setOpen,
 }) => {
   const { coverSize, fontSize } = useSizesContext();
-  const { resetLine, updateLineDir, updateLineText, erase } = useCoverContext();
+  const { resetLine, updateLineDir, updateLineText, erase, editLines } =
+    useCoverContext();
 
   const handleUpdateLabel = (text: string) => {
     updateLineText(line.id, text);
@@ -34,7 +35,7 @@ export const DrawLineLabel: React.FC<LineProps> = ({
     resetLine(line.id);
   };
 
-  if (erase) return null;
+  if (erase || editLines) return null;
 
   return (
     <DrawLineLabelDraggable

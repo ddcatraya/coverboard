@@ -20,6 +20,7 @@ export const DrawLineArrow: React.FC<LineProps> = ({ lineParams }) => {
       stroke={colorMap[configs.color]}
       strokeWidth={fontSize / 4}
       pointerLength={fontSize}
+      listening={false}
     />
   );
 };

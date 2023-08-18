@@ -21,7 +21,7 @@ export const AlbumCoverLabelDraggable = ({
   offset,
   offSetTop,
 }: DraggableGroupProps) => {
-  const { erase, editLines } = useCoverContext();
+  const { erase } = useCoverContext();
   const { coverSize, fontSize, dragLimits } = useSizesContext();
   const [isDragging, setDragging] = useState(false);
   const [id, setId] = useState(uuidv4());
@@ -102,7 +102,7 @@ export const AlbumCoverLabelDraggable = ({
       onMouseMove={(evt: KonvaEventObject<MouseEvent>) => {
         const container = evt.target.getStage()?.container();
 
-        if (container && !erase && !editLines) {
+        if (container && !erase) {
           container.style.cursor = 'grab';
         } else if (container && erase) {
           container.style.cursor = 'not-allowed';
