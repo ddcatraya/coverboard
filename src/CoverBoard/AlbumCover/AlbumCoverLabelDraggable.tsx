@@ -4,6 +4,7 @@ import { useMemo, useState } from 'react';
 import { useCoverContext, useSizesContext } from 'contexts';
 import { CoverImage, PosTypes } from 'types';
 import { v4 as uuidv4 } from 'uuid';
+import { getClientPosition } from 'utils';
 
 interface DraggableGroupProps {
   children: React.ReactNode;
@@ -37,7 +38,7 @@ export const AlbumCoverLabelDraggable = ({
     }
   };
 
-  const handleDragEnd = (e: KonvaEventObject<DragEvent>) => {
+  const handleDragEnd = (e: KonvaEventObject<DragEvent | TouchEvent>) => {
     setDragging(false);
     e.cancelBubble = true;
     const container = e.target.getStage()?.container();
@@ -48,16 +49,19 @@ export const AlbumCoverLabelDraggable = ({
       container.style.cursor = 'not-allowed';
     }
 
+    const { x, y } = getClientPosition(e);
+
     let dir: PosTypes;
-    if (e.evt.y > dragLimits.y + albumCover.y + coverSize) {
+    if (y > dragLimits.y + albumCover.y + coverSize) {
       dir = PosTypes.BOTTOM;
-    } else if (e.evt.y < albumCover.y + dragLimits.y) {
+    } else if (y < albumCover.y + dragLimits.y) {
       dir = PosTypes.TOP;
-    } else if (e.evt.x < albumCover.x + dragLimits.x) {
+    } else if (x < albumCover.x + dragLimits.x) {
       dir = PosTypes.LEFT;
     } else {
       dir = PosTypes.RIGHT;
     }
+
     setId(uuidv4());
     setUpdate(dir);
   };

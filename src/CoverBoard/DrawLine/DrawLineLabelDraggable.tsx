@@ -4,6 +4,7 @@ import { useMemo, useState } from 'react';
 import { useCoverContext, useSizesContext } from 'contexts';
 import { LineParams, LinePoint, PosTypes } from 'types';
 import { v4 as uuidv4 } from 'uuid';
+import { getClientPosition } from 'utils';
 
 interface DraggableGroupProps {
   children: React.ReactNode;
@@ -46,12 +47,14 @@ export const DrawLineLabelDraggable = ({
       container.style.cursor = 'not-allowed';
     }
 
+    const { x, y } = getClientPosition(e);
+
     let dir: PosTypes;
-    if (e.evt.y > dragLimits.y + lineParams.midY + fontSize) {
+    if (y > dragLimits.y + lineParams.midY + fontSize) {
       dir = PosTypes.BOTTOM;
-    } else if (e.evt.y < dragLimits.y + lineParams.midY - fontSize) {
+    } else if (y < dragLimits.y + lineParams.midY - fontSize) {
       dir = PosTypes.TOP;
-    } else if (e.evt.x < dragLimits.x + lineParams.midX) {
+    } else if (x < dragLimits.x + lineParams.midX) {
       dir = PosTypes.LEFT;
     } else {
       dir = PosTypes.RIGHT;
