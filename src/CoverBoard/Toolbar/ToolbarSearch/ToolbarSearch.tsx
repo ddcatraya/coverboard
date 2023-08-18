@@ -25,8 +25,8 @@ export const ToolbarSearch: React.FC = () => {
         (filteredAlbum) =>
           !cover.find(
             (star) =>
-              star.artistLabel.text === filteredAlbum.artist &&
-              star.albumLabel.text === filteredAlbum.album,
+              star.artistLabel.originalText === filteredAlbum.artist &&
+              star.albumLabel.originalText === filteredAlbum.album,
           ),
       );
 
@@ -48,12 +48,14 @@ export const ToolbarSearch: React.FC = () => {
             dir: PosTypes.BOTTOM,
           })),
         );
-        showSuccessMessage('Artist and Album Found');
+        showSuccessMessage(
+          `${filteredAlbums.length}/${inputArray.length} album found`,
+        );
       } else {
-        showErrorMessage('Artist and Album Not Found or Already exists');
+        showErrorMessage('Album not found or already exists');
       }
     } catch (err) {
-      showErrorMessage('Artist and Album Not found');
+      showErrorMessage('Albums not found');
     }
   };
 

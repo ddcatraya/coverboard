@@ -1,3 +1,4 @@
+import { useToastContext } from 'contexts/ToastContext';
 import React, {
   createContext,
   useState,
@@ -92,6 +93,7 @@ export const CoverProvider: React.FC<CoverProviderProps> = ({ children }) => {
   const { saveId = DEFAULT_KEY } = useParams();
   const hash = getHash();
   const [instance, setInstance] = useState<LocalStorageData>(initial());
+  const { showErrorMessage } = useToastContext();
 
   const [erase, setErase] = useState(hash === ToolConfigIDs.ERASE);
   const [editLines, setEditLines] = useState(hash === ToolConfigIDs.ARROW);
@@ -113,9 +115,12 @@ export const CoverProvider: React.FC<CoverProviderProps> = ({ children }) => {
       }
       setInstance(initial());
     } catch (error) {
+      showErrorMessage(
+        'Failed to load albums due to existing save, default applied',
+      );
       setInstance(initial());
     }
-  }, [saveId]);
+  }, [saveId, showErrorMessage]);
 
   useEffect(() => {
     window.localStorage.setItem(addPrefix(saveId), JSON.stringify(instance));

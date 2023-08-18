@@ -7,6 +7,10 @@ type BandSearchParams = Array<{
   album: string;
 }>;
 
+const isFulfilled = <T>(
+  p: PromiseSettledResult<T>,
+): p is PromiseFulfilledResult<T> => p.status === 'fulfilled';
+
 export const getLastFMAlbums = async (
   bandArray: BandSearchParams,
   apiKey: ApiKey,
@@ -15,7 +19,7 @@ export const getLastFMAlbums = async (
     ? 'https://ws.audioscrobbler.com/2.0/'
     : 'https://albumcoverboard.vercel.app/api/get-album';
 
-  const albums = await Promise.all(
+  const albums = await Promise.allSettled(
     bandArray.map((band) => {
       const params = {
         artist: band.artist,
@@ -31,8 +35,10 @@ export const getLastFMAlbums = async (
     }),
   );
 
-  return albums.flatMap((album) => {
-    const { data } = album;
+  const fullAlbums = albums.filter(isFulfilled);
+
+  return fullAlbums.flatMap((album) => {
+    const { data } = album.value;
 
     if (data.album) {
       if (data.album.image[2]['#text']) {
