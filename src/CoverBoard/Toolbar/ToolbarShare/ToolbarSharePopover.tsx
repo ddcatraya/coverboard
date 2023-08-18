@@ -136,7 +136,7 @@ export const ToolbarSharePopover: React.FC<SaveProps> = ({
                         window.localStorage.removeItem(addPrefix(currentSave));
                         setStorage((prevStorage) => {
                           const prevStorageCopy = { ...prevStorage };
-                          delete prevStorageCopy[currentSave];
+                          delete prevStorageCopy[addPrefix(currentSave)];
 
                           return prevStorageCopy;
                         });
