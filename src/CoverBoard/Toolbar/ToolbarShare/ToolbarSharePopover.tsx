@@ -81,6 +81,7 @@ export const ToolbarSharePopover: React.FC<SaveProps> = ({
 
   return (
     <Modal
+      style={{ overflow: 'scroll' }}
       open={open}
       onClose={() => {
         clearHash();

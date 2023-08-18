@@ -34,7 +34,7 @@ export const TextLabelPopover: React.FC<PopupProps> = ({
   };
 
   return (
-    <Modal open={open} onClose={onClose}>
+    <Modal open={open} onClose={onClose} style={{ overflow: 'scroll' }}>
       <form
         onSubmit={handleSubmit}
         style={{

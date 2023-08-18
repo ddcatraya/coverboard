@@ -66,6 +66,7 @@ export const ToolbarSearchPopover: React.FC<PopupProps> = ({
 
   return (
     <Modal
+      style={{ overflow: 'scroll' }}
       open={open}
       onClose={() => {
         clearHash();

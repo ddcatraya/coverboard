@@ -81,6 +81,7 @@ export const ToolbarConfigPopover: React.FC<ToolbarConfigPopoverProps> = ({
 
   return (
     <Modal
+      style={{ overflow: 'scroll' }}
       open={open}
       onClose={() => {
         clearHash();

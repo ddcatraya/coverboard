@@ -1,5 +1,12 @@
 import React, { useState } from 'react';
-import { Modal, TextField, Button, Link, Grid } from '@mui/material';
+import {
+  Modal,
+  TextField,
+  Button,
+  Link,
+  Grid,
+  Typography,
+} from '@mui/material';
 import { LabelType, AlbumCoverValues } from 'types';
 
 interface PopupProps {
@@ -40,7 +47,7 @@ export const AlbumCoverImagePopover: React.FC<PopupProps> = ({
   };
 
   return (
-    <Modal open={open} onClose={onClose}>
+    <Modal open={open} onClose={onClose} style={{ overflow: 'scroll' }}>
       <form
         onSubmit={handleSubmit}
         style={{
@@ -53,6 +60,11 @@ export const AlbumCoverImagePopover: React.FC<PopupProps> = ({
           borderRadius: '5px',
         }}>
         <Grid container spacing={2}>
+          <Grid item xs={12}>
+            <Typography variant="h4" component="h4">
+              Edit labels
+            </Typography>
+          </Grid>
           <Grid item xs={12}>
             <TextField
               label="Artist"
