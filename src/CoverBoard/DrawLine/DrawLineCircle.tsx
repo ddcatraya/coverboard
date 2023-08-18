@@ -20,7 +20,7 @@ export const DrawLineCircle: React.FC<LineProps> = (props) => {
       radius={circleRadius}
       fill={colorMap[configs.color]}
       onClick={() => handleOpen(line)}
-      onTap={() => handleOpen(line)}
+      onDblTap={() => handleOpen(line)}
       onMouseMove={(evt: KonvaEventObject<MouseEvent>) => {
         const container = evt.target.getStage()?.container();
 

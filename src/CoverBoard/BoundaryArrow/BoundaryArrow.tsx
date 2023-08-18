@@ -75,7 +75,7 @@ export const BoundaryArrow: React.FC<BoundaryArrowProps> = ({ albumCover }) => {
         strokeWidth={fontSize / 2}
         pointerLength={fontSize}
         onClick={handleBringIntoView}
-        onTap={handleBringIntoView}
+        onDblTap={handleBringIntoView}
         onMouseMove={(evt: KonvaEventObject<MouseEvent>) => {
           const container = evt.target.getStage()?.container();
           setTooltip(true);

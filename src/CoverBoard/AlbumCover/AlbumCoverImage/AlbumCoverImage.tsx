@@ -43,7 +43,7 @@ export const AlbumCoverImage: React.FC<CoverImageProps> = ({ albumCover }) => {
         width={coverSize}
         height={coverSize}
         onClick={() => handleEraseImage(id)}
-        onTap={() => handleEraseImage(id)}
+        onDblTap={() => handleEraseImage(id)}
       />
       {open && (
         <Html>
