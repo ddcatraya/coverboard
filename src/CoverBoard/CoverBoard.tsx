@@ -20,7 +20,10 @@ export const CoverBoard: React.FC = () => {
   const pos0 = cover.filter((cov) => cov.x === 0 && cov.y === 0).length;
 
   const offLimitCovers = cover.flatMap((cover) => {
-    if (cover.x > dragLimits.width || cover.y > dragLimits.height) {
+    if (
+      (cover.x > dragLimits.width && dragLimits.width > coverSize) ||
+      (cover.y > dragLimits.height && dragLimits.height > coverSize)
+    ) {
       return cover;
     }
 
