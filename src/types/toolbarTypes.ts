@@ -11,6 +11,7 @@ export enum ToolConfigIDs {
   ARROW = 'arrow',
   ERASE = 'erase',
   UNDO = 'undo',
+  SCREENSHOT = 'screenshot',
 }
 
 export interface ToolConfig {
@@ -21,4 +22,5 @@ export interface ToolConfig {
   value: boolean;
   valueModifier: React.Dispatch<React.SetStateAction<boolean>>;
   badge: number | null;
+  enabled: boolean;
 }

@@ -14,7 +14,7 @@ interface CoverImageProps {
 
 export const AlbumCoverImage: React.FC<CoverImageProps> = ({ albumCover }) => {
   const { id, link } = albumCover;
-  const [image] = useImage(link);
+  const [image] = useImage(link, 'anonymous');
   const { erase, resetCoverLabel, removeCover, updateCoversText } =
     useCoverContext();
   const { coverSize } = useSizesContext();

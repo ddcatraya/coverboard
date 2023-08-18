@@ -30,6 +30,7 @@ export const ToolbarIcon: React.FC<ToolbarIconProps> = ({ config, index }) => {
       key={config.id}
       x={toobarIconSize / 2}
       y={getCurrentY(index) + toobarIconSize / 2}
+      listening={config.enabled}
       onClick={() => {
         setPoints(null);
 

@@ -9,7 +9,15 @@ import {
 import { colorMap, Colors, ToolConfig, ToolConfigIDs } from 'types';
 import { haxPrefix } from 'utils';
 
-export const Toolbar: React.FC = () => {
+interface ToolbarProps {
+  takeScreenshot: () => void;
+  showTooltips: boolean;
+}
+
+export const Toolbar: React.FC<ToolbarProps> = ({
+  takeScreenshot,
+  showTooltips,
+}) => {
   const {
     erase,
     setErase,
@@ -44,6 +52,7 @@ export const Toolbar: React.FC = () => {
       value: openSearch,
       valueModifier: setOpenSearch,
       badge: cover.length,
+      enabled: true,
     },
     {
       id: ToolConfigIDs.CONFIG,
@@ -53,6 +62,7 @@ export const Toolbar: React.FC = () => {
       value: openConfig,
       valueModifier: setOpenConfig,
       badge: configSize === 1 ? 0 : configSize,
+      enabled: true,
     },
     {
       id: ToolConfigIDs.SHARE,
@@ -62,6 +72,7 @@ export const Toolbar: React.FC = () => {
       value: openShare,
       valueModifier: setOpenShare,
       badge: savesNumber === 1 ? 0 : savesNumber,
+      enabled: true,
     },
     {
       id: ToolConfigIDs.ARROW,
@@ -71,6 +82,7 @@ export const Toolbar: React.FC = () => {
       value: editLines,
       valueModifier: setEditLines,
       badge: lines.length,
+      enabled: true,
     },
     {
       id: ToolConfigIDs.ERASE,
@@ -80,6 +92,7 @@ export const Toolbar: React.FC = () => {
       value: erase,
       valueModifier: setErase,
       badge: lines.length + cover.length,
+      enabled: true,
     },
     {
       id: ToolConfigIDs.UNDO,
@@ -89,6 +102,17 @@ export const Toolbar: React.FC = () => {
       value: action.length < 1,
       valueModifier: undo,
       badge: action.length,
+      enabled: true,
+    },
+    {
+      id: ToolConfigIDs.SCREENSHOT,
+      tooltip: `Take screenshot`,
+      color: colorMap[Colors.RED],
+      emoji: '📷',
+      value: !showTooltips,
+      valueModifier: takeScreenshot,
+      badge: 0,
+      enabled: showTooltips,
     },
   ];
 
@@ -100,7 +124,7 @@ export const Toolbar: React.FC = () => {
       {configTools.map((config, index) => (
         <ToolbarIcon config={config} key={config.id} index={index} />
       ))}
-      <ToolbarTooltip />
+      {showTooltips && <ToolbarTooltip />}
     </>
   );
 };
