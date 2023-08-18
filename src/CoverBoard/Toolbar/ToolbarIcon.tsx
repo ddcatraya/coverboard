@@ -25,35 +25,38 @@ export const ToolbarIcon: React.FC<ToolbarIconProps> = ({ config, index }) => {
     });
   };
 
+  const handleClick = () => {
+    setPoints(null);
+
+    if (config.id !== ToolConfigIDs.ERASE) {
+      setErase(false);
+    } else if (config.id === ToolConfigIDs.ERASE) {
+      setHash(ToolConfigIDs.ERASE);
+    }
+
+    if (config.id !== ToolConfigIDs.ARROW) {
+      setEditLines(false);
+    } else if (config.id === ToolConfigIDs.ARROW) {
+      setHash(ToolConfigIDs.ARROW);
+    }
+
+    if (config.value) {
+      clearHash();
+    }
+
+    return config.value
+      ? config.valueModifier(false)
+      : config.valueModifier(true);
+  };
+
   return (
     <Group
       key={config.id}
       x={toobarIconSize / 2}
       y={getCurrentY(index) + toobarIconSize / 2}
       listening={config.enabled}
-      onClick={() => {
-        setPoints(null);
-
-        if (config.id !== ToolConfigIDs.ERASE) {
-          setErase(false);
-        } else if (config.id === ToolConfigIDs.ERASE) {
-          setHash(ToolConfigIDs.ERASE);
-        }
-
-        if (config.id !== ToolConfigIDs.ARROW) {
-          setEditLines(false);
-        } else if (config.id === ToolConfigIDs.ARROW) {
-          setHash(ToolConfigIDs.ARROW);
-        }
-
-        if (config.value) {
-          clearHash();
-        }
-
-        return config.value
-          ? config.valueModifier(false)
-          : config.valueModifier(true);
-      }}
+      onTap={handleClick}
+      onClick={handleClick}
       onMouseMove={(evt: KonvaEventObject<MouseEvent>) => {
         handleMouseMove(evt, config.tooltip);
         const container = evt.target.getStage()?.container();

@@ -40,6 +40,7 @@ export const AlbumCoverDrawLine: React.FC<AlbumCoverDrawLineProps> = ({
         opacity={selection === PosTypes.TOP ? 0.3 : 0.05}
         visible={!(!!selection && selection !== PosTypes.TOP)}
         onClick={() => handleDrawLine(id, PosTypes.TOP)}
+        onTap={() => handleDrawLine(id, PosTypes.TOP)}
       />
       <Rect
         x={coverSize}
@@ -51,6 +52,7 @@ export const AlbumCoverDrawLine: React.FC<AlbumCoverDrawLineProps> = ({
         visible={!(!!selection && selection !== PosTypes.RIGHT)}
         opacity={selection === PosTypes.RIGHT ? 0.3 : 0.05}
         onClick={() => handleDrawLine(id, PosTypes.RIGHT)}
+        onTap={() => handleDrawLine(id, PosTypes.RIGHT)}
       />
       <Rect
         y={coverSize / 8}
@@ -61,6 +63,7 @@ export const AlbumCoverDrawLine: React.FC<AlbumCoverDrawLineProps> = ({
         opacity={selection === PosTypes.LEFT ? 0.3 : 0.05}
         visible={!(!!selection && selection !== PosTypes.LEFT)}
         onClick={() => handleDrawLine(id, PosTypes.LEFT)}
+        onTap={() => handleDrawLine(id, PosTypes.LEFT)}
       />
       <Rect
         x={coverSize / 2}
@@ -72,6 +75,7 @@ export const AlbumCoverDrawLine: React.FC<AlbumCoverDrawLineProps> = ({
         opacity={selection === PosTypes.BOTTOM ? 0.3 : 0.05}
         visible={!(!!selection && selection !== PosTypes.BOTTOM)}
         onClick={() => handleDrawLine(id, PosTypes.BOTTOM)}
+        onTap={() => handleDrawLine(id, PosTypes.BOTTOM)}
       />
     </Group>
   );
