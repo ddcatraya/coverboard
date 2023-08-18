@@ -1,7 +1,7 @@
 import React from 'react';
 import { Stage, Layer, Group, Rect, Text } from 'react-konva';
 
-import { AlbumCover, DrawLine, Toolbar, TitleLabel } from './';
+import { AlbumCover, DrawLine, Toolbar, TitleLabel, BoundaryArrow } from './';
 import { useCoverContext, useSizesContext, ToolbarProvider } from 'contexts';
 import { Logo } from './AlbumCover';
 import { backColorMap, colorMap } from 'types';
@@ -19,6 +19,14 @@ export const CoverBoard: React.FC = () => {
 
   const pos0 = cover.filter((cov) => cov.x === 0 && cov.y === 0).length;
 
+  const posArray = cover.flatMap(({ x, y, id }) => {
+    if (x > dragLimits.width || y > dragLimits.height) {
+      return { pos: { x, y }, id };
+    }
+
+    return [];
+  });
+
   return (
     <Stage width={windowSize.width} height={windowSize.height}>
       <Layer>
@@ -28,6 +36,9 @@ export const CoverBoard: React.FC = () => {
           ))}
           {lines.map((line) => (
             <DrawLine line={line} key={line.id} />
+          ))}
+          {posArray.map(({ pos, id }) => (
+            <BoundaryArrow pos={pos} id={id} key={id} />
           ))}
           <TitleLabel />
           <Text

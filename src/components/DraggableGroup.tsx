@@ -2,7 +2,7 @@ import { Group } from 'react-konva';
 import { KonvaEventObject } from 'konva/lib/Node';
 import { Vector2d } from 'konva/lib/types';
 import { useState } from 'react';
-import { useCoverContext } from 'contexts';
+import { useCoverContext, useSizesContext } from 'contexts';
 
 interface DraggableGroupProps<T> {
   children: React.ReactNode;
