@@ -1,6 +1,6 @@
 import { KonvaEventObject } from 'konva/lib/Node';
 
-const isTouchEvent = (
+export const isTouchEvent = (
   e: KonvaEventObject<DragEvent | TouchEvent>,
 ): e is KonvaEventObject<TouchEvent> => {
   return e.evt.type === 'touchend';

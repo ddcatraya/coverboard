@@ -31,6 +31,33 @@ export const useSizesContext = () => {
   if (!context) {
     throw new Error('useSizesContext must be used within a SizesProvider');
   }
+
+  if (!context.dragLimits) {
+    return {
+      ...context,
+      coverSize: 100,
+      toobarIconSize: 100 / 2,
+      fontSize: 100 / 7,
+      circleRadius: 100 / 7 / 1.5,
+      dragLimits: {
+        x: 0,
+        y: 0,
+        width: 1,
+        height: 1,
+      },
+      toolBarLimits: {
+        x: 0,
+        y: 0,
+        width: 1,
+        height: 1,
+      },
+      windowSize: {
+        width: 1,
+        height: 1,
+      },
+      getCurrentY: () => 0,
+    };
+  }
   return context;
 };
 

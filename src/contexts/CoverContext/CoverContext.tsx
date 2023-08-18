@@ -82,6 +82,11 @@ export const useCoverContext = () => {
   if (!context) {
     throw new Error('useCoverContext must be used within a CoverProvider');
   }
+
+  if (!context.configs) {
+    return { ...context, ...initial(), action: [] };
+  }
+
   return context;
 };
 
