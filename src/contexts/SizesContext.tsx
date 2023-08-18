@@ -5,9 +5,10 @@ import React, {
   useContext,
   useEffect,
   useCallback,
+  useMemo,
 } from 'react';
 
-import { DragLimits, ToolConfigIDs } from 'types';
+import { CoverImage, DragLimits, ToolConfigIDs } from 'types';
 import { useCoverContext } from './CoverContext/CoverContext';
 
 interface SizeContextData {
@@ -20,6 +21,7 @@ interface SizeContextData {
   windowSize: { width: number; height: number };
   circleRadius: number;
   moveIntoView: () => void;
+  offLimitCovers: Array<CoverImage>;
 }
 
 const SizesContext = createContext<SizeContextData>({} as SizeContextData);
@@ -89,6 +91,21 @@ export const SizesProvider: React.FC<{ children: React.ReactNode }> = ({
     updateAllCoverPosition,
   ]);
 
+  const offLimitCovers = useMemo(
+    () =>
+      cover.flatMap((cover) => {
+        if (
+          (cover.x > dragLimits.width && dragLimits.width > coverSize) ||
+          (cover.y > dragLimits.height && dragLimits.height > coverSize)
+        ) {
+          return cover;
+        }
+
+        return [];
+      }),
+    [cover, coverSize, dragLimits.height, dragLimits.width],
+  );
+
   useEffect(() => {
     const handleResize = () => {
       setWindowSize({
@@ -121,6 +138,7 @@ export const SizesProvider: React.FC<{ children: React.ReactNode }> = ({
         windowSize,
         circleRadius,
         moveIntoView,
+        offLimitCovers,
       }}>
       {children}
     </SizesContext.Provider>

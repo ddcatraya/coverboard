@@ -15,20 +15,10 @@ export const CoverBoard: React.FC = () => {
     toobarIconSize,
     coverSize,
     fontSize,
+    offLimitCovers,
   } = useSizesContext();
 
   const pos0 = cover.filter((cov) => cov.x === 0 && cov.y === 0).length;
-
-  const offLimitCovers = cover.flatMap((cover) => {
-    if (
-      (cover.x > dragLimits.width && dragLimits.width > coverSize) ||
-      (cover.y > dragLimits.height && dragLimits.height > coverSize)
-    ) {
-      return cover;
-    }
-
-    return [];
-  });
 
   return (
     <Stage width={windowSize.width} height={windowSize.height}>

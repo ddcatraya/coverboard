@@ -17,6 +17,7 @@ import {
   BackColors,
   colorMap,
   Colors,
+  CoverImage,
   PosTypes,
   ToolbarConfigParams,
   ToolbarConfigValues,
@@ -34,6 +35,7 @@ interface ToolbarConfigPopoverProps {
   config: ToolbarConfigParams;
   handleDeleteElements: () => void;
   handleResetElements: () => void;
+  offLimitCovers: Array<CoverImage>;
 }
 
 export const ToolbarConfigPopover: React.FC<ToolbarConfigPopoverProps> = ({
@@ -43,6 +45,7 @@ export const ToolbarConfigPopover: React.FC<ToolbarConfigPopoverProps> = ({
   config,
   handleDeleteElements,
   handleResetElements,
+  offLimitCovers,
 }) => {
   const [param, setParams] = useState(config);
 
@@ -242,34 +245,37 @@ export const ToolbarConfigPopover: React.FC<ToolbarConfigPopoverProps> = ({
           </Grid>
           <Grid item xs={12}>
             <Button
-              variant="contained"
-              color="primary"
-              type="submit"
-              style={{ marginRight: '20px' }}>
-              Submit
-            </Button>
-            <Button
-              variant="contained"
+              variant="outlined"
               color="primary"
               type="button"
               style={{ marginRight: '20px' }}
+              disabled={offLimitCovers.length === 0}
               onClick={() => {
                 handleResetElements();
                 onClose();
               }}>
-              Move elements into view
+              Move {offLimitCovers.length} elem into view
             </Button>
             <Button
-              variant="contained"
+              variant="outlined"
               color="primary"
               type="button"
               onClick={() => {
                 handleDeleteElements();
                 onClose();
               }}>
-              Clear elements
+              Clear all elements
             </Button>
           </Grid>
+        </Grid>
+        <Grid item xs={12}>
+          <Button
+            variant="contained"
+            color="primary"
+            type="submit"
+            style={{ marginRight: '20px', marginTop: '20px' }}>
+            Submit
+          </Button>
         </Grid>
       </form>
     </Modal>

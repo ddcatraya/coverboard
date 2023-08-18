@@ -19,7 +19,7 @@ export const ToolbarConfig: React.FC = () => {
     clearAllCovers,
     clearAllLines,
   } = useCoverContext();
-  const { moveIntoView } = useSizesContext();
+  const { moveIntoView, offLimitCovers } = useSizesContext();
   const { showSuccessMessage } = useToastContext();
 
   const handleUpdateCover = (
@@ -58,6 +58,7 @@ export const ToolbarConfig: React.FC = () => {
         onClose={() => setOpenConfig(false)}
         onSubmit={handleUpdateCover}
         config={configs}
+        offLimitCovers={offLimitCovers}
         handleDeleteElements={handleDeleteElements}
         handleResetElements={handleResetElements}
       />
