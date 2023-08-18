@@ -52,7 +52,7 @@ export const TextLabelPopover: React.FC<PopupProps> = ({
           variant="contained"
           color="primary"
           type="submit"
-          style={{ marginRight: '10px' }}>
+          style={{ marginRight: '20px', marginBottom: '20px' }}>
           Submit
         </Button>
         {hasReset && (
@@ -60,7 +60,8 @@ export const TextLabelPopover: React.FC<PopupProps> = ({
             variant="contained"
             color="primary"
             type="button"
-            onClick={onReset}>
+            onClick={onReset}
+            style={{ marginBottom: '20px' }}>
             Reset
           </Button>
         )}

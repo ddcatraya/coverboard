@@ -83,7 +83,7 @@ export const AlbumCoverImagePopover: React.FC<PopupProps> = ({
               variant="contained"
               color="primary"
               type="submit"
-              style={{ marginRight: '10px' }}>
+              style={{ marginRight: '20px', marginBottom: '20px' }}>
               Submit
             </Button>
             <Button
@@ -94,7 +94,7 @@ export const AlbumCoverImagePopover: React.FC<PopupProps> = ({
                 onReset();
                 onClose();
               }}
-              style={{ marginRight: '10px' }}>
+              style={{ marginRight: '20px', marginBottom: '20px' }}>
               Reset
             </Button>
             <Button
@@ -104,7 +104,8 @@ export const AlbumCoverImagePopover: React.FC<PopupProps> = ({
               component={Link}
               href={`http://www.last.fm/music/${
                 values[LabelType.ARTIST].originalText
-              }/${values[LabelType.ALBUM].originalText}`}>
+              }/${values[LabelType.ALBUM].originalText}`}
+              style={{ marginBottom: '20px' }}>
               Last FM
             </Button>
           </Grid>

@@ -1,7 +1,20 @@
 import React, { useState } from 'react';
-import { Dialog, TextField, Button, Grid, Typography } from '@mui/material';
+import {
+  Dialog,
+  TextField,
+  Button,
+  Grid,
+  Typography,
+  Box,
+} from '@mui/material';
 
-import { SearchParams, PopupState, ToolConfigIDs } from 'types';
+import {
+  SearchParams,
+  PopupState,
+  ToolConfigIDs,
+  backColorMap,
+  BackColors,
+} from 'types';
 import { clearHash, setHash } from 'utils';
 
 interface PopupProps {
@@ -77,7 +90,7 @@ export const ToolbarSearchPopover: React.FC<PopupProps> = ({
           padding: '20px',
           borderRadius: '5px',
         }}>
-        <Grid container spacing={2}>
+        <Grid container style={{ marginBottom: '20px' }}>
           <Grid item xs={12}>
             <Typography variant="h4" component="h4">
               Search albums
@@ -85,25 +98,32 @@ export const ToolbarSearchPopover: React.FC<PopupProps> = ({
           </Grid>
         </Grid>
         {inputs.map((input, index) => (
-          <Grid container key={`input-${index}`} spacing="8">
-            <Grid item xs={6}>
+          <Grid
+            container
+            rowGap={0.5}
+            key={`input-${index}`}
+            style={{
+              marginBottom: '20px',
+              backgroundColor: '#F2F4F7',
+            }}>
+            <Grid item sm={6} xs={12}>
               <TextField
+                fullWidth
                 label="Artist Name"
                 value={input.artist}
                 onChange={(e) =>
                   handleInputChange(index, PopupState.ARTIST, e.target.value)
                 }
-                style={{ marginBottom: '10px' }}
               />
             </Grid>
-            <Grid item xs={6}>
+            <Grid item sm={6} xs={12}>
               <TextField
+                fullWidth
                 label="Album Name"
                 value={input.album}
                 onChange={(e) =>
                   handleInputChange(index, PopupState.ALBUM, e.target.value)
                 }
-                style={{ marginBottom: '20px' }}
               />
             </Grid>
           </Grid>

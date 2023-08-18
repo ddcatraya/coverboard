@@ -161,7 +161,7 @@ export const ToolbarSharePopover: React.FC<SaveProps> = ({
             variant="contained"
             color="primary"
             onClick={handleCopyText}
-            style={{ marginRight: '20px' }}
+            style={{ marginRight: '20px', marginBottom: '20px' }}
             disabled={!isValidJSON}>
             Copy
           </Button>
@@ -169,7 +169,7 @@ export const ToolbarSharePopover: React.FC<SaveProps> = ({
             variant="contained"
             color="primary"
             onClick={exportData}
-            style={{ marginRight: '20px' }}
+            style={{ marginRight: '20px', marginBottom: '20px' }}
             disabled={!isValidJSON}>
             Download
           </Button>
@@ -178,7 +178,7 @@ export const ToolbarSharePopover: React.FC<SaveProps> = ({
             color="primary"
             onClick={() => handleImport(jsonData)}
             disabled={!isValidJSON}
-            style={{ marginRight: '20px' }}>
+            style={{ marginRight: '20px', marginBottom: '20px' }}>
             Apply
           </Button>
           <Button
@@ -187,7 +187,8 @@ export const ToolbarSharePopover: React.FC<SaveProps> = ({
             disabled={JSON.stringify(instance, null, 4) === jsonData}
             onClick={() => {
               setJsonData(JSON.stringify(instance, null, 4));
-            }}>
+            }}
+            style={{ marginBottom: '20px' }}>
             Reset
           </Button>
         </Grid>

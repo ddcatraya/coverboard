@@ -136,7 +136,7 @@ export const ToolbarConfigPopover: React.FC<ToolbarConfigPopoverProps> = ({
                   backgroundColor: colorMap[color],
                   height: '30px',
                   width: '30px',
-                  margin: '0px 5px',
+                  margin: '5px 5px',
                   border:
                     color === param[ToolbarConfigValues.COLOR]
                       ? '2px solid black'
@@ -159,7 +159,7 @@ export const ToolbarConfigPopover: React.FC<ToolbarConfigPopoverProps> = ({
                   backgroundColor: backColorMap[color],
                   height: '30px',
                   width: '30px',
-                  margin: '0px 5px',
+                  margin: '5px 5px',
                   border:
                     color === param[ToolbarConfigValues.BACK_COLOR]
                       ? '2px solid red'
@@ -242,7 +242,7 @@ export const ToolbarConfigPopover: React.FC<ToolbarConfigPopoverProps> = ({
               variant="outlined"
               color="primary"
               type="button"
-              style={{ marginRight: '20px' }}
+              style={{ marginRight: '20px', marginBottom: '20px' }}
               disabled={offLimitCovers.length === 0}
               onClick={() => {
                 handleResetElements();
@@ -254,6 +254,7 @@ export const ToolbarConfigPopover: React.FC<ToolbarConfigPopoverProps> = ({
               variant="outlined"
               color="primary"
               type="button"
+              style={{ marginBottom: '20px' }}
               onClick={() => {
                 handleDeleteElements();
                 onClose();
@@ -267,7 +268,7 @@ export const ToolbarConfigPopover: React.FC<ToolbarConfigPopoverProps> = ({
             variant="contained"
             color="primary"
             type="submit"
-            style={{ marginRight: '20px', marginTop: '20px' }}>
+            style={{ marginRight: '20px' }}>
             Submit
           </Button>
         </Grid>
