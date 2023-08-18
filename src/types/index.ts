@@ -22,4 +22,4 @@ export {
 } from './configTypes';
 
 export type { LocalStorageData } from './localStorageTypes';
-export { LocalStorageKeys } from './localStorageTypes';
+export { LocalStorageKeys, schema } from './localStorageTypes';

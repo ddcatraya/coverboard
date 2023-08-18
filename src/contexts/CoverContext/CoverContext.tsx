@@ -18,6 +18,7 @@ import {
   ToolConfigIDs,
   LocalStorageKeys,
   DEFAULT_KEY,
+  schema,
 } from 'types';
 import { addPrefix, getHash } from 'utils';
 
@@ -102,7 +103,15 @@ export const CoverProvider: React.FC<CoverProviderProps> = ({ children }) => {
   useEffect(() => {
     try {
       const item = window.localStorage.getItem(addPrefix(saveId));
-      setInstance(item ? JSON.parse(item) : initial());
+
+      if (item) {
+        const parsedItem: LocalStorageData = JSON.parse(item);
+        if (schema(parsedItem.cover).parse(parsedItem)) {
+          setInstance(JSON.parse(item));
+          return;
+        }
+      }
+      setInstance(initial());
     } catch (error) {
       setInstance(initial());
     }

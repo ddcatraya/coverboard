@@ -130,6 +130,7 @@ export const ToolbarConfigPopover: React.FC<ToolbarConfigPopoverProps> = ({
             <Typography gutterBottom>Pick a font color:</Typography>
             {Object.values(Colors).map((color) => (
               <Button
+                title={color}
                 key={color}
                 value={color}
                 onClick={(evt) => handleChange(evt, ToolbarConfigValues.COLOR)}
@@ -150,6 +151,7 @@ export const ToolbarConfigPopover: React.FC<ToolbarConfigPopoverProps> = ({
             <Typography gutterBottom>Pick a background color:</Typography>
             {Object.values(BackColors).map((color) => (
               <Button
+                title={color}
                 key={color}
                 value={color}
                 onClick={(evt) =>
