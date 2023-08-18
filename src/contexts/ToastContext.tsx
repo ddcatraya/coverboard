@@ -4,6 +4,7 @@ import React, { createContext, useState, useContext, useCallback } from 'react';
 interface ToastContextData {
   showSuccessMessage: (text: string) => void;
   showErrorMessage: (text: string) => void;
+  showWarningMessage: (text: string) => void;
 }
 
 const ToastContext = createContext<ToastContextData>({} as ToastContextData);
@@ -15,7 +16,7 @@ export const ToastProvider: React.FC<{ children: React.ReactNode }> = ({
 }) => {
   const [toastMessage, setToastMessage] = useState<{
     text: string;
-    type: 'success' | 'error';
+    type: 'success' | 'error' | 'warning';
   } | null>(null);
 
   const showSuccessMessage = useCallback((text: string) => {
@@ -26,12 +27,17 @@ export const ToastProvider: React.FC<{ children: React.ReactNode }> = ({
     setToastMessage({ text, type: 'error' });
   }, []);
 
+  const showWarningMessage = useCallback((text: string) => {
+    setToastMessage({ text, type: 'warning' });
+  }, []);
+
   const handleToastMessageClose = () => {
     setToastMessage(null);
   };
 
   return (
-    <ToastContext.Provider value={{ showSuccessMessage, showErrorMessage }}>
+    <ToastContext.Provider
+      value={{ showSuccessMessage, showErrorMessage, showWarningMessage }}>
       {children}
       {toastMessage && (
         <Snackbar

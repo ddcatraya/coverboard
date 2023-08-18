@@ -93,7 +93,7 @@ export const CoverProvider: React.FC<CoverProviderProps> = ({ children }) => {
   const { saveId = DEFAULT_KEY } = useParams();
   const hash = getHash();
   const [instance, setInstance] = useState<LocalStorageData>(initial());
-  const { showErrorMessage } = useToastContext();
+  const { showErrorMessage, showWarningMessage } = useToastContext();
 
   const [erase, setErase] = useState(hash === ToolConfigIDs.ERASE);
   const [editLines, setEditLines] = useState(hash === ToolConfigIDs.ARROW);
@@ -113,6 +113,9 @@ export const CoverProvider: React.FC<CoverProviderProps> = ({ children }) => {
           return;
         }
       }
+      showWarningMessage(
+        'Changes are lost when browser cache is cleaned. Save the json in share options for backup.',
+      );
       setInstance(initial());
     } catch (error) {
       showErrorMessage(
@@ -120,7 +123,7 @@ export const CoverProvider: React.FC<CoverProviderProps> = ({ children }) => {
       );
       setInstance(initial());
     }
-  }, [saveId, showErrorMessage]);
+  }, [saveId, showErrorMessage, showWarningMessage]);
 
   useEffect(() => {
     window.localStorage.setItem(addPrefix(saveId), JSON.stringify(instance));
