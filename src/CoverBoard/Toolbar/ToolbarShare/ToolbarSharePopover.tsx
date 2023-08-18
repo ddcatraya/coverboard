@@ -1,4 +1,4 @@
-import React, { useState, useMemo } from 'react';
+import React, { useState, useMemo, useEffect } from 'react';
 import {
   Modal,
   Grid,
@@ -36,6 +36,10 @@ export const ToolbarSharePopover: React.FC<SaveProps> = ({
   const [storage, setStorage] = useState(window.localStorage);
 
   setHash(ToolConfigIDs.SHARE);
+
+  useEffect(() => {
+    setJsonData(JSON.stringify(instance, null, 4));
+  }, [instance]);
 
   const handleCopyText = () => {
     try {
@@ -187,6 +191,7 @@ export const ToolbarSharePopover: React.FC<SaveProps> = ({
           <Button
             variant="contained"
             color="primary"
+            disabled={JSON.stringify(instance, null, 4) === jsonData}
             onClick={() => {
               setJsonData(JSON.stringify(instance, null, 4));
             }}>
