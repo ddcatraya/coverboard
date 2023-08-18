@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import {
-  Modal,
+  Dialog,
   TextField,
   Button,
   Link,
@@ -47,15 +47,10 @@ export const AlbumCoverImagePopover: React.FC<PopupProps> = ({
   };
 
   return (
-    <Modal open={open} onClose={onClose} style={{ overflow: 'scroll' }}>
+    <Dialog open={open} onClose={onClose}>
       <form
         onSubmit={handleSubmit}
         style={{
-          position: 'absolute',
-          top: '50%',
-          left: '50%',
-          transform: 'translate(-50%, -50%)',
-          background: 'white',
           padding: '20px',
           borderRadius: '5px',
         }}>
@@ -115,6 +110,6 @@ export const AlbumCoverImagePopover: React.FC<PopupProps> = ({
           </Grid>
         </Grid>
       </form>
-    </Modal>
+    </Dialog>
   );
 };

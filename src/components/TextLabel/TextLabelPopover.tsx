@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Modal, TextField, Button } from '@mui/material';
+import { Dialog, TextField, Button } from '@mui/material';
 
 interface PopupProps {
   open: boolean;
@@ -34,15 +34,10 @@ export const TextLabelPopover: React.FC<PopupProps> = ({
   };
 
   return (
-    <Modal open={open} onClose={onClose} style={{ overflow: 'scroll' }}>
+    <Dialog open={open} onClose={onClose}>
       <form
         onSubmit={handleSubmit}
         style={{
-          position: 'absolute',
-          top: '50%',
-          left: '50%',
-          transform: 'translate(-50%, -50%)',
-          background: 'white',
           padding: '20px',
           borderRadius: '5px',
         }}>
@@ -70,6 +65,6 @@ export const TextLabelPopover: React.FC<PopupProps> = ({
           </Button>
         )}
       </form>
-    </Modal>
+    </Dialog>
   );
 };

@@ -1,6 +1,5 @@
 import React, { useState } from 'react';
 import {
-  Modal,
   Button,
   Grid,
   FormControlLabel,
@@ -11,6 +10,7 @@ import {
   Radio,
   RadioGroup,
   TextField,
+  Dialog,
 } from '@mui/material';
 import {
   backColorMap,
@@ -83,8 +83,7 @@ export const ToolbarConfigPopover: React.FC<ToolbarConfigPopoverProps> = ({
   };
 
   return (
-    <Modal
-      style={{ overflow: 'scroll' }}
+    <Dialog
       open={open}
       onClose={() => {
         clearHash();
@@ -93,11 +92,6 @@ export const ToolbarConfigPopover: React.FC<ToolbarConfigPopoverProps> = ({
       <form
         onSubmit={handleSubmit}
         style={{
-          position: 'absolute',
-          top: '50%',
-          left: '50%',
-          transform: 'translate(-50%, -50%)',
-          background: 'white',
           padding: '20px',
           borderRadius: '5px',
         }}>
@@ -278,6 +272,6 @@ export const ToolbarConfigPopover: React.FC<ToolbarConfigPopoverProps> = ({
           </Button>
         </Grid>
       </form>
-    </Modal>
+    </Dialog>
   );
 };

@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Modal, TextField, Button, Grid, Typography } from '@mui/material';
+import { Dialog, TextField, Button, Grid, Typography } from '@mui/material';
 
 import { SearchParams, PopupState, ToolConfigIDs } from 'types';
 import { clearHash, setHash } from 'utils';
@@ -65,8 +65,7 @@ export const ToolbarSearchPopover: React.FC<PopupProps> = ({
     ) || !inputs.some((input) => input.artist !== '' && input.album !== '');
 
   return (
-    <Modal
-      style={{ overflow: 'scroll' }}
+    <Dialog
       open={open}
       onClose={() => {
         clearHash();
@@ -75,11 +74,6 @@ export const ToolbarSearchPopover: React.FC<PopupProps> = ({
       <form
         onSubmit={handleSubmit}
         style={{
-          position: 'absolute',
-          top: '50%',
-          left: '50%',
-          transform: 'translate(-50%, -50%)',
-          background: 'white',
           padding: '20px',
           borderRadius: '5px',
         }}>
@@ -124,6 +118,6 @@ export const ToolbarSearchPopover: React.FC<PopupProps> = ({
           </Button>
         </Grid>
       </form>
-    </Modal>
+    </Dialog>
   );
 };

@@ -1,6 +1,6 @@
 import React, { useState, useMemo, useEffect } from 'react';
 import {
-  Modal,
+  Dialog,
   Grid,
   TextareaAutosize,
   Button,
@@ -84,8 +84,7 @@ export const ToolbarSharePopover: React.FC<SaveProps> = ({
   const hasDefault = window.localStorage.getItem(addPrefix(DEFAULT_KEY));
 
   return (
-    <Modal
-      style={{ overflow: 'scroll' }}
+    <Dialog
       open={open}
       onClose={() => {
         clearHash();
@@ -95,14 +94,8 @@ export const ToolbarSharePopover: React.FC<SaveProps> = ({
         container
         spacing={2}
         style={{
-          position: 'absolute',
-          top: '50%',
-          left: '50%',
-          transform: 'translate(-50%, -50%)',
-          background: 'white',
           padding: '20px',
           borderRadius: '5px',
-          width: '50%',
         }}>
         <Grid item xs={12}>
           <Typography variant="h4" component="h4">
@@ -199,6 +192,6 @@ export const ToolbarSharePopover: React.FC<SaveProps> = ({
           </Button>
         </Grid>
       </Grid>
-    </Modal>
+    </Dialog>
   );
 };
