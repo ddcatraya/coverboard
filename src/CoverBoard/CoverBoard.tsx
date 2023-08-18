@@ -19,9 +19,9 @@ export const CoverBoard: React.FC = () => {
 
   const pos0 = cover.filter((cov) => cov.x === 0 && cov.y === 0).length;
 
-  const posArray = cover.flatMap(({ x, y, id }) => {
-    if (x > dragLimits.width || y > dragLimits.height) {
-      return { pos: { x, y }, id };
+  const offLimitCovers = cover.flatMap((cover) => {
+    if (cover.x > dragLimits.width || cover.y > dragLimits.height) {
+      return cover;
     }
 
     return [];
@@ -37,8 +37,8 @@ export const CoverBoard: React.FC = () => {
           {lines.map((line) => (
             <DrawLine line={line} key={line.id} />
           ))}
-          {posArray.map(({ pos, id }) => (
-            <BoundaryArrow pos={pos} id={id} key={id} />
+          {offLimitCovers.map((star) => (
+            <BoundaryArrow albumCover={star} key={star.id} />
           ))}
           <TitleLabel />
           <Text

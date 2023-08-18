@@ -1,24 +1,24 @@
 import { useCoverContext, useSizesContext } from 'contexts';
 import { KonvaEventObject } from 'konva/lib/Node';
 import { Vector2d } from 'konva/lib/types';
-import { useMemo } from 'react';
-import { Arrow } from 'react-konva';
-import { colorMap } from 'types';
+import { useMemo, useState } from 'react';
+import { Arrow, Group, Rect, Text } from 'react-konva';
+import { backColorMap, colorMap, CoverImage } from 'types';
 
 interface BoundaryArrowProps {
-  pos: Vector2d;
-  id: string;
+  albumCover: CoverImage;
 }
 
-export const BoundaryArrow: React.FC<BoundaryArrowProps> = ({ pos, id }) => {
+export const BoundaryArrow: React.FC<BoundaryArrowProps> = ({ albumCover }) => {
   const { configs, updateCoverPosition, erase, removeCover } =
     useCoverContext();
   const { fontSize, dragLimits, coverSize } = useSizesContext();
+  const [tooltip, setTooltip] = useState(false);
 
   const points = useMemo(() => {
     if (
-      pos.x > dragLimits.width - coverSize &&
-      pos.y > dragLimits.height - coverSize
+      albumCover.x > dragLimits.width - coverSize &&
+      albumCover.y > dragLimits.height - coverSize
     ) {
       return [
         dragLimits.width - 1.8 * fontSize,
@@ -27,60 +27,87 @@ export const BoundaryArrow: React.FC<BoundaryArrowProps> = ({ pos, id }) => {
         dragLimits.height - fontSize,
       ];
     } else if (
-      pos.x > dragLimits.width - coverSize &&
-      pos.y < dragLimits.height - coverSize
+      albumCover.x > dragLimits.width - coverSize &&
+      albumCover.y < dragLimits.height - coverSize
     ) {
       return [
         dragLimits.width - 2 * fontSize,
-        pos.y + coverSize / 2,
+        albumCover.y + coverSize / 2,
         dragLimits.width - fontSize,
-        pos.y + coverSize / 2,
+        albumCover.y + coverSize / 2,
       ];
     }
     return [
-      pos.x + coverSize / 2,
+      albumCover.x + coverSize / 2,
       dragLimits.height - 2 * fontSize,
-      pos.x + coverSize / 2,
+      albumCover.x + coverSize / 2,
       dragLimits.height - fontSize,
     ];
-  }, [coverSize, dragLimits.height, dragLimits.width, fontSize, pos.x, pos.y]);
+  }, [
+    coverSize,
+    dragLimits.height,
+    dragLimits.width,
+    fontSize,
+    albumCover.x,
+    albumCover.y,
+  ]);
 
   const handleBringIntoView = () => {
     if (erase) {
-      removeCover(id);
+      removeCover(albumCover.id);
       return;
     }
-    let newPos: Vector2d = { ...pos };
+    let newPos: Vector2d = { x: albumCover.x, y: albumCover.y };
     if (newPos.x > dragLimits.width) {
       newPos.x = dragLimits.width - coverSize;
     }
     if (newPos.y > dragLimits.height) {
       newPos.y = dragLimits.height - coverSize;
     }
-    updateCoverPosition(id, newPos);
+    updateCoverPosition(albumCover.id, newPos);
   };
 
   return (
-    <Arrow
-      points={points}
-      stroke={colorMap[configs.color]}
-      strokeWidth={fontSize / 2}
-      pointerLength={fontSize}
-      onClick={handleBringIntoView}
-      onMouseMove={(evt: KonvaEventObject<MouseEvent>) => {
-        const container = evt.target.getStage()?.container();
-
-        if (container) {
-          container.style.cursor = 'pointer';
-        }
-      }}
-      onMouseLeave={(evt: KonvaEventObject<MouseEvent>) => {
-        const container = evt.target.getStage()?.container();
-
-        if (container) {
-          container.style.cursor = 'default';
-        }
-      }}
-    />
+    <Group>
+      <Arrow
+        points={points}
+        stroke={colorMap[configs.color]}
+        strokeWidth={fontSize / 2}
+        pointerLength={fontSize}
+        onClick={handleBringIntoView}
+        onMouseMove={(evt: KonvaEventObject<MouseEvent>) => {
+          const container = evt.target.getStage()?.container();
+          setTooltip(true);
+          if (container) {
+            container.style.cursor = 'pointer';
+          }
+        }}
+        onMouseLeave={(evt: KonvaEventObject<MouseEvent>) => {
+          const container = evt.target.getStage()?.container();
+          setTooltip(false);
+          if (container) {
+            container.style.cursor = 'default';
+          }
+        }}
+      />
+      {tooltip && (
+        <Group
+          x={points[0] - 2 * coverSize - fontSize}
+          y={points[1] - fontSize}>
+          <Rect
+            width={coverSize * 2}
+            height={fontSize}
+            fill={backColorMap[configs.backColor]}
+          />
+          <Text
+            width={coverSize * 2}
+            align="right"
+            text={albumCover.albumLabel.text}
+            fontSize={fontSize}
+            fill="white"
+          />
+        </Group>
+      )}
+    </Group>
   );
 };
