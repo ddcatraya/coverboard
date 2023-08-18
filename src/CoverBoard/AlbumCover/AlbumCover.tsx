@@ -7,8 +7,8 @@ import {
   AlbumCoverImage,
   AlbumCoverLabel,
   AlbumCoverLabelDraggable,
+  AlbumCoverDraggable,
 } from '.';
-import { DraggableGroup } from 'components';
 import { Vector2d } from 'konva/lib/types';
 
 interface CoverImageProps {
@@ -47,7 +47,7 @@ export const AlbumCover: React.FC<CoverImageProps> = ({ albumCover }) => {
     : 0;
 
   return (
-    <DraggableGroup
+    <AlbumCoverDraggable
       update={albumCover}
       setUpdate={handleDragEnd}
       min={{
@@ -80,6 +80,6 @@ export const AlbumCover: React.FC<CoverImageProps> = ({ albumCover }) => {
           />
         )}
       </AlbumCoverLabelDraggable>
-    </DraggableGroup>
+    </AlbumCoverDraggable>
   );
 };
