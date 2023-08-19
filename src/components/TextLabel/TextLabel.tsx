@@ -22,6 +22,7 @@ interface TitleTexProps {
   listening?: boolean;
   hasReset?: boolean;
   title?: string;
+  editable?: boolean;
 }
 
 export const TextLabel: React.FC<TitleTexProps> = ({
@@ -34,6 +35,7 @@ export const TextLabel: React.FC<TitleTexProps> = ({
   onReset,
   listening = true,
   hasReset = false,
+  editable = true,
   title,
 }) => {
   const { fontSize } = useSizesContext();
@@ -47,7 +49,7 @@ export const TextLabel: React.FC<TitleTexProps> = ({
 
   return (
     <>
-      {isHovering && (
+      {isHovering && editable && (
         <Rect
           x={pos.x}
           y={pos.y}
@@ -86,7 +88,7 @@ export const TextLabel: React.FC<TitleTexProps> = ({
           }
         }}
       />
-      {open && (
+      {open && editable && (
         <Html>
           <TextLabelPopover
             open={open}

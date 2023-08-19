@@ -4,10 +4,11 @@ import { useCoverContext, useToastContext, useToolbarContext } from 'contexts';
 import { ToolbarSharePopover } from '.';
 import { useNavigate } from 'react-router-dom';
 import { LocalStorageData, schema } from 'types';
+import { ZodError } from 'zod';
 
 export const ToolbarShare: React.FC = () => {
   const navigate = useNavigate();
-  const { instance, setInstance, saveId, cover } = useCoverContext();
+  const { instance, setInstance, saveId, cover, lines } = useCoverContext();
   const { showSuccessMessage, showErrorMessage } = useToastContext();
   const { openShare, setOpenShare } = useToolbarContext();
 
@@ -16,12 +17,16 @@ export const ToolbarShare: React.FC = () => {
       const parsedData: LocalStorageData = JSON.parse(data);
 
       try {
-        if (schema(cover).parse(parsedData)) {
+        if (schema(cover, lines).parse(parsedData)) {
           setInstance(parsedData);
           setOpenShare(false);
           showSuccessMessage('JSON was applied with success');
         }
       } catch (err) {
+        if (err instanceof ZodError) {
+          showErrorMessage(JSON.parse(err.message)[0].message);
+          return;
+        }
         showErrorMessage('JSON validation data is not valid');
       }
     } catch (err) {

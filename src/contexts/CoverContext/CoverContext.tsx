@@ -113,7 +113,7 @@ export const CoverProvider: React.FC<CoverProviderProps> = ({ children }) => {
 
       if (item) {
         const parsedItem: LocalStorageData = JSON.parse(item);
-        if (schema(parsedItem.cover).parse(parsedItem)) {
+        if (schema(parsedItem.cover, parsedItem.lines).parse(parsedItem)) {
           setInstance(parsedItem);
           return;
         }
