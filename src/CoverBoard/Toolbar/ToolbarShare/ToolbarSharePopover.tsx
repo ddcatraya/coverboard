@@ -6,8 +6,13 @@ import {
   Button,
   Chip,
   Typography,
+  TextField,
+  IconButton,
 } from '@mui/material';
-import { Close as CloseIcon } from '@mui/icons-material';
+import {
+  Close as CloseIcon,
+  KeyboardArrowRightRounded,
+} from '@mui/icons-material';
 
 import { LocalStorageData, ToolConfigIDs, DEFAULT_KEY } from 'types';
 import { NavigateFunction } from 'react-router-dom';
@@ -34,6 +39,7 @@ export const ToolbarSharePopover: React.FC<SaveProps> = ({
 }) => {
   const [jsonData, setJsonData] = useState(JSON.stringify(instance, null, 4));
   const [storage, setStorage] = useState(window.localStorage);
+  const [newSave, setNewSave] = useState('');
 
   setHash(ToolConfigIDs.SHARE);
 
@@ -82,6 +88,16 @@ export const ToolbarSharePopover: React.FC<SaveProps> = ({
   ];
 
   const hasDefault = window.localStorage.getItem(addPrefix(DEFAULT_KEY));
+
+  const handleCreateNewSave = () => {
+    const value = newSave.trim();
+
+    if (value) {
+      navigate(`/${newSave}#share`);
+      setNewSave('');
+      onClose();
+    }
+  };
 
   return (
     <Dialog
@@ -142,10 +158,32 @@ export const ToolbarSharePopover: React.FC<SaveProps> = ({
                     : undefined
                 }
                 deleteIcon={showDelete ? <CloseIcon /> : undefined}
-                style={{ margin: '4px' }}
+                style={{ marginRight: '4px' }}
               />
             );
           })}
+        </Grid>
+        <Grid item xs={12}>
+          <form
+            onSubmit={(evt) => {
+              evt.preventDefault();
+              handleCreateNewSave();
+            }}>
+            <TextField
+              label="Add new page"
+              onChange={(evt) => setNewSave(evt.target.value.trim())}
+              size="small"
+              value={newSave}
+              style={{ width: '200px ' }}
+              InputProps={{
+                endAdornment: (
+                  <IconButton>
+                    <KeyboardArrowRightRounded onClick={handleCreateNewSave} />
+                  </IconButton>
+                ),
+              }}
+            />
+          </form>
         </Grid>
         <Grid item xs={12}>
           <Typography gutterBottom>JSON for: {saveId}</Typography>
