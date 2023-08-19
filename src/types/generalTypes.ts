@@ -17,7 +17,10 @@ export const NAME_SPACE = 'coverboard';
 export const DEFAULT_KEY = 'default';
 
 export enum Modes {
-  TITLE = '<Edit title>',
   ERASE = '<Erase mode>',
   ARROW = '<Create arrow mode>',
 }
+
+export const buildTitle = (saveId: string) => {
+  return `<Edit ${saveId} title>`;
+};

@@ -2,7 +2,13 @@ export type { SearchResults, SearchParams } from './searchTypes';
 export { PopupState } from './searchTypes';
 
 export type { DragLimits } from './generalTypes';
-export { PosTypes, NAME_SPACE, DEFAULT_KEY, Modes } from './generalTypes';
+export {
+  PosTypes,
+  NAME_SPACE,
+  DEFAULT_KEY,
+  Modes,
+  buildTitle,
+} from './generalTypes';
 
 export type { Point, LinePoint, LineParams, LabelParams } from './lineTypes';
 

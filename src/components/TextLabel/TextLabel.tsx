@@ -3,7 +3,7 @@ import { Rect, Text } from 'react-konva';
 import { Html } from 'react-konva-utils';
 import { TextLabelPopover } from '.';
 import { KonvaEventObject } from 'konva/lib/Node';
-import { backColorMap, colorMap, Modes } from 'types';
+import { backColorMap, buildTitle, colorMap } from 'types';
 import { useState } from 'react';
 
 interface TitleTexProps {
@@ -39,7 +39,7 @@ export const TextLabel: React.FC<TitleTexProps> = ({
   title,
 }) => {
   const { fontSize } = useSizesContext();
-  const { configs } = useCoverContext();
+  const { configs, saveId } = useCoverContext();
   const [isHovering, setHovering] = useState(false);
 
   const handleSubmit = (text: string) => {
@@ -94,7 +94,7 @@ export const TextLabel: React.FC<TitleTexProps> = ({
             open={open}
             onClose={() => setOpen(false)}
             onSubmit={handleSubmit}
-            defaultText={label === Modes.TITLE ? '' : label}
+            defaultText={label === buildTitle(saveId) ? '' : label}
             onReset={() => {
               onReset();
               setOpen(false);

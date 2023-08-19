@@ -2,10 +2,10 @@ import React, { useMemo, useState } from 'react';
 
 import { TextLabel } from 'components';
 import { useCoverContext, useSizesContext } from 'contexts';
-import { Modes } from 'types';
+import { buildTitle, Modes } from 'types';
 
 export const TitleLabel: React.FC = () => {
-  const { updateTitle, resetTitle, configs, erase, editLines } =
+  const { updateTitle, resetTitle, configs, erase, editLines, saveId } =
     useCoverContext();
   const { dragLimits } = useSizesContext();
   const [open, setOpen] = useState(false);
@@ -26,10 +26,10 @@ export const TitleLabel: React.FC = () => {
     } else if (!configs.showTitle) {
       return '';
     } else if (!configs.title) {
-      return Modes.TITLE;
+      return buildTitle(saveId);
     }
     return configs.title;
-  }, [configs.showTitle, configs.title, editLines, erase]);
+  }, [configs.showTitle, configs.title, editLines, erase, saveId]);
 
   return (
     <TextLabel
