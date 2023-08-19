@@ -3,7 +3,7 @@ import { Rect, Text } from 'react-konva';
 import { Html } from 'react-konva-utils';
 import { TextLabelPopover } from '.';
 import { KonvaEventObject } from 'konva/lib/Node';
-import { colorMap, Modes } from 'types';
+import { backColorMap, colorMap, Modes } from 'types';
 import { useState } from 'react';
 
 interface TitleTexProps {
@@ -15,7 +15,7 @@ interface TitleTexProps {
     x: number;
     y: number;
     width: number;
-    align: string;
+    align: 'center' | 'left' | 'right';
   };
   labelSize?: number;
   onReset: () => void;
@@ -99,6 +99,10 @@ export const TextLabel: React.FC<TitleTexProps> = ({
             }}
             hasReset={hasReset}
             title={title}
+            pos={pos}
+            fontSize={fontSize * labelSize}
+            fill={colorMap[configs.color]}
+            fillBack={backColorMap[configs.backColor]}
           />
         </Html>
       )}

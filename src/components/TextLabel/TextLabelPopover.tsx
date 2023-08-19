@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Dialog, TextField, Button } from '@mui/material';
+import { TextField } from '@mui/material';
 
 interface PopupProps {
   open: boolean;
@@ -9,6 +9,15 @@ interface PopupProps {
   defaultText: string;
   title?: string;
   hasReset?: boolean;
+  pos: {
+    x: number;
+    y: number;
+    width: number;
+    align: 'center' | 'left' | 'right';
+  };
+  fontSize: number;
+  fill: string;
+  fillBack: string;
 }
 
 export const TextLabelPopover: React.FC<PopupProps> = ({
@@ -19,6 +28,10 @@ export const TextLabelPopover: React.FC<PopupProps> = ({
   defaultText,
   title = 'label',
   hasReset = false,
+  fontSize,
+  fill,
+  fillBack,
+  pos,
 }) => {
   const [text, setText] = useState(defaultText);
 
@@ -26,15 +39,51 @@ export const TextLabelPopover: React.FC<PopupProps> = ({
     setText(event.target.value);
   };
 
-  const handleSubmit = (evt: React.SyntheticEvent<HTMLFormElement>) => {
-    evt.preventDefault();
-    onSubmit(text);
+  const submitText = () => {
+    onSubmit(text.trim());
     setText('');
     onClose();
   };
 
   return (
-    <Dialog open={open} onClose={onClose}>
+    <div
+      style={{
+        position: 'absolute',
+        left: pos.x + 'px',
+        top: pos.y + 'px',
+        width: pos.width + 'px',
+      }}>
+      <form
+        onSubmit={(evt) => {
+          evt.preventDefault();
+          submitText();
+        }}>
+        <TextField
+          autoFocus
+          value={text}
+          onChange={handTextChange}
+          onBlur={submitText}
+          fullWidth
+          style={{
+            backgroundColor: fillBack,
+          }}
+          inputProps={{
+            style: {
+              textAlign: pos.align,
+              color: fill,
+              fontSize: fontSize + 'px',
+              height: fontSize + 'px',
+              padding: fontSize / 8 + 'px',
+            },
+          }}
+        />
+      </form>
+    </div>
+  );
+};
+
+/* 
+<Dialog open={open} onClose={onClose}>
       <form
         onSubmit={handleSubmit}
         style={{
@@ -67,5 +116,4 @@ export const TextLabelPopover: React.FC<PopupProps> = ({
         )}
       </form>
     </Dialog>
-  );
-};
+    */
