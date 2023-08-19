@@ -1,8 +1,17 @@
 import React, { useState } from 'react';
-import { Dialog, TextField, Button, Grid, Typography } from '@mui/material';
+import {
+  Dialog,
+  TextField,
+  Button,
+  Grid,
+  DialogContent,
+  DialogTitle,
+  IconButton,
+} from '@mui/material';
 
 import { SearchParams, PopupState, ToolConfigIDs } from 'types';
 import { clearHash, setHash } from 'utils';
+import { Close as CloseIcon } from '@mui/icons-material';
 
 interface PopupProps {
   open: boolean;
@@ -71,60 +80,69 @@ export const ToolbarSearchPopover: React.FC<PopupProps> = ({
         clearHash();
         onClose();
       }}>
-      <form
-        onSubmit={handleSubmit}
-        style={{
-          padding: '20px',
-          borderRadius: '5px',
-        }}>
-        <Grid container style={{ marginBottom: '20px' }}>
+      <DialogTitle>
+        Search albums
+        <IconButton
+          aria-label="close"
+          color="inherit"
+          onClick={onClose}
+          sx={{
+            position: 'absolute',
+            right: 8,
+            top: 8,
+          }}>
+          <CloseIcon />
+        </IconButton>
+      </DialogTitle>
+      <DialogContent>
+        <form
+          onSubmit={handleSubmit}
+          style={{
+            padding: '20px',
+            borderRadius: '5px',
+          }}>
+          {inputs.map((input, index) => (
+            <Grid
+              container
+              rowGap={0.5}
+              key={`input-${index}`}
+              style={{
+                marginBottom: '20px',
+                backgroundColor: '#F2F4F7',
+              }}>
+              <Grid item sm={6} xs={12}>
+                <TextField
+                  fullWidth
+                  label="Artist Name"
+                  value={input.artist}
+                  onChange={(e) =>
+                    handleInputChange(index, PopupState.ARTIST, e.target.value)
+                  }
+                />
+              </Grid>
+              <Grid item sm={6} xs={12}>
+                <TextField
+                  fullWidth
+                  label="Album Name"
+                  value={input.album}
+                  onChange={(e) =>
+                    handleInputChange(index, PopupState.ALBUM, e.target.value)
+                  }
+                />
+              </Grid>
+            </Grid>
+          ))}
           <Grid item xs={12}>
-            <Typography variant="h4" component="h4">
-              Search albums
-            </Typography>
+            <Button
+              variant="contained"
+              color="primary"
+              disabled={isInputDisabled || loading}
+              type="submit">
+              Submit
+            </Button>
           </Grid>
-        </Grid>
-        {inputs.map((input, index) => (
-          <Grid
-            container
-            rowGap={0.5}
-            key={`input-${index}`}
-            style={{
-              marginBottom: '20px',
-              backgroundColor: '#F2F4F7',
-            }}>
-            <Grid item sm={6} xs={12}>
-              <TextField
-                fullWidth
-                label="Artist Name"
-                value={input.artist}
-                onChange={(e) =>
-                  handleInputChange(index, PopupState.ARTIST, e.target.value)
-                }
-              />
-            </Grid>
-            <Grid item sm={6} xs={12}>
-              <TextField
-                fullWidth
-                label="Album Name"
-                value={input.album}
-                onChange={(e) =>
-                  handleInputChange(index, PopupState.ALBUM, e.target.value)
-                }
-              />
-            </Grid>
-          </Grid>
-        ))}
-        <Grid item xs={12}>
-          <Button
-            variant="contained"
-            color="primary"
-            disabled={isInputDisabled || loading}
-            type="submit">
-            Submit
-          </Button>
-        </Grid>
-      </form>
+        </form>
+      </DialogContent>
     </Dialog>
   );
 };

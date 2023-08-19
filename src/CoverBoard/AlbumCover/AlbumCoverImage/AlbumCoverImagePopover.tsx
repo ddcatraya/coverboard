@@ -5,9 +5,12 @@ import {
   Button,
   Link,
   Grid,
-  Typography,
+  DialogContent,
+  DialogTitle,
+  IconButton,
 } from '@mui/material';
 import { LabelType, AlbumCoverValues } from 'types';
+import { Close as CloseIcon } from '@mui/icons-material';
 
 interface PopupProps {
   open: boolean;
@@ -48,69 +51,80 @@ export const AlbumCoverImagePopover: React.FC<PopupProps> = ({
 
   return (
     <Dialog open={open} onClose={onClose}>
-      <form
-        onSubmit={handleSubmit}
-        style={{
-          padding: '20px',
-          borderRadius: '5px',
-        }}>
-        <Grid container spacing={2}>
-          <Grid item xs={12}>
-            <Typography variant="h4" component="h4">
-              Edit labels
-            </Typography>
+      <DialogTitle>
+        Edit labels
+        <IconButton
+          aria-label="close"
+          color="inherit"
+          onClick={onClose}
+          sx={{
+            position: 'absolute',
+            right: 8,
+            top: 8,
+          }}>
+          <CloseIcon />
+        </IconButton>
+      </DialogTitle>
+      <DialogContent>
+        <form
+          onSubmit={handleSubmit}
+          style={{
+            padding: '20px',
+            borderRadius: '5px',
+          }}>
+          <Grid container spacing={2}>
+            <Grid item xs={12}>
+              <TextField
+                label="Artist"
+                fullWidth
+                value={text[LabelType.ARTIST].text}
+                onChange={(evt: any) => handTextChange(evt, LabelType.ARTIST)}
+                style={{ marginBottom: '20px' }}
+              />
+            </Grid>
+            <Grid item xs={12}>
+              <TextField
+                label="Album"
+                fullWidth
+                value={text[LabelType.ALBUM].text}
+                onChange={(evt: any) => handTextChange(evt, LabelType.ALBUM)}
+                style={{ marginBottom: '20px' }}
+              />
+            </Grid>
+            <Grid item xs={12}>
+              <Button
+                variant="contained"
+                color="primary"
+                type="submit"
+                style={{ marginRight: '20px', marginBottom: '20px' }}>
+                Submit
+              </Button>
+              <Button
+                variant="contained"
+                color="primary"
+                type="button"
+                onClick={() => {
+                  onReset();
+                  onClose();
+                }}
+                style={{ marginRight: '20px', marginBottom: '20px' }}>
+                Reset
+              </Button>
+              <Button
+                variant="contained"
+                color="primary"
+                target="_blank"
+                component={Link}
+                href={`http://www.last.fm/music/${
+                  values[LabelType.ARTIST].originalText
+                }/${values[LabelType.ALBUM].originalText}`}
+                style={{ marginBottom: '20px' }}>
+                Last FM
+              </Button>
+            </Grid>
           </Grid>
-          <Grid item xs={12}>
-            <TextField
-              label="Artist"
-              fullWidth
-              value={text[LabelType.ARTIST].text}
-              onChange={(evt: any) => handTextChange(evt, LabelType.ARTIST)}
-              style={{ marginBottom: '20px' }}
-            />
-          </Grid>
-          <Grid item xs={12}>
-            <TextField
-              label="Album"
-              fullWidth
-              value={text[LabelType.ALBUM].text}
-              onChange={(evt: any) => handTextChange(evt, LabelType.ALBUM)}
-              style={{ marginBottom: '20px' }}
-            />
-          </Grid>
-          <Grid item xs={12}>
-            <Button
-              variant="contained"
-              color="primary"
-              type="submit"
-              style={{ marginRight: '20px', marginBottom: '20px' }}>
-              Submit
-            </Button>
-            <Button
-              variant="contained"
-              color="primary"
-              type="button"
-              onClick={() => {
-                onReset();
-                onClose();
-              }}
-              style={{ marginRight: '20px', marginBottom: '20px' }}>
-              Reset
-            </Button>
-            <Button
-              variant="contained"
-              color="primary"
-              target="_blank"
-              component={Link}
-              href={`http://www.last.fm/music/${
-                values[LabelType.ARTIST].originalText
-              }/${values[LabelType.ALBUM].originalText}`}
-              style={{ marginBottom: '20px' }}>
-              Last FM
-            </Button>
-          </Grid>
-        </Grid>
-      </form>
+        </form>
+      </DialogContent>
     </Dialog>
   );
 };
