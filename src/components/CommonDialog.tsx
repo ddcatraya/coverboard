@@ -1,6 +1,8 @@
 import { Dialog, DialogTitle, IconButton, DialogContent } from '@mui/material';
 import { clearHash } from 'utils';
 import { Close as CloseIcon } from '@mui/icons-material';
+import useMediaQuery from '@mui/material/useMediaQuery';
+import { useTheme } from '@mui/material/styles';
 
 interface CommonDialogProps {
   open: boolean;
@@ -15,8 +17,12 @@ export const CommonDialog: React.FC<CommonDialogProps> = ({
   children,
   title,
 }) => {
+  const theme = useTheme();
+  const fullScreen = useMediaQuery(theme.breakpoints.down('sm')); // Detect small sc
+
   return (
     <Dialog
+      fullScreen={fullScreen}
       open={open}
       onClose={() => {
         clearHash();
