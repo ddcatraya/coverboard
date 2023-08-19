@@ -15,3 +15,9 @@ export interface DragLimits {
 export const NAME_SPACE = 'coverboard';
 
 export const DEFAULT_KEY = 'default';
+
+export enum Modes {
+  TITLE = '<Edit title>',
+  ERASE = '<Erase mode>',
+  ARROW = '<Create arrow mode>',
+}

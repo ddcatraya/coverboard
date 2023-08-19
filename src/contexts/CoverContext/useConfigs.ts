@@ -2,7 +2,7 @@ import { Colors, BackColors, PosTypes, ToolbarConfigParams } from 'types';
 
 export const initialConfigValues = {
   size: 100,
-  title: '<Edit Title>',
+  title: '',
   color: Colors.YELLOW,
   backColor: BackColors.DARK,
   showArtist: true,

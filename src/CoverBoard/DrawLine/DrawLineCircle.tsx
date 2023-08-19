@@ -4,7 +4,6 @@ import { KonvaEventObject } from 'konva/lib/Node';
 
 import { useCoverContext, useSizesContext } from 'contexts';
 import { backColorMap, colorMap, LinePoint } from 'types';
-import { config } from 'process';
 
 interface LineProps {
   line: LinePoint;

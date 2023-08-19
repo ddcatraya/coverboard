@@ -1,20 +1,7 @@
 import React, { useState } from 'react';
-import {
-  Dialog,
-  TextField,
-  Button,
-  Grid,
-  Typography,
-  Box,
-} from '@mui/material';
+import { Dialog, TextField, Button, Grid, Typography } from '@mui/material';
 
-import {
-  SearchParams,
-  PopupState,
-  ToolConfigIDs,
-  backColorMap,
-  BackColors,
-} from 'types';
+import { SearchParams, PopupState, ToolConfigIDs } from 'types';
 import { clearHash, setHash } from 'utils';
 
 interface PopupProps {

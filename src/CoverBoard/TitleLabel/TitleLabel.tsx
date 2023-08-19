@@ -2,6 +2,7 @@ import React, { useMemo, useState } from 'react';
 
 import { TextLabel } from 'components';
 import { useCoverContext, useSizesContext } from 'contexts';
+import { Modes } from 'types';
 
 export const TitleLabel: React.FC = () => {
   const { updateTitle, resetTitle, configs, erase, editLines } =
@@ -19,11 +20,13 @@ export const TitleLabel: React.FC = () => {
 
   const titleMode = useMemo(() => {
     if (erase) {
-      return '<Erase mode>';
+      return Modes.ERASE;
     } else if (editLines) {
-      return '<Create arrow mode>';
+      return Modes.ARROW;
     } else if (!configs.showTitle) {
       return '';
+    } else if (!configs.title) {
+      return Modes.TITLE;
     }
     return configs.title;
   }, [configs.showTitle, configs.title, editLines, erase]);
@@ -31,7 +34,7 @@ export const TitleLabel: React.FC = () => {
   return (
     <TextLabel
       title="title"
-      listening={!erase && !editLines && !!configs.title}
+      listening={!erase && !editLines}
       open={open}
       setOpen={setOpen}
       onReset={handleReset}

@@ -3,7 +3,7 @@ import { Text } from 'react-konva';
 import { Html } from 'react-konva-utils';
 import { TextLabelPopover } from '.';
 import { KonvaEventObject } from 'konva/lib/Node';
-import { colorMap } from 'types';
+import { colorMap, Modes } from 'types';
 
 interface TitleTexProps {
   label: string;
@@ -77,7 +77,7 @@ export const TextLabel: React.FC<TitleTexProps> = ({
             open={open}
             onClose={() => setOpen(false)}
             onSubmit={handleSubmit}
-            defaultText={label}
+            defaultText={label === Modes.TITLE ? '' : label}
             onReset={() => {
               onReset();
               setOpen(false);
