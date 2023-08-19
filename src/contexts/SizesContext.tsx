@@ -61,6 +61,20 @@ export const useSizesContext = () => {
   return context;
 };
 
+const throttle = (func: () => void, delay: number) => {
+  let inProgress = false;
+  return () => {
+    if (inProgress) {
+      return;
+    }
+    inProgress = true;
+    setTimeout(() => {
+      func();
+      inProgress = false;
+    }, delay);
+  };
+};
+
 export const SizesProvider: React.FC<{ children: React.ReactNode }> = ({
   children,
 }) => {
@@ -134,24 +148,18 @@ export const SizesProvider: React.FC<{ children: React.ReactNode }> = ({
   );
 
   useEffect(() => {
-    const handleResize = () => {
+    const throttleResize = throttle(() => {
       setWindowSize({
         width: window.innerWidth,
         height: window.innerHeight,
       });
-    };
+    }, 500);
 
-    window.addEventListener('resize', handleResize);
+    window.addEventListener('resize', throttleResize);
     return () => {
-      window.removeEventListener('resize', handleResize);
+      window.removeEventListener('resize', throttleResize);
     };
-  }, [
-    cover,
-    coverSize,
-    dragLimits.height,
-    dragLimits.width,
-    updateAllCoverPosition,
-  ]);
+  }, []);
 
   return (
     <SizesContext.Provider
