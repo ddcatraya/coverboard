@@ -3,11 +3,12 @@ import React, { useMemo, useState } from 'react';
 import { TextLabel } from 'components';
 import { useCoverContext, useSizesContext } from 'contexts';
 import { Modes } from 'types';
+import { Rect } from 'react-konva';
 
 export const TitleLabel: React.FC = () => {
   const { updateTitle, resetTitle, configs, erase, editLines } =
     useCoverContext();
-  const { dragLimits } = useSizesContext();
+  const { dragLimits, fontSize } = useSizesContext();
   const [open, setOpen] = useState(false);
 
   const handleReset = () => {

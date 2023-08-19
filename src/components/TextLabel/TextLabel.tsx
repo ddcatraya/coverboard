@@ -1,9 +1,10 @@
 import { useCoverContext, useSizesContext } from 'contexts';
-import { Text } from 'react-konva';
+import { Rect, Text } from 'react-konva';
 import { Html } from 'react-konva-utils';
 import { TextLabelPopover } from '.';
 import { KonvaEventObject } from 'konva/lib/Node';
 import { colorMap, Modes } from 'types';
+import { useState } from 'react';
 
 interface TitleTexProps {
   label: string;
@@ -37,6 +38,7 @@ export const TextLabel: React.FC<TitleTexProps> = ({
 }) => {
   const { fontSize } = useSizesContext();
   const { configs } = useCoverContext();
+  const [isHovering, setHovering] = useState(false);
 
   const handleSubmit = (text: string) => {
     setOpen(false);
@@ -45,6 +47,17 @@ export const TextLabel: React.FC<TitleTexProps> = ({
 
   return (
     <>
+      {isHovering && (
+        <Rect
+          x={pos.x}
+          y={pos.y}
+          width={pos.width}
+          height={fontSize * labelSize}
+          stroke={colorMap[configs.color]}
+          strokeWidth={0.3}
+          listening={false}
+        />
+      )}
       <Text
         listening={listening}
         align={pos.align}
@@ -58,6 +71,7 @@ export const TextLabel: React.FC<TitleTexProps> = ({
         onDblTap={() => setOpen(true)}
         onMouseMove={(evt: KonvaEventObject<MouseEvent>) => {
           const container = evt.target.getStage()?.container();
+          setHovering(true);
           evt.currentTarget.opacity(0.5);
           if (container) {
             container.style.cursor = 'pointer';
@@ -65,6 +79,7 @@ export const TextLabel: React.FC<TitleTexProps> = ({
         }}
         onMouseLeave={(evt: KonvaEventObject<MouseEvent>) => {
           const container = evt.target.getStage()?.container();
+          setHovering(false);
           evt.currentTarget.opacity(1);
           if (container) {
             container.style.cursor = 'default';
