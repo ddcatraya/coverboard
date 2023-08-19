@@ -29,7 +29,7 @@ export const ToolbarConfig: React.FC = () => {
     if (updatedParam === ToolbarConfigValues.LABEL_DIR) {
       updateAllCoversDir(config[ToolbarConfigValues.LABEL_DIR]);
     } else {
-      updateConfigs(config);
+      updateConfigs({ ...config, title: config.title.trim() });
     }
   };
 
