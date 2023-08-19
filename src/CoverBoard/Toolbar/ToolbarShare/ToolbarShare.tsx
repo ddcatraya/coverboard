@@ -17,8 +17,9 @@ export const ToolbarShare: React.FC = () => {
       const parsedData: LocalStorageData = JSON.parse(data);
 
       try {
-        if (schema(cover, lines).parse(parsedData)) {
-          setInstance(parsedData);
+        const parsedSchema = schema(cover, lines).parse(parsedData);
+        if (parsedSchema) {
+          setInstance(parsedSchema);
           setOpenShare(false);
           showSuccessMessage('JSON was applied with success');
         }
