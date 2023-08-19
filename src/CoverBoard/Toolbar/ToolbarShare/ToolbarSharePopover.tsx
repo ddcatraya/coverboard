@@ -120,6 +120,7 @@ export const ToolbarSharePopover: React.FC<SaveProps> = ({
                 color={saveId === currentSave ? 'primary' : 'default'}
                 onClick={() => {
                   navigate(`/${currentSave}#${ToolConfigIDs.SHARE}`);
+                  onClose();
                 }}
                 onDelete={
                   showDelete
@@ -160,6 +161,14 @@ export const ToolbarSharePopover: React.FC<SaveProps> = ({
           <Button
             variant="contained"
             color="primary"
+            onClick={() => handleImport(jsonData)}
+            disabled={!isValidJSON}
+            style={{ marginRight: '20px', marginBottom: '20px' }}>
+            Apply
+          </Button>
+          <Button
+            variant="contained"
+            color="primary"
             onClick={handleCopyText}
             style={{ marginRight: '20px', marginBottom: '20px' }}
             disabled={!isValidJSON}>
@@ -172,14 +181,6 @@ export const ToolbarSharePopover: React.FC<SaveProps> = ({
             style={{ marginRight: '20px', marginBottom: '20px' }}
             disabled={!isValidJSON}>
             Download
-          </Button>
-          <Button
-            variant="contained"
-            color="primary"
-            onClick={() => handleImport(jsonData)}
-            disabled={!isValidJSON}
-            style={{ marginRight: '20px', marginBottom: '20px' }}>
-            Apply
           </Button>
           <Button
             variant="contained"
