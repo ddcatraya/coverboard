@@ -11,14 +11,7 @@ import { ToolbarConfigParams, ToolbarConfigValues } from 'types';
 
 export const ToolbarConfig: React.FC = () => {
   const { openConfig, setOpenConfig } = useToolbarContext();
-  const {
-    updateConfigs,
-    resetConfigs,
-    configs,
-    updateAllCoversDir,
-    clearAllCovers,
-    clearAllLines,
-  } = useCoverContext();
+  const { updateConfigs, configs, updateAllCoversDir } = useCoverContext();
   const { moveIntoView, offLimitCovers } = useSizesContext();
   const { showSuccessMessage } = useToastContext();
 
@@ -39,16 +32,6 @@ export const ToolbarConfig: React.FC = () => {
     showSuccessMessage('All elements outside the screen were moved into view');
   };
 
-  const handleDeleteElements = () => {
-    clearAllCovers();
-
-    clearAllLines();
-
-    resetConfigs();
-
-    showSuccessMessage('All elements on screen were cleaned');
-  };
-
   if (!openConfig) return null;
 
   return (
@@ -59,7 +42,6 @@ export const ToolbarConfig: React.FC = () => {
         onSubmit={handleUpdateCover}
         config={configs}
         offLimitCovers={offLimitCovers}
-        handleDeleteElements={handleDeleteElements}
         handleResetElements={handleResetElements}
       />
     </Html>

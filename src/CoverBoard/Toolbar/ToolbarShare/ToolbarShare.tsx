@@ -8,7 +8,7 @@ import { ZodError } from 'zod';
 
 export const ToolbarShare: React.FC = () => {
   const navigate = useNavigate();
-  const { instance, setInstance, saveId } = useCoverContext();
+  const { instance, setInstance, saveId, resetInstance } = useCoverContext();
   const { showSuccessMessage, showErrorMessage } = useToastContext();
   const { openShare, setOpenShare } = useToolbarContext();
 
@@ -35,6 +35,12 @@ export const ToolbarShare: React.FC = () => {
     }
   };
 
+  const handleDeleteElements = () => {
+    resetInstance();
+
+    showSuccessMessage('All elements on screen were cleaned');
+  };
+
   const handleCopy = (success: boolean) => {
     success
       ? showSuccessMessage('Text copied with success')
@@ -53,6 +59,7 @@ export const ToolbarShare: React.FC = () => {
         handleCopy={handleCopy}
         navigate={navigate}
         saveId={saveId}
+        handleDeleteElements={handleDeleteElements}
       />
     </Html>
   );

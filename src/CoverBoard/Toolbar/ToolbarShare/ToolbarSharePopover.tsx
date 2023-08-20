@@ -12,7 +12,7 @@ import { Close as CloseIcon } from '@mui/icons-material';
 
 import { LocalStorageData, ToolConfigIDs, DEFAULT_KEY } from 'types';
 import { NavigateFunction } from 'react-router-dom';
-import { addPrefix, haxPrefix, removePrefix, setHash } from 'utils';
+import { addPrefix, clearHash, haxPrefix, removePrefix, setHash } from 'utils';
 import { CommonDialog } from 'components';
 
 interface SaveProps {
@@ -23,6 +23,7 @@ interface SaveProps {
   handleCopy: (success: boolean) => void;
   navigate: NavigateFunction;
   saveId: string;
+  handleDeleteElements: () => void;
 }
 
 export const ToolbarSharePopover: React.FC<SaveProps> = ({
@@ -33,6 +34,7 @@ export const ToolbarSharePopover: React.FC<SaveProps> = ({
   handleCopy,
   navigate,
   saveId,
+  handleDeleteElements,
 }) => {
   const [jsonData, setJsonData] = useState(JSON.stringify(instance, null, 4));
   const [storage, setStorage] = useState(window.localStorage);
@@ -86,13 +88,18 @@ export const ToolbarSharePopover: React.FC<SaveProps> = ({
 
   const hasDefault = window.localStorage.getItem(addPrefix(DEFAULT_KEY));
 
+  const handleClose = () => {
+    clearHash();
+    onClose();
+  };
+
   const handleCreateNewSave = () => {
     const value = newSave.trim();
 
     if (value) {
-      navigate(`/${newSave}#share`);
+      navigate(`/${newSave}`);
       setNewSave('');
-      onClose();
+      handleClose();
     }
   };
 
@@ -107,7 +114,7 @@ export const ToolbarSharePopover: React.FC<SaveProps> = ({
               const showDelete =
                 currentSave !== DEFAULT_KEY ||
                 (currentSave === DEFAULT_KEY &&
-                  currentSave !== saveId &&
+                  currentSave === saveId &&
                   hasDefault);
               return (
                 <Chip
@@ -121,6 +128,12 @@ export const ToolbarSharePopover: React.FC<SaveProps> = ({
                     showDelete
                       ? (evt) => {
                           evt.preventDefault();
+
+                          if (saveId === DEFAULT_KEY) {
+                            handleDeleteElements();
+                            handleClose();
+                            return;
+                          }
 
                           window.localStorage.removeItem(
                             addPrefix(currentSave),
@@ -138,7 +151,14 @@ export const ToolbarSharePopover: React.FC<SaveProps> = ({
                         }
                       : undefined
                   }
-                  deleteIcon={showDelete ? <CloseIcon /> : undefined}
+                  deleteIcon={
+                    showDelete ? (
+                      <div title="delete page">
+                        {' '}
+                        <CloseIcon />{' '}
+                      </div>
+                    ) : undefined
+                  }
                   style={{
                     marginRight: '4px',
                     marginBottom: '8px',

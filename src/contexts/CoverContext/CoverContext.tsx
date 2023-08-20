@@ -59,6 +59,7 @@ interface CoverContextData
   lines: Lines[];
   configs: ToolbarConfigParams;
   saveId: string;
+  resetInstance: () => void;
   setCover: (currentCover: (curr: Covers[]) => Covers[]) => void;
   setLines: (currentLines: (curr: Lines[]) => Lines[]) => void;
   setConfigs: (
@@ -191,6 +192,8 @@ export const CoverProvider: React.FC<CoverProviderProps> = ({ children }) => {
     }
   }, [action, setConfigs, setCover, setLines]);
 
+  const resetInstance = () => setInstance(initial());
+
   return (
     <CoverContext.Provider
       value={{
@@ -208,6 +211,7 @@ export const CoverProvider: React.FC<CoverProviderProps> = ({ children }) => {
         setConfigs,
         instance,
         setInstance,
+        resetInstance,
         undo,
         action,
         saveId,

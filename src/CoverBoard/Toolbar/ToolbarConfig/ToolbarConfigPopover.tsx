@@ -32,7 +32,6 @@ interface ToolbarConfigPopoverProps {
     updatedParam?: ToolbarConfigValues,
   ) => void;
   config: ToolbarConfigParams;
-  handleDeleteElements: () => void;
   handleResetElements: () => void;
   offLimitCovers: Array<Covers>;
 }
@@ -42,7 +41,6 @@ export const ToolbarConfigPopover: React.FC<ToolbarConfigPopoverProps> = ({
   onClose,
   onSubmit,
   config,
-  handleDeleteElements,
   handleResetElements,
   offLimitCovers,
 }) => {
@@ -223,10 +221,16 @@ export const ToolbarConfigPopover: React.FC<ToolbarConfigPopoverProps> = ({
           </Grid>
           <Grid item xs={12}>
             <Button
+              variant="contained"
+              color="primary"
+              type="submit"
+              style={{ marginRight: '20px' }}>
+              Submit
+            </Button>
+            <Button
               variant="outlined"
               color="primary"
               type="button"
-              style={{ marginRight: '20px', marginBottom: '20px' }}
               disabled={offLimitCovers.length === 0}
               onClick={() => {
                 handleResetElements();
@@ -234,27 +238,7 @@ export const ToolbarConfigPopover: React.FC<ToolbarConfigPopoverProps> = ({
               }}>
               Move {offLimitCovers.length} elem into view
             </Button>
-            <Button
-              variant="outlined"
-              color="primary"
-              type="button"
-              style={{ marginBottom: '20px' }}
-              onClick={() => {
-                handleDeleteElements();
-                onClose();
-              }}>
-              Clear all elements
-            </Button>
           </Grid>
-        </Grid>
-        <Grid item xs={12}>
-          <Button
-            variant="contained"
-            color="primary"
-            type="submit"
-            style={{ marginRight: '20px' }}>
-            Submit
-          </Button>
         </Grid>
       </form>
     </CommonDialog>
