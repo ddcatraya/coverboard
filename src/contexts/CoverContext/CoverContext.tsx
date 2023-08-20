@@ -113,9 +113,7 @@ export const CoverProvider: React.FC<CoverProviderProps> = ({ children }) => {
 
       if (item) {
         const parsedItem: LocalStorageData = JSON.parse(item);
-        const parsedSchema = schema(parsedItem.cover, parsedItem.lines).parse(
-          parsedItem,
-        );
+        const parsedSchema = schema(parsedItem).parse(parsedItem);
         if (parsedSchema) {
           setInstance(parsedSchema);
           return;

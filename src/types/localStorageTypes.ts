@@ -3,6 +3,7 @@ import { CoverImage } from './coverTypes';
 import { LinePoint } from './lineTypes';
 import { z } from 'zod';
 import { PosTypes } from './generalTypes';
+import { validate } from 'uuid';
 
 export enum LocalStorageKeys {
   COVER = 'cover',
@@ -16,7 +17,7 @@ export interface LocalStorageData {
   [LocalStorageKeys.LINES]: Array<LinePoint>;
 }
 
-export const schema = (cover: CoverImage[], lines: LinePoint[]) =>
+export const schema = (parsedData: LocalStorageData) =>
   z.object({
     configs: z.object(
       {
@@ -86,8 +87,8 @@ export const schema = (cover: CoverImage[], lines: LinePoint[]) =>
             required_error: 'cover:id is required',
           })
           .refine((id) => {
-            return cover.find((c) => c.id === id);
-          }, 'cover:id cannot be modified'),
+            return validate(id);
+          }, 'cover:id has invalid format'),
         link: z.string().url().includes('https://lastfm.freetls.fastly.net'),
         x: z
           .number({
@@ -102,15 +103,11 @@ export const schema = (cover: CoverImage[], lines: LinePoint[]) =>
           })
           .min(0, 'cover:y position must be positive number'),
         artistLabel: z.object({
-          originalText: z
-            .string({
-              invalid_type_error:
-                'cover:artistLabel:originalText must be a string',
-              required_error: 'cover:artistLabel:originalText is required',
-            })
-            .refine((text) => {
-              return cover.find((c) => c.artistLabel.originalText === text);
-            }, 'cover:artistLabel:originalText cannot be modified'),
+          originalText: z.string({
+            invalid_type_error:
+              'cover:artistLabel:originalText must be a string',
+            required_error: 'cover:artistLabel:originalText is required',
+          }),
           text: z
             .string({
               invalid_type_error: 'cover:artistLabel:text must be a string',
@@ -119,15 +116,11 @@ export const schema = (cover: CoverImage[], lines: LinePoint[]) =>
             .trim(),
         }),
         albumLabel: z.object({
-          originalText: z
-            .string({
-              invalid_type_error:
-                'cover:albumLabel:originalText must be a string',
-              required_error: 'cover:albumLabel:originalText is required',
-            })
-            .refine((text) => {
-              return cover.find((c) => c.albumLabel.originalText === text);
-            }, 'cover:albumLabel:originalText cannot be modified'),
+          originalText: z.string({
+            invalid_type_error:
+              'cover:albumLabel:originalText must be a string',
+            required_error: 'cover:albumLabel:originalText is required',
+          }),
           text: z
             .string({
               invalid_type_error: 'cover:albumLabel:text must be a string',
@@ -151,61 +144,71 @@ export const schema = (cover: CoverImage[], lines: LinePoint[]) =>
       },
     ),
     lines: z.array(
-      z.object({
-        id: z
-          .string({
-            invalid_type_error: 'lines:id must be a string',
-            required_error: 'lines:id is required',
-          })
-          .refine((id) => {
-            return lines.find((l) => l.id === id);
-          }, 'lines:id cannot be modified'),
-        text: z
-          .string({
-            invalid_type_error: 'lines:label:text must be a string',
-            required_error: 'lines:label:text is required',
-          })
-          .trim(),
-        dir: z.nativeEnum(PosTypes, {
-          errorMap: (_, _ctx) => {
-            return {
-              message: `lines:label:dir must be ${Object.values(PosTypes).join(
-                ' | ',
-              )}`,
-            };
-          },
-        }),
-        origin: z.object({
+      z
+        .object({
           id: z
             .string({
-              invalid_type_error: 'lines:origin:id must be a string',
-              required_error: 'lines:origin:id is required',
+              invalid_type_error: 'lines:id must be a string',
+              required_error: 'lines:id is required',
             })
             .refine((id) => {
-              return cover.find((c) => c.id === id);
-            }, 'lines:origin:id not found'),
-          pos: z.nativeEnum(PosTypes),
-        }),
-        target: z.object({
-          id: z
+              return validate(id);
+            }, 'lines:id has invalid format'),
+          text: z
             .string({
-              invalid_type_error: 'lines:target:id must be a string',
-              required_error: 'lines:target:id is required',
+              invalid_type_error: 'lines:text must be a string',
+              required_error: 'lines:text is required',
             })
-            .refine((id) => {
-              return cover.find((c) => c.id === id);
-            }, 'lines:target:id not found'),
-          pos: z.nativeEnum(PosTypes, {
+            .trim(),
+          dir: z.nativeEnum(PosTypes, {
             errorMap: (_, _ctx) => {
               return {
-                message: `lines:target:dir must be ${Object.values(
-                  PosTypes,
-                ).join(' | ')}`,
+                message: `lines:dir must be ${Object.values(PosTypes).join(
+                  ' | ',
+                )}`,
               };
             },
           }),
-        }),
-      }),
+          origin: z.object({
+            id: z
+              .string({
+                invalid_type_error: 'lines:origin:id must be a string',
+                required_error: 'lines:origin:id is required',
+              })
+              .refine((id) => {
+                return validate(id);
+              }, 'lines:origin:id has invalid format')
+              .refine((id) => {
+                return parsedData.cover.find((star) => star.id === id);
+              }, 'lines:origin:id does not exist'),
+            pos: z.nativeEnum(PosTypes),
+          }),
+          target: z.object({
+            id: z
+              .string({
+                invalid_type_error: 'lines:target:id must be a string',
+                required_error: 'lines:target:id is required',
+              })
+              .refine((id) => {
+                return validate(id);
+              }, 'lines:target:id has invalid format')
+              .refine((id) => {
+                return parsedData.cover.find((star) => star.id === id);
+              }, 'lines:target:id does not exist'),
+            pos: z.nativeEnum(PosTypes, {
+              errorMap: (_, _ctx) => {
+                return {
+                  message: `lines:target:dir must be ${Object.values(
+                    PosTypes,
+                  ).join(' | ')}`,
+                };
+              },
+            }),
+          }),
+        })
+        .refine((line) => {
+          return line.origin.id === line.target.id;
+        }, 'lines:origin:id must be different than lines:target:id'),
       {
         invalid_type_error: 'lines must be an array of objects',
         required_error: 'lines is required',

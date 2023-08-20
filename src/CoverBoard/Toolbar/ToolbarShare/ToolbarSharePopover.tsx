@@ -104,50 +104,55 @@ export const ToolbarSharePopover: React.FC<SaveProps> = ({
       <Grid container spacing={2}>
         <Grid item xs={12}>
           <Typography gutterBottom>Pick a page:</Typography>
-          {keyList.map((currentSaveWithPrefix) => {
-            const currentSave = removePrefix(currentSaveWithPrefix);
-            const showDelete =
-              currentSave !== DEFAULT_KEY ||
-              (currentSave === DEFAULT_KEY &&
-                currentSave !== saveId &&
-                hasDefault);
-            return (
-              <Chip
-                key={currentSave}
-                label={currentSave}
-                color={saveId === currentSave ? 'primary' : 'default'}
-                onClick={() => {
-                  navigate(`/${currentSave}#${ToolConfigIDs.SHARE}`);
-                  onClose();
-                }}
-                onDelete={
-                  showDelete
-                    ? (evt) => {
-                        evt.preventDefault();
+          <div style={{ display: 'flex', flexWrap: 'wrap' }}>
+            {keyList.map((currentSaveWithPrefix) => {
+              const currentSave = removePrefix(currentSaveWithPrefix);
+              const showDelete =
+                currentSave !== DEFAULT_KEY ||
+                (currentSave === DEFAULT_KEY &&
+                  currentSave !== saveId &&
+                  hasDefault);
+              return (
+                <Chip
+                  key={currentSave}
+                  label={currentSave}
+                  color={saveId === currentSave ? 'primary' : 'default'}
+                  onClick={() => {
+                    navigate(`/${currentSave}#${ToolConfigIDs.SHARE}`);
+                  }}
+                  onDelete={
+                    showDelete
+                      ? (evt) => {
+                          evt.preventDefault();
 
-                        window.localStorage.removeItem(addPrefix(currentSave));
-                        setStorage((prevStorage) => {
-                          const prevStorageCopy = { ...prevStorage };
-                          delete prevStorageCopy[addPrefix(currentSave)];
+                          window.localStorage.removeItem(
+                            addPrefix(currentSave),
+                          );
+                          setStorage((prevStorage) => {
+                            const prevStorageCopy = { ...prevStorage };
+                            delete prevStorageCopy[addPrefix(currentSave)];
 
-                          return prevStorageCopy;
-                        });
+                            return prevStorageCopy;
+                          });
 
-                        if (saveId === currentSave) {
-                          navigate(`/${DEFAULT_KEY}#${ToolConfigIDs.SHARE}`);
+                          if (saveId === currentSave) {
+                            navigate(`/${DEFAULT_KEY}#${ToolConfigIDs.SHARE}`);
+                          }
                         }
-                      }
-                    : undefined
-                }
-                deleteIcon={showDelete ? <CloseIcon /> : undefined}
-                style={{
-                  marginRight: '4px',
-                  marginBottom: '8px',
-                  width: '32%',
-                }}
-              />
-            );
-          })}
+                      : undefined
+                  }
+                  deleteIcon={showDelete ? <CloseIcon /> : undefined}
+                  style={{
+                    marginRight: '4px',
+                    marginBottom: '8px',
+                    width: '32%',
+                    display: 'flex',
+                    justifyContent: 'space-between',
+                  }}
+                />
+              );
+            })}
+          </div>
         </Grid>
         <Grid item xs={12}>
           <form
@@ -213,7 +218,7 @@ export const ToolbarSharePopover: React.FC<SaveProps> = ({
             onClick={() => {
               setJsonData(JSON.stringify(instance, null, 4));
             }}
-            style={{ marginBottom: '20px' }}>
+            style={{ marginRight: '20px', marginBottom: '20px' }}>
             Reset
           </Button>
         </Grid>

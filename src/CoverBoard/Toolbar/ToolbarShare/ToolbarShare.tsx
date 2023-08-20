@@ -8,7 +8,7 @@ import { ZodError } from 'zod';
 
 export const ToolbarShare: React.FC = () => {
   const navigate = useNavigate();
-  const { instance, setInstance, saveId, cover, lines } = useCoverContext();
+  const { instance, setInstance, saveId } = useCoverContext();
   const { showSuccessMessage, showErrorMessage } = useToastContext();
   const { openShare, setOpenShare } = useToolbarContext();
 
@@ -17,7 +17,7 @@ export const ToolbarShare: React.FC = () => {
       const parsedData: LocalStorageData = JSON.parse(data);
 
       try {
-        const parsedSchema = schema(cover, lines).parse(parsedData);
+        const parsedSchema = schema(parsedData).parse(parsedData);
         if (parsedSchema) {
           setInstance(parsedSchema);
           setOpenShare(false);
