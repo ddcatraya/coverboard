@@ -160,22 +160,20 @@ export const schema = (cover: CoverImage[], lines: LinePoint[]) =>
           .refine((id) => {
             return lines.find((l) => l.id === id);
           }, 'lines:id cannot be modified'),
-        label: z.object({
-          text: z
-            .string({
-              invalid_type_error: 'lines:label:text must be a string',
-              required_error: 'lines:label:text is required',
-            })
-            .trim(),
-          dir: z.nativeEnum(PosTypes, {
-            errorMap: (_, _ctx) => {
-              return {
-                message: `lines:label:dir must be ${Object.values(
-                  PosTypes,
-                ).join(' | ')}`,
-              };
-            },
-          }),
+        text: z
+          .string({
+            invalid_type_error: 'lines:label:text must be a string',
+            required_error: 'lines:label:text is required',
+          })
+          .trim(),
+        dir: z.nativeEnum(PosTypes, {
+          errorMap: (_, _ctx) => {
+            return {
+              message: `lines:label:dir must be ${Object.values(PosTypes).join(
+                ' | ',
+              )}`,
+            };
+          },
         }),
         origin: z.object({
           id: z

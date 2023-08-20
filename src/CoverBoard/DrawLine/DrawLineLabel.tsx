@@ -45,14 +45,14 @@ export const DrawLineLabel: React.FC<LineProps> = ({
       <TextLabel
         open={open}
         setOpen={setOpen}
-        label={line.label.text}
+        label={line.text}
         onReset={handleReset}
         setLabel={handleUpdateLabel}
         pos={{
           x: -coverSize,
           y: fontSize * 1.5,
           width: coverSize * 2,
-          align: getAlign(line.label.dir),
+          align: getAlign(line.dir),
         }}
       />
     </DrawLineLabelDraggable>

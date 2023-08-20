@@ -52,10 +52,9 @@ export const useLines = (
         return [
           ...lineCopy,
           {
-            label: {
-              text: '',
-              dir: PosTypes.BOTTOM,
-            },
+            text: '',
+            dir: PosTypes.BOTTOM,
+
             origin: { ...points },
             target: { id, pos },
             id: uuidv4(),
@@ -67,10 +66,7 @@ export const useLines = (
       setLines((currentLines) =>
         currentLines.map((currentLine) => ({
           ...currentLine,
-          label: {
-            ...currentLine.label,
-            dir: PosTypes.BOTTOM,
-          },
+          dir: PosTypes.BOTTOM,
         })),
       );
     },
@@ -80,10 +76,7 @@ export const useLines = (
           if (currentLine.id === linedId) {
             return {
               ...currentLine,
-              label: {
-                ...currentLine.label,
-                dir: PosTypes.BOTTOM,
-              },
+              dir: PosTypes.BOTTOM,
             };
           }
           return currentLine;
@@ -96,10 +89,7 @@ export const useLines = (
           if (currentLine.id === linedId) {
             return {
               ...currentLine,
-              label: {
-                ...currentLine.label,
-                dir,
-              },
+              dir,
             };
           }
           return currentLine;
@@ -112,10 +102,7 @@ export const useLines = (
           if (currentLine.id === linedId) {
             return {
               ...currentLine,
-              label: {
-                ...currentLine.label,
-                text,
-              },
+              text,
             };
           }
           return currentLine;

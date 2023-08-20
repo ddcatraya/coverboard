@@ -9,10 +9,6 @@ export interface LinePoint {
   id: string;
   origin: Point;
   target: Point;
-  label: LabelParams;
-}
-
-export interface LabelParams {
   text: string;
   dir: PosTypes;
 }

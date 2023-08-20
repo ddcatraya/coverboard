@@ -63,17 +63,17 @@ export const DrawLineLabelDraggable = ({
   };
 
   const newPos = useMemo(() => {
-    if (line.label.dir === PosTypes.BOTTOM) {
+    if (line.dir === PosTypes.BOTTOM) {
       return {
         x: 0,
         y: 0,
       };
-    } else if (line.label.dir === PosTypes.TOP) {
+    } else if (line.dir === PosTypes.TOP) {
       return {
         x: 0,
         y: -1.5 * 4 * circleRadius,
       };
-    } else if (line.label.dir === PosTypes.RIGHT) {
+    } else if (line.dir === PosTypes.RIGHT) {
       return {
         x: coverSize + 3 * circleRadius,
         y: -1.5 * 2 * circleRadius,
@@ -84,7 +84,7 @@ export const DrawLineLabelDraggable = ({
         y: -1.5 * 2 * circleRadius,
       };
     }
-  }, [circleRadius, coverSize, line.label.dir]);
+  }, [circleRadius, coverSize, line.dir]);
 
   return (
     <Group

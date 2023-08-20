@@ -10,7 +10,7 @@ export {
   buildTitle,
 } from './generalTypes';
 
-export type { Point, LinePoint, LineParams, LabelParams } from './lineTypes';
+export type { Point, LinePoint, LineParams } from './lineTypes';
 
 export type { TooltipValues, ToolConfig } from './toolbarTypes';
 export { ToolConfigIDs } from './toolbarTypes';
