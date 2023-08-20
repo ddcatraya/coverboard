@@ -153,9 +153,8 @@ export const ToolbarSharePopover: React.FC<SaveProps> = ({
                   }
                   deleteIcon={
                     showDelete ? (
-                      <div title="delete page">
-                        {' '}
-                        <CloseIcon />{' '}
+                      <div style={{ display: 'flex' }} title="delete page">
+                        <CloseIcon />
                       </div>
                     ) : undefined
                   }
