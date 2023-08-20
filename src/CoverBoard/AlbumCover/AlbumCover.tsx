@@ -38,8 +38,6 @@ export const AlbumCover: React.FC<CoverImageProps> = ({ albumCover }) => {
     ? 1.5 * fontSize
     : 0;
 
-  if (status === 'loading') return null;
-
   return (
     <AlbumCoverDraggable
       albumCover={albumCover}

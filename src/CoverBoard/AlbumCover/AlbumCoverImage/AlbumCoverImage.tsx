@@ -79,7 +79,7 @@ export const AlbumCoverImage: React.FC<CoverImageProps> = ({
           <Rect
             width={coverSize}
             height={coverSize}
-            fill={colorMap[configs.color]}
+            stroke={colorMap[configs.color]}
             onClick={
               !editLines ? () => handleEraseImage(albumCover.id) : undefined
             }
@@ -97,12 +97,12 @@ export const AlbumCoverImage: React.FC<CoverImageProps> = ({
           />
           <Text
             fontSize={fontSize * 1.2}
-            x={coverSize / 4}
+            x={0}
             y={coverSize / 2 - (fontSize * 1.2) / 2}
-            width={coverSize / 2}
+            width={coverSize}
             align="center"
-            fill={backColorMap[configs.backColor]}
-            text="Error"
+            fill={colorMap[configs.color]}
+            text={status === 'failed' ? 'Error' : 'Loading...'}
           />
         </>
       )}
