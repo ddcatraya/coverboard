@@ -55,6 +55,12 @@ export const CoverBoard: React.FC = () => {
     <>
       <Stage width={windowSize.width} height={windowSize.height} ref={stageRef}>
         <Layer>
+          <Rect
+            width={windowSize.width}
+            height={windowSize.height}
+            fill={backColorMap[configs.backColor]}
+            listening={false}
+          />
           <Group name="board" x={dragLimits.x} y={dragLimits.y}>
             {cover.map((star) => (
               <AlbumCover albumCover={star} key={star.id} />
