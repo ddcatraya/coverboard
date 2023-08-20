@@ -16,7 +16,7 @@ import {
   BackColors,
   colorMap,
   Colors,
-  CoverImage,
+  Covers,
   PosTypes,
   ToolbarConfigParams,
   ToolbarConfigValues,
@@ -34,7 +34,7 @@ interface ToolbarConfigPopoverProps {
   config: ToolbarConfigParams;
   handleDeleteElements: () => void;
   handleResetElements: () => void;
-  offLimitCovers: Array<CoverImage>;
+  offLimitCovers: Array<Covers>;
 }
 
 export const ToolbarConfigPopover: React.FC<ToolbarConfigPopoverProps> = ({

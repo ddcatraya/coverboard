@@ -3,11 +3,11 @@ import { Circle, Group } from 'react-konva';
 import { KonvaEventObject } from 'konva/lib/Node';
 
 import { useCoverContext, useSizesContext } from 'contexts';
-import { backColorMap, colorMap, LinePoint } from 'types';
+import { backColorMap, colorMap, Lines } from 'types';
 
 interface LineProps {
-  line: LinePoint;
-  handleOpen: (line: LinePoint) => void;
+  line: Lines;
+  handleOpen: (line: Lines) => void;
 }
 
 export const DrawLineCircle: React.FC<LineProps> = (props) => {

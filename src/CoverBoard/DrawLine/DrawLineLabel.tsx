@@ -1,13 +1,13 @@
 import React from 'react';
 
 import { useCoverContext, useSizesContext } from 'contexts';
-import { LineParams, LinePoint, PosTypes } from 'types';
+import { LineParams, Lines, PosTypes } from 'types';
 import { DrawLineLabelDraggable } from '.';
 import { TextLabel } from 'components';
 import { getAlign } from 'utils';
 
 interface LineProps {
-  line: LinePoint;
+  line: Lines;
   open: boolean;
   setOpen: (open: boolean) => void;
   lineParams: LineParams;

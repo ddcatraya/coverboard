@@ -1,7 +1,7 @@
 import React from 'react';
 
 import { useCoverContext, useSizesContext } from 'contexts';
-import { CoverImage, LabelType, PosTypes } from 'types';
+import { Covers, LabelType, PosTypes } from 'types';
 import {
   AlbumCoverDrawLine,
   AlbumCoverImage,
@@ -10,13 +10,15 @@ import {
   AlbumCoverDraggable,
 } from '.';
 import { Vector2d } from 'konva/lib/types';
+import useImage from 'use-image';
 
 interface CoverImageProps {
-  albumCover: CoverImage;
+  albumCover: Covers;
 }
 
 export const AlbumCover: React.FC<CoverImageProps> = ({ albumCover }) => {
   const { id } = albumCover;
+  const [image, status] = useImage('aaa', 'anonymous');
   const { updateCoverPosition, configs, updateCoverDir } = useCoverContext();
   const { fontSize, dragLimits, toobarIconSize, coverSize, windowSize } =
     useSizesContext();
@@ -46,6 +48,8 @@ export const AlbumCover: React.FC<CoverImageProps> = ({ albumCover }) => {
     ? 1.5 * fontSize
     : 0;
 
+  if (status === 'loading') return null;
+
   return (
     <AlbumCoverDraggable
       update={albumCover}
@@ -59,7 +63,7 @@ export const AlbumCover: React.FC<CoverImageProps> = ({ albumCover }) => {
         y: windowSize.height - coverSize - toobarIconSize / 2,
       }}>
       <AlbumCoverDrawLine id={id} />
-      <AlbumCoverImage albumCover={albumCover} />
+      <AlbumCoverImage albumCover={albumCover} image={image} status={status} />
 
       <AlbumCoverLabelDraggable
         albumCover={albumCover}

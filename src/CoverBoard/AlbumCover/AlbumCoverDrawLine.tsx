@@ -2,11 +2,11 @@ import React from 'react';
 import { Group, Rect } from 'react-konva';
 
 import { useCoverContext, useSizesContext } from 'contexts';
-import { CoverImage, PosTypes } from 'types';
+import { Covers, PosTypes } from 'types';
 import { KonvaEventObject } from 'konva/lib/Node';
 
 interface AlbumCoverDrawLineProps {
-  id: CoverImage['id'];
+  id: Covers['id'];
 }
 
 export const AlbumCoverDrawLine: React.FC<AlbumCoverDrawLineProps> = ({

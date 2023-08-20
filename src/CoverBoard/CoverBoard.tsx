@@ -9,7 +9,7 @@ import { flushSync } from 'react-dom';
 import { formatDate } from 'utils';
 
 export const CoverBoard: React.FC = () => {
-  const { cover, lines, configs, saveId } = useCoverContext();
+  const { covers, lines, configs, saveId } = useCoverContext();
   const {
     toolBarLimits,
     dragLimits,
@@ -23,7 +23,7 @@ export const CoverBoard: React.FC = () => {
   const [screenshotUrl, setScreenshotUrl] = useState('');
   const [showLogo, setShowLogo] = useState(true);
 
-  const pos0 = cover.filter((cov) => cov.x === 0 && cov.y === 0).length;
+  const pos0 = covers.filter((cov) => cov.x === 0 && cov.y === 0).length;
 
   const takeScreenshot = () => {
     const stage = stageRef.current;
@@ -62,7 +62,7 @@ export const CoverBoard: React.FC = () => {
             listening={false}
           />
           <Group name="board" x={dragLimits.x} y={dragLimits.y}>
-            {cover.map((star) => (
+            {covers.map((star) => (
               <AlbumCover albumCover={star} key={star.id} />
             ))}
             {lines.map((line) => (

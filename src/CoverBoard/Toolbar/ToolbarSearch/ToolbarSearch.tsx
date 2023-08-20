@@ -12,7 +12,7 @@ import { PosTypes, SearchParams } from 'types';
 import { v4 as uuidv4 } from 'uuid';
 
 export const ToolbarSearch: React.FC = () => {
-  const { cover, addCovers } = useCoverContext();
+  const { covers, addCovers } = useCoverContext();
   const { showSuccessMessage, showErrorMessage } = useToastContext();
   const { apiKey } = useApiContext();
   const { openSearch, setOpenSearch } = useToolbarContext();
@@ -23,10 +23,10 @@ export const ToolbarSearch: React.FC = () => {
 
       const filteredAlbums = albums.filter(
         (filteredAlbum) =>
-          !cover.find(
+          !covers.find(
             (star) =>
-              star.artistLabel.originalText === filteredAlbum.artist &&
-              star.albumLabel.originalText === filteredAlbum.album,
+              star.artist.originalText === filteredAlbum.artist &&
+              star.album.originalText === filteredAlbum.album,
           ),
       );
 
@@ -37,11 +37,11 @@ export const ToolbarSearch: React.FC = () => {
             link: filteredAlbum.link,
             x: 0,
             y: 0,
-            artistLabel: {
+            artist: {
               originalText: filteredAlbum.artist,
               text: filteredAlbum.artist,
             },
-            albumLabel: {
+            album: {
               originalText: filteredAlbum.album,
               text: filteredAlbum.album,
             },

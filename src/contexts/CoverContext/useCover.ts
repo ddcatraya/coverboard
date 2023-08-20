@@ -1,5 +1,5 @@
 import { Vector2d } from 'konva/lib/types';
-import { CoverImage, PosTypes, LabelType, LinePoint } from 'types';
+import { Covers, PosTypes, LabelType, Lines } from 'types';
 export interface UseCoverParams {
   updateCoverDir: (coverId: string, dir: PosTypes) => void;
   updateAllCoversDir: (dir: PosTypes) => void;
@@ -12,15 +12,15 @@ export interface UseCoverParams {
   ) => void;
   removeCover: (coverId: string) => void;
   updateCoversText: (artistText: string, albumText: string) => void;
-  addCovers: (filteredAlbums: Array<CoverImage>) => void;
+  addCovers: (filteredAlbums: Array<Covers>) => void;
   updateCoverPosition: (coverId: string, { x, y }: Vector2d) => void;
   updateAllCoverPosition: (arrayPos: Array<Vector2d>) => void;
   clearAllCovers: () => void;
 }
 
 export const useCover = (
-  setCover: (currentCover: (curr: CoverImage[]) => CoverImage[]) => void,
-  setLines: (currentLines: (curr: LinePoint[]) => LinePoint[]) => void,
+  setCover: (currentCover: (curr: Covers[]) => Covers[]) => void,
+  setLines: (currentLines: (curr: Lines[]) => Lines[]) => void,
 ): UseCoverParams => {
   return {
     clearAllCovers() {
@@ -51,13 +51,13 @@ export const useCover = (
       setCover((currentCover) =>
         currentCover.map((star) => ({
           ...star,
-          artistLabel: {
-            ...star.artistLabel,
-            text: star.artistLabel.originalText,
+          artist: {
+            ...star.artist,
+            text: star.artist.originalText,
           },
-          albumLabel: {
-            ...star.albumLabel,
-            text: star.albumLabel.originalText,
+          album: {
+            ...star.album,
+            text: star.album.originalText,
           },
           dir: PosTypes.BOTTOM,
           x: 0,

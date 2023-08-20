@@ -25,7 +25,7 @@ export const Toolbar: React.FC<ToolbarProps> = ({
     setEditLines,
     undo,
     action,
-    cover,
+    covers,
     lines,
     configs,
   } = useCoverContext();
@@ -46,12 +46,12 @@ export const Toolbar: React.FC<ToolbarProps> = ({
   const configTools: Array<ToolConfig> = [
     {
       id: ToolConfigIDs.SEARCH,
-      tooltip: `Add albums (covers: ${cover.length})`,
+      tooltip: `Add albums (covers: ${covers.length})`,
       color: colorMap[Colors.GREEN],
       emoji: '🔍',
       value: openSearch,
       valueModifier: setOpenSearch,
-      badge: cover.length,
+      badge: covers.length,
       enabled: true,
     },
     {
@@ -86,12 +86,12 @@ export const Toolbar: React.FC<ToolbarProps> = ({
     },
     {
       id: ToolConfigIDs.ERASE,
-      tooltip: `Erase mode (elements: ${lines.length + cover.length})`,
+      tooltip: `Erase mode (elements: ${lines.length + covers.length})`,
       color: colorMap[Colors.ORANGE],
       emoji: '🗑️',
       value: erase,
       valueModifier: setErase,
-      badge: lines.length + cover.length,
+      badge: lines.length + covers.length,
       enabled: true,
     },
     {

@@ -2,13 +2,13 @@ import { Group } from 'react-konva';
 import { KonvaEventObject } from 'konva/lib/Node';
 import { useMemo, useState } from 'react';
 import { useCoverContext, useSizesContext } from 'contexts';
-import { LineParams, LinePoint, PosTypes } from 'types';
+import { LineParams, Lines, PosTypes } from 'types';
 import { v4 as uuidv4 } from 'uuid';
 import { getClientPosition } from 'utils';
 
 interface DraggableGroupProps {
   children: React.ReactNode;
-  line: LinePoint;
+  line: Lines;
   setUpdate: (dir: PosTypes) => void;
   lineParams: LineParams;
 }

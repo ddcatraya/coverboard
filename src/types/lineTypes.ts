@@ -5,7 +5,7 @@ export interface Point {
   pos: PosTypes;
 }
 
-export interface LinePoint {
+export interface Lines {
   id: string;
   origin: Point;
   target: Point;

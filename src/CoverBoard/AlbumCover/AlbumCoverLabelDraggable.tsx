@@ -2,13 +2,13 @@ import { Group } from 'react-konva';
 import { KonvaEventObject } from 'konva/lib/Node';
 import { useMemo, useState } from 'react';
 import { useCoverContext, useSizesContext } from 'contexts';
-import { CoverImage, PosTypes } from 'types';
+import { Covers, PosTypes } from 'types';
 import { v4 as uuidv4 } from 'uuid';
 import { getClientPosition } from 'utils';
 
 interface DraggableGroupProps {
   children: React.ReactNode;
-  albumCover: CoverImage;
+  albumCover: Covers;
   setUpdate: (title: PosTypes) => void;
   offset: number;
   offSetTop: number;

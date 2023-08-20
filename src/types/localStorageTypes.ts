@@ -1,20 +1,20 @@
 import { BackColors, Colors, ToolbarConfigParams } from './configTypes';
-import { CoverImage } from './coverTypes';
-import { LinePoint } from './lineTypes';
+import { Covers } from './coverTypes';
+import { Lines } from './lineTypes';
 import { z } from 'zod';
 import { PosTypes } from './generalTypes';
 import { validate } from 'uuid';
 
 export enum LocalStorageKeys {
-  COVER = 'cover',
+  COVER = 'covers',
   LINES = 'lines',
   CONFIG = 'configs',
 }
 
 export interface LocalStorageData {
   [LocalStorageKeys.CONFIG]: ToolbarConfigParams;
-  [LocalStorageKeys.COVER]: Array<CoverImage>;
-  [LocalStorageKeys.LINES]: Array<LinePoint>;
+  [LocalStorageKeys.COVER]: Array<Covers>;
+  [LocalStorageKeys.LINES]: Array<Lines>;
 }
 
 export const schema = (parsedData: LocalStorageData) =>
@@ -79,59 +79,57 @@ export const schema = (parsedData: LocalStorageData) =>
         required_error: 'configs is required',
       },
     ),
-    cover: z.array(
+    covers: z.array(
       z.object({
         id: z
           .string({
-            invalid_type_error: 'cover:id must be a string',
-            required_error: 'cover:id is required',
+            invalid_type_error: 'covers:id must be a string',
+            required_error: 'covers:id is required',
           })
           .refine((id) => {
             return validate(id);
-          }, 'cover:id has invalid format'),
+          }, 'covers:id has invalid format'),
         link: z.string().url().includes('https://lastfm.freetls.fastly.net'),
         x: z
           .number({
-            invalid_type_error: 'cover:x position must be a number',
-            required_error: 'cover:x is required',
+            invalid_type_error: 'covers:x position must be a number',
+            required_error: 'covers:x is required',
           })
-          .min(0, 'cover:x position must be positive number'),
+          .min(0, 'covers:x position must be positive number'),
         y: z
           .number({
-            invalid_type_error: 'cover:y position must be a number',
-            required_error: 'cover:y is required',
+            invalid_type_error: 'covers:y position must be a number',
+            required_error: 'covers:y is required',
           })
-          .min(0, 'cover:y position must be positive number'),
-        artistLabel: z.object({
+          .min(0, 'covers:y position must be positive number'),
+        artist: z.object({
           originalText: z.string({
-            invalid_type_error:
-              'cover:artistLabel:originalText must be a string',
-            required_error: 'cover:artistLabel:originalText is required',
+            invalid_type_error: 'covers:artist:originalText must be a string',
+            required_error: 'covers:artist:originalText is required',
           }),
           text: z
             .string({
-              invalid_type_error: 'cover:artistLabel:text must be a string',
-              required_error: 'cover:artistLabel:text is required',
+              invalid_type_error: 'covers:artist:text must be a string',
+              required_error: 'covers:artist:text is required',
             })
             .trim(),
         }),
-        albumLabel: z.object({
+        album: z.object({
           originalText: z.string({
-            invalid_type_error:
-              'cover:albumLabel:originalText must be a string',
-            required_error: 'cover:albumLabel:originalText is required',
+            invalid_type_error: 'covers:album:originalText must be a string',
+            required_error: 'covers:album:originalText is required',
           }),
           text: z
             .string({
-              invalid_type_error: 'cover:albumLabel:text must be a string',
-              required_error: 'cover:albumLabel:text is required',
+              invalid_type_error: 'covers:album:text must be a string',
+              required_error: 'covers:album:text is required',
             })
             .trim(),
         }),
         dir: z.nativeEnum(PosTypes, {
           errorMap: (_, _ctx) => {
             return {
-              message: `cover:dir must be ${Object.values(PosTypes).join(
+              message: `covers:dir must be ${Object.values(PosTypes).join(
                 ' | ',
               )}`,
             };
@@ -139,8 +137,8 @@ export const schema = (parsedData: LocalStorageData) =>
         }),
       }),
       {
-        invalid_type_error: 'cover must be an array of objects',
-        required_error: 'cover is required',
+        invalid_type_error: 'covers must be an array of objects',
+        required_error: 'covers is required',
       },
     ),
     lines: z.array(
@@ -179,7 +177,7 @@ export const schema = (parsedData: LocalStorageData) =>
                 return validate(id);
               }, 'lines:origin:id has invalid format')
               .refine((id) => {
-                return parsedData.cover.find((star) => star.id === id);
+                return parsedData.covers.find((star) => star.id === id);
               }, 'lines:origin:id does not exist'),
             pos: z.nativeEnum(PosTypes),
           }),
@@ -193,7 +191,7 @@ export const schema = (parsedData: LocalStorageData) =>
                 return validate(id);
               }, 'lines:target:id has invalid format')
               .refine((id) => {
-                return parsedData.cover.find((star) => star.id === id);
+                return parsedData.covers.find((star) => star.id === id);
               }, 'lines:target:id does not exist'),
             pos: z.nativeEnum(PosTypes, {
               errorMap: (_, _ctx) => {

@@ -1,4 +1,4 @@
-import { LinePoint, Point, PosTypes } from 'types';
+import { Lines, Point, PosTypes } from 'types';
 import { v4 as uuidv4 } from 'uuid';
 export interface UseLinesParams {
   resetLine: (linedId: string) => void;
@@ -11,7 +11,7 @@ export interface UseLinesParams {
 }
 
 export const useLines = (
-  setLines: (currentLines: (curr: LinePoint[]) => LinePoint[]) => void,
+  setLines: (currentLines: (curr: Lines[]) => Lines[]) => void,
 ): UseLinesParams => {
   return {
     clearAllLines() {

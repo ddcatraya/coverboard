@@ -10,12 +10,12 @@ export {
   buildTitle,
 } from './generalTypes';
 
-export type { Point, LinePoint, LineParams } from './lineTypes';
+export type { Point, Lines, LineParams } from './lineTypes';
 
 export type { TooltipValues, ToolConfig } from './toolbarTypes';
 export { ToolConfigIDs } from './toolbarTypes';
 
-export type { AlbumCoverValues, CoverImage } from './coverTypes';
+export type { AlbumCoverValues, Covers } from './coverTypes';
 export { LabelType } from './coverTypes';
 
 export type { ToolbarConfigParams, ApiKey } from './configTypes';

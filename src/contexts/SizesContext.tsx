@@ -8,7 +8,7 @@ import React, {
   useMemo,
 } from 'react';
 
-import { CoverImage, DragLimits, ToolConfigIDs } from 'types';
+import { Covers, DragLimits, ToolConfigIDs } from 'types';
 import { useCoverContext } from './CoverContext/CoverContext';
 
 interface SizeContextData {
@@ -21,7 +21,7 @@ interface SizeContextData {
   windowSize: { width: number; height: number };
   circleRadius: number;
   moveIntoView: () => void;
-  offLimitCovers: Array<CoverImage>;
+  offLimitCovers: Array<Covers>;
 }
 
 const SizesContext = createContext<SizeContextData>({} as SizeContextData);
@@ -78,7 +78,7 @@ const throttle = (func: () => void, delay: number) => {
 export const SizesProvider: React.FC<{ children: React.ReactNode }> = ({
   children,
 }) => {
-  const { configs, cover, updateAllCoverPosition } = useCoverContext();
+  const { configs, covers, updateAllCoverPosition } = useCoverContext();
   const coverSize = configs.size;
   const [windowSize, setWindowSize] = useState({
     width: window.innerWidth,
@@ -111,7 +111,7 @@ export const SizesProvider: React.FC<{ children: React.ReactNode }> = ({
   };
 
   const moveIntoView = useCallback(() => {
-    const posArray = cover.map(({ x, y }) => {
+    const posArray = covers.map(({ x, y }) => {
       let pos: Vector2d = { x, y };
       if (x > dragLimits.width - coverSize && x > 0) {
         pos.x = dragLimits.width - coverSize;
@@ -125,7 +125,7 @@ export const SizesProvider: React.FC<{ children: React.ReactNode }> = ({
       updateAllCoverPosition(posArray);
     }
   }, [
-    cover,
+    covers,
     coverSize,
     dragLimits.height,
     dragLimits.width,
@@ -134,17 +134,17 @@ export const SizesProvider: React.FC<{ children: React.ReactNode }> = ({
 
   const offLimitCovers = useMemo(
     () =>
-      cover.flatMap((cover) => {
+      covers.flatMap((covers) => {
         if (
-          (cover.x > dragLimits.width && dragLimits.width > coverSize) ||
-          (cover.y > dragLimits.height && dragLimits.height > coverSize)
+          (covers.x > dragLimits.width && dragLimits.width > coverSize) ||
+          (covers.y > dragLimits.height && dragLimits.height > coverSize)
         ) {
-          return cover;
+          return covers;
         }
 
         return [];
       }),
-    [cover, coverSize, dragLimits.height, dragLimits.width],
+    [covers, coverSize, dragLimits.height, dragLimits.width],
   );
 
   useEffect(() => {

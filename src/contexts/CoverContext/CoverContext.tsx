@@ -13,8 +13,8 @@ import { useParams } from 'react-router-dom';
 import {
   Point,
   LocalStorageData,
-  CoverImage,
-  LinePoint,
+  Covers,
+  Lines,
   ToolbarConfigParams,
   ToolConfigIDs,
   LocalStorageKeys,
@@ -35,8 +35,8 @@ import { initialConfigValues } from './useConfigs';
 
 interface Actions {
   configs: ToolbarConfigParams;
-  lines: LinePoint[];
-  cover: CoverImage[];
+  lines: Lines[];
+  covers: Covers[];
 }
 
 interface CoverContextData
@@ -55,12 +55,12 @@ interface CoverContextData
   setInstance: React.Dispatch<React.SetStateAction<LocalStorageData>>;
   undo: () => void;
   action: Array<Actions>;
-  cover: CoverImage[];
-  lines: LinePoint[];
+  covers: Covers[];
+  lines: Lines[];
   configs: ToolbarConfigParams;
   saveId: string;
-  setCover: (currentCover: (curr: CoverImage[]) => CoverImage[]) => void;
-  setLines: (currentLines: (curr: LinePoint[]) => LinePoint[]) => void;
+  setCover: (currentCover: (curr: Covers[]) => Covers[]) => void;
+  setLines: (currentLines: (curr: Lines[]) => Lines[]) => void;
   setConfigs: (
     currentConfig: (curr: ToolbarConfigParams) => ToolbarConfigParams,
   ) => void;
@@ -105,7 +105,7 @@ export const CoverProvider: React.FC<CoverProviderProps> = ({ children }) => {
   const [points, setPoints] = useState<Point | null>(null);
   const [action, setAction] = useState<Array<Actions>>([]);
 
-  const { configs, lines, cover } = instance;
+  const { configs, lines, covers } = instance;
 
   useEffect(() => {
     try {
@@ -138,13 +138,13 @@ export const CoverProvider: React.FC<CoverProviderProps> = ({ children }) => {
   const updateAction = useCallback(() => {
     setAction((currentAction) =>
       currentAction.length < MAX_UNDO
-        ? [...currentAction, { configs, lines, cover }]
+        ? [...currentAction, { configs, lines, covers }]
         : [
             ...currentAction.slice(currentAction.length - (MAX_UNDO - 1)),
-            { configs, lines, cover },
+            { configs, lines, covers },
           ],
     );
-  }, [configs, lines, cover]);
+  }, [configs, lines, covers]);
 
   const setConfigs = useCallback(
     (currentConfigs: (curr: ToolbarConfigParams) => ToolbarConfigParams) => {
@@ -158,7 +158,7 @@ export const CoverProvider: React.FC<CoverProviderProps> = ({ children }) => {
   );
 
   const setLines = useCallback(
-    (currentLines: (curr: LinePoint[]) => LinePoint[]) => {
+    (currentLines: (curr: Lines[]) => Lines[]) => {
       setInstance((currentInstance) => ({
         ...currentInstance,
         lines: currentLines(currentInstance.lines),
@@ -169,10 +169,10 @@ export const CoverProvider: React.FC<CoverProviderProps> = ({ children }) => {
   );
 
   const setCover = useCallback(
-    (currentCover: (curr: CoverImage[]) => CoverImage[]) => {
+    (currentCover: (curr: Covers[]) => Covers[]) => {
       setInstance((currentInstance) => ({
         ...currentInstance,
-        cover: currentCover(currentInstance.cover),
+        covers: currentCover(currentInstance.covers),
       }));
       updateAction();
     },
@@ -186,7 +186,7 @@ export const CoverProvider: React.FC<CoverProviderProps> = ({ children }) => {
     if (another) {
       setConfigs(() => another.configs);
       setLines(() => another.lines);
-      setCover(() => another.cover);
+      setCover(() => another.covers);
       setAction(copyArray);
     }
   }, [action, setConfigs, setCover, setLines]);
@@ -194,7 +194,7 @@ export const CoverProvider: React.FC<CoverProviderProps> = ({ children }) => {
   return (
     <CoverContext.Provider
       value={{
-        cover,
+        covers,
         setCover,
         erase,
         setErase,

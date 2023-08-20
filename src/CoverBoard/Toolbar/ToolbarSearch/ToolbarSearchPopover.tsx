@@ -4,6 +4,7 @@ import { TextField, Button, Grid } from '@mui/material';
 import { SearchParams, PopupState, ToolConfigIDs } from 'types';
 import { clearHash, setHash } from 'utils';
 import { CommonDialog } from 'components';
+import { flushSync } from 'react-dom';
 
 interface PopupProps {
   open: boolean;
@@ -44,7 +45,10 @@ export const ToolbarSearchPopover: React.FC<PopupProps> = ({
   const handleSubmit = async (evt: React.SyntheticEvent<HTMLFormElement>) => {
     evt.preventDefault();
 
-    setLoading(true);
+    flushSync(() => {
+      setLoading(true);
+    });
+
     try {
       const filterInputs = inputs.filter(
         (input) => input.artist !== '' && input.album !== '',

@@ -1,12 +1,12 @@
 import React, { useState } from 'react';
 
 import { useCoverContext, useSizesContext } from 'contexts';
-import { CoverImage, LabelType } from 'types';
+import { Covers, LabelType } from 'types';
 import { TextLabel } from 'components';
 import { getAlign } from 'utils';
 
 interface AlbumCoverLabelProps {
-  albumCover: CoverImage;
+  albumCover: Covers;
   coverLabel: LabelType;
   offset?: number;
 }

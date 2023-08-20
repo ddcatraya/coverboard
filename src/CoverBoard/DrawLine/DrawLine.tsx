@@ -2,11 +2,11 @@ import React, { useMemo, useState } from 'react';
 import { Group } from 'react-konva';
 
 import { useCoverContext, useSizesContext } from 'contexts';
-import { LineParams, LinePoint, PosTypes } from 'types';
+import { LineParams, Lines, PosTypes } from 'types';
 import { DrawLineArrow, DrawLineCircle, DrawLineLabel } from '.';
 
 interface LineProps {
-  line: LinePoint;
+  line: Lines;
 }
 
 const convertPosToXY = (coverSize: number, pos: PosTypes) => {
@@ -35,13 +35,13 @@ const convertPosToXY = (coverSize: number, pos: PosTypes) => {
 
 export const DrawLine: React.FC<LineProps> = ({ line }) => {
   const { coverSize } = useSizesContext();
-  const { cover, removeLine, erase } = useCoverContext();
+  const { covers, removeLine, erase } = useCoverContext();
   const [textEdit, setTextEdit] = useState(false);
 
   const lineParams = useMemo((): LineParams | undefined => {
     if (line.target) {
-      const originSquare = cover.find((cov) => cov.id === line.origin.id);
-      const targetSquare = cover.find((cov) => cov.id === line.target?.id);
+      const originSquare = covers.find((cov) => cov.id === line.origin.id);
+      const targetSquare = covers.find((cov) => cov.id === line.target?.id);
 
       if (originSquare && targetSquare) {
         const originPos = convertPosToXY(coverSize, line.origin.pos);
@@ -64,9 +64,9 @@ export const DrawLine: React.FC<LineProps> = ({ line }) => {
         };
       }
     }
-  }, [cover, coverSize, line.origin, line.target]);
+  }, [covers, coverSize, line.origin, line.target]);
 
-  const handleOpen = (line: LinePoint) => {
+  const handleOpen = (line: Lines) => {
     if (erase) {
       removeLine(line.id);
       return;

@@ -3,10 +3,10 @@ import { KonvaEventObject } from 'konva/lib/Node';
 import { Vector2d } from 'konva/lib/types';
 import { useMemo, useState } from 'react';
 import { Arrow, Group, Rect, Text } from 'react-konva';
-import { backColorMap, colorMap, CoverImage } from 'types';
+import { backColorMap, colorMap, Covers } from 'types';
 
 interface BoundaryArrowProps {
-  albumCover: CoverImage;
+  albumCover: Covers;
 }
 
 export const BoundaryArrow: React.FC<BoundaryArrowProps> = ({ albumCover }) => {
@@ -104,7 +104,7 @@ export const BoundaryArrow: React.FC<BoundaryArrowProps> = ({ albumCover }) => {
           <Text
             width={coverSize * 2}
             align="right"
-            text={albumCover.albumLabel.text}
+            text={albumCover.album.text}
             fontSize={fontSize}
             fill="white"
             listening={false}
