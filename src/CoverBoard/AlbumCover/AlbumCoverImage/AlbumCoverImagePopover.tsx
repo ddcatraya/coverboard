@@ -89,8 +89,19 @@ export const AlbumCoverImagePopover: React.FC<PopupProps> = ({
               href={`http://www.last.fm/music/${
                 values[LabelType.ARTIST].search
               }/${values[LabelType.ALBUM].search}`}
-              style={{ marginBottom: '20px' }}>
+              style={{ marginRight: '20px', marginBottom: '20px' }}>
               Last FM
+            </Button>
+            <Button
+              variant="contained"
+              color="primary"
+              target="_blank"
+              component={Link}
+              href={`https://open.spotify.com/search/artist%3A${
+                values[LabelType.ARTIST].search
+              }%20AND%20album%3A${values[LabelType.ALBUM].search}/`}
+              style={{ marginBottom: '20px' }}>
+              Spotify
             </Button>
           </Grid>
         </Grid>
