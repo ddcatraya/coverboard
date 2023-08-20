@@ -1,6 +1,5 @@
 import React, { useState } from 'react';
 import { Image, Rect, Text } from 'react-konva';
-import useImage from 'use-image';
 
 import { useCoverContext, useSizesContext } from 'contexts';
 
@@ -26,7 +25,6 @@ export const AlbumCoverImage: React.FC<CoverImageProps> = ({
   image,
   status,
 }) => {
-  const { id } = albumCover;
   const {
     erase,
     resetCoverLabel,
@@ -61,8 +59,12 @@ export const AlbumCoverImage: React.FC<CoverImageProps> = ({
           image={image}
           width={coverSize}
           height={coverSize}
-          onClick={!editLines ? () => handleEraseImage(id) : undefined}
-          onDblTap={!editLines ? () => handleEraseImage(id) : undefined}
+          onClick={
+            !editLines ? () => handleEraseImage(albumCover.id) : undefined
+          }
+          onDblTap={
+            !editLines ? () => handleEraseImage(albumCover.id) : undefined
+          }
           onMouseMove={(evt: KonvaEventObject<MouseEvent>) => {
             if (!editLines) {
               evt.currentTarget.opacity(0.5);
@@ -78,8 +80,12 @@ export const AlbumCoverImage: React.FC<CoverImageProps> = ({
             width={coverSize}
             height={coverSize}
             fill={colorMap[configs.color]}
-            onClick={!editLines ? () => handleEraseImage(id) : undefined}
-            onDblTap={!editLines ? () => handleEraseImage(id) : undefined}
+            onClick={
+              !editLines ? () => handleEraseImage(albumCover.id) : undefined
+            }
+            onDblTap={
+              !editLines ? () => handleEraseImage(albumCover.id) : undefined
+            }
             onMouseMove={(evt: KonvaEventObject<MouseEvent>) => {
               if (!editLines) {
                 evt.currentTarget.opacity(0.5);
@@ -107,8 +113,8 @@ export const AlbumCoverImage: React.FC<CoverImageProps> = ({
             onClose={() => setOpen(false)}
             onSubmit={handleSubmit}
             onReset={() => {
-              resetCoverLabel(id, LabelType.ARTIST);
-              resetCoverLabel(id, LabelType.ALBUM);
+              resetCoverLabel(albumCover.id, LabelType.ARTIST);
+              resetCoverLabel(albumCover.id, LabelType.ALBUM);
             }}
             values={{
               [LabelType.ARTIST]: albumCover[LabelType.ARTIST],

@@ -87,8 +87,8 @@ export const AlbumCoverImagePopover: React.FC<PopupProps> = ({
               target="_blank"
               component={Link}
               href={`http://www.last.fm/music/${
-                values[LabelType.ARTIST].originalText
-              }/${values[LabelType.ALBUM].originalText}`}
+                values[LabelType.ARTIST].search
+              }/${values[LabelType.ALBUM].search}`}
               style={{ marginBottom: '20px' }}>
               Last FM
             </Button>

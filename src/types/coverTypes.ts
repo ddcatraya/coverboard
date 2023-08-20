@@ -1,7 +1,7 @@
 import { PosTypes } from './generalTypes';
 
 interface CoverImageParamsText {
-  originalText: string;
+  search: string;
   text: string;
 }
 

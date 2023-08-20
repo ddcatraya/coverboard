@@ -17,8 +17,7 @@ interface CoverImageProps {
 }
 
 export const AlbumCover: React.FC<CoverImageProps> = ({ albumCover }) => {
-  const { id } = albumCover;
-  const [image, status] = useImage('aaa', 'anonymous');
+  const [image, status] = useImage(albumCover.link, 'anonymous');
   const { updateCoverPosition, configs, updateCoverDir } = useCoverContext();
   const { fontSize, dragLimits, toobarIconSize, coverSize, windowSize } =
     useSizesContext();
@@ -62,7 +61,7 @@ export const AlbumCover: React.FC<CoverImageProps> = ({ albumCover }) => {
         x: windowSize.width - coverSize - toobarIconSize / 2,
         y: windowSize.height - coverSize - toobarIconSize / 2,
       }}>
-      <AlbumCoverDrawLine id={id} />
+      <AlbumCoverDrawLine id={albumCover.id} />
       <AlbumCoverImage albumCover={albumCover} image={image} status={status} />
 
       <AlbumCoverLabelDraggable

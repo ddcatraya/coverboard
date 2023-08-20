@@ -25,8 +25,8 @@ export const ToolbarSearch: React.FC = () => {
         (filteredAlbum) =>
           !covers.find(
             (star) =>
-              star.artist.originalText === filteredAlbum.artist &&
-              star.album.originalText === filteredAlbum.album,
+              star.artist.search === filteredAlbum.artist &&
+              star.album.search === filteredAlbum.album,
           ),
       );
 
@@ -38,11 +38,11 @@ export const ToolbarSearch: React.FC = () => {
             x: 0,
             y: 0,
             artist: {
-              originalText: filteredAlbum.artist,
+              search: filteredAlbum.artist,
               text: filteredAlbum.artist,
             },
             album: {
-              originalText: filteredAlbum.album,
+              search: filteredAlbum.album,
               text: filteredAlbum.album,
             },
             dir: PosTypes.BOTTOM,

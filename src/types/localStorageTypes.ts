@@ -103,9 +103,9 @@ export const schema = (parsedData: LocalStorageData) =>
           })
           .min(0, 'covers:y position must be positive number'),
         artist: z.object({
-          originalText: z.string({
-            invalid_type_error: 'covers:artist:originalText must be a string',
-            required_error: 'covers:artist:originalText is required',
+          search: z.string({
+            invalid_type_error: 'covers:artist:search must be a string',
+            required_error: 'covers:artist:search is required',
           }),
           text: z
             .string({
@@ -115,9 +115,9 @@ export const schema = (parsedData: LocalStorageData) =>
             .trim(),
         }),
         album: z.object({
-          originalText: z.string({
-            invalid_type_error: 'covers:album:originalText must be a string',
-            required_error: 'covers:album:originalText is required',
+          search: z.string({
+            invalid_type_error: 'covers:album:search must be a string',
+            required_error: 'covers:album:search is required',
           }),
           text: z
             .string({

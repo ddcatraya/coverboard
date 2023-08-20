@@ -53,11 +53,11 @@ export const useCover = (
           ...star,
           artist: {
             ...star.artist,
-            text: star.artist.originalText,
+            text: star.artist.search,
           },
           album: {
             ...star.album,
-            text: star.album.originalText,
+            text: star.album.search,
           },
           dir: PosTypes.BOTTOM,
           x: 0,
@@ -73,7 +73,7 @@ export const useCover = (
                 ...star,
                 [coverLabel]: {
                   ...star[coverLabel],
-                  text: star[coverLabel].originalText,
+                  text: star[coverLabel].search,
                 },
                 dir: PosTypes.BOTTOM,
               }
