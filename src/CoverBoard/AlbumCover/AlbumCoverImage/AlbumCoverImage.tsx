@@ -36,6 +36,7 @@ export const AlbumCoverImage: React.FC<CoverImageProps> = ({ albumCover }) => {
 
   const handleSubmit = (values: AlbumCoverValues) => {
     updateCoversText(
+      albumCover.id,
       values[LabelType.ARTIST].text.trim(),
       values[LabelType.ALBUM].text.trim(),
     );

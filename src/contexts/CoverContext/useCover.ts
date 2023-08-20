@@ -11,7 +11,11 @@ export interface UseCoverParams {
     label: string,
   ) => void;
   removeCover: (coverId: string) => void;
-  updateCoversText: (artistText: string, albumText: string) => void;
+  updateCoversText: (
+    coverId: string,
+    artistText: string,
+    albumText: string,
+  ) => void;
   addCovers: (filteredAlbums: Array<Covers>) => void;
   updateCoverPosition: (coverId: string, { x, y }: Vector2d) => void;
   updateAllCoverPosition: (arrayPos: Array<Vector2d>) => void;
@@ -104,19 +108,23 @@ export const useCover = (
         ),
       );
     },
-    updateCoversText(artistText, albumText) {
+    updateCoversText(coverId, artistText, albumText) {
       setCover((currentCover) =>
-        currentCover.map((star) => ({
-          ...star,
-          [LabelType.ARTIST]: {
-            ...star[LabelType.ARTIST],
-            text: artistText,
-          },
-          [LabelType.ALBUM]: {
-            ...star[LabelType.ALBUM],
-            text: albumText,
-          },
-        })),
+        currentCover.map((star) =>
+          coverId === star.id
+            ? {
+                ...star,
+                [LabelType.ARTIST]: {
+                  ...star[LabelType.ARTIST],
+                  text: artistText,
+                },
+                [LabelType.ALBUM]: {
+                  ...star[LabelType.ALBUM],
+                  text: albumText,
+                },
+              }
+            : star,
+        ),
       );
     },
     addCovers(filteredAlbums) {

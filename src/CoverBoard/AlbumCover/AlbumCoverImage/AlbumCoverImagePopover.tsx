@@ -46,7 +46,7 @@ export const AlbumCoverImagePopover: React.FC<PopupProps> = ({
         <Grid container spacing={2}>
           <Grid item xs={12}>
             <TextField
-              label="Artist"
+              label="Artist or Description"
               fullWidth
               value={text[LabelType.ARTIST].text}
               onChange={(evt: any) => handTextChange(evt, LabelType.ARTIST)}
