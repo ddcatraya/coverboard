@@ -6,12 +6,9 @@ import {
   Chip,
   Typography,
   TextField,
-  IconButton,
+  Divider,
 } from '@mui/material';
-import {
-  Close as CloseIcon,
-  KeyboardArrowRightRounded,
-} from '@mui/icons-material';
+import { Close as CloseIcon } from '@mui/icons-material';
 
 import { LocalStorageData, ToolConfigIDs, DEFAULT_KEY } from 'types';
 import { NavigateFunction } from 'react-router-dom';
@@ -160,22 +157,27 @@ export const ToolbarSharePopover: React.FC<SaveProps> = ({
               evt.preventDefault();
               handleCreateNewSave();
             }}>
-            <TextField
-              label="Add new page"
-              onChange={(evt) => setNewSave(evt.target.value.trim())}
-              size="small"
-              value={newSave}
-              style={{ width: '200px ' }}
-              InputProps={{
-                endAdornment: (
-                  <IconButton>
-                    <KeyboardArrowRightRounded onClick={handleCreateNewSave} />
-                  </IconButton>
-                ),
-              }}
-            />
+            <div style={{ display: 'flex', verticalAlign: 'middle' }}>
+              <TextField
+                label="Add new page"
+                onChange={(evt) => setNewSave(evt.target.value.trim())}
+                size="small"
+                value={newSave}
+                style={{ marginRight: '10px' }}
+              />
+              <Button
+                variant="contained"
+                color="primary"
+                disabled={!newSave}
+                onClick={handleCreateNewSave}
+                style={{ marginRight: '20px', marginBottom: '20px' }}>
+                Create
+              </Button>
+            </div>
           </form>
+          <Divider />
         </Grid>
+
         <Grid item xs={12}>
           <Typography gutterBottom>JSON for: {saveId}</Typography>
           <TextareaAutosize

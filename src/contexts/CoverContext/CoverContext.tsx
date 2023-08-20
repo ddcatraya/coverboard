@@ -71,7 +71,7 @@ const MAX_UNDO = 10;
 
 const initial = () => {
   return {
-    [LocalStorageKeys.CONFIG]: { ...initialConfigValues },
+    [LocalStorageKeys.CONFIG]: initialConfigValues(),
     [LocalStorageKeys.COVER]: [],
     [LocalStorageKeys.LINES]: [],
   };

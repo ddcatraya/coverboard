@@ -1,7 +1,11 @@
 import { Colors, BackColors, PosTypes, ToolbarConfigParams } from 'types';
 
-export const initialConfigValues = {
-  size: 100,
+const getSize = () => {
+  const size = Math.min(150, Math.max(70, window.innerWidth / 20));
+  return Math.ceil(size / 10) * 10;
+};
+export const initialConfigValues = () => ({
+  size: getSize(),
   title: '',
   color: Colors.YELLOW,
   backColor: BackColors.DARK,
@@ -9,7 +13,7 @@ export const initialConfigValues = {
   showAlbum: true,
   showTitle: true,
   labelDir: PosTypes.BOTTOM,
-};
+});
 
 export interface UseConfigsParams {
   resetConfigs: () => void;
@@ -25,7 +29,7 @@ export const useConfigs = (
 ): UseConfigsParams => {
   return {
     resetConfigs: () => {
-      setConfigs(() => ({ ...initialConfigValues }));
+      setConfigs(() => initialConfigValues());
     },
     updateConfigs: (newConfig) => {
       setConfigs(() => ({
@@ -35,7 +39,7 @@ export const useConfigs = (
     resetTitle: () => {
       setConfigs((currentConfigs) => ({
         ...currentConfigs,
-        title: initialConfigValues.title,
+        title: '',
       }));
     },
     updateTitle: (title) => {

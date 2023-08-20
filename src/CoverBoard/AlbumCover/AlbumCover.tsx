@@ -1,7 +1,7 @@
 import React from 'react';
 
 import { useCoverContext, useSizesContext } from 'contexts';
-import { Covers, LabelType, PosTypes } from 'types';
+import { Covers, LabelType } from 'types';
 import {
   AlbumCoverDrawLine,
   AlbumCoverImage,
