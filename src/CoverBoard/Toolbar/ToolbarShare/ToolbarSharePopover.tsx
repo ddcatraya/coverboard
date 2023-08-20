@@ -103,9 +103,7 @@ export const ToolbarSharePopover: React.FC<SaveProps> = ({
     <CommonDialog onClose={onClose} open={open} title="Share options">
       <Grid container spacing={2}>
         <Grid item xs={12}>
-          <Typography gutterBottom>
-            Pick a saved state (change URL for new one):
-          </Typography>
+          <Typography gutterBottom>Pick a page:</Typography>
           {keyList.map((currentSaveWithPrefix) => {
             const currentSave = removePrefix(currentSaveWithPrefix);
             const showDelete =
@@ -142,7 +140,11 @@ export const ToolbarSharePopover: React.FC<SaveProps> = ({
                     : undefined
                 }
                 deleteIcon={showDelete ? <CloseIcon /> : undefined}
-                style={{ marginRight: '4px', marginBottom: '8px' }}
+                style={{
+                  marginRight: '4px',
+                  marginBottom: '8px',
+                  width: '32%',
+                }}
               />
             );
           })}
