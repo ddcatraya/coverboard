@@ -3,28 +3,16 @@ import { Image, Rect, Text } from 'react-konva';
 
 import { useCoverContext, useSizesContext } from 'contexts';
 
-import {
-  AlbumCoverValues,
-  Covers,
-  LabelType,
-  backColorMap,
-  colorMap,
-} from 'types';
-import { Html } from 'react-konva-utils';
+import { AlbumCoverValues, Covers, LabelType, colorMap } from 'types';
+import { Html, useImage } from 'react-konva-utils';
 import { AlbumCoverImagePopover } from '.';
 import { KonvaEventObject } from 'konva/lib/Node';
 
 interface CoverImageProps {
   albumCover: Covers;
-  image: HTMLImageElement | undefined;
-  status: 'loaded' | 'loading' | 'failed';
 }
 
-export const AlbumCoverImage: React.FC<CoverImageProps> = ({
-  albumCover,
-  image,
-  status,
-}) => {
+export const AlbumCoverImage: React.FC<CoverImageProps> = ({ albumCover }) => {
   const {
     erase,
     resetCoverLabel,
@@ -33,6 +21,7 @@ export const AlbumCoverImage: React.FC<CoverImageProps> = ({
     editLines,
     configs,
   } = useCoverContext();
+  const [image, status] = useImage(albumCover.link, 'anonymous');
   const { coverSize, fontSize } = useSizesContext();
   const [open, setOpen] = useState(false);
 
