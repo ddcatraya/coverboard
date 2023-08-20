@@ -142,7 +142,7 @@ export const ToolbarSharePopover: React.FC<SaveProps> = ({
                     : undefined
                 }
                 deleteIcon={showDelete ? <CloseIcon /> : undefined}
-                style={{ marginRight: '4px' }}
+                style={{ marginRight: '4px', marginBottom: '8px' }}
               />
             );
           })}
