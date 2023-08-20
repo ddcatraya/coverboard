@@ -23,12 +23,11 @@ export const AlbumCoverLabelDraggable = ({
 }: DraggableGroupProps) => {
   const { erase } = useCoverContext();
   const { coverSize, fontSize, dragLimits } = useSizesContext();
-  const [isDragging, setDragging] = useState(false);
   const [id, setId] = useState(uuidv4());
 
   const handleDragStart = (e: KonvaEventObject<DragEvent>) => {
     e.cancelBubble = true;
-    setDragging(true);
+    // e.currentTarget.opacity(0.5);
     const container = e.target.getStage()?.container();
 
     if (container && !erase) {
@@ -39,7 +38,7 @@ export const AlbumCoverLabelDraggable = ({
   };
 
   const handleDragEnd = (e: KonvaEventObject<DragEvent | TouchEvent>) => {
-    setDragging(false);
+    // e.currentTarget.opacity(1);
     e.cancelBubble = true;
     const container = e.target.getStage()?.container();
 
@@ -93,7 +92,6 @@ export const AlbumCoverLabelDraggable = ({
   return (
     <Group
       key={id}
-      opacity={isDragging ? 0.3 : 1}
       x={newPos.x}
       y={newPos.y}
       draggable
@@ -101,7 +99,7 @@ export const AlbumCoverLabelDraggable = ({
       onDragEnd={handleDragEnd}
       onMouseMove={(evt: KonvaEventObject<MouseEvent>) => {
         const container = evt.target.getStage()?.container();
-
+        evt.currentTarget.opacity(0.5);
         if (container && !erase) {
           container.style.cursor = 'grab';
         } else if (container && erase) {
@@ -110,7 +108,7 @@ export const AlbumCoverLabelDraggable = ({
       }}
       onMouseLeave={(evt: KonvaEventObject<MouseEvent>) => {
         const container = evt.target.getStage()?.container();
-
+        evt.currentTarget.opacity(1);
         if (container) {
           container.style.cursor = 'default';
         }

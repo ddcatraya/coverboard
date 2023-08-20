@@ -85,8 +85,8 @@ export const SizesProvider: React.FC<{ children: React.ReactNode }> = ({
     height: window.innerHeight,
   });
 
-  const toobarIconSize = coverSize / 2;
-  const spaceBetween = coverSize / 4;
+  const toobarIconSize = coverSize / 2.5;
+  const spaceBetween = toobarIconSize / 2;
   const fontSize = coverSize / 7;
   const circleRadius = fontSize / 1.5;
 

@@ -1,7 +1,6 @@
 import { Group } from 'react-konva';
 import { KonvaEventObject } from 'konva/lib/Node';
 import { Vector2d } from 'konva/lib/types';
-import { useState } from 'react';
 import { useCoverContext } from 'contexts';
 
 interface DraggableGroupProps<T> {
@@ -26,7 +25,6 @@ export function AlbumCoverDraggable<T extends { x: number; y: number }>({
   children,
 }: DraggableGroupProps<T>) {
   const { erase } = useCoverContext();
-  const [isDragging, setDragging] = useState(false);
 
   const handleDragBound = (pos: Vector2d) => {
     // Max limit, pos or min
@@ -45,7 +43,7 @@ export function AlbumCoverDraggable<T extends { x: number; y: number }>({
 
   const handleDragStart = (e: KonvaEventObject<DragEvent>) => {
     e.cancelBubble = true;
-    setDragging(true);
+    e.currentTarget.opacity(0.5);
     const container = e.target.getStage()?.container();
 
     if (container && !erase) {
@@ -56,8 +54,8 @@ export function AlbumCoverDraggable<T extends { x: number; y: number }>({
   };
 
   const handleDragEnd = (e: KonvaEventObject<DragEvent>) => {
-    setDragging(false);
     e.cancelBubble = true;
+    e.currentTarget.opacity(1);
     const container = e.target.getStage()?.container();
 
     if (container && !erase) {
@@ -75,7 +73,6 @@ export function AlbumCoverDraggable<T extends { x: number; y: number }>({
 
   return (
     <Group
-      opacity={isDragging ? 0.3 : 1}
       x={update.x}
       y={update.y}
       draggable
@@ -84,7 +81,6 @@ export function AlbumCoverDraggable<T extends { x: number; y: number }>({
       dragBoundFunc={handleDragBound}
       onMouseMove={(evt: KonvaEventObject<MouseEvent>) => {
         const container = evt.target.getStage()?.container();
-
         if (container && !erase) {
           container.style.cursor = 'grab';
         } else if (container && erase) {
@@ -93,7 +89,6 @@ export function AlbumCoverDraggable<T extends { x: number; y: number }>({
       }}
       onMouseLeave={(evt: KonvaEventObject<MouseEvent>) => {
         const container = evt.target.getStage()?.container();
-
         if (container) {
           container.style.cursor = 'default';
         }

@@ -21,12 +21,11 @@ export const DrawLineLabelDraggable = ({
 }: DraggableGroupProps) => {
   const { erase, editLines } = useCoverContext();
   const { coverSize, fontSize, circleRadius, dragLimits } = useSizesContext();
-  const [isDragging, setDragging] = useState(false);
   const [id, setId] = useState(uuidv4());
 
   const handleDragStart = (e: KonvaEventObject<DragEvent>) => {
     e.cancelBubble = true;
-    setDragging(true);
+    e.currentTarget.opacity(0.5);
     const container = e.target.getStage()?.container();
 
     if (container && !erase) {
@@ -37,7 +36,7 @@ export const DrawLineLabelDraggable = ({
   };
 
   const handleDragEnd = (e: KonvaEventObject<DragEvent>) => {
-    setDragging(false);
+    e.currentTarget.opacity(1);
     e.cancelBubble = true;
     const container = e.target.getStage()?.container();
 
@@ -90,7 +89,6 @@ export const DrawLineLabelDraggable = ({
   return (
     <Group
       key={id}
-      opacity={isDragging ? 0.3 : 1}
       x={newPos.x}
       y={newPos.y}
       draggable

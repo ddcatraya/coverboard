@@ -57,8 +57,8 @@ export const TextLabel: React.FC<TitleTexProps> = ({
           width={pos.width}
           fontSize={fontSize * labelSize}
           fill={colorMap[configs.color]}
-          onClick={() => setOpen(true)}
-          onDblTap={() => setOpen(true)}
+          onClick={editable ? () => setOpen(true) : undefined}
+          onDblTap={editable ? () => setOpen(true) : undefined}
           onMouseMove={(evt: KonvaEventObject<MouseEvent>) => {
             const container = evt.target.getStage()?.container();
             evt.currentTarget.opacity(0.5);
