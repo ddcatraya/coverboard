@@ -9,19 +9,17 @@ import { getClientPosition } from 'utils';
 interface DraggableGroupProps {
   children: React.ReactNode;
   albumCover: Covers;
-  setUpdate: (title: PosTypes) => void;
   offset: number;
   offSetTop: number;
 }
 
 export const AlbumCoverLabelDraggable = ({
   albumCover,
-  setUpdate,
   children,
   offset,
   offSetTop,
 }: DraggableGroupProps) => {
-  const { erase } = useCoverContext();
+  const { erase, updateCoverDir } = useCoverContext();
   const { coverSize, fontSize, dragLimits } = useSizesContext();
   const [id, setId] = useState(uuidv4());
 
@@ -62,7 +60,7 @@ export const AlbumCoverLabelDraggable = ({
     }
 
     setId(uuidv4());
-    setUpdate(dir);
+    updateCoverDir(albumCover.id, dir);
   };
 
   const newPos = useMemo(() => {

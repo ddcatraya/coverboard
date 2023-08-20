@@ -2,11 +2,11 @@ import { Group } from 'react-konva';
 import { KonvaEventObject } from 'konva/lib/Node';
 import { Vector2d } from 'konva/lib/types';
 import { useCoverContext } from 'contexts';
+import { Covers } from 'types';
 
-interface DraggableGroupProps<T> {
+interface DraggableGroupProps {
   children: React.ReactNode;
-  update: T;
-  setUpdate: (title: T) => void;
+  albumCover: Covers;
   min: {
     x: number;
     y: number;
@@ -17,14 +17,13 @@ interface DraggableGroupProps<T> {
   };
 }
 
-export function AlbumCoverDraggable<T extends { x: number; y: number }>({
-  update,
-  setUpdate,
+export const AlbumCoverDraggable: React.FC<DraggableGroupProps> = ({
+  albumCover,
   min,
   max,
   children,
-}: DraggableGroupProps<T>) {
-  const { erase } = useCoverContext();
+}) => {
+  const { erase, covers, updateCoverPosition } = useCoverContext();
 
   const handleDragBound = (pos: Vector2d) => {
     // Max limit, pos or min
@@ -53,6 +52,17 @@ export function AlbumCoverDraggable<T extends { x: number; y: number }>({
     }
   };
 
+  const handleDragMove = (e: KonvaEventObject<DragEvent>) => {
+    e.cancelBubble = true;
+
+    if (
+      covers.find(
+        (star) => star.id !== albumCover.id && star.x === e.target.x(),
+      )
+    ) {
+    }
+  };
+
   const handleDragEnd = (e: KonvaEventObject<DragEvent>) => {
     e.cancelBubble = true;
     e.currentTarget.opacity(1);
@@ -64,8 +74,7 @@ export function AlbumCoverDraggable<T extends { x: number; y: number }>({
       container.style.cursor = 'not-allowed';
     }
 
-    setUpdate({
-      ...update,
+    updateCoverPosition(albumCover.id, {
       x: e.target.x(),
       y: e.target.y(),
     });
@@ -73,9 +82,10 @@ export function AlbumCoverDraggable<T extends { x: number; y: number }>({
 
   return (
     <Group
-      x={update.x}
-      y={update.y}
+      x={albumCover.x}
+      y={albumCover.y}
       draggable
+      onDragMove={handleDragMove}
       onDragStart={handleDragStart}
       onDragEnd={handleDragEnd}
       dragBoundFunc={handleDragBound}
@@ -96,4 +106,4 @@ export function AlbumCoverDraggable<T extends { x: number; y: number }>({
       {children}
     </Group>
   );
-}
+};

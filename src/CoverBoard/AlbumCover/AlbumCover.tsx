@@ -9,7 +9,6 @@ import {
   AlbumCoverLabelDraggable,
   AlbumCoverDraggable,
 } from '.';
-import { Vector2d } from 'konva/lib/types';
 import useImage from 'use-image';
 
 interface CoverImageProps {
@@ -18,17 +17,9 @@ interface CoverImageProps {
 
 export const AlbumCover: React.FC<CoverImageProps> = ({ albumCover }) => {
   const [image, status] = useImage(albumCover.link, 'anonymous');
-  const { updateCoverPosition, configs, updateCoverDir } = useCoverContext();
+  const { configs } = useCoverContext();
   const { fontSize, dragLimits, toobarIconSize, coverSize, windowSize } =
     useSizesContext();
-
-  const handleDragEnd = ({ x, y }: Vector2d) => {
-    updateCoverPosition(albumCover.id, { x, y });
-  };
-
-  const handleUpdate = (dir: PosTypes) => {
-    updateCoverDir(albumCover.id, dir);
-  };
 
   const offSet =
     configs.showArtist &&
@@ -51,8 +42,7 @@ export const AlbumCover: React.FC<CoverImageProps> = ({ albumCover }) => {
 
   return (
     <AlbumCoverDraggable
-      update={albumCover}
-      setUpdate={handleDragEnd}
+      albumCover={albumCover}
       min={{
         x: dragLimits.x,
         y: dragLimits.y,
@@ -66,7 +56,6 @@ export const AlbumCover: React.FC<CoverImageProps> = ({ albumCover }) => {
 
       <AlbumCoverLabelDraggable
         albumCover={albumCover}
-        setUpdate={handleUpdate}
         offset={offSet}
         offSetTop={offSetTop}>
         {configs.showArtist && albumCover[LabelType.ARTIST].text && (
