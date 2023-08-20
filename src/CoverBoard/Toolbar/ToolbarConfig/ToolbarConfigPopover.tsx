@@ -96,7 +96,7 @@ export const ToolbarConfigPopover: React.FC<ToolbarConfigPopoverProps> = ({
             <Typography gutterBottom>Elements size:</Typography>
             <Slider
               min={0.5}
-              max={2}
+              max={1.5}
               step={0.1}
               valueLabelDisplay="on"
               defaultValue={param[ToolbarConfigValues.SIZE] / 100}

@@ -27,7 +27,7 @@ export const schema = (parsedData: LocalStorageData) =>
             required_error: 'configs:size is required',
           })
           .min(50, 'configs:size must be a number higher than 50')
-          .max(200, 'configs:size must be a number lower than 200'),
+          .max(150, 'configs:size must be a number lower than 150'),
         title: z
           .string({
             invalid_type_error: 'configs:title must be a string',
