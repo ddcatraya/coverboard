@@ -92,8 +92,8 @@ export const ToolbarIcon: React.FC<ToolbarIconProps> = ({ config, index }) => {
         opacity={config.value ? MIN_OPACITY : 1}
       />
       <Text
-        x={toobarIconSize - toobarIconSize / 2 - 1}
-        y={toobarIconSize - toobarIconSize / 4 - 1}
+        x={toobarIconSize - toobarIconSize / 2}
+        y={toobarIconSize - toobarIconSize / 3}
         width={toobarIconSize / 2}
         height={toobarIconSize / 2}
         align="right"
