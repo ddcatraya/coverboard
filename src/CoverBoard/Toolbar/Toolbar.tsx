@@ -109,10 +109,10 @@ export const Toolbar: React.FC<ToolbarProps> = ({
       tooltip: `Take screenshot`,
       color: colorMap[Colors.RED],
       emoji: '📷',
-      value: !showTooltips,
+      value: editLines || erase || !showTooltips,
       valueModifier: takeScreenshot,
       badge: 0,
-      enabled: showTooltips,
+      enabled: showTooltips && !editLines && !erase,
     },
   ];
 
