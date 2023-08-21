@@ -35,7 +35,16 @@ export const DrawLineLabel: React.FC<LineProps> = ({
     resetLine(line.id);
   };
 
-  if (erase || editLines) return null;
+  if (erase) return null;
+
+  const getLabel = () => {
+    if (line.text) {
+      return line.text;
+    } else if (editLines) {
+      return '<add text>';
+    }
+    return '';
+  };
 
   return (
     <DrawLineLabelDraggable
@@ -45,7 +54,7 @@ export const DrawLineLabel: React.FC<LineProps> = ({
       <TextLabel
         open={open}
         setOpen={setOpen}
-        label={line.text}
+        label={getLabel()}
         onReset={handleReset}
         setLabel={handleUpdateLabel}
         pos={{

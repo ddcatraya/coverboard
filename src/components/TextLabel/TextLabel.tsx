@@ -46,7 +46,11 @@ export const TextLabel: React.FC<TitleTexProps> = ({
   };
 
   const getDefaultLabel = () => {
-    return label === buildTitle(saveId) ? '' : label;
+    if (label === buildTitle(saveId)) return '';
+
+    if (label === '<add text>') return '';
+
+    return label;
   };
 
   return (

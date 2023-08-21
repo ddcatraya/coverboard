@@ -13,13 +13,12 @@ interface LineProps {
 export const DrawLineCircle: React.FC<LineProps> = (props) => {
   const { line, handleOpen } = props;
   const { circleRadius } = useSizesContext();
-  const { erase, configs, editLines } = useCoverContext();
+  const { erase, configs } = useCoverContext();
 
   return (
     <Group
       width={circleRadius * 2}
       height={circleRadius * 2}
-      listening={!editLines}
       onClick={() => handleOpen(line)}
       onTap={() => handleOpen(line)}>
       <Circle
