@@ -125,6 +125,7 @@ export const CoverProvider: React.FC<CoverProviderProps> = ({ children }) => {
       );
       setInstance(initial());
     } catch (error) {
+      console.log(error);
       showErrorMessage(
         'Failed to load albums due to existing save, default applied',
       );

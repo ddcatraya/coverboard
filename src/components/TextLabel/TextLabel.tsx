@@ -45,6 +45,10 @@ export const TextLabel: React.FC<TitleTexProps> = ({
     setLabel(text);
   };
 
+  const getDefaultLabel = () => {
+    return label === buildTitle(saveId) ? '' : label;
+  };
+
   return (
     <>
       {!open && (
@@ -81,7 +85,7 @@ export const TextLabel: React.FC<TitleTexProps> = ({
             open={open}
             onClose={() => setOpen(false)}
             onSubmit={handleSubmit}
-            defaultText={label === buildTitle(saveId) ? '' : label}
+            defaultText={getDefaultLabel()}
             onReset={() => {
               onReset();
               setOpen(false);

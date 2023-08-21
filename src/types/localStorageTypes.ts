@@ -142,71 +142,67 @@ export const schema = (parsedData: LocalStorageData) =>
       },
     ),
     lines: z.array(
-      z
-        .object({
+      z.object({
+        id: z
+          .string({
+            invalid_type_error: 'lines:id must be a string',
+            required_error: 'lines:id is required',
+          })
+          .refine((id) => {
+            return validate(id);
+          }, 'lines:id has invalid format'),
+        text: z
+          .string({
+            invalid_type_error: 'lines:text must be a string',
+            required_error: 'lines:text is required',
+          })
+          .trim(),
+        dir: z.nativeEnum(PosTypes, {
+          errorMap: (_, _ctx) => {
+            return {
+              message: `lines:dir must be ${Object.values(PosTypes).join(
+                ' | ',
+              )}`,
+            };
+          },
+        }),
+        origin: z.object({
           id: z
             .string({
-              invalid_type_error: 'lines:id must be a string',
-              required_error: 'lines:id is required',
+              invalid_type_error: 'lines:origin:id must be a string',
+              required_error: 'lines:origin:id is required',
             })
             .refine((id) => {
               return validate(id);
-            }, 'lines:id has invalid format'),
-          text: z
+            }, 'lines:origin:id has invalid format')
+            .refine((id) => {
+              return parsedData.covers.find((star) => star.id === id);
+            }, 'lines:origin:id does not exist'),
+          pos: z.nativeEnum(PosTypes),
+        }),
+        target: z.object({
+          id: z
             .string({
-              invalid_type_error: 'lines:text must be a string',
-              required_error: 'lines:text is required',
+              invalid_type_error: 'lines:target:id must be a string',
+              required_error: 'lines:target:id is required',
             })
-            .trim(),
-          dir: z.nativeEnum(PosTypes, {
+            .refine((id) => {
+              return validate(id);
+            }, 'lines:target:id has invalid format')
+            .refine((id) => {
+              return parsedData.covers.find((star) => star.id === id);
+            }, 'lines:target:id does not exist'),
+          pos: z.nativeEnum(PosTypes, {
             errorMap: (_, _ctx) => {
               return {
-                message: `lines:dir must be ${Object.values(PosTypes).join(
-                  ' | ',
-                )}`,
+                message: `lines:target:dir must be ${Object.values(
+                  PosTypes,
+                ).join(' | ')}`,
               };
             },
           }),
-          origin: z.object({
-            id: z
-              .string({
-                invalid_type_error: 'lines:origin:id must be a string',
-                required_error: 'lines:origin:id is required',
-              })
-              .refine((id) => {
-                return validate(id);
-              }, 'lines:origin:id has invalid format')
-              .refine((id) => {
-                return parsedData.covers.find((star) => star.id === id);
-              }, 'lines:origin:id does not exist'),
-            pos: z.nativeEnum(PosTypes),
-          }),
-          target: z.object({
-            id: z
-              .string({
-                invalid_type_error: 'lines:target:id must be a string',
-                required_error: 'lines:target:id is required',
-              })
-              .refine((id) => {
-                return validate(id);
-              }, 'lines:target:id has invalid format')
-              .refine((id) => {
-                return parsedData.covers.find((star) => star.id === id);
-              }, 'lines:target:id does not exist'),
-            pos: z.nativeEnum(PosTypes, {
-              errorMap: (_, _ctx) => {
-                return {
-                  message: `lines:target:dir must be ${Object.values(
-                    PosTypes,
-                  ).join(' | ')}`,
-                };
-              },
-            }),
-          }),
-        })
-        .refine((line) => {
-          return line.origin.id === line.target.id;
-        }, 'lines:origin:id must be different than lines:target:id'),
+        }),
+      }),
       {
         invalid_type_error: 'lines must be an array of objects',
         required_error: 'lines is required',

@@ -3,7 +3,13 @@ import { Image, Rect, Text } from 'react-konva';
 
 import { useCoverContext, useSizesContext } from 'contexts';
 
-import { AlbumCoverValues, Covers, LabelType, colorMap } from 'types';
+import {
+  AlbumCoverValues,
+  Covers,
+  LabelType,
+  colorMap,
+  backColorMap,
+} from 'types';
 import { Html, useImage } from 'react-konva-utils';
 import { AlbumCoverImagePopover } from '.';
 import { KonvaEventObject } from 'konva/lib/Node';
@@ -69,6 +75,7 @@ export const AlbumCoverImage: React.FC<CoverImageProps> = ({ albumCover }) => {
           <Rect
             width={coverSize}
             height={coverSize}
+            fill={backColorMap[configs.backColor]}
             stroke={colorMap[configs.color]}
             onClick={
               !editLines ? () => handleEraseImage(albumCover.id) : undefined
