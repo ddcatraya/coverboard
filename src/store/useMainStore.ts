@@ -27,7 +27,7 @@ interface Actions {
 interface CoverContextData {
   actions: Array<Actions>;
   saveId: string;
-  updateAction: () => void;
+  updateAction: (values: LocalStorageData) => void;
   undoAction: () => void;
   setDefaultLocalStoreValues: (saveId: string) => void;
   updateLocalStoreValues: (saveId: string) => void;
@@ -50,16 +50,9 @@ export const useMainStore = create<
         JSON.stringify({ configs: value.configs, lines, covers }),
       );
 
-      /* set(({ actions }) => ({
-      actions: [
-        ...actions,
-        {
-          configs,
-          lines,
-          covers,
-        }
-      ]
-    })); */
+      set(({ actions }) => ({
+        actions: [...actions, { configs: value.configs, lines, covers }],
+      }));
 
       return set(value);
     },
@@ -75,6 +68,10 @@ export const useMainStore = create<
         JSON.stringify({ configs, lines: value.lines, covers }),
       );
 
+      set(({ actions }) => ({
+        actions: [...actions, { configs, lines: value.lines, covers }],
+      }));
+
       return set(value);
     },
     get,
@@ -88,6 +85,10 @@ export const useMainStore = create<
         addPrefix(get().saveId),
         JSON.stringify({ configs, lines, covers: value.covers }),
       );
+
+      set(({ actions }) => ({
+        actions: [...actions, { configs, lines, covers: value.covers }],
+      }));
 
       return set(value);
     },
@@ -154,9 +155,7 @@ export const useMainStore = create<
       covers: [],
     });
   },
-  updateAction() {
-    const { configs, lines, covers } = get();
-
+  updateAction({ configs, lines, covers }) {
     set(({ actions }) => ({
       actions:
         actions.length < MAX_UNDO
