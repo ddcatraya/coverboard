@@ -32,8 +32,8 @@ export enum BackColors {
 export const backColorMap = {
   [BackColors.DARKER]: '#1E2B38',
   [BackColors.DARK]: '#303952',
-  [BackColors.LIGHT]: '#5C6F7E',
-  [BackColors.LIGHTER]: '#728496',
+  [BackColors.LIGHT]: '#475B6B',
+  [BackColors.LIGHTER]: '#5C6F7E',
 };
 
 export enum ToolbarConfigValues {
