@@ -6,19 +6,14 @@ import { backColorMap, DEFAULT_KEY } from 'types';
 
 function App() {
   const { saveId = DEFAULT_KEY } = useParams();
-  const setDefaultValues = useMainStore((state) => state.setDefaultValues);
-  const updateValues = useMainStore((state) => state.updateValues);
+  const setDefaultLocalStoreValues = useMainStore(
+    (state) => state.setDefaultLocalStoreValues,
+  );
   const configs = useMainStore((state) => state.configs);
-  const covers = useMainStore((state) => state.covers);
-  const lines = useMainStore((state) => state.lines);
 
   useEffect(() => {
-    setDefaultValues(saveId);
-  }, [saveId, setDefaultValues]);
-
-  useEffect(() => {
-    updateValues(saveId);
-  }, [configs, covers, lines, saveId, updateValues]);
+    setDefaultLocalStoreValues(saveId);
+  }, [saveId, setDefaultLocalStoreValues]);
 
   return (
     <div

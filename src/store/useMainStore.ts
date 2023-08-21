@@ -29,8 +29,8 @@ interface CoverContextData {
   saveId: string;
   updateAction: () => void;
   undoAction: () => void;
-  setDefaultValues: (saveId: string) => void;
-  updateValues: (saveId: string) => void;
+  setDefaultLocalStoreValues: (saveId: string) => void;
+  updateLocalStoreValues: (saveId: string) => void;
   updateStoreValues: (items: LocalStorageData) => void;
   resetStoreValues: () => void;
   getStoreValues: () => LocalStorageData;
@@ -41,10 +41,60 @@ export const useMainStore = create<
 >()((set, get, api) => ({
   actions: [],
   saveId: DEFAULT_KEY,
-  ...createConfigsSlice(set, get, api),
-  ...createLinesSlice(set, get, api),
-  ...createCoversSlice(set, get, api),
-  setDefaultValues(saveId: string) {
+  ...createConfigsSlice(
+    (value: any) => {
+      const { lines, covers } = get();
+
+      window.localStorage.setItem(
+        addPrefix(get().saveId),
+        JSON.stringify({ configs: value.configs, lines, covers }),
+      );
+
+      /* set(({ actions }) => ({
+      actions: [
+        ...actions,
+        {
+          configs,
+          lines,
+          covers,
+        }
+      ]
+    })); */
+
+      return set(value);
+    },
+    get,
+    api,
+  ),
+  ...createLinesSlice(
+    (value: any) => {
+      const { configs, covers } = get();
+
+      window.localStorage.setItem(
+        addPrefix(get().saveId),
+        JSON.stringify({ configs, lines: value.lines, covers }),
+      );
+
+      return set(value);
+    },
+    get,
+    api,
+  ),
+  ...createCoversSlice(
+    (value: any) => {
+      const { configs, lines } = get();
+
+      window.localStorage.setItem(
+        addPrefix(get().saveId),
+        JSON.stringify({ configs, lines, covers: value.covers }),
+      );
+
+      return set(value);
+    },
+    get,
+    api,
+  ),
+  setDefaultLocalStoreValues(saveId: string) {
     set({ saveId });
     try {
       const item = window.localStorage.getItem(addPrefix(saveId));
@@ -77,7 +127,7 @@ export const useMainStore = create<
       });
     }
   },
-  updateValues(saveId: string) {
+  updateLocalStoreValues(saveId: string) {
     const { configs, lines, covers } = get();
 
     window.localStorage.setItem(
