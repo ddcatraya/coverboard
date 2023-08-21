@@ -1,9 +1,10 @@
-import { useCoverContext, useSizesContext } from 'contexts';
+import { useSizesContext } from 'contexts';
 import { Text } from 'react-konva';
 import { Html } from 'react-konva-utils';
 import { TextLabelPopover } from '.';
 import { KonvaEventObject } from 'konva/lib/Node';
 import { backColorMap, buildTitle, colorMap } from 'types';
+import { useMainStore } from 'store';
 
 interface TitleTexProps {
   label: string;
@@ -38,7 +39,8 @@ export const TextLabel: React.FC<TitleTexProps> = ({
   title,
 }) => {
   const { fontSize } = useSizesContext();
-  const { configs, saveId } = useCoverContext();
+  const configs = useMainStore((state) => state.configs);
+  const saveId = useMainStore((state) => state.saveId);
 
   const handleSubmit = (text: string) => {
     setOpen(false);

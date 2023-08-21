@@ -1,4 +1,3 @@
-export { useCoverContext, CoverProvider } from './CoverContext';
 export { useCover } from './useCover';
 export type { UseCoverParams } from './useCover';
 export { useLines } from './useLines';

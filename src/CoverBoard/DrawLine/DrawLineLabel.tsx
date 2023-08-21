@@ -1,10 +1,11 @@
 import React from 'react';
 
-import { useCoverContext, useSizesContext } from 'contexts';
+import { useSizesContext } from 'contexts';
 import { LineParams, Lines, PosTypes } from 'types';
 import { DrawLineLabelDraggable } from '.';
 import { TextLabel } from 'components';
 import { getAlign } from 'utils';
+import { useMainStore, useUtilsStore } from 'store';
 
 interface LineProps {
   line: Lines;
@@ -20,8 +21,12 @@ export const DrawLineLabel: React.FC<LineProps> = ({
   setOpen,
 }) => {
   const { coverSize, fontSize } = useSizesContext();
-  const { resetLine, updateLineDir, updateLineText, erase, editLines } =
-    useCoverContext();
+
+  const resetLine = useMainStore((state) => state.resetLine);
+  const updateLineDir = useMainStore((state) => state.updateLineDir);
+  const updateLineText = useMainStore((state) => state.updateLineText);
+  const erase = useUtilsStore((state) => state.erase);
+  const editLines = useUtilsStore((state) => state.editLines);
 
   const handleUpdateLabel = (text: string) => {
     updateLineText(line.id, text);

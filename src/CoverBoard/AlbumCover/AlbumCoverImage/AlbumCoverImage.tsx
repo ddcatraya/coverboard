@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { Image, Rect, Text } from 'react-konva';
 
-import { useCoverContext, useSizesContext } from 'contexts';
+import { useSizesContext } from 'contexts';
 
 import {
   AlbumCoverValues,
@@ -13,20 +13,20 @@ import {
 import { Html, useImage } from 'react-konva-utils';
 import { AlbumCoverImagePopover } from '.';
 import { KonvaEventObject } from 'konva/lib/Node';
+import { useMainStore, useUtilsStore } from 'store';
 
 interface CoverImageProps {
   albumCover: Covers;
 }
 
 export const AlbumCoverImage: React.FC<CoverImageProps> = ({ albumCover }) => {
-  const {
-    erase,
-    resetCoverLabel,
-    removeCover,
-    updateCoversText,
-    editLines,
-    configs,
-  } = useCoverContext();
+  const resetCoverLabel = useMainStore((state) => state.resetCoverLabel);
+  const removeCover = useMainStore((state) => state.removeCover);
+  const updateCoversText = useMainStore((state) => state.updateCoversText);
+  const configs = useMainStore((state) => state.configs);
+  const editLines = useUtilsStore((state) => state.editLines);
+  const erase = useUtilsStore((state) => state.erase);
+
   const [image, status] = useImage(albumCover.link, 'anonymous');
   const { coverSize, fontSize } = useSizesContext();
   const [open, setOpen] = useState(false);

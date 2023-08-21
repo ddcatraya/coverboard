@@ -1,4 +1,4 @@
-import { useCoverContext, useToolbarContext } from 'contexts';
+import { useToolbarContext } from 'contexts';
 import {
   ToolbarSearch,
   ToolbarShare,
@@ -8,6 +8,7 @@ import {
 } from '.';
 import { colorMap, Colors, ToolConfig, ToolConfigIDs } from 'types';
 import { haxPrefix } from 'utils';
+import { useUtilsStore, useMainStore } from 'store';
 
 interface ToolbarProps {
   takeScreenshot: () => void;
@@ -18,17 +19,16 @@ export const Toolbar: React.FC<ToolbarProps> = ({
   takeScreenshot,
   showTooltips,
 }) => {
-  const {
-    erase,
-    setErase,
-    editLines,
-    setEditLines,
-    undo,
-    action,
-    covers,
-    lines,
-    configs,
-  } = useCoverContext();
+  const erase = useUtilsStore((state) => state.erase);
+  const setErase = useUtilsStore((state) => state.setErase);
+  const editLines = useUtilsStore((state) => state.editLines);
+  const setEditLines = useUtilsStore((state) => state.setEditLines);
+  const undoAction = useMainStore((state) => state.undoAction);
+  const actions = useMainStore((state) => state.actions);
+  const covers = useMainStore((state) => state.covers);
+  const lines = useMainStore((state) => state.lines);
+  const configs = useMainStore((state) => state.configs);
+
   const {
     openSearch,
     setOpenSearch,
@@ -96,12 +96,12 @@ export const Toolbar: React.FC<ToolbarProps> = ({
     },
     {
       id: ToolConfigIDs.UNDO,
-      tooltip: `Undo (moves: ${action.length}/10)`,
+      tooltip: `Undo (moves: ${actions.length}/10)`,
       color: colorMap[Colors.PINK],
       emoji: '↩️',
-      value: action.length < 1,
-      valueModifier: undo,
-      badge: action.length,
+      value: actions.length < 1,
+      valueModifier: undoAction,
+      badge: actions.length,
       enabled: true,
     },
     {

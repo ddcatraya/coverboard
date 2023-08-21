@@ -1,8 +1,9 @@
-import { useCoverContext, useSizesContext } from 'contexts';
+import { useSizesContext } from 'contexts';
 import { KonvaEventObject } from 'konva/lib/Node';
 import { Vector2d } from 'konva/lib/types';
 import { useMemo, useState } from 'react';
 import { Arrow, Group, Rect, Text } from 'react-konva';
+import { useMainStore, useUtilsStore } from 'store';
 import { backColorMap, colorMap, Covers } from 'types';
 
 interface BoundaryArrowProps {
@@ -10,8 +11,13 @@ interface BoundaryArrowProps {
 }
 
 export const BoundaryArrow: React.FC<BoundaryArrowProps> = ({ albumCover }) => {
-  const { configs, updateCoverPosition, erase, removeCover } =
-    useCoverContext();
+  const configs = useMainStore((state) => state.configs);
+  const updateCoverPosition = useMainStore(
+    (state) => state.updateCoverPosition,
+  );
+  const removeCover = useMainStore((state) => state.removeCover);
+  const erase = useUtilsStore((state) => state.erase);
+
   const { fontSize, dragLimits, coverSize } = useSizesContext();
   const [tooltip, setTooltip] = useState(false);
 

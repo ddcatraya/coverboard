@@ -1,9 +1,10 @@
 import React from 'react';
 import { Group, Rect } from 'react-konva';
 
-import { useCoverContext, useSizesContext } from 'contexts';
+import { useSizesContext } from 'contexts';
 import { Covers, PosTypes } from 'types';
 import { KonvaEventObject } from 'konva/lib/Node';
+import { useUtilsStore, useMainStore } from 'store';
 
 interface AlbumCoverDrawLineProps {
   id: Covers['id'];
@@ -12,7 +13,12 @@ interface AlbumCoverDrawLineProps {
 export const AlbumCoverDrawLine: React.FC<AlbumCoverDrawLineProps> = ({
   id,
 }) => {
-  const { erase, points, setPoints, editLines, createLine } = useCoverContext();
+  const erase = useUtilsStore((state) => state.erase);
+  const points = useUtilsStore((state) => state.points);
+  const setPoints = useUtilsStore((state) => state.setPoints);
+  const editLines = useUtilsStore((state) => state.editLines);
+  const createLine = useMainStore((state) => state.createLine);
+
   const { coverSize } = useSizesContext();
   const selection: PosTypes | null = points?.id === id ? points.pos : null;
 

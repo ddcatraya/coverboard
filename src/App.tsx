@@ -1,9 +1,17 @@
-import { useCoverContext } from 'contexts';
 import { CoverBoard } from 'CoverBoard';
-import { backColorMap } from 'types';
+import { useEffect } from 'react';
+import { useParams } from 'react-router-dom';
+import { useMainStore } from 'store';
+import { backColorMap, DEFAULT_KEY } from 'types';
 
 function App() {
-  const { configs } = useCoverContext();
+  const { saveId = DEFAULT_KEY } = useParams();
+  const setDefaultValues = useMainStore((state) => state.setDefaultValues);
+  const configs = useMainStore((state) => state.configs);
+
+  useEffect(() => {
+    setDefaultValues(saveId);
+  }, [saveId, setDefaultValues]);
 
   return (
     <div

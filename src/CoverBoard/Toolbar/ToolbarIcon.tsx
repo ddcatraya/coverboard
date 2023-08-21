@@ -1,9 +1,10 @@
 import { KonvaEventObject } from 'konva/lib/Node';
 import { Group, Rect, Text } from 'react-konva';
 
-import { useCoverContext, useSizesContext, useToolbarContext } from 'contexts';
+import { useSizesContext, useToolbarContext } from 'contexts';
 import { ToolConfig, ToolConfigIDs } from 'types';
 import { clearHash, setHash } from 'utils';
+import { useUtilsStore } from 'store';
 
 const MIN_OPACITY = 0.3;
 
@@ -13,7 +14,9 @@ interface ToolbarIconProps {
 }
 
 export const ToolbarIcon: React.FC<ToolbarIconProps> = ({ config, index }) => {
-  const { setErase, setPoints, setEditLines } = useCoverContext();
+  const setErase = useUtilsStore((state) => state.setErase);
+  const setPoints = useUtilsStore((state) => state.setPoints);
+  const setEditLines = useUtilsStore((state) => state.setEditLines);
   const { getCurrentY, toobarIconSize } = useSizesContext();
   const { setTooltip } = useToolbarContext();
 

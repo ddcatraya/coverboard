@@ -1,10 +1,11 @@
 import { Group } from 'react-konva';
 import { KonvaEventObject } from 'konva/lib/Node';
 import { useMemo, useState } from 'react';
-import { useCoverContext, useSizesContext } from 'contexts';
+import { useSizesContext } from 'contexts';
 import { Covers, PosTypes } from 'types';
 import { v4 as uuidv4 } from 'uuid';
 import { getClientPosition } from 'utils';
+import { useMainStore, useUtilsStore } from 'store';
 
 interface DraggableGroupProps {
   children: React.ReactNode;
@@ -19,7 +20,8 @@ export const AlbumCoverLabelDraggable = ({
   offset,
   offSetTop,
 }: DraggableGroupProps) => {
-  const { erase, updateCoverDir } = useCoverContext();
+  const updateCoverDir = useMainStore((state) => state.updateCoverDir);
+  const erase = useUtilsStore((state) => state.erase);
   const { coverSize, fontSize, dragLimits } = useSizesContext();
   const [id, setId] = useState(uuidv4());
 

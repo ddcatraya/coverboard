@@ -1,9 +1,10 @@
 import React, { useMemo, useState } from 'react';
 import { Group } from 'react-konva';
 
-import { useCoverContext, useSizesContext } from 'contexts';
+import { useSizesContext } from 'contexts';
 import { LineParams, Lines, PosTypes } from 'types';
 import { DrawLineArrow, DrawLineCircle, DrawLineLabel } from '.';
+import { useMainStore, useUtilsStore } from 'store';
 
 interface LineProps {
   line: Lines;
@@ -35,7 +36,9 @@ const convertPosToXY = (coverSize: number, pos: PosTypes) => {
 
 export const DrawLine: React.FC<LineProps> = ({ line }) => {
   const { coverSize } = useSizesContext();
-  const { covers, removeLine, erase } = useCoverContext();
+  const covers = useMainStore((state) => state.covers);
+  const removeLine = useMainStore((state) => state.removeLine);
+  const erase = useUtilsStore((state) => state.erase);
   const [textEdit, setTextEdit] = useState(false);
 
   const lineParams = useMemo((): LineParams | undefined => {

@@ -1,17 +1,15 @@
 import { Html } from 'react-konva-utils';
 
-import {
-  useCoverContext,
-  useSizesContext,
-  useToastContext,
-  useToolbarContext,
-} from 'contexts';
+import { useSizesContext, useToastContext, useToolbarContext } from 'contexts';
 import { ToolbarConfigPopover } from '.';
 import { ToolbarConfigParams, ToolbarConfigValues } from 'types';
+import { useMainStore } from 'store';
 
 export const ToolbarConfig: React.FC = () => {
   const { openConfig, setOpenConfig } = useToolbarContext();
-  const { updateConfigs, configs, updateAllCoversDir } = useCoverContext();
+  const configs = useMainStore((state) => state.configs);
+  const updateConfigs = useMainStore((state) => state.updateConfigs);
+  const updateAllCoversDir = useMainStore((state) => state.updateAllCoversDir);
   const { moveIntoView, offLimitCovers } = useSizesContext();
   const { showSuccessMessage } = useToastContext();
 

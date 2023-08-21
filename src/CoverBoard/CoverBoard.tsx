@@ -2,14 +2,18 @@ import React, { useRef, useState } from 'react';
 import { Stage, Layer, Group, Rect, Text } from 'react-konva';
 
 import { AlbumCover, DrawLine, Toolbar, TitleLabel, BoundaryArrow } from './';
-import { useCoverContext, useSizesContext, ToolbarProvider } from 'contexts';
+import { useSizesContext, ToolbarProvider } from 'contexts';
 import { Logo } from './AlbumCover';
 import { backColorMap, colorMap } from 'types';
 import { flushSync } from 'react-dom';
 import { formatDate } from 'utils';
+import { useMainStore } from 'store';
 
 export const CoverBoard: React.FC = () => {
-  const { covers, lines, configs, saveId } = useCoverContext();
+  const lines = useMainStore((state) => state.lines);
+  const covers = useMainStore((state) => state.covers);
+  const configs = useMainStore((state) => state.configs);
+  const saveId = useMainStore((state) => state.saveId);
   const {
     toolBarLimits,
     dragLimits,

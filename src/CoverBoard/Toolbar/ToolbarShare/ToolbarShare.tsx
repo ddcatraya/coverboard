@@ -1,14 +1,19 @@
 import { Html } from 'react-konva-utils';
 
-import { useCoverContext, useToastContext, useToolbarContext } from 'contexts';
+import { useToastContext, useToolbarContext } from 'contexts';
 import { ToolbarSharePopover } from '.';
 import { useNavigate } from 'react-router-dom';
 import { LocalStorageData, schema } from 'types';
 import { ZodError } from 'zod';
+import { useMainStore } from 'store';
 
 export const ToolbarShare: React.FC = () => {
   const navigate = useNavigate();
-  const { instance, setInstance, saveId, resetInstance } = useCoverContext();
+  const saveId = useMainStore((state) => state.saveId);
+  const resetStoreValues = useMainStore((state) => state.resetStoreValues);
+  const updateStoreValues = useMainStore((state) => state.updateStoreValues);
+  const getStoreValues = useMainStore((state) => state.getStoreValues);
+
   const { showSuccessMessage, showErrorMessage } = useToastContext();
   const { openShare, setOpenShare } = useToolbarContext();
 
@@ -19,7 +24,7 @@ export const ToolbarShare: React.FC = () => {
       try {
         const parsedSchema = schema(parsedData).parse(parsedData);
         if (parsedSchema) {
-          setInstance(parsedSchema);
+          updateStoreValues(parsedSchema);
           setOpenShare(false);
           showSuccessMessage('JSON was applied with success');
         }
@@ -36,7 +41,7 @@ export const ToolbarShare: React.FC = () => {
   };
 
   const handleDeleteElements = () => {
-    resetInstance();
+    resetStoreValues();
 
     showSuccessMessage('All elements on screen were cleaned');
   };
@@ -52,7 +57,7 @@ export const ToolbarShare: React.FC = () => {
   return (
     <Html>
       <ToolbarSharePopover
-        instance={instance}
+        instance={getStoreValues()}
         open={openShare}
         onClose={() => setOpenShare(false)}
         handleImport={handleImport}

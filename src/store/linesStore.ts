@@ -1,4 +1,3 @@
-import { UseConfigsParams, UseCoverParams } from 'contexts/CoverContext';
 import { Lines, Point, PosTypes } from 'types';
 import { v4 as uuidv4 } from 'uuid';
 import { StateCreator } from 'zustand';

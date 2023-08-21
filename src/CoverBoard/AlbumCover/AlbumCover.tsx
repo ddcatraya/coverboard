@@ -1,6 +1,6 @@
 import React from 'react';
 
-import { useCoverContext, useSizesContext } from 'contexts';
+import { useSizesContext } from 'contexts';
 import { Covers, LabelType } from 'types';
 import {
   AlbumCoverDrawLine,
@@ -9,13 +9,14 @@ import {
   AlbumCoverLabelDraggable,
   AlbumCoverDraggable,
 } from '.';
+import { useMainStore } from 'store';
 
 interface CoverImageProps {
   albumCover: Covers;
 }
 
 export const AlbumCover: React.FC<CoverImageProps> = ({ albumCover }) => {
-  const { configs } = useCoverContext();
+  const configs = useMainStore((state) => state.configs);
   const { fontSize, dragLimits, toobarIconSize, coverSize, windowSize } =
     useSizesContext();
 

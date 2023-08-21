@@ -4,6 +4,7 @@ import {
   Covers,
   LocalStorageData,
   schema,
+  DEFAULT_KEY,
 } from 'types';
 import { addPrefix } from 'utils';
 import { create } from 'zustand';
@@ -25,20 +26,26 @@ interface Actions {
 
 interface CoverContextData {
   actions: Array<Actions>;
+  saveId: string;
   updateAction: () => void;
   undoAction: () => void;
   setDefaultValues: (saveId: string) => void;
   updateValues: (saveId: string) => void;
+  updateStoreValues: (items: LocalStorageData) => void;
+  resetStoreValues: () => void;
+  getStoreValues: () => LocalStorageData;
 }
 
 export const useMainStore = create<
   UseCoverParams & UseLinesParams & UseConfigsParams & CoverContextData
 >()((set, get, api) => ({
   actions: [],
+  saveId: DEFAULT_KEY,
   ...createConfigsSlice(set, get, api),
   ...createLinesSlice(set, get, api),
   ...createCoversSlice(set, get, api),
   setDefaultValues(saveId: string) {
+    set({ saveId });
     try {
       const item = window.localStorage.getItem(addPrefix(saveId));
 
@@ -46,6 +53,15 @@ export const useMainStore = create<
         const parsedItem: LocalStorageData = JSON.parse(item);
         const parsedSchema = schema(parsedItem).parse(parsedItem);
         if (parsedSchema) {
+          set({
+            actions: [
+              {
+                configs: parsedSchema.configs,
+                lines: parsedSchema.lines,
+                covers: parsedSchema.covers,
+              },
+            ],
+          });
           set({
             configs: parsedSchema.configs,
             lines: parsedSchema.lines,
@@ -60,7 +76,9 @@ export const useMainStore = create<
         lines: [],
         covers: [],
       });
+      console.log('dd');
     } catch (error) {
+      console.log('bbb');
       console.error(error);
 
       set({
@@ -77,6 +95,25 @@ export const useMainStore = create<
       addPrefix(saveId),
       JSON.stringify({ configs, lines, covers }),
     );
+  },
+  updateStoreValues({ configs, lines, covers }) {
+    set({
+      configs,
+      lines,
+      covers,
+    });
+  },
+  getStoreValues() {
+    const { configs, lines, covers } = get();
+
+    return { configs, lines, covers };
+  },
+  resetStoreValues() {
+    set({
+      configs: initialConfigValues(),
+      lines: [],
+      covers: [],
+    });
   },
   updateAction() {
     const { configs, lines, covers } = get();

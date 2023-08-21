@@ -1,12 +1,18 @@
 import React, { useMemo, useState } from 'react';
 
 import { TextLabel } from 'components';
-import { useCoverContext, useSizesContext } from 'contexts';
+import { useSizesContext } from 'contexts';
 import { buildTitle, Modes } from 'types';
+import { useMainStore, useUtilsStore } from 'store';
 
 export const TitleLabel: React.FC = () => {
-  const { updateTitle, resetTitle, configs, erase, editLines, saveId } =
-    useCoverContext();
+  const updateTitle = useMainStore((state) => state.updateTitle);
+  const resetTitle = useMainStore((state) => state.resetTitle);
+  const configs = useMainStore((state) => state.configs);
+  const saveId = useMainStore((state) => state.saveId);
+  const erase = useUtilsStore((state) => state.erase);
+  const editLines = useUtilsStore((state) => state.editLines);
+
   const { dragLimits } = useSizesContext();
   const [open, setOpen] = useState(false);
 

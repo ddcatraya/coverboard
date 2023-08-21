@@ -6,6 +6,9 @@ interface UseUtilParams {
   erase: boolean;
   editLines: boolean;
   points: Point | null;
+  setErase: (value: boolean) => void;
+  setEditLines: (value: boolean) => void;
+  setPoints: (value: Point | null) => void;
 }
 
 export const useUtilsStore = create<UseUtilParams>()((set) => {

@@ -7,9 +7,9 @@ import React, {
   useCallback,
   useMemo,
 } from 'react';
+import { useMainStore } from 'store';
 
 import { Covers, DragLimits, ToolConfigIDs } from 'types';
-import { useCoverContext } from './CoverContext/CoverContext';
 
 interface SizeContextData {
   dragLimits: DragLimits;
@@ -78,7 +78,12 @@ const throttle = (func: () => void, delay: number) => {
 export const SizesProvider: React.FC<{ children: React.ReactNode }> = ({
   children,
 }) => {
-  const { configs, covers, updateAllCoverPosition } = useCoverContext();
+  const configs = useMainStore((state) => state.configs);
+  const covers = useMainStore((state) => state.covers);
+  const updateAllCoverPosition = useMainStore(
+    (state) => state.updateAllCoverPosition,
+  );
+
   const coverSize = configs.size;
   const [windowSize, setWindowSize] = useState({
     width: window.innerWidth,
