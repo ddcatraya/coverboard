@@ -54,15 +54,6 @@ export const useMainStore = create<
         const parsedSchema = schema(parsedItem).parse(parsedItem);
         if (parsedSchema) {
           set({
-            actions: [
-              {
-                configs: parsedSchema.configs,
-                lines: parsedSchema.lines,
-                covers: parsedSchema.covers,
-              },
-            ],
-          });
-          set({
             configs: parsedSchema.configs,
             lines: parsedSchema.lines,
             covers: parsedSchema.covers,
@@ -76,9 +67,7 @@ export const useMainStore = create<
         lines: [],
         covers: [],
       });
-      console.log('dd');
     } catch (error) {
-      console.log('bbb');
       console.error(error);
 
       set({
