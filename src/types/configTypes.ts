@@ -25,7 +25,6 @@ export const colorMap = {
 export enum BackColors {
   DARKER = 'darker',
   DARK = 'dark',
-  MEDIUM = 'medium',
   LIGHT = 'light',
   LIGHTER = 'lighter',
 }
@@ -33,7 +32,6 @@ export enum BackColors {
 export const backColorMap = {
   [BackColors.DARKER]: '#1E2B38',
   [BackColors.DARK]: '#303952',
-  [BackColors.MEDIUM]: '#475B6B',
   [BackColors.LIGHT]: '#5C6F7E',
   [BackColors.LIGHTER]: '#728496',
 };
