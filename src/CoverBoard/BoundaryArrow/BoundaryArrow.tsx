@@ -16,6 +16,9 @@ export const BoundaryArrow: React.FC<BoundaryArrowProps> = ({ albumCover }) => {
     (state) => state.updateCoverPosition,
   );
   const removeCover = useMainStore((state) => state.removeCover);
+  const removeLinesWithCover = useMainStore(
+    (state) => state.removeLinesWithCover,
+  );
   const erase = useUtilsStore((state) => state.erase);
 
   const { fontSize, dragLimits, coverSize } = useSizesContext();
@@ -61,6 +64,7 @@ export const BoundaryArrow: React.FC<BoundaryArrowProps> = ({ albumCover }) => {
   const handleBringIntoView = () => {
     if (erase) {
       removeCover(albumCover.id);
+      removeLinesWithCover(albumCover.id);
       return;
     }
     let newPos: Vector2d = { x: albumCover.x, y: albumCover.y };

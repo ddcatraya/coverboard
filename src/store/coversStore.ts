@@ -34,7 +34,6 @@ export const createCoversSlice: StateCreator<
   covers: [],
   clearAllCovers() {
     set({ covers: [] });
-    // setLines(() => []);
   },
   updateAllCoversDir(dir) {
     set(({ covers }) => ({

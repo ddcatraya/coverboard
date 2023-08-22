@@ -11,6 +11,7 @@ export interface UseLinesParams {
   resetAllLines: () => void;
   createLine: (id: string, points: Point, pos: PosTypes) => void;
   clearAllLines: () => void;
+  removeLinesWithCover: (coverId: string) => void;
 }
 
 export const createLinesSlice: StateCreator<
@@ -120,6 +121,13 @@ export const createLinesSlice: StateCreator<
   removeLine(linedId) {
     set(({ lines }) => ({
       lines: lines.filter((currentLine) => !(currentLine.id === linedId)),
+    }));
+  },
+  removeLinesWithCover(coverId: string) {
+    set(({ lines }) => ({
+      lines: lines.filter(
+        (l) => l.origin.id !== coverId || l.target.id !== coverId,
+      ),
     }));
   },
 });

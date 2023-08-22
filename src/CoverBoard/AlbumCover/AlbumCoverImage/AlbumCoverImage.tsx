@@ -22,6 +22,9 @@ interface CoverImageProps {
 export const AlbumCoverImage: React.FC<CoverImageProps> = ({ albumCover }) => {
   const resetCoverLabel = useMainStore((state) => state.resetCoverLabel);
   const removeCover = useMainStore((state) => state.removeCover);
+  const removeLinesWithCover = useMainStore(
+    (state) => state.removeLinesWithCover,
+  );
   const updateCoversText = useMainStore((state) => state.updateCoversText);
   const configs = useMainStore((state) => state.configs);
   const editLines = useUtilsStore((state) => state.editLines);
@@ -34,6 +37,7 @@ export const AlbumCoverImage: React.FC<CoverImageProps> = ({ albumCover }) => {
   const handleEraseImage = (id: string) => {
     if (erase) {
       removeCover(id);
+      removeLinesWithCover(id);
       return;
     }
 
