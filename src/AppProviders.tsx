@@ -1,12 +1,10 @@
 import App from 'App';
-import { ToastProvider, ApiProvider } from 'contexts';
+import { ToastProvider } from 'contexts';
 
 export const AppProviders = () => {
   return (
     <ToastProvider>
-      <ApiProvider>
-        <App />
-      </ApiProvider>
+      <App />
     </ToastProvider>
   );
 };

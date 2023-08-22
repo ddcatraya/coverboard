@@ -1,3 +1,4 @@
+import { apiConfig } from 'api';
 import {
   ToolbarConfigParams,
   Lines,
@@ -33,6 +34,9 @@ interface CoverContextData {
   resetStoreValues: () => void;
   getStoreValues: () => LocalStorageData;
   offLimitCovers: () => Covers[];
+  apiKey: {
+    LastFMKey: string;
+  };
 }
 
 type MainStoreUnion = UseCoverParams &
@@ -111,6 +115,9 @@ export const useMainStore = create<MainStoreUnion>()((set, get, api) => ({
     get,
     api,
   ),
+  apiKey: {
+    LastFMKey: apiConfig.LastFMKey,
+  },
   setDefaultLocalStoreValues(saveId: string) {
     set({ saveId });
     try {
