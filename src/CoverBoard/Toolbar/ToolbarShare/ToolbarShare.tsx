@@ -1,11 +1,11 @@
 import { Html } from 'react-konva-utils';
 
-import { useToastContext, useToolbarContext } from 'contexts';
+import { useToastContext } from 'contexts';
 import { ToolbarSharePopover } from '.';
 import { useNavigate } from 'react-router-dom';
 import { LocalStorageData, schema } from 'types';
 import { ZodError } from 'zod';
-import { useMainStore } from 'store';
+import { useMainStore, useToolbarStore } from 'store';
 
 export const ToolbarShare: React.FC = () => {
   const navigate = useNavigate();
@@ -15,7 +15,8 @@ export const ToolbarShare: React.FC = () => {
   const getStoreValues = useMainStore((state) => state.getStoreValues);
 
   const { showSuccessMessage, showErrorMessage } = useToastContext();
-  const { openShare, setOpenShare } = useToolbarContext();
+  const openShare = useToolbarStore((state) => state.openShare);
+  const setOpenShare = useToolbarStore((state) => state.setOpenShare);
 
   const handleImport = (data: string) => {
     try {

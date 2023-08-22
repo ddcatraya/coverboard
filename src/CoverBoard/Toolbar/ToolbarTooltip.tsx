@@ -1,14 +1,13 @@
 import { Group, Rect, Text } from 'react-konva';
 
-import { useToolbarContext } from 'contexts';
 import { backColorMap } from 'types';
-import { useMainStore } from 'store';
+import { useMainStore, useToolbarStore } from 'store';
 
 export const ToolbarTooltip: React.FC = () => {
   const coverSize = useMainStore((state) => state.coverSize());
   const fontSize = useMainStore((state) => state.fontSize());
   const configs = useMainStore((state) => state.configs);
-  const { tooltip } = useToolbarContext();
+  const tooltip = useToolbarStore((state) => state.tooltip);
 
   if (!tooltip) return null;
 

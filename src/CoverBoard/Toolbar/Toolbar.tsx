@@ -1,4 +1,3 @@
-import { useToolbarContext } from 'contexts';
 import {
   ToolbarSearch,
   ToolbarShare,
@@ -8,7 +7,7 @@ import {
 } from '.';
 import { colorMap, Colors, ToolConfig, ToolConfigIDs } from 'types';
 import { haxPrefix } from 'utils';
-import { useUtilsStore, useMainStore } from 'store';
+import { useUtilsStore, useMainStore, useToolbarStore } from 'store';
 
 interface ToolbarProps {
   takeScreenshot: () => void;
@@ -29,14 +28,12 @@ export const Toolbar: React.FC<ToolbarProps> = ({
   const lines = useMainStore((state) => state.lines);
   const configs = useMainStore((state) => state.configs);
 
-  const {
-    openSearch,
-    setOpenSearch,
-    openConfig,
-    setOpenConfig,
-    openShare,
-    setOpenShare,
-  } = useToolbarContext();
+  const openConfig = useToolbarStore((state) => state.openConfig);
+  const setOpenConfig = useToolbarStore((state) => state.setOpenConfig);
+  const openSearch = useToolbarStore((state) => state.openSearch);
+  const setOpenSearch = useToolbarStore((state) => state.setOpenSearch);
+  const openShare = useToolbarStore((state) => state.openShare);
+  const setOpenShare = useToolbarStore((state) => state.setOpenShare);
 
   const savesNumber = Object.keys(window.localStorage).filter((key) =>
     haxPrefix(key),

@@ -1,13 +1,14 @@
 import { Html } from 'react-konva-utils';
 
-import { useToastContext, useToolbarContext } from 'contexts';
+import { useToastContext } from 'contexts';
 import { ToolbarConfigPopover } from '.';
 import { ToolbarConfigParams, ToolbarConfigValues } from 'types';
-import { useMainStore } from 'store';
+import { useMainStore, useToolbarStore } from 'store';
 import { Vector2d } from 'konva/lib/types';
 
 export const ToolbarConfig: React.FC = () => {
-  const { openConfig, setOpenConfig } = useToolbarContext();
+  const openConfig = useToolbarStore((state) => state.openConfig);
+  const setOpenConfig = useToolbarStore((state) => state.setOpenConfig);
   const configs = useMainStore((state) => state.configs);
   const covers = useMainStore((state) => state.covers);
   const offLimitCovers = useMainStore((state) => state.offLimitCovers());

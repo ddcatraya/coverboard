@@ -2,7 +2,6 @@ import React, { useRef, useState } from 'react';
 import { Stage, Layer, Group, Rect, Text } from 'react-konva';
 
 import { AlbumCover, DrawLine, Toolbar, TitleLabel, BoundaryArrow } from './';
-import { ToolbarProvider } from 'contexts';
 import { Logo } from './AlbumCover';
 import { backColorMap, colorMap } from 'types';
 import { flushSync } from 'react-dom';
@@ -107,12 +106,7 @@ export const CoverBoard: React.FC = () => {
               stroke={colorMap[configs.color]}
               fill={backColorMap[configs.backColor]}
             />
-            <ToolbarProvider>
-              <Toolbar
-                takeScreenshot={takeScreenshot}
-                showTooltips={showLogo}
-              />
-            </ToolbarProvider>
+            <Toolbar takeScreenshot={takeScreenshot} showTooltips={showLogo} />
           </Group>
           <Rect
             name="arenaHiddenBorder"
