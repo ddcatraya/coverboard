@@ -1,7 +1,8 @@
+import { Snackbar, Alert } from '@mui/material';
 import { CoverBoard } from 'CoverBoard';
 import { useEffect } from 'react';
 import { useParams } from 'react-router-dom';
-import { useMainStore } from 'store';
+import { useMainStore, useToastStore } from 'store';
 import { backColorMap, DEFAULT_KEY } from 'types';
 
 const throttle = (func: () => void, delay: number) => {
@@ -26,6 +27,11 @@ function App() {
   const configs = useMainStore((state) => state.configs);
   const setWindowSize = useMainStore((state) => state.setWindowSize);
 
+  const toastMessage = useToastStore((state) => state.toastMessage);
+  const handleToastMessageClose = useToastStore(
+    (state) => state.handleToastMessageClose,
+  );
+
   useEffect(() => {
     setDefaultLocalStoreValues(saveId);
   }, [saveId, setDefaultLocalStoreValues]);
@@ -46,6 +52,18 @@ function App() {
       className="App"
       style={{ backgroundColor: backColorMap[configs.backColor] }}>
       <CoverBoard />
+      {toastMessage && (
+        <Snackbar
+          open={!!toastMessage}
+          autoHideDuration={3000}
+          onClose={handleToastMessageClose}>
+          <Alert
+            severity={toastMessage?.type}
+            onClose={handleToastMessageClose}>
+            {toastMessage?.text}
+          </Alert>
+        </Snackbar>
+      )}
     </div>
   );
 }

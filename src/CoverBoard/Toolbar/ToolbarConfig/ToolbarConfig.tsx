@@ -1,9 +1,8 @@
 import { Html } from 'react-konva-utils';
 
-import { useToastContext } from 'contexts';
 import { ToolbarConfigPopover } from '.';
 import { ToolbarConfigParams, ToolbarConfigValues } from 'types';
-import { useMainStore, useToolbarStore } from 'store';
+import { useMainStore, useToastStore, useToolbarStore } from 'store';
 import { Vector2d } from 'konva/lib/types';
 
 export const ToolbarConfig: React.FC = () => {
@@ -19,7 +18,7 @@ export const ToolbarConfig: React.FC = () => {
   const updateAllCoversDir = useMainStore((state) => state.updateAllCoversDir);
   const dragLimits = useMainStore((state) => state.dragLimits());
   const coverSize = useMainStore((state) => state.coverSize());
-  const { showSuccessMessage } = useToastContext();
+  const showSuccessMessage = useToastStore((state) => state.showSuccessMessage);
 
   const handleUpdateCover = (
     config: ToolbarConfigParams,
