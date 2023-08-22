@@ -1,7 +1,6 @@
 import React, { useMemo, useState } from 'react';
 
 import { TextLabel } from 'components';
-import { useSizesContext } from 'contexts';
 import { buildTitle, Modes } from 'types';
 import { useMainStore, useUtilsStore } from 'store';
 
@@ -13,7 +12,7 @@ export const TitleLabel: React.FC = () => {
   const erase = useUtilsStore((state) => state.erase);
   const editLines = useUtilsStore((state) => state.editLines);
 
-  const { dragLimits } = useSizesContext();
+  const dragLimits = useMainStore((state) => state.dragLimits());
   const [open, setOpen] = useState(false);
 
   const handleReset = () => {

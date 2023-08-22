@@ -1,7 +1,6 @@
 import React, { useMemo, useState } from 'react';
 import { Group } from 'react-konva';
 
-import { useSizesContext } from 'contexts';
 import { LineParams, Lines, PosTypes } from 'types';
 import { DrawLineArrow, DrawLineCircle, DrawLineLabel } from '.';
 import { useMainStore, useUtilsStore } from 'store';
@@ -35,7 +34,7 @@ const convertPosToXY = (coverSize: number, pos: PosTypes) => {
 };
 
 export const DrawLine: React.FC<LineProps> = ({ line }) => {
-  const { coverSize } = useSizesContext();
+  const coverSize = useMainStore((state) => state.coverSize());
   const covers = useMainStore((state) => state.covers);
   const removeLine = useMainStore((state) => state.removeLine);
   const erase = useUtilsStore((state) => state.erase);

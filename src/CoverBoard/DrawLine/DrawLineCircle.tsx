@@ -2,7 +2,6 @@ import React from 'react';
 import { Circle, Group } from 'react-konva';
 import { KonvaEventObject } from 'konva/lib/Node';
 
-import { useSizesContext } from 'contexts';
 import { backColorMap, colorMap, Lines } from 'types';
 import { useMainStore, useUtilsStore } from 'store';
 
@@ -13,7 +12,7 @@ interface LineProps {
 
 export const DrawLineCircle: React.FC<LineProps> = (props) => {
   const { line, handleOpen } = props;
-  const { circleRadius } = useSizesContext();
+  const circleRadius = useMainStore((state) => state.circleRadius());
   const configs = useMainStore((state) => state.configs);
   const erase = useUtilsStore((state) => state.erase);
 

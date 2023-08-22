@@ -1,7 +1,6 @@
 import { Group } from 'react-konva';
 import { KonvaEventObject } from 'konva/lib/Node';
 import { useMemo, useState } from 'react';
-import { useSizesContext } from 'contexts';
 import { Covers, PosTypes } from 'types';
 import { v4 as uuidv4 } from 'uuid';
 import { getClientPosition } from 'utils';
@@ -22,7 +21,9 @@ export const AlbumCoverLabelDraggable = ({
 }: DraggableGroupProps) => {
   const updateCoverDir = useMainStore((state) => state.updateCoverDir);
   const erase = useUtilsStore((state) => state.erase);
-  const { coverSize, fontSize, dragLimits } = useSizesContext();
+  const dragLimits = useMainStore((state) => state.dragLimits());
+  const fontSize = useMainStore((state) => state.fontSize());
+  const coverSize = useMainStore((state) => state.coverSize());
   const [id, setId] = useState(uuidv4());
 
   const handleDragStart = (e: KonvaEventObject<DragEvent>) => {

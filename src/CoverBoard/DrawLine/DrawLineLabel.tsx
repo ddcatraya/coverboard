@@ -1,6 +1,5 @@
 import React from 'react';
 
-import { useSizesContext } from 'contexts';
 import { LineParams, Lines, PosTypes } from 'types';
 import { DrawLineLabelDraggable } from '.';
 import { TextLabel } from 'components';
@@ -20,7 +19,8 @@ export const DrawLineLabel: React.FC<LineProps> = ({
   open,
   setOpen,
 }) => {
-  const { coverSize, fontSize } = useSizesContext();
+  const coverSize = useMainStore((state) => state.coverSize());
+  const fontSize = useMainStore((state) => state.fontSize());
 
   const resetLine = useMainStore((state) => state.resetLine);
   const updateLineDir = useMainStore((state) => state.updateLineDir);

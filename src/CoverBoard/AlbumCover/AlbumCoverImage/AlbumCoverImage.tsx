@@ -1,8 +1,6 @@
 import React, { useState } from 'react';
 import { Image, Rect, Text } from 'react-konva';
 
-import { useSizesContext } from 'contexts';
-
 import {
   AlbumCoverValues,
   Covers,
@@ -30,10 +28,10 @@ export const AlbumCoverImage: React.FC<CoverImageProps> = ({ albumCover }) => {
   const editLines = useUtilsStore((state) => state.editLines);
   const erase = useUtilsStore((state) => state.erase);
 
+  const coverSize = useMainStore((state) => state.coverSize());
+  const fontSize = useMainStore((state) => state.fontSize());
+
   const [image, status] = useImage(albumCover.link, 'anonymous');
-  const { coverSize, fontSize } = useSizesContext();
-  /* const coverSize = useMainStore((state) => state.coverSize());
-  const fontSize = useMainStore((state) => state.fontSize()); */
   const [open, setOpen] = useState(false);
 
   const handleEraseImage = (id: string) => {

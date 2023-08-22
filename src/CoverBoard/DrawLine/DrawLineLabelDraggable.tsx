@@ -1,11 +1,11 @@
 import { Group } from 'react-konva';
 import { KonvaEventObject } from 'konva/lib/Node';
 import { useMemo, useState } from 'react';
-import { useSizesContext } from 'contexts';
 import { LineParams, Lines, PosTypes } from 'types';
 import { v4 as uuidv4 } from 'uuid';
 import { getClientPosition } from 'utils';
 import { useUtilsStore } from 'store/utilsStore';
+import { useMainStore } from 'store';
 
 interface DraggableGroupProps {
   children: React.ReactNode;
@@ -22,7 +22,10 @@ export const DrawLineLabelDraggable = ({
 }: DraggableGroupProps) => {
   const erase = useUtilsStore((state) => state.erase);
   const editLines = useUtilsStore((state) => state.editLines);
-  const { coverSize, fontSize, circleRadius, dragLimits } = useSizesContext();
+  const coverSize = useMainStore((state) => state.coverSize());
+  const fontSize = useMainStore((state) => state.fontSize());
+  const circleRadius = useMainStore((state) => state.circleRadius());
+  const dragLimits = useMainStore((state) => state.dragLimits());
   const [id, setId] = useState(uuidv4());
 
   const handleDragStart = (e: KonvaEventObject<DragEvent>) => {

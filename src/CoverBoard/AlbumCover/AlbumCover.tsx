@@ -1,6 +1,5 @@
 import React from 'react';
 
-import { useSizesContext } from 'contexts';
 import { Covers, LabelType } from 'types';
 import {
   AlbumCoverDrawLine,
@@ -17,8 +16,12 @@ interface CoverImageProps {
 
 export const AlbumCover: React.FC<CoverImageProps> = ({ albumCover }) => {
   const configs = useMainStore((state) => state.configs);
-  const { fontSize, dragLimits, toobarIconSize, coverSize, windowSize } =
-    useSizesContext();
+
+  const dragLimits = useMainStore((state) => state.dragLimits());
+  const fontSize = useMainStore((state) => state.fontSize());
+  const toobarIconSize = useMainStore((state) => state.toobarIconSize());
+  const coverSize = useMainStore((state) => state.coverSize());
+  const windowSize = useMainStore((state) => state.windowSize);
 
   const offSet =
     configs.showArtist &&

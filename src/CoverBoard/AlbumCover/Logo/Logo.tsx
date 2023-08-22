@@ -1,10 +1,13 @@
-import { useSizesContext } from 'contexts';
 import { KonvaEventObject } from 'konva/lib/Node';
 import { Group, Image, Text } from 'react-konva';
+import { useMainStore } from 'store';
 import useImage from 'use-image';
 
 export const Logo: React.FC = () => {
-  const { dragLimits, toobarIconSize, fontSize } = useSizesContext();
+  const dragLimits = useMainStore((state) => state.dragLimits());
+  const toobarIconSize = useMainStore((state) => state.toobarIconSize());
+  const fontSize = useMainStore((state) => state.fontSize());
+
   const [image] = useImage(
     'https://www.last.fm/static/images/footer_logo@2x.49ca51948b0a.png',
   );

@@ -1,4 +1,3 @@
-import { useSizesContext } from 'contexts';
 import { Text } from 'react-konva';
 import { Html } from 'react-konva-utils';
 import { TextLabelPopover } from '.';
@@ -38,7 +37,7 @@ export const TextLabel: React.FC<TitleTexProps> = ({
   editable = true,
   title,
 }) => {
-  const { fontSize } = useSizesContext();
+  const fontSize = useMainStore((state) => state.fontSize());
   const configs = useMainStore((state) => state.configs);
   const saveId = useMainStore((state) => state.saveId);
 

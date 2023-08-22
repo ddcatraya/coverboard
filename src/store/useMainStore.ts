@@ -32,6 +32,7 @@ interface CoverContextData {
   updateStoreValues: (items: LocalStorageData) => void;
   resetStoreValues: () => void;
   getStoreValues: () => LocalStorageData;
+  offLimitCovers: () => Covers[];
 }
 
 type MainStoreUnion = UseCoverParams &
@@ -174,5 +175,18 @@ export const useMainStore = create<MainStoreUnion>()((set, get, api) => ({
         actions: copyArray,
       });
     }
+  },
+  offLimitCovers() {
+    const { dragLimits, coverSize } = get();
+    return get().covers.flatMap((covers) => {
+      if (
+        (covers.x > dragLimits().width && dragLimits().width > coverSize()) ||
+        (covers.y > dragLimits().height && dragLimits().height > coverSize())
+      ) {
+        return covers;
+      }
+
+      return [];
+    });
   },
 }));

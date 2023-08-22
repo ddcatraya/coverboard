@@ -1,7 +1,6 @@
 import { Group, Line } from 'react-konva';
 import { KonvaEventObject } from 'konva/lib/Node';
 import { Vector2d } from 'konva/lib/types';
-import { useSizesContext } from 'contexts';
 import { Covers, colorMap } from 'types';
 import { useState } from 'react';
 import { useMainStore, useUtilsStore } from 'store';
@@ -32,7 +31,7 @@ export const AlbumCoverDraggable: React.FC<DraggableGroupProps> = ({
   );
   const erase = useUtilsStore((state) => state.erase);
 
-  const { dragLimits } = useSizesContext();
+  const dragLimits = useMainStore((state) => state.dragLimits());
   const [hintLines, setHintLines] = useState<
     [Covers | undefined, Covers | undefined]
   >([undefined, undefined]);

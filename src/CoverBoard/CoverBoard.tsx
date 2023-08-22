@@ -2,7 +2,7 @@ import React, { useRef, useState } from 'react';
 import { Stage, Layer, Group, Rect, Text } from 'react-konva';
 
 import { AlbumCover, DrawLine, Toolbar, TitleLabel, BoundaryArrow } from './';
-import { useSizesContext, ToolbarProvider } from 'contexts';
+import { ToolbarProvider } from 'contexts';
 import { Logo } from './AlbumCover';
 import { backColorMap, colorMap } from 'types';
 import { flushSync } from 'react-dom';
@@ -14,15 +14,13 @@ export const CoverBoard: React.FC = () => {
   const covers = useMainStore((state) => state.covers);
   const configs = useMainStore((state) => state.configs);
   const saveId = useMainStore((state) => state.saveId);
-  const {
-    toolBarLimits,
-    dragLimits,
-    windowSize,
-    toobarIconSize,
-    coverSize,
-    fontSize,
-    offLimitCovers,
-  } = useSizesContext();
+  const offLimitCovers = useMainStore((state) => state.offLimitCovers());
+  const toolBarLimits = useMainStore((state) => state.toolBarLimits());
+  const dragLimits = useMainStore((state) => state.dragLimits());
+  const windowSize = useMainStore((state) => state.windowSize);
+  const toobarIconSize = useMainStore((state) => state.toobarIconSize());
+  const coverSize = useMainStore((state) => state.coverSize());
+  const fontSize = useMainStore((state) => state.fontSize());
   const stageRef = useRef<any>(null);
   const [screenshotUrl, setScreenshotUrl] = useState('');
   const [showLogo, setShowLogo] = useState(true);

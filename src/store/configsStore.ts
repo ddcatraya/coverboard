@@ -36,6 +36,11 @@ export interface UseConfigsParams {
   getCurrentY: (index: number) => number;
   dragLimits: () => DragLimits;
   toolBarLimits: () => DragLimits;
+  setWindowSize: () => void;
+  windowSize: {
+    width: number;
+    height: number;
+  };
 }
 
 export const createConfigsSlice: StateCreator<
@@ -45,6 +50,18 @@ export const createConfigsSlice: StateCreator<
   UseConfigsParams
 > = (set, get) => ({
   configs: initialConfigValues(),
+  windowSize: {
+    width: window.innerWidth,
+    height: window.innerHeight,
+  },
+  setWindowSize: () => {
+    set({
+      windowSize: {
+        width: window.innerWidth,
+        height: window.innerHeight,
+      },
+    });
+  },
   resetConfigs: () => {
     set({ configs: initialConfigValues() });
   },
@@ -90,19 +107,3 @@ export const createConfigsSlice: StateCreator<
       2 * get().toobarIconSize(),
   }),
 });
-
-/*
-onst dragLimits = {
-    x: 3 * toobarIconSize,
-    y: toobarIconSize / 2,
-    width: windowSize.width - 3 * toobarIconSize - toobarIconSize / 2,
-    height: windowSize.height - toobarIconSize,
-  };
-
-  const toolBarLimits = {
-    x: toobarIconSize / 2,
-    y: toobarIconSize / 2,
-    width: toobarIconSize * 2,
-    height:
-      getCurrentY(Object.keys(ToolConfigIDs).length - 1) + 2 * toobarIconSize,
-  };*/

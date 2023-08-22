@@ -1,7 +1,6 @@
 import React from 'react';
 import { Group, Rect } from 'react-konva';
 
-import { useSizesContext } from 'contexts';
 import { Covers, PosTypes } from 'types';
 import { KonvaEventObject } from 'konva/lib/Node';
 import { useUtilsStore, useMainStore } from 'store';
@@ -19,7 +18,7 @@ export const AlbumCoverDrawLine: React.FC<AlbumCoverDrawLineProps> = ({
   const editLines = useUtilsStore((state) => state.editLines);
   const createLine = useMainStore((state) => state.createLine);
 
-  const { coverSize } = useSizesContext();
+  const coverSize = useMainStore((state) => state.coverSize());
   const selection: PosTypes | null = points?.id === id ? points.pos : null;
 
   const handleDrawLine = (id: string, pos: PosTypes) => {

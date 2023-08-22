@@ -1,4 +1,3 @@
-import { useSizesContext } from 'contexts';
 import { KonvaEventObject } from 'konva/lib/Node';
 import { Vector2d } from 'konva/lib/types';
 import { useMemo, useState } from 'react';
@@ -20,8 +19,10 @@ export const BoundaryArrow: React.FC<BoundaryArrowProps> = ({ albumCover }) => {
     (state) => state.removeLinesWithCover,
   );
   const erase = useUtilsStore((state) => state.erase);
+  const coverSize = useMainStore((state) => state.coverSize());
+  const fontSize = useMainStore((state) => state.fontSize());
+  const dragLimits = useMainStore((state) => state.dragLimits());
 
-  const { fontSize, dragLimits, coverSize } = useSizesContext();
   const [tooltip, setTooltip] = useState(false);
 
   const points = useMemo(() => {

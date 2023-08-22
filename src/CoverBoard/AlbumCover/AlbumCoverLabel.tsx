@@ -1,6 +1,5 @@
 import React, { useState } from 'react';
 
-import { useSizesContext } from 'contexts';
 import { Covers, LabelType } from 'types';
 import { TextLabel } from 'components';
 import { getAlign } from 'utils';
@@ -22,7 +21,8 @@ export const AlbumCoverLabel: React.FC<AlbumCoverLabelProps> = ({
   const erase = useUtilsStore((state) => state.erase);
   const editLines = useUtilsStore((state) => state.editLines);
 
-  const { coverSize, fontSize } = useSizesContext();
+  const fontSize = useMainStore((state) => state.fontSize());
+  const coverSize = useMainStore((state) => state.coverSize());
   const [open, setOpen] = useState(false);
 
   const handleReset = () => {

@@ -1,7 +1,6 @@
 import React from 'react';
 import { Arrow } from 'react-konva';
 
-import { useSizesContext } from 'contexts';
 import { colorMap, LineParams } from 'types';
 import { useMainStore } from 'store';
 
@@ -10,7 +9,7 @@ interface LineProps {
 }
 
 export const DrawLineArrow: React.FC<LineProps> = ({ lineParams }) => {
-  const { fontSize } = useSizesContext();
+  const fontSize = useMainStore((state) => state.fontSize());
   const configs = useMainStore((state) => state.configs);
 
   if (!lineParams) return null;
