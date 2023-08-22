@@ -134,8 +134,8 @@ export const createCoversSlice: StateCreator<
     }));
   },
   addCovers(filteredAlbums) {
-    set((currentAlbums) => ({
-      covers: [...currentAlbums.covers, ...filteredAlbums],
+    set(({ covers }) => ({
+      covers: [...covers, ...filteredAlbums],
     }));
   },
   updateCoverPosition(coverId, { x, y }) {

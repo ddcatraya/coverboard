@@ -27,70 +27,85 @@ interface Actions {
 interface CoverContextData {
   actions: Array<Actions>;
   saveId: string;
-  updateAction: (values: LocalStorageData) => void;
   undoAction: () => void;
   setDefaultLocalStoreValues: (saveId: string) => void;
-  updateLocalStoreValues: (saveId: string) => void;
   updateStoreValues: (items: LocalStorageData) => void;
   resetStoreValues: () => void;
   getStoreValues: () => LocalStorageData;
 }
 
-export const useMainStore = create<
-  UseCoverParams & UseLinesParams & UseConfigsParams & CoverContextData
->()((set, get, api) => ({
+type MainStoreUnion = UseCoverParams &
+  UseLinesParams &
+  UseConfigsParams &
+  CoverContextData;
+
+type Setter = (value: MainStoreUnion) => Partial<MainStoreUnion>;
+
+const updateAction = (
+  set: (value: Setter) => void,
+  get: () => MainStoreUnion,
+) => {
+  const { configs, lines, covers } = get();
+
+  window.localStorage.setItem(
+    addPrefix(get().saveId),
+    JSON.stringify({ configs, lines, covers }),
+  );
+
+  set(({ actions }) => ({
+    actions:
+      actions.length < MAX_UNDO
+        ? [
+            ...actions,
+            {
+              configs,
+              lines,
+              covers,
+            },
+          ]
+        : [
+            ...actions.slice(actions.length - (MAX_UNDO - 1)),
+            {
+              configs,
+              lines,
+              covers,
+            },
+          ],
+  }));
+};
+
+export const useMainStore = create<MainStoreUnion>()((set, get, api) => ({
   actions: [],
   saveId: DEFAULT_KEY,
   ...createConfigsSlice(
-    (value: any) => {
-      const { lines, covers } = get();
+    (value) => {
+      const save = set(value);
 
-      window.localStorage.setItem(
-        addPrefix(get().saveId),
-        JSON.stringify({ configs: value.configs, lines, covers }),
-      );
+      updateAction(set, get);
 
-      set(({ actions }) => ({
-        actions: [...actions, { configs: value.configs, lines, covers }],
-      }));
-
-      return set(value);
+      return save;
     },
     get,
     api,
   ),
   ...createLinesSlice(
-    (value: any) => {
-      const { configs, covers } = get();
+    (value) => {
+      const save = set(value);
 
-      window.localStorage.setItem(
-        addPrefix(get().saveId),
-        JSON.stringify({ configs, lines: value.lines, covers }),
-      );
+      updateAction(set, get);
 
-      set(({ actions }) => ({
-        actions: [...actions, { configs, lines: value.lines, covers }],
-      }));
-
-      return set(value);
+      return save;
     },
     get,
     api,
   ),
   ...createCoversSlice(
-    (value: any) => {
-      const { configs, lines } = get();
+    (value) => {
+      const save = set(value);
 
-      window.localStorage.setItem(
-        addPrefix(get().saveId),
-        JSON.stringify({ configs, lines, covers: value.covers }),
-      );
+      updateAction(set, get);
 
-      set(({ actions }) => ({
-        actions: [...actions, { configs, lines, covers: value.covers }],
-      }));
-
-      return set(value);
+      return save;
     },
     get,
     api,
@@ -128,14 +143,6 @@ export const useMainStore = create<
       });
     }
   },
-  updateLocalStoreValues(saveId: string) {
-    const { configs, lines, covers } = get();
-
-    window.localStorage.setItem(
-      addPrefix(saveId),
-      JSON.stringify({ configs, lines, covers }),
-    );
-  },
   updateStoreValues({ configs, lines, covers }) {
     set({
       configs,
@@ -154,28 +161,6 @@ export const useMainStore = create<
       lines: [],
       covers: [],
     });
-  },
-  updateAction({ configs, lines, covers }) {
-    set(({ actions }) => ({
-      actions:
-        actions.length < MAX_UNDO
-          ? [
-              ...actions,
-              {
-                configs,
-                lines,
-                covers,
-              },
-            ]
-          : [
-              ...actions.slice(actions.length - (MAX_UNDO - 1)),
-              {
-                configs,
-                lines,
-                covers,
-              },
-            ],
-    }));
   },
   undoAction() {
     const copyArray = [...get().actions];
