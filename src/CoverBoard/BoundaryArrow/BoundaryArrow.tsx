@@ -5,7 +5,6 @@ import { useMemo, useState } from 'react';
 import { Arrow, Group, Rect, Text } from 'react-konva';
 import { useMainStore, useUtilsStore } from 'store';
 import { backColorMap, colorMap, Covers } from 'types';
-import { shallow } from 'zustand/shallow';
 
 interface BoundaryArrowProps {
   id: Covers['id'];
@@ -31,7 +30,7 @@ export const BoundaryArrowMemo: React.FC<BoundaryArrowProps> = ({
   const erase = useUtilsStore((state) => state.erase);
   const coverSize = useMainStore((state) => state.coverSize());
   const fontSize = useMainStore((state) => state.fontSize());
-  const dragLimits = useMainStore((state) => state.dragLimits(), shallow);
+  const dragLimits = useMainStore((state) => state.dragLimits());
 
   const [tooltip, setTooltip] = useState(false);
 

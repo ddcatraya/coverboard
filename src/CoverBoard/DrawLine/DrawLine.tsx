@@ -4,7 +4,6 @@ import { Group } from 'react-konva';
 import { LineParams, Lines, PosTypes } from 'types';
 import { DrawLineArrow, DrawLineCircle, DrawLineLabel } from '.';
 import { useMainStore, useUtilsStore } from 'store';
-import { shallow } from 'zustand/shallow';
 
 interface LineProps {
   id: Lines['id'];
@@ -53,13 +52,11 @@ export const DrawLineMemo: React.FC<LineProps> = ({
   const removeLine = useMainStore((state) => state.removeLine);
   const erase = useUtilsStore((state) => state.erase);
   const [textEdit, setTextEdit] = useState(false);
-  const originSquare = useMainStore(
-    (state) => state.covers.find((cov) => cov.id === originId),
-    shallow,
+  const originSquare = useMainStore((state) =>
+    state.covers.find((cov) => cov.id === originId),
   );
-  const targetSquare = useMainStore(
-    (state) => state.covers.find((cov) => cov.id === targetId),
-    shallow,
+  const targetSquare = useMainStore((state) =>
+    state.covers.find((cov) => cov.id === targetId),
   );
 
   const lineParams = useMemo((): LineParams | undefined => {

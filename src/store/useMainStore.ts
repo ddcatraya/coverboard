@@ -8,7 +8,8 @@ import {
   DEFAULT_KEY,
 } from 'types';
 import { addPrefix } from 'utils';
-import { create } from 'zustand';
+import { createWithEqualityFn } from 'zustand/traditional';
+import { shallow } from 'zustand/shallow';
 import {
   UseConfigsParams,
   createConfigsSlice,
@@ -79,121 +80,124 @@ const updateAction = (
   }));
 };
 
-export const useMainStore = create<MainStoreUnion>()((set, get, api) => ({
-  actions: [],
-  saveId: DEFAULT_KEY,
-  ...createConfigsSlice(
-    (value) => {
-      const save = set(value);
+export const useMainStore = createWithEqualityFn<MainStoreUnion>()(
+  (set, get, api) => ({
+    actions: [],
+    saveId: DEFAULT_KEY,
+    ...createConfigsSlice(
+      (value) => {
+        const save = set(value);
 
-      updateAction(set, get);
+        updateAction(set, get);
 
-      return save;
+        return save;
+      },
+      get,
+      api,
+    ),
+    ...createLinesSlice(
+      (value) => {
+        const save = set(value);
+
+        updateAction(set, get);
+
+        return save;
+      },
+      get,
+      api,
+    ),
+    ...createCoversSlice(
+      (value) => {
+        const save = set(value);
+
+        updateAction(set, get);
+
+        return save;
+      },
+      get,
+      api,
+    ),
+    apiKey: {
+      LastFMKey: apiConfig.LastFMKey,
     },
-    get,
-    api,
-  ),
-  ...createLinesSlice(
-    (value) => {
-      const save = set(value);
+    setDefaultLocalStoreValues(saveId: string) {
+      set({ saveId });
+      try {
+        const item = window.localStorage.getItem(addPrefix(saveId));
 
-      updateAction(set, get);
-
-      return save;
-    },
-    get,
-    api,
-  ),
-  ...createCoversSlice(
-    (value) => {
-      const save = set(value);
-
-      updateAction(set, get);
-
-      return save;
-    },
-    get,
-    api,
-  ),
-  apiKey: {
-    LastFMKey: apiConfig.LastFMKey,
-  },
-  setDefaultLocalStoreValues(saveId: string) {
-    set({ saveId });
-    try {
-      const item = window.localStorage.getItem(addPrefix(saveId));
-
-      if (item) {
-        const parsedItem: LocalStorageData = JSON.parse(item);
-        const parsedSchema = schema(parsedItem).parse(parsedItem);
-        if (parsedSchema) {
-          set({
-            configs: parsedSchema.configs,
-            lines: parsedSchema.lines,
-            covers: parsedSchema.covers,
-          });
-          return;
+        if (item) {
+          const parsedItem: LocalStorageData = JSON.parse(item);
+          const parsedSchema = schema(parsedItem).parse(parsedItem);
+          if (parsedSchema) {
+            set({
+              configs: parsedSchema.configs,
+              lines: parsedSchema.lines,
+              covers: parsedSchema.covers,
+            });
+            return;
+          }
         }
-      }
 
+        set({
+          configs: initialConfigValues(),
+          lines: [],
+          covers: [],
+        });
+      } catch (error) {
+        console.error(error);
+
+        set({
+          configs: initialConfigValues(),
+          lines: [],
+          covers: [],
+        });
+      }
+    },
+    updateStoreValues({ configs, lines, covers }) {
+      set({
+        configs,
+        lines,
+        covers,
+      });
+    },
+    getStoreValues() {
+      const { configs, lines, covers } = get();
+
+      return { configs, lines, covers };
+    },
+    resetStoreValues() {
       set({
         configs: initialConfigValues(),
         lines: [],
         covers: [],
       });
-    } catch (error) {
-      console.error(error);
+    },
+    undoAction() {
+      const copyArray = [...get().actions];
+      const another = copyArray.pop();
 
-      set({
-        configs: initialConfigValues(),
-        lines: [],
-        covers: [],
-      });
-    }
-  },
-  updateStoreValues({ configs, lines, covers }) {
-    set({
-      configs,
-      lines,
-      covers,
-    });
-  },
-  getStoreValues() {
-    const { configs, lines, covers } = get();
-
-    return { configs, lines, covers };
-  },
-  resetStoreValues() {
-    set({
-      configs: initialConfigValues(),
-      lines: [],
-      covers: [],
-    });
-  },
-  undoAction() {
-    const copyArray = [...get().actions];
-    const another = copyArray.pop();
-
-    if (another) {
-      set({
-        configs: another.configs,
-        lines: another.lines,
-        covers: another.covers,
-        actions: copyArray,
-      });
-    }
-  },
-  offLimitCovers() {
-    const { dragLimits, coverSize } = get();
-    return get().covers.flatMap((covers) => {
-      if (
-        (covers.x > dragLimits().width && dragLimits().width > coverSize()) ||
-        (covers.y > dragLimits().height && dragLimits().height > coverSize())
-      ) {
-        return covers;
+      if (another) {
+        set({
+          configs: another.configs,
+          lines: another.lines,
+          covers: another.covers,
+          actions: copyArray,
+        });
       }
+    },
+    offLimitCovers() {
+      const { dragLimits, coverSize } = get();
+      return get().covers.flatMap((covers) => {
+        if (
+          (covers.x > dragLimits().width && dragLimits().width > coverSize()) ||
+          (covers.y > dragLimits().height && dragLimits().height > coverSize())
+        ) {
+          return covers;
+        }
 
-      return [];
-    });
-  },
-}));
+        return [];
+      });
+    },
+  }),
+  shallow,
+);

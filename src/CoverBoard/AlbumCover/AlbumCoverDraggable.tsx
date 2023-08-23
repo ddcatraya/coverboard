@@ -4,7 +4,6 @@ import { Vector2d } from 'konva/lib/types';
 import { Covers, colorMap } from 'types';
 import { useState } from 'react';
 import { useMainStore, useUtilsStore } from 'store';
-import { shallow } from 'zustand/shallow';
 
 interface DraggableGroupProps {
   children: React.ReactNode;

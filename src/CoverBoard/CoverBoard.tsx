@@ -7,7 +7,6 @@ import { backColorMap, colorMap } from 'types';
 import { flushSync } from 'react-dom';
 import { formatDate } from 'utils';
 import { useMainStore } from 'store';
-import { shallow } from 'zustand/shallow';
 
 export const CoverBoard: React.FC = () => {
   const lines = useMainStore((state) => state.lines);
@@ -16,8 +15,8 @@ export const CoverBoard: React.FC = () => {
   const saveId = useMainStore((state) => state.saveId);
   const offLimitCovers = useMainStore((state) => state.offLimitCovers());
   const toolBarLimits = useMainStore((state) => state.toolBarLimits());
-  const dragLimits = useMainStore((state) => state.dragLimits(), shallow);
-  const windowSize = useMainStore((state) => state.windowSize, shallow);
+  const dragLimits = useMainStore((state) => state.dragLimits());
+  const windowSize = useMainStore((state) => state.windowSize);
   const toobarIconSize = useMainStore((state) => state.toobarIconSize());
   const coverSize = useMainStore((state) => state.coverSize());
   const fontSize = useMainStore((state) => state.fontSize());
