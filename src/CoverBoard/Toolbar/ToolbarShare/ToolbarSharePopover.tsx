@@ -12,7 +12,14 @@ import { Close as CloseIcon } from '@mui/icons-material';
 
 import { LocalStorageData, ToolConfigIDs, DEFAULT_KEY } from 'types';
 import { NavigateFunction } from 'react-router-dom';
-import { addPrefix, clearHash, haxPrefix, removePrefix, setHash } from 'utils';
+import {
+  addPrefix,
+  clearHash,
+  DEFAULT_STORAGE,
+  haxPrefix,
+  removePrefix,
+  setHash,
+} from 'utils';
 import { CommonDialog } from 'components';
 
 interface SaveProps {
@@ -41,10 +48,6 @@ export const ToolbarSharePopover: React.FC<SaveProps> = ({
   const [newSave, setNewSave] = useState('');
 
   setHash(ToolConfigIDs.SHARE);
-
-  useEffect(() => {
-    setJsonData(JSON.stringify(instance, null, 4));
-  }, [instance]);
 
   const handleCopyText = () => {
     try {
@@ -98,6 +101,7 @@ export const ToolbarSharePopover: React.FC<SaveProps> = ({
 
     if (value) {
       navigate(`/${newSave}`);
+      // navigate
       setNewSave('');
       handleClose();
     }
@@ -123,6 +127,12 @@ export const ToolbarSharePopover: React.FC<SaveProps> = ({
                   color={saveId === currentSave ? 'primary' : 'default'}
                   onClick={() => {
                     navigate(`/${currentSave}#${ToolConfigIDs.SHARE}`);
+                    const data = window.localStorage.getItem(
+                      addPrefix(currentSave),
+                    );
+                    if (data) {
+                      setJsonData(JSON.stringify(JSON.parse(data), null, 4));
+                    }
                   }}
                   onDelete={
                     showDelete
@@ -150,6 +160,18 @@ export const ToolbarSharePopover: React.FC<SaveProps> = ({
 
                           if (saveId === currentSave) {
                             navigate(`/${DEFAULT_KEY}#${ToolConfigIDs.SHARE}`);
+
+                            const defaultData =
+                              window.localStorage.getItem(DEFAULT_STORAGE);
+                            if (defaultData) {
+                              setJsonData(
+                                JSON.stringify(
+                                  JSON.parse(defaultData),
+                                  null,
+                                  4,
+                                ),
+                              );
+                            }
                           }
                         }
                       : undefined
