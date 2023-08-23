@@ -70,10 +70,16 @@ export const AlbumCoverDraggable: React.FC<DraggableGroupProps> = ({
   const handleDragMove = (e: KonvaEventObject<DragEvent>) => {
     e.cancelBubble = true;
 
-    setHintLines([
-      covers.find((star) => star.id !== id && star.y === e.target.y()),
-      covers.find((star) => star.id !== id && star.x === e.target.x()),
-    ]);
+    const foundY = covers.find(
+      (star) => star.id !== id && star.y === e.target.y(),
+    );
+    const foundX = covers.find(
+      (star) => star.id !== id && star.x === e.target.x(),
+    );
+
+    if (foundY || foundX) {
+      setHintLines([foundY, foundX]);
+    }
   };
 
   const handleDragEnd = (e: KonvaEventObject<DragEvent>) => {
