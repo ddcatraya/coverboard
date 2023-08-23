@@ -27,10 +27,7 @@ export const AlbumCoverImagePopover: React.FC<PopupProps> = ({
   ) => {
     setText((currentText) => ({
       ...currentText,
-      [label]: {
-        ...currentText[label],
-        text: event.target.value,
-      },
+      [label]: event.target.value,
     }));
   };
 
@@ -48,7 +45,7 @@ export const AlbumCoverImagePopover: React.FC<PopupProps> = ({
             <TextField
               label="Artist or Description"
               fullWidth
-              value={text[LabelType.ARTIST].text}
+              value={text[LabelType.ARTIST]}
               onChange={(evt: any) => handTextChange(evt, LabelType.ARTIST)}
               style={{ marginBottom: '20px' }}
             />
@@ -57,7 +54,7 @@ export const AlbumCoverImagePopover: React.FC<PopupProps> = ({
             <TextField
               label="Album"
               fullWidth
-              value={text[LabelType.ALBUM].text}
+              value={text[LabelType.ALBUM]}
               onChange={(evt: any) => handTextChange(evt, LabelType.ALBUM)}
               style={{ marginBottom: '20px' }}
             />

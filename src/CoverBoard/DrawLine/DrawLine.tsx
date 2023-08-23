@@ -4,9 +4,16 @@ import { Group } from 'react-konva';
 import { LineParams, Lines, PosTypes } from 'types';
 import { DrawLineArrow, DrawLineCircle, DrawLineLabel } from '.';
 import { useMainStore, useUtilsStore } from 'store';
+import { shallow } from 'zustand/shallow';
 
 interface LineProps {
-  line: Lines;
+  id: Lines['id'];
+  text: Lines['text'];
+  dir: Lines['dir'];
+  originId: Lines['origin']['id'];
+  originDir: Lines['origin']['pos'];
+  targetId: Lines['target']['id'];
+  targetDir: Lines['target']['pos'];
 }
 
 const convertPosToXY = (coverSize: number, pos: PosTypes) => {
@@ -33,21 +40,33 @@ const convertPosToXY = (coverSize: number, pos: PosTypes) => {
   }
 };
 
-export const DrawLine: React.FC<LineProps> = ({ line }) => {
+export const DrawLineMemo: React.FC<LineProps> = ({
+  id,
+  text,
+  dir,
+  originId,
+  originDir,
+  targetId,
+  targetDir,
+}) => {
   const coverSize = useMainStore((state) => state.coverSize());
-  const covers = useMainStore((state) => state.covers);
   const removeLine = useMainStore((state) => state.removeLine);
   const erase = useUtilsStore((state) => state.erase);
   const [textEdit, setTextEdit] = useState(false);
+  const originSquare = useMainStore(
+    (state) => state.covers.find((cov) => cov.id === originId),
+    shallow,
+  );
+  const targetSquare = useMainStore(
+    (state) => state.covers.find((cov) => cov.id === targetId),
+    shallow,
+  );
 
   const lineParams = useMemo((): LineParams | undefined => {
-    if (line.target) {
-      const originSquare = covers.find((cov) => cov.id === line.origin.id);
-      const targetSquare = covers.find((cov) => cov.id === line.target?.id);
-
+    if (targetId && targetDir) {
       if (originSquare && targetSquare) {
-        const originPos = convertPosToXY(coverSize, line.origin.pos);
-        const targetPos = convertPosToXY(coverSize, line.target.pos);
+        const originPos = convertPosToXY(coverSize, originDir);
+        const targetPos = convertPosToXY(coverSize, targetDir);
 
         const points = [
           originSquare.x + originPos.x,
@@ -66,11 +85,11 @@ export const DrawLine: React.FC<LineProps> = ({ line }) => {
         };
       }
     }
-  }, [covers, coverSize, line.origin, line.target]);
+  }, [targetId, targetDir, originSquare, targetSquare, coverSize, originDir]);
 
-  const handleOpen = (line: Lines) => {
+  const handleOpen = (id: Lines['id']) => {
     if (erase) {
-      removeLine(line.id);
+      removeLine(id);
       return;
     }
 
@@ -82,9 +101,11 @@ export const DrawLine: React.FC<LineProps> = ({ line }) => {
   return (
     <Group>
       <Group x={lineParams.midX} y={lineParams.midY}>
-        <DrawLineCircle line={line} handleOpen={handleOpen} />
+        <DrawLineCircle id={id} handleOpen={handleOpen} />
         <DrawLineLabel
-          line={line}
+          id={id}
+          text={text}
+          dir={dir}
           open={textEdit}
           setOpen={setTextEdit}
           lineParams={lineParams}
@@ -94,3 +115,5 @@ export const DrawLine: React.FC<LineProps> = ({ line }) => {
     </Group>
   );
 };
+
+export const DrawLine = React.memo(DrawLineMemo);

@@ -9,13 +9,13 @@ import { useMainStore } from 'store';
 
 interface DraggableGroupProps {
   children: React.ReactNode;
-  line: Lines;
+  dir: Lines['dir'];
   setUpdate: (dir: PosTypes) => void;
   lineParams: LineParams;
 }
 
 export const DrawLineLabelDraggable = ({
-  line,
+  dir,
   lineParams,
   setUpdate,
   children,
@@ -68,17 +68,17 @@ export const DrawLineLabelDraggable = ({
   };
 
   const newPos = useMemo(() => {
-    if (line.dir === PosTypes.BOTTOM) {
+    if (dir === PosTypes.BOTTOM) {
       return {
         x: 0,
         y: 0,
       };
-    } else if (line.dir === PosTypes.TOP) {
+    } else if (dir === PosTypes.TOP) {
       return {
         x: 0,
         y: -1.5 * 4 * circleRadius,
       };
-    } else if (line.dir === PosTypes.RIGHT) {
+    } else if (dir === PosTypes.RIGHT) {
       return {
         x: coverSize + 3 * circleRadius,
         y: -1.5 * 2 * circleRadius,
@@ -89,7 +89,7 @@ export const DrawLineLabelDraggable = ({
         y: -1.5 * 2 * circleRadius,
       };
     }
-  }, [circleRadius, coverSize, line.dir]);
+  }, [circleRadius, coverSize, dir]);
 
   return (
     <Group

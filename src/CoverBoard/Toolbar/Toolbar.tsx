@@ -55,8 +55,6 @@ export const ToolbarMemo: React.FC<ToolbarProps> = ({
   const openShare = useToolbarStore((state) => state.openShare);
   const setOpenShare = useToolbarStore((state) => state.setOpenShare);
 
-  console.log('re render');
-
   const savesNumber = Object.keys(window.localStorage).filter((key) =>
     haxPrefix(key),
   ).length;
@@ -124,8 +122,6 @@ export const ToolbarMemo: React.FC<ToolbarProps> = ({
       enabled: showTooltips && !editLines && !erase,
     },
   ];
-
-  console.log('toolbar render');
 
   return (
     <>

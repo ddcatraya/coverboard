@@ -17,7 +17,7 @@ export const CoverBoard: React.FC = () => {
   const offLimitCovers = useMainStore((state) => state.offLimitCovers());
   const toolBarLimits = useMainStore((state) => state.toolBarLimits());
   const dragLimits = useMainStore((state) => state.dragLimits(), shallow);
-  const windowSize = useMainStore((state) => state.windowSize);
+  const windowSize = useMainStore((state) => state.windowSize, shallow);
   const toobarIconSize = useMainStore((state) => state.toobarIconSize());
   const coverSize = useMainStore((state) => state.coverSize());
   const fontSize = useMainStore((state) => state.fontSize());
@@ -65,13 +65,37 @@ export const CoverBoard: React.FC = () => {
           />
           <Group name="board" x={dragLimits.x} y={dragLimits.y}>
             {covers.map((star) => (
-              <AlbumCover albumCover={star} key={star.id} />
+              <AlbumCover
+                id={star.id}
+                artist={star.artist.text}
+                album={star.album.text}
+                x={star.x}
+                y={star.y}
+                link={star.link}
+                dir={star.dir}
+                key={star.id}
+              />
             ))}
             {lines.map((line) => (
-              <DrawLine line={line} key={line.id} />
+              <DrawLine
+                id={line.id}
+                text={line.text}
+                dir={line.dir}
+                originId={line.origin.id}
+                originDir={line.origin.pos}
+                targetId={line.target.id}
+                targetDir={line.target.pos}
+                key={line.id}
+              />
             ))}
             {offLimitCovers.map((star) => (
-              <BoundaryArrow albumCover={star} key={star.id} />
+              <BoundaryArrow
+                id={star.id}
+                x={star.x}
+                y={star.y}
+                album={star.album.text}
+                key={star.id}
+              />
             ))}
             <TitleLabel />
             <Text

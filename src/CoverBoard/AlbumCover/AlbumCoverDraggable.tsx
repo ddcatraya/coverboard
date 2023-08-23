@@ -4,10 +4,13 @@ import { Vector2d } from 'konva/lib/types';
 import { Covers, colorMap } from 'types';
 import { useState } from 'react';
 import { useMainStore, useUtilsStore } from 'store';
+import { shallow } from 'zustand/shallow';
 
 interface DraggableGroupProps {
   children: React.ReactNode;
-  albumCover: Covers;
+  id: Covers['id'];
+  x: Covers['x'];
+  y: Covers['y'];
   min: {
     x: number;
     y: number;
@@ -19,7 +22,9 @@ interface DraggableGroupProps {
 }
 
 export const AlbumCoverDraggable: React.FC<DraggableGroupProps> = ({
-  albumCover,
+  id,
+  x,
+  y,
   min,
   max,
   children,
@@ -67,12 +72,8 @@ export const AlbumCoverDraggable: React.FC<DraggableGroupProps> = ({
     e.cancelBubble = true;
 
     setHintLines([
-      covers.find(
-        (star) => star.id !== albumCover.id && star.y === e.target.y(),
-      ),
-      covers.find(
-        (star) => star.id !== albumCover.id && star.x === e.target.x(),
-      ),
+      covers.find((star) => star.id !== id && star.y === e.target.y()),
+      covers.find((star) => star.id !== id && star.x === e.target.x()),
     ]);
   };
 
@@ -88,7 +89,7 @@ export const AlbumCoverDraggable: React.FC<DraggableGroupProps> = ({
       container.style.cursor = 'not-allowed';
     }
 
-    updateCoverPosition(albumCover.id, {
+    updateCoverPosition(id, {
       x: e.target.x(),
       y: e.target.y(),
     });
@@ -111,8 +112,8 @@ export const AlbumCoverDraggable: React.FC<DraggableGroupProps> = ({
         />
       )}
       <Group
-        x={albumCover.x}
-        y={albumCover.y}
+        x={x}
+        y={y}
         draggable
         onDragMove={handleDragMove}
         onDragStart={handleDragStart}

@@ -7,14 +7,18 @@ import { getAlign } from 'utils';
 import { useMainStore, useUtilsStore } from 'store';
 
 interface LineProps {
-  line: Lines;
+  id: Lines['id'];
+  text: Lines['text'];
+  dir: Lines['dir'];
   open: boolean;
   setOpen: (open: boolean) => void;
   lineParams: LineParams;
 }
 
 export const DrawLineLabel: React.FC<LineProps> = ({
-  line,
+  id,
+  text,
+  dir,
   lineParams,
   open,
   setOpen,
@@ -29,22 +33,22 @@ export const DrawLineLabel: React.FC<LineProps> = ({
   const editLines = useUtilsStore((state) => state.editLines);
 
   const handleUpdateLabel = (text: string) => {
-    updateLineText(line.id, text);
+    updateLineText(id, text);
   };
 
   const handleUpdateDir = (dir: PosTypes) => {
-    updateLineDir(line.id, dir);
+    updateLineDir(id, dir);
   };
 
   const handleReset = () => {
-    resetLine(line.id);
+    resetLine(id);
   };
 
   if (erase) return null;
 
   const getLabel = () => {
-    if (line.text) {
-      return line.text;
+    if (text) {
+      return text;
     } else if (editLines) {
       return '<add text>';
     }
@@ -53,7 +57,7 @@ export const DrawLineLabel: React.FC<LineProps> = ({
 
   return (
     <DrawLineLabelDraggable
-      line={line}
+      dir={dir}
       lineParams={lineParams}
       setUpdate={handleUpdateDir}>
       <TextLabel
@@ -66,7 +70,7 @@ export const DrawLineLabel: React.FC<LineProps> = ({
           x: -coverSize,
           y: fontSize * 1.5,
           width: coverSize * 2,
-          align: getAlign(line.dir),
+          align: getAlign(dir),
         }}
       />
     </DrawLineLabelDraggable>

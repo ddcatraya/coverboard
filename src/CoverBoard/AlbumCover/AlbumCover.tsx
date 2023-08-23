@@ -9,40 +9,55 @@ import {
   AlbumCoverDraggable,
 } from '.';
 import { useMainStore } from 'store';
+import { shallow } from 'zustand/shallow';
 
 interface CoverImageProps {
-  albumCover: Covers;
+  id: Covers['id'];
+  artist: Covers['artist']['text'];
+  album: Covers['album']['text'];
+  x: Covers['x'];
+  y: Covers['y'];
+  link: Covers['link'];
+  dir: Covers['dir'];
 }
 
-export const AlbumCover: React.FC<CoverImageProps> = ({ albumCover }) => {
+const AlbumCoverMemo: React.FC<CoverImageProps> = ({
+  id,
+  artist,
+  album,
+  x,
+  y,
+  link,
+  dir,
+}) => {
   const configs = useMainStore((state) => state.configs);
+  console.log('album render', id);
 
-  const dragLimits = useMainStore((state) => state.dragLimits());
+  const dragLimits = useMainStore((state) => state.dragLimits(), shallow);
   const fontSize = useMainStore((state) => state.fontSize());
   const toobarIconSize = useMainStore((state) => state.toobarIconSize());
   const coverSize = useMainStore((state) => state.coverSize());
-  const windowSize = useMainStore((state) => state.windowSize);
+  const windowSize = useMainStore((state) => state.windowSize, shallow);
 
   const offSet =
-    configs.showArtist &&
-    albumCover[LabelType.ARTIST].text &&
-    configs.showAlbum &&
-    albumCover[LabelType.ALBUM].text
+    configs.showArtist && artist && configs.showAlbum && album
       ? 1.5 * fontSize
       : 0;
 
   const offSetTop = !(
     configs.showArtist &&
-    albumCover[LabelType.ARTIST].text &&
+    artist &&
     configs.showAlbum &&
-    albumCover[LabelType.ALBUM].text
+    album
   )
     ? 1.5 * fontSize
     : 0;
 
   return (
     <AlbumCoverDraggable
-      albumCover={albumCover}
+      id={id}
+      x={x}
+      y={y}
       min={{
         x: dragLimits.x,
         y: dragLimits.y,
@@ -51,23 +66,30 @@ export const AlbumCover: React.FC<CoverImageProps> = ({ albumCover }) => {
         x: windowSize.width - coverSize - toobarIconSize / 2,
         y: windowSize.height - coverSize - toobarIconSize / 2,
       }}>
-      <AlbumCoverDrawLine id={albumCover.id} />
-      <AlbumCoverImage albumCover={albumCover} />
+      <AlbumCoverDrawLine id={id} />
+      <AlbumCoverImage id={id} artist={artist} album={album} link={link} />
 
       <AlbumCoverLabelDraggable
-        albumCover={albumCover}
+        id={dir}
+        x={x}
+        y={y}
+        dir={dir}
         offset={offSet}
         offSetTop={offSetTop}>
-        {configs.showArtist && albumCover[LabelType.ARTIST].text && (
+        {configs.showArtist && artist && (
           <AlbumCoverLabel
             coverLabel={LabelType.ARTIST}
-            albumCover={albumCover}
+            text={artist}
+            id={id}
+            dir={dir}
           />
         )}
-        {configs.showAlbum && albumCover[LabelType.ALBUM].text && (
+        {configs.showAlbum && album && (
           <AlbumCoverLabel
             coverLabel={LabelType.ALBUM}
-            albumCover={albumCover}
+            text={album}
+            id={id}
+            dir={dir}
             offset={offSet}
           />
         )}
@@ -75,3 +97,5 @@ export const AlbumCover: React.FC<CoverImageProps> = ({ albumCover }) => {
     </AlbumCoverDraggable>
   );
 };
+
+export const AlbumCover = React.memo(AlbumCoverMemo);

@@ -6,14 +6,18 @@ import { getAlign } from 'utils';
 import { useMainStore, useUtilsStore } from 'store';
 
 interface AlbumCoverLabelProps {
-  albumCover: Covers;
+  id: Covers['id'];
+  dir: Covers['dir'];
   coverLabel: LabelType;
+  text: string;
   offset?: number;
 }
 
 export const AlbumCoverLabel: React.FC<AlbumCoverLabelProps> = ({
-  albumCover,
+  id,
+  dir,
   coverLabel,
+  text,
   offset = 0,
 }) => {
   const updateCoverLabel = useMainStore((state) => state.updateCoverLabel);
@@ -26,7 +30,7 @@ export const AlbumCoverLabel: React.FC<AlbumCoverLabelProps> = ({
   const [open, setOpen] = useState(false);
 
   const handleReset = () => {
-    resetCoverLabel(albumCover.id, coverLabel);
+    resetCoverLabel(id, coverLabel);
   };
 
   if (erase || editLines) return null;
@@ -38,16 +42,16 @@ export const AlbumCoverLabel: React.FC<AlbumCoverLabelProps> = ({
       open={open}
       setOpen={setOpen}
       editable={false}
-      label={albumCover[coverLabel].text}
+      label={text}
       onReset={handleReset}
       setLabel={(label) => {
-        updateCoverLabel(albumCover.id, coverLabel, label);
+        updateCoverLabel(id, coverLabel, label);
       }}
       pos={{
         x: -coverSize,
         y: coverSize + fontSize / 2 + offset,
         width: coverSize * 3,
-        align: getAlign(albumCover.dir),
+        align: getAlign(dir),
       }}
     />
   );

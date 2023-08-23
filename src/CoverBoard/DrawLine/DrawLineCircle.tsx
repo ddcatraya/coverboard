@@ -6,12 +6,11 @@ import { backColorMap, colorMap, Lines } from 'types';
 import { useMainStore, useUtilsStore } from 'store';
 
 interface LineProps {
-  line: Lines;
-  handleOpen: (line: Lines) => void;
+  id: Lines['id'];
+  handleOpen: (line: Lines['id']) => void;
 }
 
-export const DrawLineCircle: React.FC<LineProps> = (props) => {
-  const { line, handleOpen } = props;
+export const DrawLineCircle: React.FC<LineProps> = ({ handleOpen, id }) => {
   const circleRadius = useMainStore((state) => state.circleRadius());
   const configs = useMainStore((state) => state.configs);
   const erase = useUtilsStore((state) => state.erase);
@@ -20,8 +19,8 @@ export const DrawLineCircle: React.FC<LineProps> = (props) => {
     <Group
       width={circleRadius * 2}
       height={circleRadius * 2}
-      onClick={() => handleOpen(line)}
-      onTap={() => handleOpen(line)}>
+      onClick={() => handleOpen(id)}
+      onTap={() => handleOpen(id)}>
       <Circle
         radius={circleRadius * 2}
         fill={backColorMap[configs.backColor]}
