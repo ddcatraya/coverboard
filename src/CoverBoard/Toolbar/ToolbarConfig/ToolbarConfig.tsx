@@ -17,7 +17,6 @@ export const ToolbarConfig: React.FC = () => {
   );
   const updateAllCoversDir = useMainStore((state) => state.updateAllCoversDir);
   const dragLimits = useMainStore((state) => state.dragLimits());
-  const coverSize = useMainStore((state) => state.coverSize());
   const showSuccessMessage = useToastStore((state) => state.showSuccessMessage);
 
   const handleUpdateCover = (
@@ -34,11 +33,11 @@ export const ToolbarConfig: React.FC = () => {
   const handleResetElements = () => {
     const posArray = covers.map(({ x, y }) => {
       let pos: Vector2d = { x, y };
-      if (x > dragLimits.width - coverSize && x > 0) {
-        pos.x = dragLimits.width - coverSize;
+      if (x > dragLimits.width - configs.size && x > 0) {
+        pos.x = dragLimits.width - configs.size;
       }
-      if (y > dragLimits.height - coverSize && y > 0) {
-        pos.y = dragLimits.height - coverSize;
+      if (y > dragLimits.height - configs.size && y > 0) {
+        pos.y = dragLimits.height - configs.size;
       }
       return pos;
     });

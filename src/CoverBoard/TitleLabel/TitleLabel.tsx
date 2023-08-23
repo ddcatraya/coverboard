@@ -35,7 +35,7 @@ export const TitleLabel: React.FC = () => {
       return buildTitle(saveId);
     }
     return title;
-  }, [editLines, erase, saveId, title]);
+  }, [editLines, erase, saveId, showTitle, title]);
 
   return (
     <TextLabel

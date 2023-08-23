@@ -36,7 +36,7 @@ export const AlbumCoverImage: React.FC<CoverImageProps> = ({
   const editLines = useUtilsStore((state) => state.editLines);
   const erase = useUtilsStore((state) => state.erase);
 
-  const coverSize = useMainStore((state) => state.coverSize());
+  const coverSize = useMainStore((state) => state.configs.size);
   const fontSize = useMainStore((state) => state.fontSize());
 
   const [image, status] = useImage(link, 'anonymous');

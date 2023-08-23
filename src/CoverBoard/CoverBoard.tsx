@@ -13,13 +13,24 @@ export const CoverBoard: React.FC = () => {
   const covers = useMainStore((state) => state.covers);
   const configs = useMainStore((state) => state.configs);
   const saveId = useMainStore((state) => state.saveId);
-  const offLimitCovers = useMainStore((state) => state.offLimitCovers());
-  const toolBarLimits = useMainStore((state) => state.toolBarLimits());
-  const dragLimits = useMainStore((state) => state.dragLimits());
-  const windowSize = useMainStore((state) => state.windowSize);
-  const toobarIconSize = useMainStore((state) => state.toobarIconSize());
-  const coverSize = useMainStore((state) => state.coverSize());
-  const fontSize = useMainStore((state) => state.fontSize());
+
+  const {
+    offLimitCovers,
+    toolBarLimits,
+    toobarIconSize,
+    windowSize,
+    coverSize,
+    fontSize,
+    dragLimits,
+  } = useMainStore((state) => ({
+    offLimitCovers: state.offLimitCovers(),
+    toolBarLimits: state.toolBarLimits(),
+    toobarIconSize: state.toobarIconSize(),
+    windowSize: state.windowSize,
+    coverSize: state.configs.size,
+    fontSize: state.fontSize(),
+    dragLimits: state.dragLimits(),
+  }));
   const stageRef = useRef<any>(null);
   const [screenshotUrl, setScreenshotUrl] = useState('');
   const [showLogo, setShowLogo] = useState(true);

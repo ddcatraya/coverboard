@@ -30,7 +30,7 @@ export const BoundaryArrowMemo: React.FC<BoundaryArrowProps> = ({
     (state) => state.removeLinesWithCover,
   );
   const erase = useUtilsStore((state) => state.erase);
-  const coverSize = useMainStore((state) => state.coverSize());
+  const coverSize = useMainStore((state) => state.configs.size);
   const fontSize = useMainStore((state) => state.fontSize());
   const dragLimits = useMainStore((state) => state.dragLimits());
 

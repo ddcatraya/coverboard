@@ -186,11 +186,13 @@ export const useMainStore = createWithEqualityFn<MainStoreUnion>()(
       }
     },
     offLimitCovers() {
-      const { dragLimits, coverSize } = get();
+      const { dragLimits } = get();
       return get().covers.flatMap((covers) => {
         if (
-          (covers.x > dragLimits().width && dragLimits().width > coverSize()) ||
-          (covers.y > dragLimits().height && dragLimits().height > coverSize())
+          (covers.x > dragLimits().width &&
+            dragLimits().width > get().configs.size) ||
+          (covers.y > dragLimits().height &&
+            dragLimits().height > get().configs.size)
         ) {
           return covers;
         }

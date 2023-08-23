@@ -26,7 +26,7 @@ export const AlbumCoverLabel: React.FC<AlbumCoverLabelProps> = ({
   const editLines = useUtilsStore((state) => state.editLines);
 
   const fontSize = useMainStore((state) => state.fontSize());
-  const coverSize = useMainStore((state) => state.coverSize());
+  const coverSize = useMainStore((state) => state.configs.size);
   const [open, setOpen] = useState(false);
 
   const handleReset = () => {

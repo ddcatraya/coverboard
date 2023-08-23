@@ -48,7 +48,7 @@ export const DrawLineMemo: React.FC<LineProps> = ({
   targetId,
   targetDir,
 }) => {
-  const coverSize = useMainStore((state) => state.coverSize());
+  const coverSize = useMainStore((state) => state.configs.size);
   const removeLine = useMainStore((state) => state.removeLine);
   const erase = useUtilsStore((state) => state.erase);
   const [textEdit, setTextEdit] = useState(false);

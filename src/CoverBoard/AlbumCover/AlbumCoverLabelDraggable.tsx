@@ -29,7 +29,7 @@ export const AlbumCoverLabelDraggable = ({
   const erase = useUtilsStore((state) => state.erase);
   const dragLimits = useMainStore((state) => state.dragLimits());
   const fontSize = useMainStore((state) => state.fontSize());
-  const coverSize = useMainStore((state) => state.coverSize());
+  const coverSize = useMainStore((state) => state.configs.size);
   const [randId, setId] = useState(uuidv4());
 
   const handleDragStart = (e: KonvaEventObject<DragEvent>) => {

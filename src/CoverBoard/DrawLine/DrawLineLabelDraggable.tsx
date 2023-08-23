@@ -22,7 +22,7 @@ export const DrawLineLabelDraggable = ({
 }: DraggableGroupProps) => {
   const erase = useUtilsStore((state) => state.erase);
   const editLines = useUtilsStore((state) => state.editLines);
-  const coverSize = useMainStore((state) => state.coverSize());
+  const coverSize = useMainStore((state) => state.configs.size);
   const fontSize = useMainStore((state) => state.fontSize());
   const circleRadius = useMainStore((state) => state.circleRadius());
   const dragLimits = useMainStore((state) => state.dragLimits());

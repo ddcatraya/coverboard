@@ -36,7 +36,7 @@ const AlbumCoverMemo: React.FC<CoverImageProps> = ({
   const dragLimits = useMainStore((state) => state.dragLimits());
   const fontSize = useMainStore((state) => state.fontSize());
   const toobarIconSize = useMainStore((state) => state.toobarIconSize());
-  const coverSize = useMainStore((state) => state.coverSize());
+  const coverSize = useMainStore((state) => state.configs.size);
   const windowSize = useMainStore((state) => state.windowSize);
 
   const offSet =

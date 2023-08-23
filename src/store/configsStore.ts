@@ -29,7 +29,6 @@ export interface UseConfigsParams {
   updateConfigs: (newConfig: ToolbarConfigParams) => void;
   resetTitle: () => void;
   updateTitle: (title: string) => void;
-  coverSize: () => number;
   toobarIconSize: () => number;
   fontSize: () => number;
   circleRadius: () => number;
@@ -83,7 +82,6 @@ export const createConfigsSlice: StateCreator<
       configs: { ...configs, title },
     }));
   },
-  coverSize: () => get().configs.size,
   toobarIconSize: () => get().configs.size / 2.5,
   fontSize: () => get().configs.size / 7,
   circleRadius: () => get().configs.size / 7 / 1.5,

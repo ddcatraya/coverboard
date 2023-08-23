@@ -23,7 +23,7 @@ export const DrawLineLabel: React.FC<LineProps> = ({
   open,
   setOpen,
 }) => {
-  const coverSize = useMainStore((state) => state.coverSize());
+  const coverSize = useMainStore((state) => state.configs.size);
   const fontSize = useMainStore((state) => state.fontSize());
 
   const resetLine = useMainStore((state) => state.resetLine);
