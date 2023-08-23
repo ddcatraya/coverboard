@@ -29,7 +29,7 @@ export const AlbumCoverDraggable: React.FC<DraggableGroupProps> = ({
   children,
 }) => {
   const covers = useMainStore((state) => state.covers);
-  const configs = useMainStore((state) => state.configs);
+  const color = useMainStore((state) => state.configs.color);
   const updateCoverPosition = useMainStore(
     (state) => state.updateCoverPosition,
   );
@@ -99,14 +99,14 @@ export const AlbumCoverDraggable: React.FC<DraggableGroupProps> = ({
       {hintLines[0] && (
         <Line
           points={[0, hintLines[0].y, dragLimits.width, hintLines[0].y]}
-          stroke={colorMap[configs.color]}
+          stroke={colorMap[color]}
           strokeWidth={2}
         />
       )}
       {hintLines[1] && (
         <Line
           points={[hintLines[1].x, 0, hintLines[1].x, dragLimits.height]}
-          stroke={colorMap[configs.color]}
+          stroke={colorMap[color]}
           strokeWidth={1}
         />
       )}

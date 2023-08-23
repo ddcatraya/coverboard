@@ -38,7 +38,8 @@ export const TextLabel: React.FC<TitleTexProps> = ({
   title,
 }) => {
   const fontSize = useMainStore((state) => state.fontSize());
-  const configs = useMainStore((state) => state.configs);
+  const color = useMainStore((state) => state.configs.color);
+  const backColor = useMainStore((state) => state.configs.backColor);
   const saveId = useMainStore((state) => state.saveId);
 
   const handleSubmit = (text: string) => {
@@ -65,7 +66,7 @@ export const TextLabel: React.FC<TitleTexProps> = ({
           y={pos.y}
           width={pos.width}
           fontSize={fontSize * labelSize}
-          fill={colorMap[configs.color]}
+          fill={colorMap[color]}
           onClick={editable ? () => setOpen(true) : undefined}
           onDblTap={editable ? () => setOpen(true) : undefined}
           onMouseMove={(evt: KonvaEventObject<MouseEvent>) => {
@@ -99,8 +100,8 @@ export const TextLabel: React.FC<TitleTexProps> = ({
             title={title}
             pos={pos}
             fontSize={fontSize * labelSize}
-            fill={colorMap[configs.color]}
-            fillBack={backColorMap[configs.backColor]}
+            fill={colorMap[color]}
+            fillBack={backColorMap[backColor]}
           />
         </Html>
       )}

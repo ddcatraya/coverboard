@@ -32,7 +32,8 @@ export const AlbumCoverImage: React.FC<CoverImageProps> = ({
     (state) => state.removeLinesWithCover,
   );
   const updateCoversText = useMainStore((state) => state.updateCoversText);
-  const configs = useMainStore((state) => state.configs);
+  const color = useMainStore((state) => state.configs.color);
+  const backColor = useMainStore((state) => state.configs.backColor);
   const editLines = useUtilsStore((state) => state.editLines);
   const erase = useUtilsStore((state) => state.erase);
 
@@ -83,8 +84,8 @@ export const AlbumCoverImage: React.FC<CoverImageProps> = ({
           <Rect
             width={coverSize}
             height={coverSize}
-            fill={backColorMap[configs.backColor]}
-            stroke={colorMap[configs.color]}
+            fill={backColorMap[backColor]}
+            stroke={colorMap[color]}
             onClick={!editLines ? () => handleEraseImage(id) : undefined}
             onDblTap={!editLines ? () => handleEraseImage(id) : undefined}
             onMouseMove={(evt: KonvaEventObject<MouseEvent>) => {
@@ -102,7 +103,7 @@ export const AlbumCoverImage: React.FC<CoverImageProps> = ({
             y={coverSize / 2 - (fontSize * 1.2) / 2}
             width={coverSize}
             align="center"
-            fill={colorMap[configs.color]}
+            fill={colorMap[color]}
             text={status === 'failed' ? 'Error' : 'Loading...'}
           />
         </>

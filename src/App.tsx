@@ -24,7 +24,7 @@ function App() {
   const setDefaultLocalStoreValues = useMainStore(
     (state) => state.setDefaultLocalStoreValues,
   );
-  const configs = useMainStore((state) => state.configs);
+  const backColor = useMainStore((state) => state.configs.backColor);
   const setWindowSize = useMainStore((state) => state.setWindowSize);
 
   const toastMessage = useToastStore((state) => state.toastMessage);
@@ -48,9 +48,7 @@ function App() {
   }, [setWindowSize]);
 
   return (
-    <div
-      className="App"
-      style={{ backgroundColor: backColorMap[configs.backColor] }}>
+    <div className="App" style={{ backgroundColor: backColorMap[backColor] }}>
       <CoverBoard />
       {toastMessage && (
         <Snackbar

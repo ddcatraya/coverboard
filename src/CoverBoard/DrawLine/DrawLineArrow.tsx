@@ -10,14 +10,14 @@ interface LineProps {
 
 export const DrawLineArrow: React.FC<LineProps> = ({ lineParams }) => {
   const fontSize = useMainStore((state) => state.fontSize());
-  const configs = useMainStore((state) => state.configs);
+  const color = useMainStore((state) => state.configs.color);
 
   if (!lineParams) return null;
 
   return (
     <Arrow
       points={lineParams.points}
-      stroke={colorMap[configs.color]}
+      stroke={colorMap[color]}
       strokeWidth={fontSize / 4}
       pointerLength={fontSize}
       listening={false}

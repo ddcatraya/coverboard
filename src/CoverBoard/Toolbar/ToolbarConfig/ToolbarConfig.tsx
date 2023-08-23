@@ -9,6 +9,7 @@ export const ToolbarConfig: React.FC = () => {
   const openConfig = useToolbarStore((state) => state.openConfig);
   const setOpenConfig = useToolbarStore((state) => state.setOpenConfig);
   const configs = useMainStore((state) => state.configs);
+  const coverSize = useMainStore((state) => state.configs.size);
   const covers = useMainStore((state) => state.covers);
   const offLimitCovers = useMainStore((state) => state.offLimitCovers());
   const updateConfigs = useMainStore((state) => state.updateConfigs);
@@ -33,11 +34,11 @@ export const ToolbarConfig: React.FC = () => {
   const handleResetElements = () => {
     const posArray = covers.map(({ x, y }) => {
       let pos: Vector2d = { x, y };
-      if (x > dragLimits.width - configs.size && x > 0) {
-        pos.x = dragLimits.width - configs.size;
+      if (x > dragLimits.width - coverSize && x > 0) {
+        pos.x = dragLimits.width - coverSize;
       }
-      if (y > dragLimits.height - configs.size && y > 0) {
-        pos.y = dragLimits.height - configs.size;
+      if (y > dragLimits.height - coverSize && y > 0) {
+        pos.y = dragLimits.height - coverSize;
       }
       return pos;
     });
