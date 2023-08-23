@@ -53,11 +53,6 @@ const updateAction = (
 ) => {
   const { configs, lines, covers } = get();
 
-  window.localStorage.setItem(
-    addPrefix(get().saveId),
-    JSON.stringify({ configs, lines, covers }),
-  );
-
   set(({ actions }) => ({
     actions:
       actions.length < MAX_UNDO
@@ -80,15 +75,26 @@ const updateAction = (
   }));
 };
 
+const defaultValues = () => ({
+  configs: initialConfigValues(),
+  lines: [],
+  covers: [],
+});
+
 export const useMainStore = createWithEqualityFn<MainStoreUnion>()(
   (set, get, api) => ({
     actions: [],
     saveId: DEFAULT_KEY,
     ...createConfigsSlice(
       (value) => {
+        updateAction(set, get);
         const save = set(value);
 
-        updateAction(set, get);
+        const { configs, lines, covers } = get();
+        window.localStorage.setItem(
+          addPrefix(get().saveId),
+          JSON.stringify({ configs, lines, covers }),
+        );
 
         return save;
       },
@@ -97,9 +103,14 @@ export const useMainStore = createWithEqualityFn<MainStoreUnion>()(
     ),
     ...createLinesSlice(
       (value) => {
+        updateAction(set, get);
         const save = set(value);
 
-        updateAction(set, get);
+        const { configs, lines, covers } = get();
+        window.localStorage.setItem(
+          addPrefix(get().saveId),
+          JSON.stringify({ configs, lines, covers }),
+        );
 
         return save;
       },
@@ -108,9 +119,14 @@ export const useMainStore = createWithEqualityFn<MainStoreUnion>()(
     ),
     ...createCoversSlice(
       (value) => {
+        updateAction(set, get);
         const save = set(value);
 
-        updateAction(set, get);
+        const { configs, lines, covers } = get();
+        window.localStorage.setItem(
+          addPrefix(get().saveId),
+          JSON.stringify({ configs, lines, covers }),
+        );
 
         return save;
       },
@@ -138,11 +154,11 @@ export const useMainStore = createWithEqualityFn<MainStoreUnion>()(
           }
         }
 
-        set({
-          configs: initialConfigValues(),
-          lines: [],
-          covers: [],
-        });
+        set(defaultValues());
+        window.localStorage.setItem(
+          addPrefix(get().saveId),
+          JSON.stringify(defaultValues()),
+        );
       } catch (error) {
         console.error(error);
 
@@ -151,26 +167,36 @@ export const useMainStore = createWithEqualityFn<MainStoreUnion>()(
           lines: [],
           covers: [],
         });
+        window.localStorage.setItem(
+          addPrefix(get().saveId),
+          JSON.stringify(defaultValues()),
+        );
       }
     },
     updateStoreValues({ configs, lines, covers }) {
+      updateAction(set, get);
       set({
         configs,
         lines,
         covers,
       });
+      window.localStorage.setItem(
+        addPrefix(get().saveId),
+        JSON.stringify({ configs, lines, covers }),
+      );
+    },
+    resetStoreValues() {
+      updateAction(set, get);
+      set(defaultValues());
+      window.localStorage.setItem(
+        addPrefix(get().saveId),
+        JSON.stringify(defaultValues()),
+      );
     },
     getStoreValues() {
       const { configs, lines, covers } = get();
 
       return { configs, lines, covers };
-    },
-    resetStoreValues() {
-      set({
-        configs: initialConfigValues(),
-        lines: [],
-        covers: [],
-      });
     },
     undoAction() {
       const copyArray = [...get().actions];
@@ -183,16 +209,23 @@ export const useMainStore = createWithEqualityFn<MainStoreUnion>()(
           covers: another.covers,
           actions: copyArray,
         });
+        window.localStorage.setItem(
+          addPrefix(get().saveId),
+          JSON.stringify({
+            configs: another.configs,
+            lines: another.lines,
+            covers: another.covers,
+          }),
+        );
       }
     },
     offLimitCovers() {
-      const { dragLimits } = get();
+      const { dragLimits, configs } = get();
       return get().covers.flatMap((covers) => {
         if (
           (covers.x > dragLimits().width &&
-            dragLimits().width > get().configs.size) ||
-          (covers.y > dragLimits().height &&
-            dragLimits().height > get().configs.size)
+            dragLimits().width > configs.size) ||
+          (covers.y > dragLimits().height && dragLimits().height > configs.size)
         ) {
           return covers;
         }

@@ -66,7 +66,6 @@ export const ToolbarConfigPopover: React.FC<ToolbarConfigPopoverProps> = ({
   const handleSubmit = (evt: React.SyntheticEvent<HTMLFormElement>) => {
     evt.preventDefault();
 
-    onSubmit(param);
     onClose();
   };
 

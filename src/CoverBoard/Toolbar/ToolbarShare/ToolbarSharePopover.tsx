@@ -129,7 +129,10 @@ export const ToolbarSharePopover: React.FC<SaveProps> = ({
                       ? (evt) => {
                           evt.preventDefault();
 
-                          if (saveId === DEFAULT_KEY) {
+                          if (
+                            saveId === DEFAULT_KEY &&
+                            currentSave === saveId
+                          ) {
                             handleDeleteElements();
                             handleClose();
                             return;
