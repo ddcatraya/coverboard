@@ -10,7 +10,6 @@ export interface UseLinesParams {
   removeLine: (linedId: string) => void;
   resetAllLines: () => void;
   createLine: (id: string, points: Point, pos: PosTypes) => void;
-  clearAllLines: () => void;
   removeLinesWithCover: (coverId: string) => void;
 }
 
@@ -21,9 +20,6 @@ export const createLinesSlice: StateCreator<
   UseLinesParams
 > = (set) => ({
   lines: [],
-  clearAllLines() {
-    set({ lines: [] });
-  },
   createLine(id, points, dir) {
     set(({ lines }) => {
       const lineCopy = [...lines];

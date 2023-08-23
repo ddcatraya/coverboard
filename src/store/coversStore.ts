@@ -22,7 +22,6 @@ export interface UseCoverParams {
   addCovers: (filteredAlbums: Array<Covers>) => void;
   updateCoverPosition: (coverId: string, { x, y }: Vector2d) => void;
   updateAllCoverPosition: (arrayPos: Array<Vector2d>) => void;
-  clearAllCovers: () => void;
 }
 
 export const createCoversSlice: StateCreator<
@@ -32,9 +31,6 @@ export const createCoversSlice: StateCreator<
   UseCoverParams
 > = (set) => ({
   covers: [],
-  clearAllCovers() {
-    set({ covers: [] });
-  },
   updateAllCoversDir(dir) {
     set(({ covers }) => ({
       covers: covers.map((star) => ({
