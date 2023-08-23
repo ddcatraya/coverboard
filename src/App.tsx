@@ -3,7 +3,7 @@ import { CoverBoard } from 'CoverBoard';
 import { useEffect } from 'react';
 import { useParams } from 'react-router-dom';
 import { useMainStore, useToastStore } from 'store';
-import { backColorMap, DEFAULT_KEY } from 'types';
+import { DEFAULT_KEY } from 'types';
 
 const throttle = (func: () => void, delay: number) => {
   let inProgress = false;
@@ -24,7 +24,7 @@ function App() {
   const setDefaultLocalStoreValues = useMainStore(
     (state) => state.setDefaultLocalStoreValues,
   );
-  const backColor = useMainStore((state) => state.configs.backColor);
+  const backColor = useMainStore((state) => state.getBackColor());
   const setWindowSize = useMainStore((state) => state.setWindowSize);
 
   const toastMessage = useToastStore((state) => state.toastMessage);
@@ -48,7 +48,7 @@ function App() {
   }, [setWindowSize]);
 
   return (
-    <div className="App" style={{ backgroundColor: backColorMap[backColor] }}>
+    <div className="App" style={{ backgroundColor: backColor }}>
       <CoverBoard />
       {toastMessage && (
         <Snackbar

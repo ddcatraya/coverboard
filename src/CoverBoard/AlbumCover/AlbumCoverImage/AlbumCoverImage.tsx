@@ -1,13 +1,7 @@
 import React, { useState } from 'react';
 import { Image, Rect, Text } from 'react-konva';
 
-import {
-  AlbumCoverValues,
-  Covers,
-  LabelType,
-  colorMap,
-  backColorMap,
-} from 'types';
+import { AlbumCoverValues, Covers, LabelType } from 'types';
 import { Html, useImage } from 'react-konva-utils';
 import { AlbumCoverImagePopover } from '.';
 import { KonvaEventObject } from 'konva/lib/Node';
@@ -32,8 +26,8 @@ export const AlbumCoverImage: React.FC<CoverImageProps> = ({
     (state) => state.removeLinesWithCover,
   );
   const updateCoversText = useMainStore((state) => state.updateCoversText);
-  const color = useMainStore((state) => state.configs.color);
-  const backColor = useMainStore((state) => state.configs.backColor);
+  const color = useMainStore((state) => state.getColor());
+  const backColor = useMainStore((state) => state.getBackColor());
   const editLines = useUtilsStore((state) => state.editLines);
   const erase = useUtilsStore((state) => state.erase);
 
@@ -84,8 +78,8 @@ export const AlbumCoverImage: React.FC<CoverImageProps> = ({
           <Rect
             width={coverSize}
             height={coverSize}
-            fill={backColorMap[backColor]}
-            stroke={colorMap[color]}
+            fill={backColor}
+            stroke={color}
             onClick={!editLines ? () => handleEraseImage(id) : undefined}
             onDblTap={!editLines ? () => handleEraseImage(id) : undefined}
             onMouseMove={(evt: KonvaEventObject<MouseEvent>) => {
@@ -103,7 +97,7 @@ export const AlbumCoverImage: React.FC<CoverImageProps> = ({
             y={coverSize / 2 - (fontSize * 1.2) / 2}
             width={coverSize}
             align="center"
-            fill={colorMap[color]}
+            fill={color}
             text={status === 'failed' ? 'Error' : 'Loading...'}
           />
         </>

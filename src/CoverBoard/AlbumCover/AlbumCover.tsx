@@ -29,7 +29,6 @@ const AlbumCoverMemo: React.FC<CoverImageProps> = ({
   link,
   dir,
 }) => {
-  console.log('rerender');
   const showArtist = useMainStore((state) => state.configs.showArtist);
   const showAlbum = useMainStore((state) => state.configs.showAlbum);
 

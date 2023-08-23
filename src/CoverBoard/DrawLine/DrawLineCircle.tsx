@@ -2,7 +2,7 @@ import React from 'react';
 import { Circle, Group } from 'react-konva';
 import { KonvaEventObject } from 'konva/lib/Node';
 
-import { backColorMap, colorMap, Lines } from 'types';
+import { Lines } from 'types';
 import { useMainStore, useUtilsStore } from 'store';
 
 interface LineProps {
@@ -12,8 +12,8 @@ interface LineProps {
 
 export const DrawLineCircle: React.FC<LineProps> = ({ handleOpen, id }) => {
   const circleRadius = useMainStore((state) => state.circleRadius());
-  const color = useMainStore((state) => state.configs.color);
-  const backColor = useMainStore((state) => state.configs.backColor);
+  const color = useMainStore((state) => state.getColor());
+  const backColor = useMainStore((state) => state.getBackColor());
   const erase = useUtilsStore((state) => state.erase);
 
   return (
@@ -24,7 +24,7 @@ export const DrawLineCircle: React.FC<LineProps> = ({ handleOpen, id }) => {
       onTap={() => handleOpen(id)}>
       <Circle
         radius={circleRadius * 2}
-        fill={backColorMap[backColor]}
+        fill={backColor}
         onMouseMove={(evt: KonvaEventObject<MouseEvent>) => {
           const container = evt.target.getStage()?.container();
           if (container && !erase) {
@@ -43,7 +43,7 @@ export const DrawLineCircle: React.FC<LineProps> = ({ handleOpen, id }) => {
       />
       <Circle
         radius={circleRadius}
-        fill={colorMap[color]}
+        fill={color}
         onMouseMove={(evt: KonvaEventObject<MouseEvent>) => {
           evt.currentTarget.scaleX(1.3);
           evt.currentTarget.scaleY(1.3);

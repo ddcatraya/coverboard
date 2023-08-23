@@ -4,7 +4,7 @@ import React from 'react';
 import { useMemo, useState } from 'react';
 import { Arrow, Group, Rect, Text } from 'react-konva';
 import { useMainStore, useUtilsStore } from 'store';
-import { backColorMap, colorMap, Covers } from 'types';
+import { Covers } from 'types';
 
 interface BoundaryArrowProps {
   id: Covers['id'];
@@ -19,8 +19,8 @@ export const BoundaryArrowMemo: React.FC<BoundaryArrowProps> = ({
   x,
   y,
 }) => {
-  const color = useMainStore((state) => state.configs.color);
-  const backColor = useMainStore((state) => state.configs.backColor);
+  const color = useMainStore((state) => state.getColor());
+  const backColor = useMainStore((state) => state.getBackColor());
 
   const updateCoverPosition = useMainStore(
     (state) => state.updateCoverPosition,
@@ -83,7 +83,7 @@ export const BoundaryArrowMemo: React.FC<BoundaryArrowProps> = ({
     <Group>
       <Arrow
         points={points}
-        stroke={colorMap[color]}
+        stroke={color}
         strokeWidth={fontSize / 2}
         pointerLength={fontSize}
         onClick={handleBringIntoView}
@@ -110,7 +110,7 @@ export const BoundaryArrowMemo: React.FC<BoundaryArrowProps> = ({
           <Rect
             width={coverSize * 2}
             height={fontSize}
-            fill={backColorMap[backColor]}
+            fill={backColor}
             listening={false}
           />
           <Text

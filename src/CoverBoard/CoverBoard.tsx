@@ -3,7 +3,6 @@ import { Stage, Layer, Group, Rect, Text } from 'react-konva';
 
 import { AlbumCover, DrawLine, Toolbar, TitleLabel, BoundaryArrow } from './';
 import { Logo } from './AlbumCover';
-import { backColorMap, colorMap } from 'types';
 import { flushSync } from 'react-dom';
 import { formatDate } from 'utils';
 import { useMainStore } from 'store';
@@ -11,8 +10,8 @@ import { useMainStore } from 'store';
 export const CoverBoard: React.FC = () => {
   const lines = useMainStore((state) => state.lines);
   const covers = useMainStore((state) => state.covers);
-  const color = useMainStore((state) => state.configs.color);
-  const backColor = useMainStore((state) => state.configs.backColor);
+  const color = useMainStore((state) => state.getColor());
+  const backColor = useMainStore((state) => state.getBackColor());
   const saveId = useMainStore((state) => state.saveId);
 
   const {
@@ -71,7 +70,7 @@ export const CoverBoard: React.FC = () => {
           <Rect
             width={windowSize.width}
             height={windowSize.height}
-            fill={backColorMap[backColor]}
+            fill={backColor}
             listening={false}
           />
           <Group name="board" x={dragLimits.x} y={dragLimits.y}>
@@ -122,7 +121,7 @@ export const CoverBoard: React.FC = () => {
               name="arenaBorder"
               width={dragLimits.width}
               height={dragLimits.height}
-              stroke={colorMap[color]}
+              stroke={color}
               listening={false}
             />
           </Group>
@@ -130,7 +129,7 @@ export const CoverBoard: React.FC = () => {
             name="leftBackground"
             width={3 * toobarIconSize}
             height={windowSize.height}
-            fill={backColorMap[backColor]}
+            fill={backColor}
             listening={false}
           />
           <Group name="toolbar" x={toolBarLimits.x} y={toolBarLimits.y}>
@@ -139,8 +138,8 @@ export const CoverBoard: React.FC = () => {
               name="toolbarBackground"
               width={toolBarLimits.width}
               height={toolBarLimits.height}
-              stroke={colorMap[color]}
-              fill={backColorMap[backColor]}
+              stroke={color}
+              fill={backColor}
             />
             <Toolbar takeScreenshot={takeScreenshot} showTooltips={showLogo} />
           </Group>
@@ -148,7 +147,7 @@ export const CoverBoard: React.FC = () => {
             name="arenaHiddenBorder"
             width={windowSize.width}
             height={windowSize.height}
-            stroke={backColorMap[backColor]}
+            stroke={backColor}
             strokeWidth={toobarIconSize - 2}
             listening={false}
           />

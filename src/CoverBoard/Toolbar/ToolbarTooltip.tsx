@@ -1,12 +1,11 @@
 import { Group, Rect, Text } from 'react-konva';
 
-import { backColorMap } from 'types';
 import { useMainStore, useToolbarStore } from 'store';
 
 export const ToolbarTooltip: React.FC = () => {
   const fontSize = useMainStore((state) => state.fontSize());
   const coverSize = useMainStore((state) => state.configs.size);
-  const backColor = useMainStore((state) => state.configs.backColor);
+  const backColor = useMainStore((state) => state.getBackColor());
   const tooltip = useToolbarStore((state) => state.tooltip);
 
   if (!tooltip) return null;
@@ -16,7 +15,7 @@ export const ToolbarTooltip: React.FC = () => {
       <Rect
         width={coverSize * 2}
         height={fontSize}
-        fill={backColorMap[backColor]}
+        fill={backColor}
         listening={false}
       />
       <Text

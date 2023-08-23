@@ -5,6 +5,8 @@ import {
   ToolbarConfigParams,
   ToolConfigIDs,
   DragLimits,
+  colorMap,
+  backColorMap,
 } from 'types';
 import { StateCreator } from 'zustand';
 
@@ -36,6 +38,8 @@ export interface UseConfigsParams {
   dragLimits: () => DragLimits;
   toolBarLimits: () => DragLimits;
   setWindowSize: () => void;
+  getColor: () => string;
+  getBackColor: () => string;
   windowSize: {
     width: number;
     height: number;
@@ -49,6 +53,8 @@ export const createConfigsSlice: StateCreator<
   UseConfigsParams
 > = (set, get) => ({
   configs: initialConfigValues(),
+  getColor: () => colorMap[get().configs.color],
+  getBackColor: () => backColorMap[get().configs.backColor],
   windowSize: {
     width: window.innerWidth,
     height: window.innerHeight,

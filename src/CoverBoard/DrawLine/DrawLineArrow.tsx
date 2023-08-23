@@ -1,7 +1,7 @@
 import React from 'react';
 import { Arrow } from 'react-konva';
 
-import { colorMap, LineParams } from 'types';
+import { LineParams } from 'types';
 import { useMainStore } from 'store';
 
 interface LineProps {
@@ -10,14 +10,14 @@ interface LineProps {
 
 export const DrawLineArrow: React.FC<LineProps> = ({ lineParams }) => {
   const fontSize = useMainStore((state) => state.fontSize());
-  const color = useMainStore((state) => state.configs.color);
+  const color = useMainStore((state) => state.getColor());
 
   if (!lineParams) return null;
 
   return (
     <Arrow
       points={lineParams.points}
-      stroke={colorMap[color]}
+      stroke={color}
       strokeWidth={fontSize / 4}
       pointerLength={fontSize}
       listening={false}

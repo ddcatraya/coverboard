@@ -1,7 +1,7 @@
 import { Group, Line } from 'react-konva';
 import { KonvaEventObject } from 'konva/lib/Node';
 import { Vector2d } from 'konva/lib/types';
-import { Covers, colorMap } from 'types';
+import { Covers } from 'types';
 import { useState } from 'react';
 import { useMainStore, useUtilsStore } from 'store';
 
@@ -29,7 +29,7 @@ export const AlbumCoverDraggable: React.FC<DraggableGroupProps> = ({
   children,
 }) => {
   const covers = useMainStore((state) => state.covers);
-  const color = useMainStore((state) => state.configs.color);
+  const color = useMainStore((state) => state.getColor());
   const updateCoverPosition = useMainStore(
     (state) => state.updateCoverPosition,
   );
@@ -99,14 +99,14 @@ export const AlbumCoverDraggable: React.FC<DraggableGroupProps> = ({
       {hintLines[0] && (
         <Line
           points={[0, hintLines[0].y, dragLimits.width, hintLines[0].y]}
-          stroke={colorMap[color]}
+          stroke={color}
           strokeWidth={2}
         />
       )}
       {hintLines[1] && (
         <Line
           points={[hintLines[1].x, 0, hintLines[1].x, dragLimits.height]}
-          stroke={colorMap[color]}
+          stroke={color}
           strokeWidth={1}
         />
       )}
