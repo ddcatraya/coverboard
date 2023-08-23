@@ -4,20 +4,7 @@ import { useEffect } from 'react';
 import { useParams } from 'react-router-dom';
 import { useMainStore, useToastStore } from 'store';
 import { DEFAULT_KEY } from 'types';
-
-const throttle = (func: () => void, delay: number) => {
-  let inProgress = false;
-  return () => {
-    if (inProgress) {
-      return;
-    }
-    inProgress = true;
-    setTimeout(() => {
-      func();
-      inProgress = false;
-    }, delay);
-  };
-};
+import { throttle } from 'utils';
 
 function App() {
   const { saveId = DEFAULT_KEY } = useParams();

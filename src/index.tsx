@@ -3,7 +3,7 @@ import ReactDOM from 'react-dom/client';
 import './index.css';
 import reportWebVitals from './reportWebVitals';
 import { BrowserRouter, Routes, Route, Navigate } from 'react-router-dom';
-import { AppProviders } from 'AppProviders';
+import App from 'App';
 
 const root = ReactDOM.createRoot(
   document.getElementById('root') as HTMLElement,
@@ -11,7 +11,7 @@ const root = ReactDOM.createRoot(
 root.render(
   <BrowserRouter basename="/coverboard">
     <Routes>
-      <Route path="/:saveId" Component={AppProviders} />
+      <Route path="/:saveId" Component={App} />
       <Route path="/" element={<Navigate to="default" />} />
     </Routes>
   </BrowserRouter>,
