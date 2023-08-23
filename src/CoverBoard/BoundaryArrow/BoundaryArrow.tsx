@@ -19,7 +19,9 @@ export const BoundaryArrowMemo: React.FC<BoundaryArrowProps> = ({
   x,
   y,
 }) => {
-  const configs = useMainStore((state) => state.configs);
+  const color = useMainStore((state) => state.configs.color);
+  const backColor = useMainStore((state) => state.configs.backColor);
+
   const updateCoverPosition = useMainStore(
     (state) => state.updateCoverPosition,
   );
@@ -81,7 +83,7 @@ export const BoundaryArrowMemo: React.FC<BoundaryArrowProps> = ({
     <Group>
       <Arrow
         points={points}
-        stroke={colorMap[configs.color]}
+        stroke={colorMap[color]}
         strokeWidth={fontSize / 2}
         pointerLength={fontSize}
         onClick={handleBringIntoView}
@@ -108,7 +110,7 @@ export const BoundaryArrowMemo: React.FC<BoundaryArrowProps> = ({
           <Rect
             width={coverSize * 2}
             height={fontSize}
-            fill={backColorMap[configs.backColor]}
+            fill={backColorMap[backColor]}
             listening={false}
           />
           <Text

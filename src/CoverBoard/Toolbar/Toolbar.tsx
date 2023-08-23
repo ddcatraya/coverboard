@@ -46,7 +46,7 @@ export const ToolbarMemo: React.FC<ToolbarProps> = ({
   const setEditLines = useUtilsStore((state) => state.setEditLines);
   const coversLength = useMainStore((state) => state.covers.length);
   const linesLength = useMainStore((state) => state.lines.length);
-  const configs = useMainStore((state) => state.configs);
+  const size = useMainStore((state) => state.configs.size);
 
   const openConfig = useToolbarStore((state) => state.openConfig);
   const setOpenConfig = useToolbarStore((state) => state.setOpenConfig);
@@ -58,7 +58,7 @@ export const ToolbarMemo: React.FC<ToolbarProps> = ({
   const savesNumber = Object.keys(window.localStorage).filter((key) =>
     haxPrefix(key),
   ).length;
-  const configSize = configs.size / 100;
+  const configSize = size / 100;
 
   const configTools: Array<ToolConfig> = [
     {

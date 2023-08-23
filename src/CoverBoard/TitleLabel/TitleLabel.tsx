@@ -7,7 +7,8 @@ import { useMainStore, useUtilsStore } from 'store';
 export const TitleLabel: React.FC = () => {
   const updateTitle = useMainStore((state) => state.updateTitle);
   const resetTitle = useMainStore((state) => state.resetTitle);
-  const configs = useMainStore((state) => state.configs);
+  const title = useMainStore((state) => state.configs.title);
+  const showTitle = useMainStore((state) => state.configs.showTitle);
   const saveId = useMainStore((state) => state.saveId);
   const erase = useUtilsStore((state) => state.erase);
   const editLines = useUtilsStore((state) => state.editLines);
@@ -28,13 +29,13 @@ export const TitleLabel: React.FC = () => {
       return Modes.ERASE;
     } else if (editLines) {
       return Modes.ARROW;
-    } else if (!configs.showTitle) {
+    } else if (!showTitle) {
       return '';
-    } else if (!configs.title) {
+    } else if (!title) {
       return buildTitle(saveId);
     }
-    return configs.title;
-  }, [configs.showTitle, configs.title, editLines, erase, saveId]);
+    return title;
+  }, [editLines, erase, saveId, title]);
 
   return (
     <TextLabel

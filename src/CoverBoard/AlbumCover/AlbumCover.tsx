@@ -29,7 +29,9 @@ const AlbumCoverMemo: React.FC<CoverImageProps> = ({
   link,
   dir,
 }) => {
-  const configs = useMainStore((state) => state.configs);
+  console.log('rerender');
+  const showArtist = useMainStore((state) => state.configs.showArtist);
+  const showAlbum = useMainStore((state) => state.configs.showAlbum);
 
   const dragLimits = useMainStore((state) => state.dragLimits());
   const fontSize = useMainStore((state) => state.fontSize());
@@ -38,16 +40,9 @@ const AlbumCoverMemo: React.FC<CoverImageProps> = ({
   const windowSize = useMainStore((state) => state.windowSize);
 
   const offSet =
-    configs.showArtist && artist && configs.showAlbum && album
-      ? 1.5 * fontSize
-      : 0;
+    showArtist && artist && showAlbum && album ? 1.5 * fontSize : 0;
 
-  const offSetTop = !(
-    configs.showArtist &&
-    artist &&
-    configs.showAlbum &&
-    album
-  )
+  const offSetTop = !(showArtist && artist && showAlbum && album)
     ? 1.5 * fontSize
     : 0;
 
@@ -74,7 +69,7 @@ const AlbumCoverMemo: React.FC<CoverImageProps> = ({
         dir={dir}
         offset={offSet}
         offSetTop={offSetTop}>
-        {configs.showArtist && artist && (
+        {showArtist && artist && (
           <AlbumCoverLabel
             coverLabel={LabelType.ARTIST}
             text={artist}
@@ -82,7 +77,7 @@ const AlbumCoverMemo: React.FC<CoverImageProps> = ({
             dir={dir}
           />
         )}
-        {configs.showAlbum && album && (
+        {showAlbum && album && (
           <AlbumCoverLabel
             coverLabel={LabelType.ALBUM}
             text={album}
