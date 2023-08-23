@@ -1,8 +1,14 @@
 import React, { useCallback, useRef, useState } from 'react';
 import { Stage, Layer, Group, Rect, Text } from 'react-konva';
 
-import { AlbumCover, DrawLine, Toolbar, TitleLabel, BoundaryArrow } from './';
-import { Logo } from './AlbumCover';
+import {
+  AlbumCover,
+  DrawLine,
+  Toolbar,
+  TitleLabel,
+  BoundaryArrow,
+  Logo,
+} from './';
 import { flushSync } from 'react-dom';
 import { formatDate } from 'utils';
 import { useMainStore } from 'store';
