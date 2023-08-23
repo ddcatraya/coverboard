@@ -81,9 +81,9 @@ export const CoverBoard: React.FC = () => {
                 text={line.text}
                 dir={line.dir}
                 originId={line.origin.id}
-                originDir={line.origin.pos}
+                originDir={line.origin.dir}
                 targetId={line.target.id}
-                targetDir={line.target.pos}
+                targetDir={line.target.dir}
                 key={line.id}
               />
             ))}

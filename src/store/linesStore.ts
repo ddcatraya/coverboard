@@ -24,7 +24,7 @@ export const createLinesSlice: StateCreator<
   clearAllLines() {
     set({ lines: [] });
   },
-  createLine(id, points, pos) {
+  createLine(id, points, dir) {
     set(({ lines }) => {
       const lineCopy = [...lines];
 
@@ -42,7 +42,7 @@ export const createLinesSlice: StateCreator<
       );
       if (foundLine) {
         foundLine.origin = points;
-        foundLine.target = { id, pos };
+        foundLine.target = { id, dir };
         return { lines: lineCopy };
       }
 
@@ -52,7 +52,7 @@ export const createLinesSlice: StateCreator<
       );
       if (foundLineReverse) {
         foundLineReverse.origin = points;
-        foundLineReverse.target = { id, pos };
+        foundLineReverse.target = { id, dir };
         return { lines: lineCopy };
       }
 
@@ -64,7 +64,7 @@ export const createLinesSlice: StateCreator<
             dir: PosTypes.BOTTOM,
 
             origin: { ...points },
-            target: { id, pos },
+            target: { id, dir },
             id: uuidv4(),
           },
         ],

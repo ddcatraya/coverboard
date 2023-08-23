@@ -19,13 +19,13 @@ export const AlbumCoverDrawLine: React.FC<AlbumCoverDrawLineProps> = ({
   const createLine = useMainStore((state) => state.createLine);
 
   const coverSize = useMainStore((state) => state.coverSize());
-  const selection: PosTypes | null = points?.id === id ? points.pos : null;
+  const selection: PosTypes | null = points?.id === id ? points.dir : null;
 
-  const handleDrawLine = (id: string, pos: PosTypes) => {
+  const handleDrawLine = (id: string, dir: PosTypes) => {
     if (!points) {
-      setPoints({ id, pos });
+      setPoints({ id, dir });
     } else if (points.id !== id) {
-      createLine(id, points, pos);
+      createLine(id, points, dir);
       setPoints(null);
     } else if (points.id === id) {
       setPoints(null);

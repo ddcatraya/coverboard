@@ -224,7 +224,7 @@ export const ToolbarConfigPopover: React.FC<ToolbarConfigPopoverProps> = ({
               variant="contained"
               color="primary"
               type="submit"
-              style={{ marginRight: '20px' }}>
+              style={{ marginRight: '20px', marginBottom: '20px' }}>
               Submit
             </Button>
             <Button
@@ -232,6 +232,7 @@ export const ToolbarConfigPopover: React.FC<ToolbarConfigPopoverProps> = ({
               color="primary"
               type="button"
               disabled={offLimitCovers.length === 0}
+              style={{ marginBottom: '20px' }}
               onClick={() => {
                 handleResetElements();
                 onClose();

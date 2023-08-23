@@ -10,9 +10,9 @@ interface LineProps {
   text: Lines['text'];
   dir: Lines['dir'];
   originId: Lines['origin']['id'];
-  originDir: Lines['origin']['pos'];
+  originDir: Lines['origin']['dir'];
   targetId: Lines['target']['id'];
-  targetDir: Lines['target']['pos'];
+  targetDir: Lines['target']['dir'];
 }
 
 const convertPosToXY = (coverSize: number, pos: PosTypes) => {
@@ -60,29 +60,27 @@ export const DrawLineMemo: React.FC<LineProps> = ({
   );
 
   const lineParams = useMemo((): LineParams | undefined => {
-    if (targetId && targetDir) {
-      if (originSquare && targetSquare) {
-        const originPos = convertPosToXY(coverSize, originDir);
-        const targetPos = convertPosToXY(coverSize, targetDir);
+    if (originSquare && targetSquare) {
+      const originPos = convertPosToXY(coverSize, originDir);
+      const targetPos = convertPosToXY(coverSize, targetDir);
 
-        const points = [
-          originSquare.x + originPos.x,
-          originSquare.y + originPos.y,
-          targetSquare.x + targetPos.x,
-          targetSquare.y + targetPos.y,
-        ];
+      const points = [
+        originSquare.x + originPos.x,
+        originSquare.y + originPos.y,
+        targetSquare.x + targetPos.x,
+        targetSquare.y + targetPos.y,
+      ];
 
-        const midX = (points[0] + points[2]) / 2;
-        const midY = (points[1] + points[3]) / 2;
+      const midX = (points[0] + points[2]) / 2;
+      const midY = (points[1] + points[3]) / 2;
 
-        return {
-          midX,
-          midY,
-          points,
-        };
-      }
+      return {
+        midX,
+        midY,
+        points,
+      };
     }
-  }, [targetId, targetDir, originSquare, targetSquare, coverSize, originDir]);
+  }, [targetDir, originSquare, targetSquare, coverSize, originDir]);
 
   const handleOpen = (id: Lines['id']) => {
     if (erase) {
