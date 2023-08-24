@@ -9,7 +9,6 @@ import {
 } from 'types';
 import { addPrefix } from 'utils';
 import { createWithEqualityFn } from 'zustand/traditional';
-import { shallow } from 'zustand/shallow';
 import {
   UseConfigsParams,
   createConfigsSlice,
