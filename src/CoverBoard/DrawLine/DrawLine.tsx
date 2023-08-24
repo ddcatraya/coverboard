@@ -49,9 +49,6 @@ export const DrawLineMemo: React.FC<LineProps> = ({
   targetDir,
 }) => {
   const coverSize = useMainStore((state) => state.configs.size);
-  const removeLine = useMainStore((state) => state.removeLine);
-  const erase = useUtilsStore((state) => state.erase);
-  const [textEdit, setTextEdit] = useState(false);
   const originSquare = useMainStore((state) =>
     state.covers.find((cov) => cov.id === originId),
   );
@@ -82,29 +79,12 @@ export const DrawLineMemo: React.FC<LineProps> = ({
     }
   }, [targetDir, originSquare, targetSquare, coverSize, originDir]);
 
-  const handleOpen = (id: Lines['id']) => {
-    if (erase) {
-      removeLine(id);
-      return;
-    }
-
-    setTextEdit(true);
-  };
-
   if (!lineParams) return null;
 
   return (
     <Group>
       <Group x={lineParams.midX} y={lineParams.midY}>
-        <DrawLineCircle id={id} handleOpen={handleOpen} />
-        <DrawLineLabel
-          id={id}
-          text={text}
-          dir={dir}
-          open={textEdit}
-          setOpen={setTextEdit}
-          lineParams={lineParams}
-        />
+        <DrawLineLabel id={id} text={text} dir={dir} lineParams={lineParams} />
       </Group>
       <DrawLineArrow lineParams={lineParams} />
     </Group>

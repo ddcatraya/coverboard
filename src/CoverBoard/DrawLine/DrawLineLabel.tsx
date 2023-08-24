@@ -1,7 +1,7 @@
-import React from 'react';
+import React, { useState } from 'react';
 
 import { LineParams, Lines, PosTypes } from 'types';
-import { DrawLineLabelDraggable } from '.';
+import { DrawLineCircle, DrawLineLabelDraggable } from '.';
 import { TextLabel } from 'components';
 import { getAlign } from 'utils';
 import { useMainStore, useUtilsStore } from 'store';
@@ -10,8 +10,6 @@ interface LineProps {
   id: Lines['id'];
   text: Lines['text'];
   dir: Lines['dir'];
-  open: boolean;
-  setOpen: (open: boolean) => void;
   lineParams: LineParams;
 }
 
@@ -20,8 +18,6 @@ export const DrawLineLabel: React.FC<LineProps> = ({
   text,
   dir,
   lineParams,
-  open,
-  setOpen,
 }) => {
   const coverSize = useMainStore((state) => state.configs.size);
   const fontSize = useMainStore((state) => state.fontSize());
@@ -29,8 +25,11 @@ export const DrawLineLabel: React.FC<LineProps> = ({
   const resetLine = useMainStore((state) => state.resetLine);
   const updateLineDir = useMainStore((state) => state.updateLineDir);
   const updateLineText = useMainStore((state) => state.updateLineText);
+  const removeLine = useMainStore((state) => state.removeLine);
   const erase = useUtilsStore((state) => state.erase);
   const editLines = useUtilsStore((state) => state.editLines);
+
+  const [textEdit, setTextEdit] = useState(false);
 
   const handleUpdateLabel = (text: string) => {
     updateLineText(id, text);
@@ -42,6 +41,15 @@ export const DrawLineLabel: React.FC<LineProps> = ({
 
   const handleReset = () => {
     resetLine(id);
+  };
+
+  const handleOpen = (id: Lines['id']) => {
+    if (erase) {
+      removeLine(id);
+      return;
+    }
+
+    setTextEdit(true);
   };
 
   if (erase) return null;
@@ -56,23 +64,26 @@ export const DrawLineLabel: React.FC<LineProps> = ({
   };
 
   return (
-    <DrawLineLabelDraggable
-      dir={dir}
-      lineParams={lineParams}
-      setUpdate={handleUpdateDir}>
-      <TextLabel
-        open={open}
-        setOpen={setOpen}
-        label={getLabel()}
-        onReset={handleReset}
-        setLabel={handleUpdateLabel}
-        pos={{
-          x: -coverSize,
-          y: fontSize * 1.5,
-          width: coverSize * 2,
-          align: getAlign(dir),
-        }}
-      />
-    </DrawLineLabelDraggable>
+    <>
+      <DrawLineCircle id={id} handleOpen={handleOpen} />
+      <DrawLineLabelDraggable
+        dir={dir}
+        lineParams={lineParams}
+        setUpdate={handleUpdateDir}>
+        <TextLabel
+          open={textEdit}
+          setOpen={setTextEdit}
+          label={getLabel()}
+          onReset={handleReset}
+          setLabel={handleUpdateLabel}
+          pos={{
+            x: -coverSize,
+            y: fontSize * 1.5,
+            width: coverSize * 2,
+            align: getAlign(dir),
+          }}
+        />
+      </DrawLineLabelDraggable>
+    </>
   );
 };
