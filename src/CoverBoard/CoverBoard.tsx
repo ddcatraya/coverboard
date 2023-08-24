@@ -142,6 +142,7 @@ export const CoverBoard: React.FC = () => {
         <Layer>
           {!showLogo && (
             <Rect
+              name="screenshotBackground"
               width={windowSize.width}
               height={windowSize.height}
               fill={backColor}
@@ -173,17 +174,15 @@ export const CoverBoard: React.FC = () => {
           />
           <Group name="toolbar" x={toolBarLimits.x} y={toolBarLimits.y}>
             {showLogo && <Logo />}
-            {
-              <Rect
-                name="toolbarBackground"
-                x={1}
-                y={1}
-                width={toolBarLimits.width - 2}
-                height={toolBarLimits.height - 2}
-                stroke={color}
-                fill={backColor}
-              />
-            }
+            <Rect
+              name="toolbarBackground"
+              x={1}
+              y={1}
+              width={toolBarLimits.width - 2}
+              height={toolBarLimits.height - 2}
+              stroke={color}
+              fill={backColor}
+            />
             <Toolbar takeScreenshot={takeScreenshot} showTooltips={showLogo} />
           </Group>
         </Layer>

@@ -1,8 +1,8 @@
-import { Snackbar, Alert } from '@mui/material';
+import { Toast } from 'components';
 import { CoverBoard } from 'CoverBoard';
 import { useEffect } from 'react';
 import { useParams } from 'react-router-dom';
-import { useMainStore, useToastStore } from 'store';
+import { useMainStore } from 'store';
 import { DEFAULT_KEY } from 'types';
 import { throttle } from 'utils';
 
@@ -14,11 +14,6 @@ function App() {
   const toobarIconSize = useMainStore((state) => state.toobarIconSize());
   const backColor = useMainStore((state) => state.getBackColor());
   const setWindowSize = useMainStore((state) => state.setWindowSize);
-
-  const toastMessage = useToastStore((state) => state.toastMessage);
-  const handleToastMessageClose = useToastStore(
-    (state) => state.handleToastMessageClose,
-  );
 
   useEffect(() => {
     setDefaultLocalStoreValues(saveId);
@@ -43,18 +38,7 @@ function App() {
         padding: toobarIconSize / 2 + 'px',
       }}>
       <CoverBoard />
-      {toastMessage && (
-        <Snackbar
-          open={!!toastMessage}
-          autoHideDuration={3000}
-          onClose={handleToastMessageClose}>
-          <Alert
-            severity={toastMessage?.type}
-            onClose={handleToastMessageClose}>
-            {toastMessage?.text}
-          </Alert>
-        </Snackbar>
-      )}
+      <Toast />
     </div>
   );
 }
