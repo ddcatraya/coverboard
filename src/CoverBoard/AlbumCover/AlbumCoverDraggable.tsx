@@ -72,14 +72,22 @@ export const AlbumCoverDraggable: React.FC<DraggableGroupProps> = ({
     e.cancelBubble = true;
 
     const foundY = covers.find(
-      (star) => star.id !== id && star.y === e.target.y(),
+      (star) => star.id !== id && star.y === Math.round(e.target.y()),
     );
     const foundX = covers.find(
-      (star) => star.id !== id && star.x === e.target.x(),
+      (star) => star.id !== id && star.x === Math.round(e.target.x()),
     );
 
-    if (foundY || foundX) {
+    if (
+      (typeof hintLines[0] === 'undefined' && foundY) ||
+      (typeof hintLines[1] === 'undefined' && foundX)
+    ) {
       setHintLines([foundY, foundX]);
+    } else if (
+      (typeof hintLines[0] !== 'undefined' && !foundY) ||
+      (typeof hintLines[1] !== 'undefined' && !foundX)
+    ) {
+      setHintLines([undefined, undefined]);
     }
   };
 
@@ -96,8 +104,8 @@ export const AlbumCoverDraggable: React.FC<DraggableGroupProps> = ({
     }
 
     updateCoverPosition(id, {
-      x: e.target.x(),
-      y: e.target.y(),
+      x: Math.round(e.target.x()),
+      y: Math.round(e.target.y()),
     });
   };
 
