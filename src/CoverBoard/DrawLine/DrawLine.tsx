@@ -1,12 +1,18 @@
-import React, { useMemo, useState } from 'react';
+import React, { useMemo } from 'react';
 import { Group } from 'react-konva';
 
-import { useCoverContext, useSizesContext } from 'contexts';
 import { LineParams, Lines, PosTypes } from 'types';
-import { DrawLineArrow, DrawLineCircle, DrawLineLabel } from '.';
+import { DrawLineArrow, DrawLineLabel } from '.';
+import { useMainStore } from 'store';
 
 interface LineProps {
-  line: Lines;
+  id: Lines['id'];
+  text: Lines['text'];
+  dir: Lines['dir'];
+  originId: Lines['origin']['id'];
+  originDir: Lines['origin']['dir'];
+  targetId: Lines['target']['id'];
+  targetDir: Lines['target']['dir'];
 }
 
 const convertPosToXY = (coverSize: number, pos: PosTypes) => {
@@ -33,62 +39,56 @@ const convertPosToXY = (coverSize: number, pos: PosTypes) => {
   }
 };
 
-export const DrawLine: React.FC<LineProps> = ({ line }) => {
-  const { coverSize } = useSizesContext();
-  const { covers, removeLine, erase } = useCoverContext();
-  const [textEdit, setTextEdit] = useState(false);
+export const DrawLineMemo: React.FC<LineProps> = ({
+  id,
+  text,
+  dir,
+  originId,
+  originDir,
+  targetId,
+  targetDir,
+}) => {
+  const coverSize = useMainStore((state) => state.configs.size);
+  const originSquare = useMainStore((state) =>
+    state.covers.find((cov) => cov.id === originId),
+  );
+  const targetSquare = useMainStore((state) =>
+    state.covers.find((cov) => cov.id === targetId),
+  );
 
   const lineParams = useMemo((): LineParams | undefined => {
-    if (line.target) {
-      const originSquare = covers.find((cov) => cov.id === line.origin.id);
-      const targetSquare = covers.find((cov) => cov.id === line.target?.id);
+    if (originSquare && targetSquare) {
+      const originPos = convertPosToXY(coverSize, originDir);
+      const targetPos = convertPosToXY(coverSize, targetDir);
 
-      if (originSquare && targetSquare) {
-        const originPos = convertPosToXY(coverSize, line.origin.pos);
-        const targetPos = convertPosToXY(coverSize, line.target.pos);
+      const points = [
+        originSquare.x + originPos.x,
+        originSquare.y + originPos.y,
+        targetSquare.x + targetPos.x,
+        targetSquare.y + targetPos.y,
+      ];
 
-        const points = [
-          originSquare.x + originPos.x,
-          originSquare.y + originPos.y,
-          targetSquare.x + targetPos.x,
-          targetSquare.y + targetPos.y,
-        ];
+      const midX = (points[0] + points[2]) / 2;
+      const midY = (points[1] + points[3]) / 2;
 
-        const midX = (points[0] + points[2]) / 2;
-        const midY = (points[1] + points[3]) / 2;
-
-        return {
-          midX,
-          midY,
-          points,
-        };
-      }
+      return {
+        midX,
+        midY,
+        points,
+      };
     }
-  }, [covers, coverSize, line.origin, line.target]);
-
-  const handleOpen = (line: Lines) => {
-    if (erase) {
-      removeLine(line.id);
-      return;
-    }
-
-    setTextEdit(true);
-  };
+  }, [targetDir, originSquare, targetSquare, coverSize, originDir]);
 
   if (!lineParams) return null;
 
   return (
     <Group>
       <Group x={lineParams.midX} y={lineParams.midY}>
-        <DrawLineCircle line={line} handleOpen={handleOpen} />
-        <DrawLineLabel
-          line={line}
-          open={textEdit}
-          setOpen={setTextEdit}
-          lineParams={lineParams}
-        />
+        <DrawLineLabel id={id} text={text} dir={dir} lineParams={lineParams} />
       </Group>
       <DrawLineArrow lineParams={lineParams} />
     </Group>
   );
 };
+
+export const DrawLine = React.memo(DrawLineMemo);

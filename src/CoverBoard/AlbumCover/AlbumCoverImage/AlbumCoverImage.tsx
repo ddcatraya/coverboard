@@ -1,39 +1,44 @@
 import React, { useState } from 'react';
 import { Image, Rect, Text } from 'react-konva';
 
-import { useCoverContext, useSizesContext } from 'contexts';
-
-import {
-  AlbumCoverValues,
-  Covers,
-  LabelType,
-  colorMap,
-  backColorMap,
-} from 'types';
+import { AlbumCoverValues, Covers, LabelType } from 'types';
 import { Html, useImage } from 'react-konva-utils';
 import { AlbumCoverImagePopover } from '.';
 import { KonvaEventObject } from 'konva/lib/Node';
+import { useMainStore, useUtilsStore } from 'store';
 
 interface CoverImageProps {
-  albumCover: Covers;
+  id: Covers['id'];
+  artist: Covers['artist']['text'];
+  album: Covers['album']['text'];
+  link: Covers['link'];
 }
 
-export const AlbumCoverImage: React.FC<CoverImageProps> = ({ albumCover }) => {
-  const {
-    erase,
-    resetCoverLabel,
-    removeCover,
-    updateCoversText,
-    editLines,
-    configs,
-  } = useCoverContext();
-  const [image, status] = useImage(albumCover.link, 'anonymous');
-  const { coverSize, fontSize } = useSizesContext();
+export const AlbumCoverImage: React.FC<CoverImageProps> = ({
+  id,
+  artist,
+  album,
+  link,
+}) => {
+  const resetCoverLabel = useMainStore((state) => state.resetCoverLabel);
+  const removeCoverAndRelatedLines = useMainStore(
+    (state) => state.removeCoverAndRelatedLines,
+  );
+  const updateCoversText = useMainStore((state) => state.updateCoversText);
+  const color = useMainStore((state) => state.getColor());
+  const backColor = useMainStore((state) => state.getBackColor());
+  const editLines = useUtilsStore((state) => state.editLines);
+  const erase = useUtilsStore((state) => state.erase);
+
+  const coverSize = useMainStore((state) => state.configs.size);
+  const fontSize = useMainStore((state) => state.fontSize());
+
+  const [image, status] = useImage(link, 'anonymous');
   const [open, setOpen] = useState(false);
 
   const handleEraseImage = (id: string) => {
     if (erase) {
-      removeCover(id);
+      removeCoverAndRelatedLines(id);
       return;
     }
 
@@ -42,9 +47,9 @@ export const AlbumCoverImage: React.FC<CoverImageProps> = ({ albumCover }) => {
 
   const handleSubmit = (values: AlbumCoverValues) => {
     updateCoversText(
-      albumCover.id,
-      values[LabelType.ARTIST].text.trim(),
-      values[LabelType.ALBUM].text.trim(),
+      id,
+      values[LabelType.ARTIST].trim(),
+      values[LabelType.ALBUM].trim(),
     );
   };
 
@@ -55,12 +60,8 @@ export const AlbumCoverImage: React.FC<CoverImageProps> = ({ albumCover }) => {
           image={image}
           width={coverSize}
           height={coverSize}
-          onClick={
-            !editLines ? () => handleEraseImage(albumCover.id) : undefined
-          }
-          onDblTap={
-            !editLines ? () => handleEraseImage(albumCover.id) : undefined
-          }
+          onClick={!editLines ? () => handleEraseImage(id) : undefined}
+          onDblTap={!editLines ? () => handleEraseImage(id) : undefined}
           onMouseMove={(evt: KonvaEventObject<MouseEvent>) => {
             if (!editLines) {
               evt.currentTarget.opacity(0.5);
@@ -75,14 +76,10 @@ export const AlbumCoverImage: React.FC<CoverImageProps> = ({ albumCover }) => {
           <Rect
             width={coverSize}
             height={coverSize}
-            fill={backColorMap[configs.backColor]}
-            stroke={colorMap[configs.color]}
-            onClick={
-              !editLines ? () => handleEraseImage(albumCover.id) : undefined
-            }
-            onDblTap={
-              !editLines ? () => handleEraseImage(albumCover.id) : undefined
-            }
+            fill={backColor}
+            stroke={color}
+            onClick={!editLines ? () => handleEraseImage(id) : undefined}
+            onDblTap={!editLines ? () => handleEraseImage(id) : undefined}
             onMouseMove={(evt: KonvaEventObject<MouseEvent>) => {
               if (!editLines) {
                 evt.currentTarget.opacity(0.5);
@@ -98,7 +95,7 @@ export const AlbumCoverImage: React.FC<CoverImageProps> = ({ albumCover }) => {
             y={coverSize / 2 - (fontSize * 1.2) / 2}
             width={coverSize}
             align="center"
-            fill={colorMap[configs.color]}
+            fill={color}
             text={status === 'failed' ? 'Error' : 'Loading...'}
           />
         </>
@@ -110,12 +107,12 @@ export const AlbumCoverImage: React.FC<CoverImageProps> = ({ albumCover }) => {
             onClose={() => setOpen(false)}
             onSubmit={handleSubmit}
             onReset={() => {
-              resetCoverLabel(albumCover.id, LabelType.ARTIST);
-              resetCoverLabel(albumCover.id, LabelType.ALBUM);
+              resetCoverLabel(id, LabelType.ARTIST);
+              resetCoverLabel(id, LabelType.ALBUM);
             }}
             values={{
-              [LabelType.ARTIST]: albumCover[LabelType.ARTIST],
-              [LabelType.ALBUM]: albumCover[LabelType.ALBUM],
+              artist,
+              album,
             }}
           />
         </Html>

@@ -1,26 +1,31 @@
 import { Group } from 'react-konva';
 import { KonvaEventObject } from 'konva/lib/Node';
 import { useMemo, useState } from 'react';
-import { useCoverContext, useSizesContext } from 'contexts';
 import { LineParams, Lines, PosTypes } from 'types';
 import { v4 as uuidv4 } from 'uuid';
 import { getClientPosition } from 'utils';
+import { useUtilsStore } from 'store/utilsStore';
+import { useMainStore } from 'store';
 
 interface DraggableGroupProps {
   children: React.ReactNode;
-  line: Lines;
+  dir: Lines['dir'];
   setUpdate: (dir: PosTypes) => void;
   lineParams: LineParams;
 }
 
-export const DrawLineLabelDraggable = ({
-  line,
+export const DrawLineLabelDraggable: React.FC<DraggableGroupProps> = ({
+  dir,
   lineParams,
   setUpdate,
   children,
-}: DraggableGroupProps) => {
-  const { erase, editLines } = useCoverContext();
-  const { coverSize, fontSize, circleRadius, dragLimits } = useSizesContext();
+}) => {
+  const erase = useUtilsStore((state) => state.erase);
+  const editLines = useUtilsStore((state) => state.editLines);
+  const coverSize = useMainStore((state) => state.configs.size);
+  const fontSize = useMainStore((state) => state.fontSize());
+  const circleRadius = useMainStore((state) => state.circleRadius());
+  const dragLimits = useMainStore((state) => state.dragLimits());
   const [id, setId] = useState(uuidv4());
 
   const handleDragStart = (e: KonvaEventObject<DragEvent>) => {
@@ -49,9 +54,9 @@ export const DrawLineLabelDraggable = ({
     const { x, y } = getClientPosition(e);
 
     let dir: PosTypes;
-    if (y > dragLimits.y + lineParams.midY + fontSize) {
+    if (y > dragLimits.y + lineParams.midY + 1.5 * fontSize) {
       dir = PosTypes.BOTTOM;
-    } else if (y < dragLimits.y + lineParams.midY - fontSize) {
+    } else if (y < dragLimits.y + lineParams.midY - 1.5 * fontSize) {
       dir = PosTypes.TOP;
     } else if (x < dragLimits.x + lineParams.midX) {
       dir = PosTypes.LEFT;
@@ -63,17 +68,17 @@ export const DrawLineLabelDraggable = ({
   };
 
   const newPos = useMemo(() => {
-    if (line.dir === PosTypes.BOTTOM) {
+    if (dir === PosTypes.BOTTOM) {
       return {
         x: 0,
         y: 0,
       };
-    } else if (line.dir === PosTypes.TOP) {
+    } else if (dir === PosTypes.TOP) {
       return {
         x: 0,
         y: -1.5 * 4 * circleRadius,
       };
-    } else if (line.dir === PosTypes.RIGHT) {
+    } else if (dir === PosTypes.RIGHT) {
       return {
         x: coverSize + 3 * circleRadius,
         y: -1.5 * 2 * circleRadius,
@@ -84,7 +89,7 @@ export const DrawLineLabelDraggable = ({
         y: -1.5 * 2 * circleRadius,
       };
     }
-  }, [circleRadius, coverSize, line.dir]);
+  }, [circleRadius, coverSize, dir]);
 
   return (
     <Group

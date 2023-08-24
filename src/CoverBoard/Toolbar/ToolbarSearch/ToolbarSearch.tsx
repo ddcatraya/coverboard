@@ -1,21 +1,19 @@
 import { Html } from 'react-konva-utils';
 
 import { getLastFMAlbums } from 'api';
-import {
-  useApiContext,
-  useCoverContext,
-  useToastContext,
-  useToolbarContext,
-} from 'contexts';
 import { ToolbarSearchPopover } from '.';
 import { PosTypes, SearchParams } from 'types';
 import { v4 as uuidv4 } from 'uuid';
+import { useMainStore, useToastStore, useToolbarStore } from 'store';
 
 export const ToolbarSearch: React.FC = () => {
-  const { covers, addCovers } = useCoverContext();
-  const { showSuccessMessage, showErrorMessage } = useToastContext();
-  const { apiKey } = useApiContext();
-  const { openSearch, setOpenSearch } = useToolbarContext();
+  const covers = useMainStore((state) => state.covers);
+  const addCovers = useMainStore((state) => state.addCovers);
+  const apiKey = useMainStore((state) => state.apiKey);
+  const showSuccessMessage = useToastStore((state) => state.showSuccessMessage);
+  const showErrorMessage = useToastStore((state) => state.showErrorMessage);
+  const openSearch = useToolbarStore((state) => state.openSearch);
+  const setOpenSearch = useToolbarStore((state) => state.setOpenSearch);
 
   const handleSearch = async (inputArray: Array<SearchParams>) => {
     try {

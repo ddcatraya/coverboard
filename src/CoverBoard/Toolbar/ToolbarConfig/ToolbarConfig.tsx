@@ -1,19 +1,24 @@
 import { Html } from 'react-konva-utils';
 
-import {
-  useCoverContext,
-  useSizesContext,
-  useToastContext,
-  useToolbarContext,
-} from 'contexts';
 import { ToolbarConfigPopover } from '.';
 import { ToolbarConfigParams, ToolbarConfigValues } from 'types';
+import { useMainStore, useToastStore, useToolbarStore } from 'store';
+import { Vector2d } from 'konva/lib/types';
 
 export const ToolbarConfig: React.FC = () => {
-  const { openConfig, setOpenConfig } = useToolbarContext();
-  const { updateConfigs, configs, updateAllCoversDir } = useCoverContext();
-  const { moveIntoView, offLimitCovers } = useSizesContext();
-  const { showSuccessMessage } = useToastContext();
+  const openConfig = useToolbarStore((state) => state.openConfig);
+  const setOpenConfig = useToolbarStore((state) => state.setOpenConfig);
+  const configs = useMainStore((state) => state.configs);
+  const coverSize = useMainStore((state) => state.configs.size);
+  const covers = useMainStore((state) => state.covers);
+  const offLimitCovers = useMainStore((state) => state.offLimitCovers());
+  const updateConfigs = useMainStore((state) => state.updateConfigs);
+  const updateAllCoverPosition = useMainStore(
+    (state) => state.updateAllCoverPosition,
+  );
+  const updateAllCoversDir = useMainStore((state) => state.updateAllCoversDir);
+  const dragLimits = useMainStore((state) => state.dragLimits());
+  const showSuccessMessage = useToastStore((state) => state.showSuccessMessage);
 
   const handleUpdateCover = (
     config: ToolbarConfigParams,
@@ -27,7 +32,19 @@ export const ToolbarConfig: React.FC = () => {
   };
 
   const handleResetElements = () => {
-    moveIntoView();
+    const posArray = covers.map(({ x, y }) => {
+      let pos: Vector2d = { x, y };
+      if (x > dragLimits.width - coverSize && x > 0) {
+        pos.x = dragLimits.width - coverSize;
+      }
+      if (y > dragLimits.height - coverSize && y > 0) {
+        pos.y = dragLimits.height - coverSize;
+      }
+      return pos;
+    });
+    if (posArray.length) {
+      updateAllCoverPosition(posArray);
+    }
 
     showSuccessMessage('All elements outside the screen were moved into view');
   };

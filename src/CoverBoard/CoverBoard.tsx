@@ -1,31 +1,113 @@
-import React, { useRef, useState } from 'react';
+import React, { useCallback, useRef, useState } from 'react';
 import { Stage, Layer, Group, Rect, Text } from 'react-konva';
 
-import { AlbumCover, DrawLine, Toolbar, TitleLabel, BoundaryArrow } from './';
-import { useCoverContext, useSizesContext, ToolbarProvider } from 'contexts';
-import { Logo } from './AlbumCover';
-import { backColorMap, colorMap } from 'types';
+import {
+  AlbumCover,
+  DrawLine,
+  Toolbar,
+  TitleLabel,
+  BoundaryArrow,
+  Logo,
+} from './';
 import { flushSync } from 'react-dom';
 import { formatDate } from 'utils';
+import { useMainStore } from 'store';
+
+const AlbumCovers: React.FC = () => {
+  const covers = useMainStore((state) => state.covers);
+
+  return (
+    <>
+      {covers.map((star) => (
+        <AlbumCover
+          id={star.id}
+          artist={star.artist.text}
+          album={star.album.text}
+          x={star.x}
+          y={star.y}
+          link={star.link}
+          dir={star.dir}
+          key={star.id}
+        />
+      ))}
+    </>
+  );
+};
+
+const DrawLines: React.FC = () => {
+  const lines = useMainStore((state) => state.lines);
+
+  return (
+    <>
+      {lines.map((line) => (
+        <DrawLine
+          id={line.id}
+          text={line.text}
+          dir={line.dir}
+          originId={line.origin.id}
+          originDir={line.origin.dir}
+          targetId={line.target.id}
+          targetDir={line.target.dir}
+          key={line.id}
+        />
+      ))}
+    </>
+  );
+};
+
+const BoundaryArrows: React.FC = () => {
+  const offLimitCovers = useMainStore((state) => state.offLimitCovers());
+
+  return (
+    <>
+      {offLimitCovers.map((star) => (
+        <BoundaryArrow
+          id={star.id}
+          x={star.x}
+          y={star.y}
+          album={star.album.text}
+          key={star.id}
+        />
+      ))}
+    </>
+  );
+};
+
+const CountLabel: React.FC = () => {
+  const pos0 = useMainStore(
+    (state) => state.covers.filter((cov) => cov.x === 0 && cov.y === 0).length,
+  );
+  const coverSize = useMainStore((state) => state.configs.size);
+  const fontSize = useMainStore((state) => state.fontSize());
+
+  return (
+    <Text
+      x={coverSize + fontSize / 2}
+      y={coverSize - fontSize * 2}
+      align="center"
+      text={pos0 > 1 ? 'x' + String(pos0) : ''}
+      fontSize={fontSize * 2}
+      fill="white"
+      listening={false}
+    />
+  );
+};
 
 export const CoverBoard: React.FC = () => {
-  const { covers, lines, configs, saveId } = useCoverContext();
-  const {
-    toolBarLimits,
-    dragLimits,
-    windowSize,
-    toobarIconSize,
-    coverSize,
-    fontSize,
-    offLimitCovers,
-  } = useSizesContext();
+  const color = useMainStore((state) => state.getColor());
+  const backColor = useMainStore((state) => state.getBackColor());
+  const saveId = useMainStore((state) => state.saveId);
+
+  const toolBarLimits = useMainStore((state) => state.toolBarLimits());
+  const toobarIconSize = useMainStore((state) => state.toobarIconSize());
+  const windowSize = useMainStore((state) => state.windowSize);
+  const dragLimits = useMainStore((state) => state.dragLimits());
+
   const stageRef = useRef<any>(null);
   const [screenshotUrl, setScreenshotUrl] = useState('');
   const [showLogo, setShowLogo] = useState(true);
 
-  const pos0 = covers.filter((cov) => cov.x === 0 && cov.y === 0).length;
-
-  const takeScreenshot = () => {
+  const takeScreenshot = useCallback(() => {
     const stage = stageRef.current;
 
     flushSync(() => {
@@ -49,77 +131,61 @@ export const CoverBoard: React.FC = () => {
         setShowLogo(true);
       });
     }
-  };
+  }, [dragLimits, saveId]);
 
   return (
     <>
-      <Stage width={windowSize.width} height={windowSize.height} ref={stageRef}>
+      <Stage
+        width={windowSize.width - toobarIconSize}
+        height={windowSize.height - toobarIconSize}
+        ref={stageRef}>
         <Layer>
-          <Rect
-            width={windowSize.width}
-            height={windowSize.height}
-            fill={backColorMap[configs.backColor]}
-            listening={false}
-          />
-          <Group name="board" x={dragLimits.x} y={dragLimits.y}>
-            {covers.map((star) => (
-              <AlbumCover albumCover={star} key={star.id} />
-            ))}
-            {lines.map((line) => (
-              <DrawLine line={line} key={line.id} />
-            ))}
-            {offLimitCovers.map((star) => (
-              <BoundaryArrow albumCover={star} key={star.id} />
-            ))}
-            <TitleLabel />
-            <Text
-              x={coverSize + fontSize / 2}
-              y={coverSize - fontSize * 2}
-              align="center"
-              text={pos0 > 1 ? 'x' + String(pos0) : ''}
-              fontSize={fontSize * 2}
-              fill="white"
+          {!showLogo && (
+            <Rect
+              width={windowSize.width}
+              height={windowSize.height}
+              fill={backColor}
               listening={false}
             />
+          )}
+          <Group name="board" x={dragLimits.x} y={dragLimits.y}>
+            <AlbumCovers />
+            <DrawLines />
+            <BoundaryArrows />
+            <TitleLabel />
+            <CountLabel />
             <Rect
               name="arenaBorder"
-              width={dragLimits.width}
-              height={dragLimits.height}
-              stroke={colorMap[configs.color]}
+              x={1}
+              y={1}
+              width={dragLimits.width - 2}
+              height={dragLimits.height - 2}
+              stroke={color}
               listening={false}
             />
           </Group>
           <Rect
             name="leftBackground"
-            width={3 * toobarIconSize}
-            height={windowSize.height}
-            fill={backColorMap[configs.backColor]}
+            width={2.5 * toobarIconSize}
+            height={windowSize.height - toobarIconSize}
+            fill={backColor}
             listening={false}
           />
           <Group name="toolbar" x={toolBarLimits.x} y={toolBarLimits.y}>
             {showLogo && <Logo />}
-            <Rect
-              name="toolbarBackground"
-              width={toolBarLimits.width}
-              height={toolBarLimits.height}
-              stroke={colorMap[configs.color]}
-              fill={backColorMap[configs.backColor]}
-            />
-            <ToolbarProvider>
-              <Toolbar
-                takeScreenshot={takeScreenshot}
-                showTooltips={showLogo}
+            {
+              <Rect
+                name="toolbarBackground"
+                x={1}
+                y={1}
+                width={toolBarLimits.width - 2}
+                height={toolBarLimits.height - 2}
+                stroke={color}
+                fill={backColor}
               />
-            </ToolbarProvider>
+            }
+            <Toolbar takeScreenshot={takeScreenshot} showTooltips={showLogo} />
           </Group>
-          <Rect
-            name="arenaHiddenBorder"
-            width={windowSize.width}
-            height={windowSize.height}
-            stroke={backColorMap[configs.backColor]}
-            strokeWidth={toobarIconSize - 2}
-            listening={false}
-          />
         </Layer>
       </Stage>
       {screenshotUrl && <img src={screenshotUrl} alt="Screenshot" />}

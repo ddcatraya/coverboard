@@ -1,13 +1,15 @@
 import { Group, Line } from 'react-konva';
 import { KonvaEventObject } from 'konva/lib/Node';
 import { Vector2d } from 'konva/lib/types';
-import { useCoverContext, useSizesContext } from 'contexts';
-import { Covers, colorMap } from 'types';
+import { Covers } from 'types';
 import { useState } from 'react';
+import { useMainStore, useUtilsStore } from 'store';
 
 interface DraggableGroupProps {
   children: React.ReactNode;
-  albumCover: Covers;
+  id: Covers['id'];
+  x: Covers['x'];
+  y: Covers['y'];
   min: {
     x: number;
     y: number;
@@ -19,13 +21,21 @@ interface DraggableGroupProps {
 }
 
 export const AlbumCoverDraggable: React.FC<DraggableGroupProps> = ({
-  albumCover,
+  id,
+  x,
+  y,
   min,
   max,
   children,
 }) => {
-  const { erase, covers, updateCoverPosition, configs } = useCoverContext();
-  const { dragLimits } = useSizesContext();
+  const covers = useMainStore((state) => state.covers);
+  const color = useMainStore((state) => state.getColor());
+  const updateCoverPosition = useMainStore(
+    (state) => state.updateCoverPosition,
+  );
+  const erase = useUtilsStore((state) => state.erase);
+
+  const dragLimits = useMainStore((state) => state.dragLimits());
   const [hintLines, setHintLines] = useState<
     [Covers | undefined, Covers | undefined]
   >([undefined, undefined]);
@@ -60,14 +70,16 @@ export const AlbumCoverDraggable: React.FC<DraggableGroupProps> = ({
   const handleDragMove = (e: KonvaEventObject<DragEvent>) => {
     e.cancelBubble = true;
 
-    setHintLines([
-      covers.find(
-        (star) => star.id !== albumCover.id && star.y === e.target.y(),
-      ),
-      covers.find(
-        (star) => star.id !== albumCover.id && star.x === e.target.x(),
-      ),
-    ]);
+    const foundY = covers.find(
+      (star) => star.id !== id && star.y === e.target.y(),
+    );
+    const foundX = covers.find(
+      (star) => star.id !== id && star.x === e.target.x(),
+    );
+
+    if (foundY || foundX) {
+      setHintLines([foundY, foundX]);
+    }
   };
 
   const handleDragEnd = (e: KonvaEventObject<DragEvent>) => {
@@ -82,7 +94,7 @@ export const AlbumCoverDraggable: React.FC<DraggableGroupProps> = ({
       container.style.cursor = 'not-allowed';
     }
 
-    updateCoverPosition(albumCover.id, {
+    updateCoverPosition(id, {
       x: e.target.x(),
       y: e.target.y(),
     });
@@ -93,20 +105,20 @@ export const AlbumCoverDraggable: React.FC<DraggableGroupProps> = ({
       {hintLines[0] && (
         <Line
           points={[0, hintLines[0].y, dragLimits.width, hintLines[0].y]}
-          stroke={colorMap[configs.color]}
+          stroke={color}
           strokeWidth={2}
         />
       )}
       {hintLines[1] && (
         <Line
           points={[hintLines[1].x, 0, hintLines[1].x, dragLimits.height]}
-          stroke={colorMap[configs.color]}
+          stroke={color}
           strokeWidth={1}
         />
       )}
       <Group
-        x={albumCover.x}
-        y={albumCover.y}
+        x={x}
+        y={y}
         draggable
         onDragMove={handleDragMove}
         onDragStart={handleDragStart}

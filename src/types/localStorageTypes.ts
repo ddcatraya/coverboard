@@ -178,7 +178,15 @@ export const schema = (parsedData: LocalStorageData) =>
             .refine((id) => {
               return parsedData.covers.find((star) => star.id === id);
             }, 'lines:origin:id does not exist'),
-          pos: z.nativeEnum(PosTypes),
+          dir: z.nativeEnum(PosTypes, {
+            errorMap: (_, _ctx) => {
+              return {
+                message: `lines:origin:dir must be ${Object.values(
+                  PosTypes,
+                ).join(' | ')}`,
+              };
+            },
+          }),
         }),
         target: z.object({
           id: z
@@ -192,7 +200,7 @@ export const schema = (parsedData: LocalStorageData) =>
             .refine((id) => {
               return parsedData.covers.find((star) => star.id === id);
             }, 'lines:target:id does not exist'),
-          pos: z.nativeEnum(PosTypes, {
+          dir: z.nativeEnum(PosTypes, {
             errorMap: (_, _ctx) => {
               return {
                 message: `lines:target:dir must be ${Object.values(

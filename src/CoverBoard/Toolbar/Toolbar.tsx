@@ -1,4 +1,3 @@
-import { useCoverContext, useToolbarContext } from 'contexts';
 import {
   ToolbarSearch,
   ToolbarShare,
@@ -8,50 +7,68 @@ import {
 } from '.';
 import { colorMap, Colors, ToolConfig, ToolConfigIDs } from 'types';
 import { haxPrefix } from 'utils';
+import { useUtilsStore, useMainStore, useToolbarStore } from 'store';
+import React, { useMemo } from 'react';
 
 interface ToolbarProps {
   takeScreenshot: () => void;
   showTooltips: boolean;
 }
 
-export const Toolbar: React.FC<ToolbarProps> = ({
+const ToolbarActionIcon: React.FC = () => {
+  const actionsLength = useMainStore((state) => state.actions.length);
+  const undoAction = useMainStore((state) => state.undoAction);
+
+  const actionConfig = useMemo<ToolConfig>(
+    () => ({
+      id: ToolConfigIDs.UNDO,
+      tooltip: `Undo (moves: ${actionsLength}/10)`,
+      color: colorMap[Colors.PINK],
+      emoji: '↩️',
+      value: actionsLength < 1,
+      valueModifier: undoAction,
+      badge: actionsLength,
+      enabled: true,
+    }),
+    [actionsLength, undoAction],
+  );
+
+  return <ToolbarIcon config={actionConfig} index={6} />;
+};
+
+export const ToolbarMemo: React.FC<ToolbarProps> = ({
   takeScreenshot,
   showTooltips,
 }) => {
-  const {
-    erase,
-    setErase,
-    editLines,
-    setEditLines,
-    undo,
-    action,
-    covers,
-    lines,
-    configs,
-  } = useCoverContext();
-  const {
-    openSearch,
-    setOpenSearch,
-    openConfig,
-    setOpenConfig,
-    openShare,
-    setOpenShare,
-  } = useToolbarContext();
+  const erase = useUtilsStore((state) => state.erase);
+  const setErase = useUtilsStore((state) => state.setErase);
+  const editLines = useUtilsStore((state) => state.editLines);
+  const setEditLines = useUtilsStore((state) => state.setEditLines);
+  const coversLength = useMainStore((state) => state.covers.length);
+  const linesLength = useMainStore((state) => state.lines.length);
+  const size = useMainStore((state) => state.configs.size);
+
+  const openConfig = useToolbarStore((state) => state.openConfig);
+  const setOpenConfig = useToolbarStore((state) => state.setOpenConfig);
+  const openSearch = useToolbarStore((state) => state.openSearch);
+  const setOpenSearch = useToolbarStore((state) => state.setOpenSearch);
+  const openShare = useToolbarStore((state) => state.openShare);
+  const setOpenShare = useToolbarStore((state) => state.setOpenShare);
 
   const savesNumber = Object.keys(window.localStorage).filter((key) =>
     haxPrefix(key),
   ).length;
-  const configSize = configs.size / 100;
+  const configSize = size / 100;
 
   const configTools: Array<ToolConfig> = [
     {
       id: ToolConfigIDs.SEARCH,
-      tooltip: `Add albums (covers: ${covers.length})`,
+      tooltip: `Add albums (covers: ${coversLength})`,
       color: colorMap[Colors.GREEN],
       emoji: '🔍',
       value: openSearch,
       valueModifier: setOpenSearch,
-      badge: covers.length,
+      badge: coversLength,
       enabled: true,
     },
     {
@@ -76,32 +93,22 @@ export const Toolbar: React.FC<ToolbarProps> = ({
     },
     {
       id: ToolConfigIDs.ARROW,
-      tooltip: `Create arrow mode (arrows: ${lines.length})`,
+      tooltip: `Create arrow mode (arrows: ${linesLength})`,
       color: colorMap[Colors.GOLD],
       emoji: '➜',
       value: editLines,
       valueModifier: setEditLines,
-      badge: lines.length,
+      badge: linesLength,
       enabled: true,
     },
     {
       id: ToolConfigIDs.ERASE,
-      tooltip: `Erase mode (elements: ${lines.length + covers.length})`,
+      tooltip: `Erase mode (elements: ${linesLength + coversLength})`,
       color: colorMap[Colors.ORANGE],
       emoji: '🗑️',
       value: erase,
       valueModifier: setErase,
-      badge: lines.length + covers.length,
-      enabled: true,
-    },
-    {
-      id: ToolConfigIDs.UNDO,
-      tooltip: `Undo (moves: ${action.length}/10)`,
-      color: colorMap[Colors.PINK],
-      emoji: '↩️',
-      value: action.length < 1,
-      valueModifier: undo,
-      badge: action.length,
+      badge: linesLength + coversLength,
       enabled: true,
     },
     {
@@ -118,13 +125,16 @@ export const Toolbar: React.FC<ToolbarProps> = ({
 
   return (
     <>
-      <ToolbarSearch />
-      <ToolbarConfig />
-      <ToolbarShare />
+      {openSearch && <ToolbarSearch />}
+      {openConfig && <ToolbarConfig />}
+      {openShare && <ToolbarShare />}
       {configTools.map((config, index) => (
         <ToolbarIcon config={config} key={config.id} index={index} />
       ))}
+      <ToolbarActionIcon />
       {showTooltips && <ToolbarTooltip />}
     </>
   );
 };
+
+export const Toolbar = React.memo(ToolbarMemo);

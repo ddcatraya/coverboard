@@ -1,16 +1,22 @@
 import { Html } from 'react-konva-utils';
 
-import { useCoverContext, useToastContext, useToolbarContext } from 'contexts';
 import { ToolbarSharePopover } from '.';
 import { useNavigate } from 'react-router-dom';
 import { LocalStorageData, schema } from 'types';
 import { ZodError } from 'zod';
+import { useMainStore, useToastStore, useToolbarStore } from 'store';
 
 export const ToolbarShare: React.FC = () => {
   const navigate = useNavigate();
-  const { instance, setInstance, saveId, resetInstance } = useCoverContext();
-  const { showSuccessMessage, showErrorMessage } = useToastContext();
-  const { openShare, setOpenShare } = useToolbarContext();
+  const saveId = useMainStore((state) => state.saveId);
+  const resetStoreValues = useMainStore((state) => state.resetStoreValues);
+  const updateStoreValues = useMainStore((state) => state.updateStoreValues);
+  const getStoreValues = useMainStore((state) => state.getStoreValues);
+
+  const showSuccessMessage = useToastStore((state) => state.showSuccessMessage);
+  const showErrorMessage = useToastStore((state) => state.showErrorMessage);
+  const openShare = useToolbarStore((state) => state.openShare);
+  const setOpenShare = useToolbarStore((state) => state.setOpenShare);
 
   const handleImport = (data: string) => {
     try {
@@ -19,7 +25,7 @@ export const ToolbarShare: React.FC = () => {
       try {
         const parsedSchema = schema(parsedData).parse(parsedData);
         if (parsedSchema) {
-          setInstance(parsedSchema);
+          updateStoreValues(parsedSchema);
           setOpenShare(false);
           showSuccessMessage('JSON was applied with success');
         }
@@ -36,7 +42,7 @@ export const ToolbarShare: React.FC = () => {
   };
 
   const handleDeleteElements = () => {
-    resetInstance();
+    resetStoreValues();
 
     showSuccessMessage('All elements on screen were cleaned');
   };
@@ -52,7 +58,7 @@ export const ToolbarShare: React.FC = () => {
   return (
     <Html>
       <ToolbarSharePopover
-        instance={instance}
+        instance={getStoreValues()}
         open={openShare}
         onClose={() => setOpenShare(false)}
         handleImport={handleImport}

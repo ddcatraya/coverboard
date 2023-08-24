@@ -1,0 +1,89 @@
+import React, { useState } from 'react';
+
+import { LineParams, Lines, PosTypes } from 'types';
+import { DrawLineCircle, DrawLineLabelDraggable } from '.';
+import { TextLabel } from 'components';
+import { getAlign } from 'utils';
+import { useMainStore, useUtilsStore } from 'store';
+
+interface LineProps {
+  id: Lines['id'];
+  text: Lines['text'];
+  dir: Lines['dir'];
+  lineParams: LineParams;
+}
+
+export const DrawLineLabel: React.FC<LineProps> = ({
+  id,
+  text,
+  dir,
+  lineParams,
+}) => {
+  const coverSize = useMainStore((state) => state.configs.size);
+  const fontSize = useMainStore((state) => state.fontSize());
+
+  const resetLine = useMainStore((state) => state.resetLine);
+  const updateLineDir = useMainStore((state) => state.updateLineDir);
+  const updateLineText = useMainStore((state) => state.updateLineText);
+  const removeLine = useMainStore((state) => state.removeLine);
+  const erase = useUtilsStore((state) => state.erase);
+  const editLines = useUtilsStore((state) => state.editLines);
+
+  const [textEdit, setTextEdit] = useState(false);
+
+  const handleUpdateLabel = (text: string) => {
+    updateLineText(id, text);
+  };
+
+  const handleUpdateDir = (dir: PosTypes) => {
+    updateLineDir(id, dir);
+  };
+
+  const handleReset = () => {
+    resetLine(id);
+  };
+
+  const handleOpen = (id: Lines['id']) => {
+    if (erase) {
+      removeLine(id);
+      return;
+    }
+
+    setTextEdit(true);
+  };
+
+  if (erase) return null;
+
+  const getLabel = () => {
+    if (text) {
+      return text;
+    } else if (editLines) {
+      return '<add text>';
+    }
+    return '';
+  };
+
+  return (
+    <>
+      <DrawLineCircle id={id} handleOpen={handleOpen} />
+      <DrawLineLabelDraggable
+        dir={dir}
+        lineParams={lineParams}
+        setUpdate={handleUpdateDir}>
+        <TextLabel
+          open={textEdit}
+          setOpen={setTextEdit}
+          label={getLabel()}
+          onReset={handleReset}
+          setLabel={handleUpdateLabel}
+          pos={{
+            x: -coverSize,
+            y: fontSize * 1.5,
+            width: coverSize * 2,
+            align: getAlign(dir),
+          }}
+        />
+      </DrawLineLabelDraggable>
+    </>
+  );
+};

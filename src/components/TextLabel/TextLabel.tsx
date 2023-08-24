@@ -1,9 +1,9 @@
-import { useCoverContext, useSizesContext } from 'contexts';
 import { Text } from 'react-konva';
 import { Html } from 'react-konva-utils';
 import { TextLabelPopover } from '.';
 import { KonvaEventObject } from 'konva/lib/Node';
-import { backColorMap, buildTitle, colorMap } from 'types';
+import { buildTitle } from 'types';
+import { useMainStore } from 'store';
 
 interface TitleTexProps {
   label: string;
@@ -37,8 +37,10 @@ export const TextLabel: React.FC<TitleTexProps> = ({
   editable = true,
   title,
 }) => {
-  const { fontSize } = useSizesContext();
-  const { configs, saveId } = useCoverContext();
+  const fontSize = useMainStore((state) => state.fontSize());
+  const color = useMainStore((state) => state.getColor());
+  const backColor = useMainStore((state) => state.getBackColor());
+  const saveId = useMainStore((state) => state.saveId);
 
   const handleSubmit = (text: string) => {
     setOpen(false);
@@ -64,7 +66,7 @@ export const TextLabel: React.FC<TitleTexProps> = ({
           y={pos.y}
           width={pos.width}
           fontSize={fontSize * labelSize}
-          fill={colorMap[configs.color]}
+          fill={color}
           onClick={editable ? () => setOpen(true) : undefined}
           onDblTap={editable ? () => setOpen(true) : undefined}
           onMouseMove={(evt: KonvaEventObject<MouseEvent>) => {
@@ -98,8 +100,8 @@ export const TextLabel: React.FC<TitleTexProps> = ({
             title={title}
             pos={pos}
             fontSize={fontSize * labelSize}
-            fill={colorMap[configs.color]}
-            fillBack={backColorMap[configs.backColor]}
+            fill={color}
+            fillBack={backColor}
           />
         </Html>
       )}

@@ -1,23 +1,23 @@
 import React from 'react';
 import { Arrow } from 'react-konva';
 
-import { useCoverContext, useSizesContext } from 'contexts';
-import { colorMap, LineParams } from 'types';
+import { LineParams } from 'types';
+import { useMainStore } from 'store';
 
 interface LineProps {
   lineParams: LineParams;
 }
 
 export const DrawLineArrow: React.FC<LineProps> = ({ lineParams }) => {
-  const { fontSize } = useSizesContext();
-  const { configs } = useCoverContext();
+  const fontSize = useMainStore((state) => state.fontSize());
+  const color = useMainStore((state) => state.getColor());
 
   if (!lineParams) return null;
 
   return (
     <Arrow
       points={lineParams.points}
-      stroke={colorMap[configs.color]}
+      stroke={color}
       strokeWidth={fontSize / 4}
       pointerLength={fontSize}
       listening={false}

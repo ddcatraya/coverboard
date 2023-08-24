@@ -1,27 +1,36 @@
 import { Group } from 'react-konva';
 import { KonvaEventObject } from 'konva/lib/Node';
 import { useMemo, useState } from 'react';
-import { useCoverContext, useSizesContext } from 'contexts';
 import { Covers, PosTypes } from 'types';
 import { v4 as uuidv4 } from 'uuid';
 import { getClientPosition } from 'utils';
+import { useMainStore, useUtilsStore } from 'store';
 
 interface DraggableGroupProps {
   children: React.ReactNode;
-  albumCover: Covers;
+  id: Covers['id'];
+  x: Covers['x'];
+  y: Covers['y'];
+  dir: Covers['dir'];
   offset: number;
   offSetTop: number;
 }
 
 export const AlbumCoverLabelDraggable = ({
-  albumCover,
+  id,
+  x,
+  y,
+  dir,
   children,
   offset,
   offSetTop,
 }: DraggableGroupProps) => {
-  const { erase, updateCoverDir } = useCoverContext();
-  const { coverSize, fontSize, dragLimits } = useSizesContext();
-  const [id, setId] = useState(uuidv4());
+  const updateCoverDir = useMainStore((state) => state.updateCoverDir);
+  const erase = useUtilsStore((state) => state.erase);
+  const dragLimits = useMainStore((state) => state.dragLimits());
+  const fontSize = useMainStore((state) => state.fontSize());
+  const coverSize = useMainStore((state) => state.configs.size);
+  const [randId, setId] = useState(uuidv4());
 
   const handleDragStart = (e: KonvaEventObject<DragEvent>) => {
     e.cancelBubble = true;
@@ -46,35 +55,35 @@ export const AlbumCoverLabelDraggable = ({
       container.style.cursor = 'not-allowed';
     }
 
-    const { x, y } = getClientPosition(e);
+    const { x: xAbs, y: yAbs } = getClientPosition(e);
 
-    let dir: PosTypes;
-    if (y > dragLimits.y + albumCover.y + coverSize) {
-      dir = PosTypes.BOTTOM;
-    } else if (y < albumCover.y + dragLimits.y) {
-      dir = PosTypes.TOP;
-    } else if (x < albumCover.x + dragLimits.x) {
-      dir = PosTypes.LEFT;
+    let newDir: PosTypes;
+    if (yAbs > dragLimits.y + y + coverSize) {
+      newDir = PosTypes.BOTTOM;
+    } else if (yAbs < y + dragLimits.y) {
+      newDir = PosTypes.TOP;
+    } else if (xAbs < x + dragLimits.x) {
+      newDir = PosTypes.LEFT;
     } else {
-      dir = PosTypes.RIGHT;
+      newDir = PosTypes.RIGHT;
     }
 
     setId(uuidv4());
-    updateCoverDir(albumCover.id, dir);
+    updateCoverDir(id, newDir);
   };
 
   const newPos = useMemo(() => {
-    if (albumCover.dir === PosTypes.BOTTOM) {
+    if (dir === PosTypes.BOTTOM) {
       return {
         x: 0,
         y: fontSize / 2,
       };
-    } else if (albumCover.dir === PosTypes.TOP) {
+    } else if (dir === PosTypes.TOP) {
       return {
         x: 0,
         y: -coverSize - 2 * 2 * fontSize + offSetTop,
       };
-    } else if (albumCover.dir === PosTypes.RIGHT) {
+    } else if (dir === PosTypes.RIGHT) {
       return {
         x: 2 * coverSize + fontSize,
         y: -coverSize / 2 - fontSize - offset / 2,
@@ -85,11 +94,11 @@ export const AlbumCoverLabelDraggable = ({
         y: -coverSize / 2 - fontSize - offset / 2,
       };
     }
-  }, [albumCover.dir, coverSize, fontSize, offSetTop, offset]);
+  }, [coverSize, dir, fontSize, offSetTop, offset]);
 
   return (
     <Group
-      key={id}
+      key={randId}
       x={newPos.x}
       y={newPos.y}
       draggable

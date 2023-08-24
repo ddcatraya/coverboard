@@ -20,7 +20,7 @@ export interface ToolConfig {
   color: string;
   emoji: string;
   value: boolean;
-  valueModifier: React.Dispatch<React.SetStateAction<boolean>>;
+  valueModifier: (arg: any) => void;
   badge: number | null;
   enabled: boolean;
 }

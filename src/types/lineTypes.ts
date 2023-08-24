@@ -2,7 +2,7 @@ import { PosTypes } from './generalTypes';
 
 export interface Point {
   id: string;
-  pos: PosTypes;
+  dir: PosTypes;
 }
 
 export interface Lines {

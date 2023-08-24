@@ -1,4 +1,6 @@
-import { NAME_SPACE } from 'types';
+import { DEFAULT_KEY, NAME_SPACE } from 'types';
+
+export const DEFAULT_STORAGE = NAME_SPACE + ':' + DEFAULT_KEY;
 
 export const addPrefix = (key: string) => NAME_SPACE + ':' + key;
 

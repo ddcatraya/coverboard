@@ -1,28 +1,36 @@
 import React, { useState } from 'react';
 
-import { useCoverContext, useSizesContext } from 'contexts';
 import { Covers, LabelType } from 'types';
 import { TextLabel } from 'components';
 import { getAlign } from 'utils';
+import { useMainStore, useUtilsStore } from 'store';
 
 interface AlbumCoverLabelProps {
-  albumCover: Covers;
+  id: Covers['id'];
+  dir: Covers['dir'];
   coverLabel: LabelType;
+  text: string;
   offset?: number;
 }
 
 export const AlbumCoverLabel: React.FC<AlbumCoverLabelProps> = ({
-  albumCover,
+  id,
+  dir,
   coverLabel,
+  text,
   offset = 0,
 }) => {
-  const { updateCoverLabel, erase, editLines, resetCoverLabel } =
-    useCoverContext();
-  const { coverSize, fontSize } = useSizesContext();
+  const updateCoverLabel = useMainStore((state) => state.updateCoverLabel);
+  const resetCoverLabel = useMainStore((state) => state.resetCoverLabel);
+  const erase = useUtilsStore((state) => state.erase);
+  const editLines = useUtilsStore((state) => state.editLines);
+
+  const fontSize = useMainStore((state) => state.fontSize());
+  const coverSize = useMainStore((state) => state.configs.size);
   const [open, setOpen] = useState(false);
 
   const handleReset = () => {
-    resetCoverLabel(albumCover.id, coverLabel);
+    resetCoverLabel(id, coverLabel);
   };
 
   if (erase || editLines) return null;
@@ -34,16 +42,16 @@ export const AlbumCoverLabel: React.FC<AlbumCoverLabelProps> = ({
       open={open}
       setOpen={setOpen}
       editable={false}
-      label={albumCover[coverLabel].text}
+      label={text}
       onReset={handleReset}
       setLabel={(label) => {
-        updateCoverLabel(albumCover.id, coverLabel, label);
+        updateCoverLabel(id, coverLabel, label);
       }}
       pos={{
         x: -coverSize,
         y: coverSize + fontSize / 2 + offset,
         width: coverSize * 3,
-        align: getAlign(albumCover.dir),
+        align: getAlign(dir),
       }}
     />
   );
