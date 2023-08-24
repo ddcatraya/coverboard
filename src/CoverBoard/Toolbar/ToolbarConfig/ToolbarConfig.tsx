@@ -7,18 +7,20 @@ import { Vector2d } from 'konva/lib/types';
 import { shallow } from 'zustand/shallow';
 
 export const ToolbarConfig: React.FC = () => {
-  const openConfig = useToolbarStore((state) => state.openConfig);
-  const setOpenConfig = useToolbarStore((state) => state.setOpenConfig);
+  const [openConfig, setOpenConfig] = useToolbarStore(
+    (state) => [state.openConfig, state.setOpenConfig],
+    shallow,
+  );
   const configs = useMainStore((state) => state.configs);
   const coverSize = useMainStore((state) => state.configs.size);
   const covers = useMainStore((state) => state.covers);
   const offLimitCovers = useMainStore((state) => state.offLimitCovers());
+  const dragLimits = useMainStore((state) => state.dragLimits(), shallow);
   const updateConfigs = useMainStore((state) => state.updateConfigs);
   const updateAllCoverPosition = useMainStore(
     (state) => state.updateAllCoverPosition,
   );
   const updateAllCoversDir = useMainStore((state) => state.updateAllCoversDir);
-  const dragLimits = useMainStore((state) => state.dragLimits(), shallow);
   const showSuccessMessage = useToastStore((state) => state.showSuccessMessage);
 
   const handleUpdateCover = (

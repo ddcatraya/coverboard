@@ -4,7 +4,7 @@ import { useMemo, useState } from 'react';
 import { LineParams, Lines, PosTypes } from 'types';
 import { v4 as uuidv4 } from 'uuid';
 import { getClientPosition } from 'utils';
-import { useUtilsStore } from 'store/utilsStore';
+import { useUtilsStore } from 'store/useUtilsStore';
 import { useMainStore } from 'store';
 import { shallow } from 'zustand/shallow';
 
@@ -55,9 +55,9 @@ export const DrawLineLabelDraggable: React.FC<DraggableGroupProps> = ({
     const { x, y } = getClientPosition(e);
 
     let dir: PosTypes;
-    if (y > dragLimits.y + lineParams.midY + 1.5 * fontSize) {
+    if (y > dragLimits.y + lineParams.midY + 2 * fontSize) {
       dir = PosTypes.BOTTOM;
-    } else if (y < dragLimits.y + lineParams.midY - 1.5 * fontSize) {
+    } else if (y < dragLimits.y + lineParams.midY - 1.2 * fontSize) {
       dir = PosTypes.TOP;
     } else if (x < dragLimits.x + lineParams.midX) {
       dir = PosTypes.LEFT;

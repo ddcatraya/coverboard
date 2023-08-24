@@ -5,6 +5,7 @@ import { ToolbarSearchPopover } from '.';
 import { PosTypes, SearchParams } from 'types';
 import { v4 as uuidv4 } from 'uuid';
 import { useMainStore, useToastStore, useToolbarStore } from 'store';
+import { shallow } from 'zustand/shallow';
 
 export const ToolbarSearch: React.FC = () => {
   const covers = useMainStore((state) => state.covers);
@@ -12,8 +13,10 @@ export const ToolbarSearch: React.FC = () => {
   const apiKey = useMainStore((state) => state.apiKey);
   const showSuccessMessage = useToastStore((state) => state.showSuccessMessage);
   const showErrorMessage = useToastStore((state) => state.showErrorMessage);
-  const openSearch = useToolbarStore((state) => state.openSearch);
-  const setOpenSearch = useToolbarStore((state) => state.setOpenSearch);
+  const [openSearch, setOpenSearch] = useToolbarStore(
+    (state) => [state.openSearch, state.setOpenSearch],
+    shallow,
+  );
 
   const handleSearch = async (inputArray: Array<SearchParams>) => {
     try {

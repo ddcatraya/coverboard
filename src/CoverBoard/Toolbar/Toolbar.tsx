@@ -9,6 +9,7 @@ import { colorMap, Colors, ToolConfig, ToolConfigIDs } from 'types';
 import { haxPrefix } from 'utils';
 import { useUtilsStore, useMainStore, useToolbarStore } from 'store';
 import React, { useMemo } from 'react';
+import { shallow } from 'zustand/shallow';
 
 interface ToolbarProps {
   takeScreenshot: () => void;
@@ -40,20 +41,30 @@ export const ToolbarMemo: React.FC<ToolbarProps> = ({
   takeScreenshot,
   showTooltips,
 }) => {
-  const erase = useUtilsStore((state) => state.erase);
-  const setErase = useUtilsStore((state) => state.setErase);
-  const editLines = useUtilsStore((state) => state.editLines);
-  const setEditLines = useUtilsStore((state) => state.setEditLines);
+  const [erase, setErase] = useUtilsStore(
+    (state) => [state.erase, state.setErase],
+    shallow,
+  );
+  const [editLines, setEditLines] = useUtilsStore(
+    (state) => [state.editLines, state.setEditLines],
+    shallow,
+  );
+  const [openConfig, setOpenConfig] = useToolbarStore(
+    (state) => [state.openConfig, state.setOpenConfig],
+    shallow,
+  );
+  const [openSearch, setOpenSearch] = useToolbarStore(
+    (state) => [state.openSearch, state.setOpenSearch],
+    shallow,
+  );
+  const [openShare, setOpenShare] = useToolbarStore(
+    (state) => [state.openShare, state.setOpenShare],
+    shallow,
+  );
+
   const coversLength = useMainStore((state) => state.covers.length);
   const linesLength = useMainStore((state) => state.lines.length);
   const size = useMainStore((state) => state.configs.size);
-
-  const openConfig = useToolbarStore((state) => state.openConfig);
-  const setOpenConfig = useToolbarStore((state) => state.setOpenConfig);
-  const openSearch = useToolbarStore((state) => state.openSearch);
-  const setOpenSearch = useToolbarStore((state) => state.setOpenSearch);
-  const openShare = useToolbarStore((state) => state.openShare);
-  const setOpenShare = useToolbarStore((state) => state.setOpenShare);
 
   const savesNumber = Object.keys(window.localStorage).filter((key) =>
     haxPrefix(key),

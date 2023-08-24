@@ -5,6 +5,7 @@ import { useNavigate } from 'react-router-dom';
 import { LocalStorageData, schema } from 'types';
 import { ZodError } from 'zod';
 import { useMainStore, useToastStore, useToolbarStore } from 'store';
+import { shallow } from 'zustand/shallow';
 
 export const ToolbarShare: React.FC = () => {
   const navigate = useNavigate();
@@ -15,8 +16,10 @@ export const ToolbarShare: React.FC = () => {
 
   const showSuccessMessage = useToastStore((state) => state.showSuccessMessage);
   const showErrorMessage = useToastStore((state) => state.showErrorMessage);
-  const openShare = useToolbarStore((state) => state.openShare);
-  const setOpenShare = useToolbarStore((state) => state.setOpenShare);
+  const [openShare, setOpenShare] = useToolbarStore(
+    (state) => [state.openShare, state.setOpenShare],
+    shallow,
+  );
 
   const handleImport = (data: string) => {
     try {

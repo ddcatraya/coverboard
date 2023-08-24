@@ -1,6 +1,6 @@
 import { Point, ToolConfigIDs } from 'types';
 import { getHash } from 'utils';
-import { create } from 'zustand';
+import { createWithEqualityFn } from 'zustand/traditional';
 
 interface UseUtilParams {
   erase: boolean;
@@ -11,7 +11,7 @@ interface UseUtilParams {
   setPoints: (value: Point | null) => void;
 }
 
-export const useUtilsStore = create<UseUtilParams>()((set) => {
+export const useUtilsStore = createWithEqualityFn<UseUtilParams>()((set) => {
   const hash = getHash();
 
   return {
@@ -22,4 +22,4 @@ export const useUtilsStore = create<UseUtilParams>()((set) => {
     setEditLines: (value: boolean) => set({ editLines: value }),
     setPoints: (value: Point | null) => set({ points: value }),
   };
-});
+}, Object.is);
