@@ -35,7 +35,7 @@ function App() {
   }, [setWindowSize]);
 
   return (
-    <div className="App" style={{ backgroundColor: backColor }}>
+    <div className="App" style={{ backgroundColor: 'red' }}>
       <CoverBoard />
       {toastMessage && (
         <Snackbar

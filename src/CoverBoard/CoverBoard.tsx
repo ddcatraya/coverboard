@@ -13,35 +13,84 @@ import { flushSync } from 'react-dom';
 import { formatDate } from 'utils';
 import { useMainStore } from 'store';
 
-export const CoverBoard: React.FC = () => {
-  const lines = useMainStore((state) => state.lines);
+const AlbumCovers: React.FC = () => {
   const covers = useMainStore((state) => state.covers);
+
+  return (
+    <>
+      {covers.map((star) => (
+        <AlbumCover
+          id={star.id}
+          artist={star.artist.text}
+          album={star.album.text}
+          x={star.x}
+          y={star.y}
+          link={star.link}
+          dir={star.dir}
+          key={star.id}
+        />
+      ))}
+    </>
+  );
+};
+
+const DrawLines: React.FC = () => {
+  const lines = useMainStore((state) => state.lines);
+
+  return (
+    <>
+      {lines.map((line) => (
+        <DrawLine
+          id={line.id}
+          text={line.text}
+          dir={line.dir}
+          originId={line.origin.id}
+          originDir={line.origin.dir}
+          targetId={line.target.id}
+          targetDir={line.target.dir}
+          key={line.id}
+        />
+      ))}
+    </>
+  );
+};
+
+const BoundaryArrows: React.FC = () => {
+  const offLimitCovers = useMainStore((state) => state.offLimitCovers());
+
+  return (
+    <>
+      {offLimitCovers.map((star) => (
+        <BoundaryArrow
+          id={star.id}
+          x={star.x}
+          y={star.y}
+          album={star.album.text}
+          key={star.id}
+        />
+      ))}
+    </>
+  );
+};
+
+export const CoverBoard: React.FC = () => {
+  const pos0 = useMainStore(
+    (state) => state.covers.filter((cov) => cov.x === 0 && cov.y === 0).length,
+  );
   const color = useMainStore((state) => state.getColor());
   const backColor = useMainStore((state) => state.getBackColor());
   const saveId = useMainStore((state) => state.saveId);
 
-  const {
-    offLimitCovers,
-    toolBarLimits,
-    toobarIconSize,
-    windowSize,
-    coverSize,
-    fontSize,
-    dragLimits,
-  } = useMainStore((state) => ({
-    offLimitCovers: state.offLimitCovers(),
-    toolBarLimits: state.toolBarLimits(),
-    toobarIconSize: state.toobarIconSize(),
-    windowSize: state.windowSize,
-    coverSize: state.configs.size,
-    fontSize: state.fontSize(),
-    dragLimits: state.dragLimits(),
-  }));
+  const toolBarLimits = useMainStore((state) => state.toolBarLimits());
+  const toobarIconSize = useMainStore((state) => state.toobarIconSize());
+  const windowSize = useMainStore((state) => state.windowSize);
+  const coverSize = useMainStore((state) => state.configs.size);
+  const fontSize = useMainStore((state) => state.fontSize());
+  const dragLimits = useMainStore((state) => state.dragLimits());
+
   const stageRef = useRef<any>(null);
   const [screenshotUrl, setScreenshotUrl] = useState('');
   const [showLogo, setShowLogo] = useState(true);
-
-  const pos0 = covers.filter((cov) => cov.x === 0 && cov.y === 0).length;
 
   const takeScreenshot = useCallback(() => {
     const stage = stageRef.current;
@@ -80,39 +129,9 @@ export const CoverBoard: React.FC = () => {
             listening={false}
           />
           <Group name="board" x={dragLimits.x} y={dragLimits.y}>
-            {covers.map((star) => (
-              <AlbumCover
-                id={star.id}
-                artist={star.artist.text}
-                album={star.album.text}
-                x={star.x}
-                y={star.y}
-                link={star.link}
-                dir={star.dir}
-                key={star.id}
-              />
-            ))}
-            {lines.map((line) => (
-              <DrawLine
-                id={line.id}
-                text={line.text}
-                dir={line.dir}
-                originId={line.origin.id}
-                originDir={line.origin.dir}
-                targetId={line.target.id}
-                targetDir={line.target.dir}
-                key={line.id}
-              />
-            ))}
-            {offLimitCovers.map((star) => (
-              <BoundaryArrow
-                id={star.id}
-                x={star.x}
-                y={star.y}
-                album={star.album.text}
-                key={star.id}
-              />
-            ))}
+            <AlbumCovers />
+            <DrawLines />
+            <BoundaryArrows />
             <TitleLabel />
             <Text
               x={coverSize + fontSize / 2}
