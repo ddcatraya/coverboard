@@ -148,8 +148,8 @@ export const CoverBoard: React.FC = () => {
             />
           )}
           <Group name="board" x={dragLimits.x} y={dragLimits.y}>
-            <AlbumCovers />
             <DrawLines />
+            <AlbumCovers />
             <BoundaryArrows />
             <TitleLabel />
             <CountLabel />

@@ -1,9 +1,10 @@
-import { Text } from 'react-konva';
+import { Rect, Text } from 'react-konva';
 import { Html } from 'react-konva-utils';
 import { TextLabelPopover } from '.';
 import { KonvaEventObject } from 'konva/lib/Node';
 import { buildTitle } from 'types';
 import { useMainStore } from 'store';
+import { useEffect, useRef, useState } from 'react';
 
 interface TitleTexProps {
   label: string;
@@ -41,6 +42,8 @@ export const TextLabel: React.FC<TitleTexProps> = ({
   const color = useMainStore((state) => state.getColor());
   const backColor = useMainStore((state) => state.getBackColor());
   const saveId = useMainStore((state) => state.saveId);
+  const textRef = useRef<any>(null);
+  const [textWidth, setTextWidth] = useState(0);
 
   const handleSubmit = (text: string) => {
     setOpen(false);
@@ -55,37 +58,63 @@ export const TextLabel: React.FC<TitleTexProps> = ({
     return label;
   };
 
+  useEffect(() => {
+    if (textRef.current) {
+      setTextWidth(textRef.current.getTextWidth());
+    }
+  }, [textRef, label, fontSize]);
+
+  const getXTextPos = () => {
+    if (pos.align === 'left') {
+      return pos.x;
+    } else if (pos.align === 'right') {
+      return pos.x + pos.width - textWidth;
+    }
+    return pos.x + pos.width / 2 - textWidth / 2;
+  };
+
   return (
     <>
       {!open && (
-        <Text
-          listening={listening}
-          align={pos.align}
-          text={label}
-          x={pos.x}
-          wrap="none"
-          ellipsis={true}
-          y={pos.y}
-          width={pos.width}
-          fontSize={fontSize * labelSize}
-          fill={color}
-          onClick={editable ? () => setOpen(true) : undefined}
-          onDblTap={editable ? () => setOpen(true) : undefined}
-          onMouseMove={(evt: KonvaEventObject<MouseEvent>) => {
-            const container = evt.target.getStage()?.container();
-            evt.currentTarget.opacity(0.5);
-            if (container) {
-              container.style.cursor = 'pointer';
-            }
-          }}
-          onMouseLeave={(evt: KonvaEventObject<MouseEvent>) => {
-            const container = evt.target.getStage()?.container();
-            evt.currentTarget.opacity(1);
-            if (container) {
-              container.style.cursor = 'default';
-            }
-          }}
-        />
+        <>
+          <Rect
+            listening={false}
+            x={getXTextPos()}
+            y={pos.y}
+            fill={backColor}
+            width={textWidth}
+            height={fontSize * labelSize}
+          />
+          <Text
+            ref={textRef}
+            listening={listening}
+            align={pos.align}
+            text={label}
+            x={pos.x}
+            y={pos.y}
+            wrap="none"
+            ellipsis={true}
+            width={pos.width}
+            fontSize={fontSize * labelSize}
+            fill={color}
+            onClick={editable ? () => setOpen(true) : undefined}
+            onDblTap={editable ? () => setOpen(true) : undefined}
+            onMouseMove={(evt: KonvaEventObject<MouseEvent>) => {
+              const container = evt.target.getStage()?.container();
+              evt.currentTarget.opacity(0.5);
+              if (container) {
+                container.style.cursor = 'pointer';
+              }
+            }}
+            onMouseLeave={(evt: KonvaEventObject<MouseEvent>) => {
+              const container = evt.target.getStage()?.container();
+              evt.currentTarget.opacity(1);
+              if (container) {
+                container.style.cursor = 'default';
+              }
+            }}
+          />
+        </>
       )}
       {open && editable && (
         <Html>

@@ -81,10 +81,10 @@ export const DrawLineMemo: React.FC<LineProps> = ({
 
   return (
     <Group>
+      <DrawLineArrow lineParams={lineParams} />
       <Group x={lineParams.midX} y={lineParams.midY}>
         <DrawLineLabel id={id} dir={dir} lineParams={lineParams} />
       </Group>
-      <DrawLineArrow lineParams={lineParams} />
     </Group>
   );
 };
