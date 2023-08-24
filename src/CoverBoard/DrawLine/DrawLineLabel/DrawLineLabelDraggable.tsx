@@ -14,12 +14,12 @@ interface DraggableGroupProps {
   lineParams: LineParams;
 }
 
-export const DrawLineLabelDraggable = ({
+export const DrawLineLabelDraggable: React.FC<DraggableGroupProps> = ({
   dir,
   lineParams,
   setUpdate,
   children,
-}: DraggableGroupProps) => {
+}) => {
   const erase = useUtilsStore((state) => state.erase);
   const editLines = useUtilsStore((state) => state.editLines);
   const coverSize = useMainStore((state) => state.configs.size);

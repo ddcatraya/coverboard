@@ -1,5 +1,5 @@
-export { DrawLineCircle } from './DrawLineCircle';
+export { DrawLineCircle } from './DrawLineLabel/DrawLineCircle';
 export { DrawLineArrow } from './DrawLineArrow';
 export { DrawLine } from './DrawLine';
 export { DrawLineLabel } from './DrawLineLabel';
-export { DrawLineLabelDraggable } from './DrawLineLabelDraggable';
+export { DrawLineLabelDraggable } from './DrawLineLabel/DrawLineLabelDraggable';
