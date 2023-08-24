@@ -3,6 +3,7 @@ import React, { useMemo, useState } from 'react';
 import { TextLabel } from 'components';
 import { buildTitle, Modes } from 'types';
 import { useMainStore, useUtilsStore } from 'store';
+import { shallow } from 'zustand/shallow';
 
 export const TitleLabel: React.FC = () => {
   const updateTitle = useMainStore((state) => state.updateTitle);
@@ -14,7 +15,9 @@ export const TitleLabel: React.FC = () => {
   const editLines = useUtilsStore((state) => state.editLines);
 
   const toobarIconSize = useMainStore((state) => state.toobarIconSize());
-  const dragLimits = useMainStore((state) => state.dragLimits());
+  const dragLimits = useMainStore((state) => state.dragLimits(), shallow);
+
+  console.log('rerender title');
   const [open, setOpen] = useState(false);
 
   const handleReset = () => {

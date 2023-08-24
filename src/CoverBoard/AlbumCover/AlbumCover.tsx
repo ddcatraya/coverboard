@@ -9,6 +9,7 @@ import {
   AlbumCoverDraggable,
 } from '.';
 import { useMainStore } from 'store';
+import { shallow } from 'zustand/shallow';
 
 interface CoverImageProps {
   id: Covers['id'];
@@ -29,8 +30,7 @@ const AlbumCoverMemo: React.FC<CoverImageProps> = ({
 }) => {
   const showArtist = useMainStore((state) => state.configs.showArtist);
   const showAlbum = useMainStore((state) => state.configs.showAlbum);
-
-  const dragLimits = useMainStore((state) => state.dragLimits());
+  const dragLimits = useMainStore((state) => state.dragLimits(), shallow);
   const fontSize = useMainStore((state) => state.fontSize());
   const toobarIconSize = useMainStore((state) => state.toobarIconSize());
   const windowSize = useMainStore((state) => state.windowSize);

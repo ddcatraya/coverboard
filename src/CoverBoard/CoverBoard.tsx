@@ -12,6 +12,7 @@ import {
 import { flushSync } from 'react-dom';
 import { formatDate } from 'utils';
 import { useMainStore } from 'store';
+import { shallow } from 'zustand/shallow';
 
 const AlbumCovers: React.FC = () => {
   const covers = useMainStore((state) => state.covers);
@@ -96,10 +97,10 @@ export const CoverBoard: React.FC = () => {
   const backColor = useMainStore((state) => state.getBackColor());
   const saveId = useMainStore((state) => state.saveId);
 
-  const toolBarLimits = useMainStore((state) => state.toolBarLimits());
+  const toolBarLimits = useMainStore((state) => state.toolBarLimits(), shallow);
   const toobarIconSize = useMainStore((state) => state.toobarIconSize());
   const windowSize = useMainStore((state) => state.windowSize);
-  const dragLimits = useMainStore((state) => state.dragLimits());
+  const dragLimits = useMainStore((state) => state.dragLimits(), shallow);
 
   const stageRef = useRef<any>(null);
   const [screenshotUrl, setScreenshotUrl] = useState('');

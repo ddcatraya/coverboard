@@ -4,6 +4,7 @@ import { Vector2d } from 'konva/lib/types';
 import { Covers } from 'types';
 import { useState } from 'react';
 import { useMainStore, useUtilsStore } from 'store';
+import { shallow } from 'zustand/shallow';
 
 interface DraggableGroupProps {
   children: React.ReactNode;
@@ -35,7 +36,7 @@ export const AlbumCoverDraggable: React.FC<DraggableGroupProps> = ({
   );
   const erase = useUtilsStore((state) => state.erase);
 
-  const dragLimits = useMainStore((state) => state.dragLimits());
+  const dragLimits = useMainStore((state) => state.dragLimits(), shallow);
   const [hintLines, setHintLines] = useState<
     [Covers | undefined, Covers | undefined]
   >([undefined, undefined]);

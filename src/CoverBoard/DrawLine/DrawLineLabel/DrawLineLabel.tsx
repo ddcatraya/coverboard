@@ -60,7 +60,6 @@ export const DrawLineLabel: React.FC<LineProps> = ({ id, dir, lineParams }) => {
 
   return (
     <>
-      <DrawLineCircle id={id} handleOpen={handleOpen} />
       <DrawLineLabelDraggable
         dir={dir}
         lineParams={lineParams}
@@ -79,6 +78,7 @@ export const DrawLineLabel: React.FC<LineProps> = ({ id, dir, lineParams }) => {
           }}
         />
       </DrawLineLabelDraggable>
+      <DrawLineCircle id={id} handleOpen={handleOpen} />
     </>
   );
 };

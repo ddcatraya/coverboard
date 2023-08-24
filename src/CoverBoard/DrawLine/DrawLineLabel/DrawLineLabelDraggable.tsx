@@ -6,6 +6,7 @@ import { v4 as uuidv4 } from 'uuid';
 import { getClientPosition } from 'utils';
 import { useUtilsStore } from 'store/utilsStore';
 import { useMainStore } from 'store';
+import { shallow } from 'zustand/shallow';
 
 interface DraggableGroupProps {
   children: React.ReactNode;
@@ -25,7 +26,7 @@ export const DrawLineLabelDraggable: React.FC<DraggableGroupProps> = ({
   const coverSize = useMainStore((state) => state.configs.size);
   const fontSize = useMainStore((state) => state.fontSize());
   const circleRadius = useMainStore((state) => state.circleRadius());
-  const dragLimits = useMainStore((state) => state.dragLimits());
+  const dragLimits = useMainStore((state) => state.dragLimits(), shallow);
   const [id, setId] = useState(uuidv4());
 
   const handleDragStart = (e: KonvaEventObject<DragEvent>) => {

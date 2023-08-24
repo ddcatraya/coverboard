@@ -5,6 +5,7 @@ import { Covers, PosTypes } from 'types';
 import { v4 as uuidv4 } from 'uuid';
 import { getClientPosition } from 'utils';
 import { useMainStore, useUtilsStore } from 'store';
+import { shallow } from 'zustand/shallow';
 
 interface DraggableGroupProps {
   children: React.ReactNode;
@@ -26,7 +27,7 @@ export const AlbumCoverLabelDraggable = ({
   const dir = useMainStore((state) => state.getDirById(id));
   const updateCoverDir = useMainStore((state) => state.updateCoverDir);
   const erase = useUtilsStore((state) => state.erase);
-  const dragLimits = useMainStore((state) => state.dragLimits());
+  const dragLimits = useMainStore((state) => state.dragLimits(), shallow);
   const fontSize = useMainStore((state) => state.fontSize());
   const coverSize = useMainStore((state) => state.configs.size);
   const [randId, setId] = useState(uuidv4());

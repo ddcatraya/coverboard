@@ -190,5 +190,5 @@ export const useMainStore = createWithEqualityFn<MainStoreUnion>()(
       },
     };
   },
-  shallow,
+  Object.is,
 );

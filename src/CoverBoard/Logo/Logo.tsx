@@ -2,9 +2,10 @@ import { KonvaEventObject } from 'konva/lib/Node';
 import { Group, Image, Text } from 'react-konva';
 import { useMainStore } from 'store';
 import useImage from 'use-image';
+import { shallow } from 'zustand/shallow';
 
 export const Logo: React.FC = () => {
-  const dragLimits = useMainStore((state) => state.dragLimits());
+  const dragLimits = useMainStore((state) => state.dragLimits(), shallow);
   const toobarIconSize = useMainStore((state) => state.toobarIconSize());
   const fontSize = useMainStore((state) => state.fontSize());
 

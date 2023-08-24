@@ -4,6 +4,7 @@ import { ToolbarConfigPopover } from '.';
 import { ToolbarConfigParams, ToolbarConfigValues } from 'types';
 import { useMainStore, useToastStore, useToolbarStore } from 'store';
 import { Vector2d } from 'konva/lib/types';
+import { shallow } from 'zustand/shallow';
 
 export const ToolbarConfig: React.FC = () => {
   const openConfig = useToolbarStore((state) => state.openConfig);
@@ -17,7 +18,7 @@ export const ToolbarConfig: React.FC = () => {
     (state) => state.updateAllCoverPosition,
   );
   const updateAllCoversDir = useMainStore((state) => state.updateAllCoversDir);
-  const dragLimits = useMainStore((state) => state.dragLimits());
+  const dragLimits = useMainStore((state) => state.dragLimits(), shallow);
   const showSuccessMessage = useToastStore((state) => state.showSuccessMessage);
 
   const handleUpdateCover = (
