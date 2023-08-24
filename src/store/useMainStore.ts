@@ -35,6 +35,7 @@ interface CoverContextData {
   resetStoreValues: () => void;
   getStoreValues: () => LocalStorageData;
   offLimitCovers: () => Covers[];
+  removeCoverAndRelatedLines: (id: string) => void;
   apiKey: {
     LastFMKey: string;
   };
@@ -180,6 +181,12 @@ export const useMainStore = createWithEqualityFn<MainStoreUnion>()(
 
           return [];
         });
+      },
+      removeCoverAndRelatedLines(id: string) {
+        saveLastAction();
+        get().removeCover(id);
+        get().removeLinesWithCover(id);
+        saveLocalStorage();
       },
     };
   },

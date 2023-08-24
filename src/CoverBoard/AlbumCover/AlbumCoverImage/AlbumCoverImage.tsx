@@ -21,9 +21,8 @@ export const AlbumCoverImage: React.FC<CoverImageProps> = ({
   link,
 }) => {
   const resetCoverLabel = useMainStore((state) => state.resetCoverLabel);
-  const removeCover = useMainStore((state) => state.removeCover);
-  const removeLinesWithCover = useMainStore(
-    (state) => state.removeLinesWithCover,
+  const removeCoverAndRelatedLines = useMainStore(
+    (state) => state.removeCoverAndRelatedLines,
   );
   const updateCoversText = useMainStore((state) => state.updateCoversText);
   const color = useMainStore((state) => state.getColor());
@@ -39,8 +38,7 @@ export const AlbumCoverImage: React.FC<CoverImageProps> = ({
 
   const handleEraseImage = (id: string) => {
     if (erase) {
-      removeCover(id);
-      removeLinesWithCover(id);
+      removeCoverAndRelatedLines(id);
       return;
     }
 

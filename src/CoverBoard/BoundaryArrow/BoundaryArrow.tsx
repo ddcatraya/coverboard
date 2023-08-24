@@ -25,9 +25,8 @@ export const BoundaryArrowMemo: React.FC<BoundaryArrowProps> = ({
   const updateCoverPosition = useMainStore(
     (state) => state.updateCoverPosition,
   );
-  const removeCover = useMainStore((state) => state.removeCover);
-  const removeLinesWithCover = useMainStore(
-    (state) => state.removeLinesWithCover,
+  const removeCoverAndRelatedLines = useMainStore(
+    (state) => state.removeCoverAndRelatedLines,
   );
   const erase = useUtilsStore((state) => state.erase);
   const coverSize = useMainStore((state) => state.configs.size);
@@ -65,8 +64,7 @@ export const BoundaryArrowMemo: React.FC<BoundaryArrowProps> = ({
 
   const handleBringIntoView = () => {
     if (erase) {
-      removeCover(id);
-      removeLinesWithCover(id);
+      removeCoverAndRelatedLines(id);
       return;
     }
     let newPos: Vector2d = { x, y };
