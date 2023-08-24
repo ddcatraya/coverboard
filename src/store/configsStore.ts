@@ -92,19 +92,16 @@ export const createConfigsSlice: StateCreator<
   fontSize: () => get().configs.size / 7,
   circleRadius: () => get().configs.size / 7 / 1.5,
   dragLimits: () => ({
-    x: 3 * get().toobarIconSize(),
-    y: get().toobarIconSize() / 2,
-    width:
-      window.innerWidth -
-      3 * get().toobarIconSize() -
-      get().toobarIconSize() / 2,
-    height: window.innerHeight - get().toobarIconSize(),
+    x: 2.5 * get().toobarIconSize(),
+    y: 0,
+    width: window.innerWidth - 3.5 * get().toobarIconSize(),
+    height: window.innerHeight - 1 * get().toobarIconSize(),
   }),
   getCurrentY: (index: number) =>
     0 + index * (get().toobarIconSize() + get().toobarIconSize() / 2),
   toolBarLimits: () => ({
-    x: get().toobarIconSize() / 2,
-    y: get().toobarIconSize() / 2,
+    x: 0,
+    y: 0,
     width: get().toobarIconSize() * 2,
     height:
       get().getCurrentY(Object.keys(ToolConfigIDs).length - 1) +

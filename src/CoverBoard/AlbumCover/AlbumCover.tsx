@@ -35,7 +35,6 @@ const AlbumCoverMemo: React.FC<CoverImageProps> = ({
   const dragLimits = useMainStore((state) => state.dragLimits());
   const fontSize = useMainStore((state) => state.fontSize());
   const toobarIconSize = useMainStore((state) => state.toobarIconSize());
-  const coverSize = useMainStore((state) => state.configs.size);
   const windowSize = useMainStore((state) => state.windowSize);
 
   const offSet =
@@ -55,14 +54,14 @@ const AlbumCoverMemo: React.FC<CoverImageProps> = ({
         y: dragLimits.y,
       }}
       max={{
-        x: windowSize.width - coverSize - toobarIconSize / 2,
-        y: windowSize.height - coverSize - toobarIconSize / 2,
+        x: windowSize.width - 3.5 * toobarIconSize,
+        y: windowSize.height - 3.5 * toobarIconSize,
       }}>
       <AlbumCoverDrawLine id={id} />
       <AlbumCoverImage id={id} artist={artist} album={album} link={link} />
 
       <AlbumCoverLabelDraggable
-        id={dir}
+        id={id}
         x={x}
         y={y}
         dir={dir}

@@ -13,6 +13,7 @@ export const TitleLabel: React.FC = () => {
   const erase = useUtilsStore((state) => state.erase);
   const editLines = useUtilsStore((state) => state.editLines);
 
+  const toobarIconSize = useMainStore((state) => state.toobarIconSize());
   const dragLimits = useMainStore((state) => state.dragLimits());
   const [open, setOpen] = useState(false);
 
@@ -48,7 +49,7 @@ export const TitleLabel: React.FC = () => {
       setLabel={handleSetLabel}
       pos={{
         x: dragLimits.width / 4,
-        y: dragLimits.y,
+        y: dragLimits.y + toobarIconSize / 2,
         width: dragLimits.width / 2,
         align: 'center',
       }}

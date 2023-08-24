@@ -57,19 +57,19 @@ export const AlbumCoverLabelDraggable = ({
 
     const { x: xAbs, y: yAbs } = getClientPosition(e);
 
-    let dir: PosTypes;
+    let newDir: PosTypes;
     if (yAbs > dragLimits.y + y + coverSize) {
-      dir = PosTypes.BOTTOM;
+      newDir = PosTypes.BOTTOM;
     } else if (yAbs < y + dragLimits.y) {
-      dir = PosTypes.TOP;
+      newDir = PosTypes.TOP;
     } else if (xAbs < x + dragLimits.x) {
-      dir = PosTypes.LEFT;
+      newDir = PosTypes.LEFT;
     } else {
-      dir = PosTypes.RIGHT;
+      newDir = PosTypes.RIGHT;
     }
 
     setId(uuidv4());
-    updateCoverDir(id, dir);
+    updateCoverDir(id, newDir);
   };
 
   const newPos = useMemo(() => {

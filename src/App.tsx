@@ -11,6 +11,7 @@ function App() {
   const setDefaultLocalStoreValues = useMainStore(
     (state) => state.setDefaultLocalStoreValues,
   );
+  const toobarIconSize = useMainStore((state) => state.toobarIconSize());
   const backColor = useMainStore((state) => state.getBackColor());
   const setWindowSize = useMainStore((state) => state.setWindowSize);
 
@@ -35,7 +36,12 @@ function App() {
   }, [setWindowSize]);
 
   return (
-    <div className="App" style={{ backgroundColor: 'red' }}>
+    <div
+      className="App"
+      style={{
+        backgroundColor: backColor,
+        padding: toobarIconSize / 2 + 'px',
+      }}>
       <CoverBoard />
       {toastMessage && (
         <Snackbar

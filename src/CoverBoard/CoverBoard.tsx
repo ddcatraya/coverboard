@@ -73,10 +73,27 @@ const BoundaryArrows: React.FC = () => {
   );
 };
 
-export const CoverBoard: React.FC = () => {
+const CountLabel: React.FC = () => {
   const pos0 = useMainStore(
     (state) => state.covers.filter((cov) => cov.x === 0 && cov.y === 0).length,
   );
+  const coverSize = useMainStore((state) => state.configs.size);
+  const fontSize = useMainStore((state) => state.fontSize());
+
+  return (
+    <Text
+      x={coverSize + fontSize / 2}
+      y={coverSize - fontSize * 2}
+      align="center"
+      text={pos0 > 1 ? 'x' + String(pos0) : ''}
+      fontSize={fontSize * 2}
+      fill="white"
+      listening={false}
+    />
+  );
+};
+
+export const CoverBoard: React.FC = () => {
   const color = useMainStore((state) => state.getColor());
   const backColor = useMainStore((state) => state.getBackColor());
   const saveId = useMainStore((state) => state.saveId);
@@ -84,8 +101,6 @@ export const CoverBoard: React.FC = () => {
   const toolBarLimits = useMainStore((state) => state.toolBarLimits());
   const toobarIconSize = useMainStore((state) => state.toobarIconSize());
   const windowSize = useMainStore((state) => state.windowSize);
-  const coverSize = useMainStore((state) => state.configs.size);
-  const fontSize = useMainStore((state) => state.fontSize());
   const dragLimits = useMainStore((state) => state.dragLimits());
 
   const stageRef = useRef<any>(null);
@@ -120,62 +135,57 @@ export const CoverBoard: React.FC = () => {
 
   return (
     <>
-      <Stage width={windowSize.width} height={windowSize.height} ref={stageRef}>
+      <Stage
+        width={windowSize.width - toobarIconSize}
+        height={windowSize.height - toobarIconSize}
+        ref={stageRef}>
         <Layer>
-          <Rect
-            width={windowSize.width}
-            height={windowSize.height}
-            fill={backColor}
-            listening={false}
-          />
+          {!showLogo && (
+            <Rect
+              width={windowSize.width}
+              height={windowSize.height}
+              fill={backColor}
+              listening={false}
+            />
+          )}
           <Group name="board" x={dragLimits.x} y={dragLimits.y}>
             <AlbumCovers />
             <DrawLines />
             <BoundaryArrows />
             <TitleLabel />
-            <Text
-              x={coverSize + fontSize / 2}
-              y={coverSize - fontSize * 2}
-              align="center"
-              text={pos0 > 1 ? 'x' + String(pos0) : ''}
-              fontSize={fontSize * 2}
-              fill="white"
-              listening={false}
-            />
+            <CountLabel />
             <Rect
               name="arenaBorder"
-              width={dragLimits.width}
-              height={dragLimits.height}
+              x={1}
+              y={1}
+              width={dragLimits.width - 2}
+              height={dragLimits.height - 2}
               stroke={color}
               listening={false}
             />
           </Group>
           <Rect
             name="leftBackground"
-            width={3 * toobarIconSize}
-            height={windowSize.height}
+            width={2.5 * toobarIconSize}
+            height={windowSize.height - toobarIconSize}
             fill={backColor}
             listening={false}
           />
           <Group name="toolbar" x={toolBarLimits.x} y={toolBarLimits.y}>
             {showLogo && <Logo />}
-            <Rect
-              name="toolbarBackground"
-              width={toolBarLimits.width}
-              height={toolBarLimits.height}
-              stroke={color}
-              fill={backColor}
-            />
+            {
+              <Rect
+                name="toolbarBackground"
+                x={1}
+                y={1}
+                width={toolBarLimits.width - 2}
+                height={toolBarLimits.height - 2}
+                stroke={color}
+                fill={backColor}
+              />
+            }
             <Toolbar takeScreenshot={takeScreenshot} showTooltips={showLogo} />
           </Group>
-          <Rect
-            name="arenaHiddenBorder"
-            width={windowSize.width}
-            height={windowSize.height}
-            stroke={backColor}
-            strokeWidth={toobarIconSize - 2}
-            listening={false}
-          />
         </Layer>
       </Stage>
       {screenshotUrl && <img src={screenshotUrl} alt="Screenshot" />}

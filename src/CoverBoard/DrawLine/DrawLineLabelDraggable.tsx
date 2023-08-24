@@ -54,9 +54,9 @@ export const DrawLineLabelDraggable = ({
     const { x, y } = getClientPosition(e);
 
     let dir: PosTypes;
-    if (y > dragLimits.y + lineParams.midY + fontSize) {
+    if (y > dragLimits.y + lineParams.midY + 1.5 * fontSize) {
       dir = PosTypes.BOTTOM;
-    } else if (y < dragLimits.y + lineParams.midY - fontSize) {
+    } else if (y < dragLimits.y + lineParams.midY - 1.5 * fontSize) {
       dir = PosTypes.TOP;
     } else if (x < dragLimits.x + lineParams.midX) {
       dir = PosTypes.LEFT;

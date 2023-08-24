@@ -1,9 +1,9 @@
-import React, { useMemo, useState } from 'react';
+import React, { useMemo } from 'react';
 import { Group } from 'react-konva';
 
 import { LineParams, Lines, PosTypes } from 'types';
-import { DrawLineArrow, DrawLineCircle, DrawLineLabel } from '.';
-import { useMainStore, useUtilsStore } from 'store';
+import { DrawLineArrow, DrawLineLabel } from '.';
+import { useMainStore } from 'store';
 
 interface LineProps {
   id: Lines['id'];
