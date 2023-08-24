@@ -17,7 +17,6 @@ export const TitleLabel: React.FC = () => {
   const toobarIconSize = useMainStore((state) => state.toobarIconSize());
   const dragLimits = useMainStore((state) => state.dragLimits(), shallow);
 
-  console.log('rerender title');
   const [open, setOpen] = useState(false);
 
   const handleReset = () => {

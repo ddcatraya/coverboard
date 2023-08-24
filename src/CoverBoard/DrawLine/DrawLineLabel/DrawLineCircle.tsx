@@ -13,7 +13,6 @@ interface LineProps {
 export const DrawLineCircle: React.FC<LineProps> = ({ handleOpen, id }) => {
   const circleRadius = useMainStore((state) => state.circleRadius());
   const color = useMainStore((state) => state.getColor());
-  const backColor = useMainStore((state) => state.getBackColor());
   const erase = useUtilsStore((state) => state.erase);
 
   return (
@@ -22,25 +21,6 @@ export const DrawLineCircle: React.FC<LineProps> = ({ handleOpen, id }) => {
       height={circleRadius * 2}
       onClick={() => handleOpen(id)}
       onTap={() => handleOpen(id)}>
-      <Circle
-        radius={circleRadius * 2}
-        fill={backColor}
-        onMouseMove={(evt: KonvaEventObject<MouseEvent>) => {
-          const container = evt.target.getStage()?.container();
-          if (container && !erase) {
-            container.style.cursor = 'pointer';
-          } else if (container && erase) {
-            container.style.cursor = 'not-allowed';
-          }
-        }}
-        onMouseLeave={(evt: KonvaEventObject<MouseEvent>) => {
-          const container = evt.target.getStage()?.container();
-
-          if (container) {
-            container.style.cursor = 'default';
-          }
-        }}
-      />
       <Circle
         radius={circleRadius}
         fill={color}
