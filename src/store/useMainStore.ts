@@ -86,7 +86,11 @@ export const useMainStore = createWithEqualityFn<MainStoreUnion>()(
       );
     };
 
-    const storageSet = (value: any) => {
+    const storageSet = (
+      value:
+        | Partial<MainStoreUnion>
+        | ((value: MainStoreUnion) => Partial<MainStoreUnion>),
+    ) => {
       saveLastAction();
       const save = set(value);
       saveLocalStorage();

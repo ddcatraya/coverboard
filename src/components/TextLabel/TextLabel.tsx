@@ -4,7 +4,8 @@ import { TextLabelPopover } from '.';
 import { KonvaEventObject } from 'konva/lib/Node';
 import { buildTitle } from 'types';
 import { useMainStore } from 'store';
-import { useEffect, useRef, useState } from 'react';
+import { RefObject, useEffect, useRef, useState } from 'react';
+import Konva from 'konva';
 
 interface TitleTexProps {
   label: string;
@@ -42,7 +43,7 @@ export const TextLabel: React.FC<TitleTexProps> = ({
   const color = useMainStore((state) => state.getColor());
   const backColor = useMainStore((state) => state.getBackColor());
   const saveId = useMainStore((state) => state.saveId);
-  const textRef = useRef<any>(null);
+  const textRef: RefObject<Konva.Text> = useRef(null);
   const [textWidth, setTextWidth] = useState(0);
 
   const handleSubmit = (text: string) => {

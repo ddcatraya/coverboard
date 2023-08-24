@@ -20,7 +20,7 @@ export interface ToolConfig {
   color: string;
   emoji: string;
   value: boolean;
-  valueModifier: (arg: any) => void;
+  valueModifier: (arg: boolean) => void;
   badge: number | null;
   enabled: boolean;
 }

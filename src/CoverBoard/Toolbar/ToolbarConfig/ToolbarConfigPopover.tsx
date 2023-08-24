@@ -49,16 +49,33 @@ export const ToolbarConfigPopover: React.FC<ToolbarConfigPopoverProps> = ({
   setHash(ToolConfigIDs.CONFIG);
 
   const handleNumberChange = (
-    event: any,
+    _: Event,
+    value: number | number[],
     updatedParam: ToolbarConfigValues,
   ) => {
-    const obj = { ...param, [updatedParam]: Number(event.target.value * 100) };
+    if (Array.isArray(value)) return;
+    const obj = { ...param, [updatedParam]: Number(value * 100) };
     setParams(obj);
     onSubmit(obj, updatedParam);
   };
 
-  const handleChange = (event: any, updatedParam: ToolbarConfigValues) => {
+  const handleChange = (
+    event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>,
+    updatedParam: ToolbarConfigValues,
+  ) => {
     const obj = { ...param, [updatedParam]: event.target.value };
+    setParams(obj);
+    onSubmit(obj, updatedParam);
+  };
+
+  const handleButtonChange = (
+    event: React.MouseEvent<HTMLButtonElement>,
+    updatedParam: ToolbarConfigValues,
+  ) => {
+    const obj = {
+      ...param,
+      [updatedParam]: (event.target as HTMLButtonElement).value,
+    };
     setParams(obj);
     onSubmit(obj, updatedParam);
   };
@@ -70,7 +87,7 @@ export const ToolbarConfigPopover: React.FC<ToolbarConfigPopoverProps> = ({
   };
 
   const handleSwitchChange = (
-    event: any,
+    event: React.ChangeEvent<HTMLInputElement>,
     updatedParam: ToolbarConfigValues,
   ) => {
     const obj = { ...param, [updatedParam]: event.target.checked };
@@ -100,8 +117,8 @@ export const ToolbarConfigPopover: React.FC<ToolbarConfigPopoverProps> = ({
               valueLabelDisplay="on"
               defaultValue={param[ToolbarConfigValues.SIZE] / 100}
               value={param[ToolbarConfigValues.SIZE] / 100}
-              onChange={(evt) =>
-                handleNumberChange(evt, ToolbarConfigValues.SIZE)
+              onChange={(evt, value) =>
+                handleNumberChange(evt, value, ToolbarConfigValues.SIZE)
               }
             />
           </Grid>
@@ -112,7 +129,9 @@ export const ToolbarConfigPopover: React.FC<ToolbarConfigPopoverProps> = ({
                 title={color}
                 key={color}
                 value={color}
-                onClick={(evt) => handleChange(evt, ToolbarConfigValues.COLOR)}
+                onClick={(evt) =>
+                  handleButtonChange(evt, ToolbarConfigValues.COLOR)
+                }
                 style={{
                   backgroundColor: colorMap[color],
                   height: '30px',
@@ -134,7 +153,7 @@ export const ToolbarConfigPopover: React.FC<ToolbarConfigPopoverProps> = ({
                 key={color}
                 value={color}
                 onClick={(evt) =>
-                  handleChange(evt, ToolbarConfigValues.BACK_COLOR)
+                  handleButtonChange(evt, ToolbarConfigValues.BACK_COLOR)
                 }
                 style={{
                   backgroundColor: backColorMap[color],

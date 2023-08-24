@@ -1,4 +1,4 @@
-import React, { useCallback, useRef, useState } from 'react';
+import React, { RefObject, useCallback, useRef, useState } from 'react';
 import { Stage, Layer, Group, Rect, Text } from 'react-konva';
 
 import {
@@ -13,6 +13,7 @@ import { flushSync } from 'react-dom';
 import { formatDate } from 'utils';
 import { useMainStore } from 'store';
 import { shallow } from 'zustand/shallow';
+import Konva from 'konva';
 
 const AlbumCovers: React.FC = () => {
   const covers = useMainStore((state) => state.covers);
@@ -102,7 +103,7 @@ export const CoverBoard: React.FC = () => {
   const windowSize = useMainStore((state) => state.windowSize);
   const dragLimits = useMainStore((state) => state.dragLimits(), shallow);
 
-  const stageRef = useRef<any>(null);
+  const stageRef: RefObject<Konva.Stage> = useRef(null);
   const [screenshotUrl, setScreenshotUrl] = useState('');
   const [showLogo, setShowLogo] = useState(true);
 

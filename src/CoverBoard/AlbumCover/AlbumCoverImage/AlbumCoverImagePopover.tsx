@@ -22,7 +22,7 @@ export const AlbumCoverImagePopover: React.FC<PopupProps> = ({
   const [text, setText] = useState<AlbumCoverValues>(values);
 
   const handTextChange = (
-    event: React.ChangeEvent<HTMLInputElement>,
+    event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>,
     label: LabelType,
   ) => {
     setText((currentText) => ({
@@ -46,7 +46,7 @@ export const AlbumCoverImagePopover: React.FC<PopupProps> = ({
               label="Artist or Description"
               fullWidth
               value={text[LabelType.ARTIST]}
-              onChange={(evt: any) => handTextChange(evt, LabelType.ARTIST)}
+              onChange={(evt) => handTextChange(evt, LabelType.ARTIST)}
               style={{ marginBottom: '20px' }}
             />
           </Grid>
@@ -55,7 +55,7 @@ export const AlbumCoverImagePopover: React.FC<PopupProps> = ({
               label="Album"
               fullWidth
               value={text[LabelType.ALBUM]}
-              onChange={(evt: any) => handTextChange(evt, LabelType.ALBUM)}
+              onChange={(evt) => handTextChange(evt, LabelType.ALBUM)}
               style={{ marginBottom: '20px' }}
             />
           </Grid>
