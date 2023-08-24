@@ -8,17 +8,12 @@ import { useMainStore, useUtilsStore } from 'store';
 
 interface LineProps {
   id: Lines['id'];
-  text: Lines['text'];
   dir: Lines['dir'];
   lineParams: LineParams;
 }
 
-export const DrawLineLabel: React.FC<LineProps> = ({
-  id,
-  text,
-  dir,
-  lineParams,
-}) => {
+export const DrawLineLabel: React.FC<LineProps> = ({ id, dir, lineParams }) => {
+  const text = useMainStore((state) => state.getLineTextById(id));
   const coverSize = useMainStore((state) => state.configs.size);
   const fontSize = useMainStore((state) => state.fontSize());
 

@@ -17,7 +17,6 @@ interface CoverImageProps {
   x: Covers['x'];
   y: Covers['y'];
   link: Covers['link'];
-  dir: Covers['dir'];
 }
 
 const AlbumCoverMemo: React.FC<CoverImageProps> = ({
@@ -27,7 +26,6 @@ const AlbumCoverMemo: React.FC<CoverImageProps> = ({
   x,
   y,
   link,
-  dir,
 }) => {
   const showArtist = useMainStore((state) => state.configs.showArtist);
   const showAlbum = useMainStore((state) => state.configs.showAlbum);
@@ -64,7 +62,6 @@ const AlbumCoverMemo: React.FC<CoverImageProps> = ({
         id={id}
         x={x}
         y={y}
-        dir={dir}
         offset={offSet}
         offSetTop={offSetTop}>
         {showArtist && artist && (
@@ -72,7 +69,6 @@ const AlbumCoverMemo: React.FC<CoverImageProps> = ({
             coverLabel={LabelType.ARTIST}
             text={artist}
             id={id}
-            dir={dir}
           />
         )}
         {showAlbum && album && (
@@ -80,7 +76,6 @@ const AlbumCoverMemo: React.FC<CoverImageProps> = ({
             coverLabel={LabelType.ALBUM}
             text={album}
             id={id}
-            dir={dir}
             offset={offSet}
           />
         )}

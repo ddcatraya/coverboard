@@ -22,6 +22,7 @@ export interface UseCoverParams {
   addCovers: (filteredAlbums: Array<Covers>) => void;
   updateCoverPosition: (coverId: string, { x, y }: Vector2d) => void;
   updateAllCoverPosition: (arrayPos: Array<Vector2d>) => void;
+  getDirById: (id: string) => Covers['dir'];
 }
 
 export const createCoversSlice: StateCreator<
@@ -29,8 +30,10 @@ export const createCoversSlice: StateCreator<
   [],
   [],
   UseCoverParams
-> = (set) => ({
+> = (set, get) => ({
   covers: [],
+  getDirById: (id: string) =>
+    get().covers.find((star) => star.id === id)?.dir ?? PosTypes.BOTTOM,
   updateAllCoversDir(dir) {
     set(({ covers }) => ({
       covers: covers.map((star) => ({

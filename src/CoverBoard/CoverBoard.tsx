@@ -26,7 +26,6 @@ const AlbumCovers: React.FC = () => {
           x={star.x}
           y={star.y}
           link={star.link}
-          dir={star.dir}
           key={star.id}
         />
       ))}
@@ -42,7 +41,6 @@ const DrawLines: React.FC = () => {
       {lines.map((line) => (
         <DrawLine
           id={line.id}
-          text={line.text}
           dir={line.dir}
           originId={line.origin.id}
           originDir={line.origin.dir}

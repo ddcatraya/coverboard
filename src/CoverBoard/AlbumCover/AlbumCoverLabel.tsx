@@ -7,7 +7,6 @@ import { useMainStore, useUtilsStore } from 'store';
 
 interface AlbumCoverLabelProps {
   id: Covers['id'];
-  dir: Covers['dir'];
   coverLabel: LabelType;
   text: string;
   offset?: number;
@@ -15,11 +14,11 @@ interface AlbumCoverLabelProps {
 
 export const AlbumCoverLabel: React.FC<AlbumCoverLabelProps> = ({
   id,
-  dir,
   coverLabel,
   text,
   offset = 0,
 }) => {
+  const dir = useMainStore((state) => state.getDirById(id));
   const updateCoverLabel = useMainStore((state) => state.updateCoverLabel);
   const resetCoverLabel = useMainStore((state) => state.resetCoverLabel);
   const erase = useUtilsStore((state) => state.erase);

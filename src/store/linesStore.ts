@@ -11,6 +11,7 @@ export interface UseLinesParams {
   resetAllLines: () => void;
   createLine: (id: string, points: Point, pos: PosTypes) => void;
   removeLinesWithCover: (coverId: string) => void;
+  getLineTextById: (id: string) => Lines['text'];
 }
 
 export const createLinesSlice: StateCreator<
@@ -18,8 +19,10 @@ export const createLinesSlice: StateCreator<
   [],
   [],
   UseLinesParams
-> = (set) => ({
+> = (set, get) => ({
   lines: [],
+  getLineTextById: (id: string) =>
+    get().lines.find((line) => line.id === id)?.text ?? '',
   createLine(id, points, dir) {
     set(({ lines }) => {
       const lineCopy = [...lines];

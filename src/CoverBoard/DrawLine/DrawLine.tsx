@@ -7,7 +7,6 @@ import { useMainStore } from 'store';
 
 interface LineProps {
   id: Lines['id'];
-  text: Lines['text'];
   dir: Lines['dir'];
   originId: Lines['origin']['id'];
   originDir: Lines['origin']['dir'];
@@ -41,7 +40,6 @@ const convertPosToXY = (coverSize: number, pos: PosTypes) => {
 
 export const DrawLineMemo: React.FC<LineProps> = ({
   id,
-  text,
   dir,
   originId,
   originDir,
@@ -84,7 +82,7 @@ export const DrawLineMemo: React.FC<LineProps> = ({
   return (
     <Group>
       <Group x={lineParams.midX} y={lineParams.midY}>
-        <DrawLineLabel id={id} text={text} dir={dir} lineParams={lineParams} />
+        <DrawLineLabel id={id} dir={dir} lineParams={lineParams} />
       </Group>
       <DrawLineArrow lineParams={lineParams} />
     </Group>

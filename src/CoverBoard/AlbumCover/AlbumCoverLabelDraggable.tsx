@@ -11,7 +11,6 @@ interface DraggableGroupProps {
   id: Covers['id'];
   x: Covers['x'];
   y: Covers['y'];
-  dir: Covers['dir'];
   offset: number;
   offSetTop: number;
 }
@@ -20,11 +19,11 @@ export const AlbumCoverLabelDraggable = ({
   id,
   x,
   y,
-  dir,
   children,
   offset,
   offSetTop,
 }: DraggableGroupProps) => {
+  const dir = useMainStore((state) => state.getDirById(id));
   const updateCoverDir = useMainStore((state) => state.updateCoverDir);
   const erase = useUtilsStore((state) => state.erase);
   const dragLimits = useMainStore((state) => state.dragLimits());
