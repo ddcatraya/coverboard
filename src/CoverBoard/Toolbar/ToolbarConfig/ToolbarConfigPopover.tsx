@@ -16,8 +16,6 @@ import {
   BackColors,
   colorMap,
   Colors,
-  Covers,
-  LabelType,
   PosTypes,
   ToolbarConfigParams,
   ToolbarConfigValues,
@@ -25,6 +23,7 @@ import {
 } from 'types';
 import { setHash } from 'utils';
 import { CommonDialog } from 'components';
+import { useMainStore } from 'store';
 interface ToolbarConfigPopoverProps {
   open: boolean;
   onClose: () => void;
@@ -32,20 +31,20 @@ interface ToolbarConfigPopoverProps {
     config: ToolbarConfigParams,
     updatedParam?: ToolbarConfigValues,
   ) => void;
-  config: ToolbarConfigParams;
   handleResetElements: () => void;
-  offLimitCovers: Array<Covers>;
 }
 
 export const ToolbarConfigPopover: React.FC<ToolbarConfigPopoverProps> = ({
   open,
   onClose,
   onSubmit,
-  config,
   handleResetElements,
-  offLimitCovers,
 }) => {
-  const [param, setParams] = useState(config);
+  const offLimitCovers = useMainStore((state) => state.offLimitCovers());
+  const configs = useMainStore((state) => state.configs);
+  const [param, setParams] = useState(configs);
+  const titleLabel = useMainStore((state) => state.titleLabel);
+  const subTitleLabel = useMainStore((state) => state.subTitleLabel);
 
   setHash(ToolConfigIDs.CONFIG);
 
@@ -190,7 +189,7 @@ export const ToolbarConfigPopover: React.FC<ToolbarConfigPopoverProps> = ({
                   }
                 />
               }
-              label={`Show ${[LabelType.TITLE]} name`}
+              label={`Show ${titleLabel} name`}
             />
             <FormControlLabel
               control={
@@ -201,7 +200,7 @@ export const ToolbarConfigPopover: React.FC<ToolbarConfigPopoverProps> = ({
                   }
                 />
               }
-              label={`Show ${[LabelType.SUBTITLE]} name`}
+              label={`Show ${subTitleLabel} name`}
             />
           </Grid>
           <Grid item xs={12}>

@@ -10,7 +10,7 @@ import {
 } from '@mui/material';
 import { Close as CloseIcon } from '@mui/icons-material';
 
-import { LocalStorageData, ToolConfigIDs, DEFAULT_KEY } from 'types';
+import { ToolConfigIDs, DEFAULT_KEY } from 'types';
 import { NavigateFunction } from 'react-router-dom';
 import {
   addPrefix,
@@ -21,28 +21,27 @@ import {
   setHash,
 } from 'utils';
 import { CommonDialog } from 'components';
+import { useMainStore } from 'store';
 
 interface SaveProps {
   open: boolean;
   onClose: () => void;
-  instance: LocalStorageData;
   handleImport: (data: string) => void;
   handleCopy: (success: boolean) => void;
   navigate: NavigateFunction;
-  saveId: string;
   handleDeleteElements: () => void;
 }
 
 export const ToolbarSharePopover: React.FC<SaveProps> = ({
   open,
-  instance,
   onClose,
   handleImport,
   handleCopy,
   navigate,
-  saveId,
   handleDeleteElements,
 }) => {
+  const instance = useMainStore((state) => state.getStoreValues());
+  const saveId = useMainStore((state) => state.saveId);
   const [jsonData, setJsonData] = useState(JSON.stringify(instance, null, 4));
   const [storage, setStorage] = useState(window.localStorage);
   const [newSave, setNewSave] = useState('');

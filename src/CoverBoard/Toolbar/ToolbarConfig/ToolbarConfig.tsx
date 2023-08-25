@@ -11,10 +11,8 @@ export const ToolbarConfig: React.FC = () => {
     (state) => [state.openConfig, state.setOpenConfig],
     shallow,
   );
-  const configs = useMainStore((state) => state.configs);
   const coverSize = useMainStore((state) => state.configs.size);
   const covers = useMainStore((state) => state.covers);
-  const offLimitCovers = useMainStore((state) => state.offLimitCovers());
   const dragLimits = useMainStore((state) => state.dragLimits(), shallow);
   const updateConfigs = useMainStore((state) => state.updateConfigs);
   const updateAllCoverPosition = useMainStore(
@@ -60,8 +58,6 @@ export const ToolbarConfig: React.FC = () => {
         open={openConfig}
         onClose={() => setOpenConfig(false)}
         onSubmit={handleUpdateCover}
-        config={configs}
-        offLimitCovers={offLimitCovers}
         handleResetElements={handleResetElements}
       />
     </Html>

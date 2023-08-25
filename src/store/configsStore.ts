@@ -46,6 +46,8 @@ export interface UseConfigsParams {
     width: number;
     height: number;
   };
+  titleLabel: string;
+  subTitleLabel: string;
 }
 
 export const createConfigsSlice: StateCreator<
@@ -56,6 +58,8 @@ export const createConfigsSlice: StateCreator<
 > = (set, get) => ({
   configs: initialConfigValues(),
   media: Media.MUSIC,
+  titleLabel: 'artist',
+  subTitleLabel: 'album',
   getColor: () => colorMap[get().configs.color],
   getBackColor: () => backColorMap[get().configs.backColor],
   windowSize: {

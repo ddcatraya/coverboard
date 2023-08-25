@@ -5,6 +5,7 @@ import { LabelType, ToolConfigIDs, CoverValues } from 'types';
 import { clearHash, setHash } from 'utils';
 import { CommonDialog } from 'components';
 import { flushSync } from 'react-dom';
+import { useMainStore } from 'store';
 
 interface PopupProps {
   open: boolean;
@@ -27,6 +28,8 @@ export const ToolbarSearchPopover: React.FC<PopupProps> = ({
 }) => {
   const [inputs, setInputs] = useState<Array<CoverValues>>(initialState());
   const [loading, setLoading] = useState(false);
+  const titleLabel = useMainStore((state) => state.titleLabel);
+  const subTitleLabel = useMainStore((state) => state.subTitleLabel);
 
   setHash(ToolConfigIDs.SEARCH);
 
@@ -89,7 +92,7 @@ export const ToolbarSearchPopover: React.FC<PopupProps> = ({
             <Grid item sm={6} xs={12}>
               <TextField
                 fullWidth
-                label={[LabelType.TITLE]}
+                label={titleLabel}
                 value={input[LabelType.TITLE]}
                 onChange={(e) =>
                   handleInputChange(index, LabelType.TITLE, e.target.value)
@@ -99,7 +102,7 @@ export const ToolbarSearchPopover: React.FC<PopupProps> = ({
             <Grid item sm={6} xs={12}>
               <TextField
                 fullWidth
-                label={[LabelType.SUBTITLE]}
+                label={subTitleLabel}
                 value={input[LabelType.SUBTITLE]}
                 onChange={(e) =>
                   handleInputChange(index, LabelType.SUBTITLE, e.target.value)

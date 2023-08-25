@@ -6,8 +6,8 @@ interface CoverImageParamsText {
 }
 
 export enum LabelType {
-  TITLE = 'artist',
-  SUBTITLE = 'album',
+  TITLE = 'title',
+  SUBTITLE = 'subtitle',
 }
 
 export interface CoverValues {

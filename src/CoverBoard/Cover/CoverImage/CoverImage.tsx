@@ -112,7 +112,7 @@ export const CoverImage: React.FC<CoverImageProps> = ({
             }}
             values={{
               [LabelType.TITLE]: title,
-              [LabelType.SUBTITLE]: title,
+              [LabelType.SUBTITLE]: subtitle,
             }}
           />
         </Html>
