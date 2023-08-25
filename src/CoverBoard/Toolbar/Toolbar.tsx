@@ -64,12 +64,12 @@ export const ToolbarMemo: React.FC<ToolbarProps> = ({
 
   const coversLength = useMainStore((state) => state.covers.length);
   const linesLength = useMainStore((state) => state.lines.length);
-  const coverSize = useMainStore((state) => state.coverSize());
+  const coverSizeWidth = useMainStore((state) => state.coverSizeWidth());
 
   const savesNumber = Object.keys(window.localStorage).filter((key) =>
     haxPrefix(key),
   ).length;
-  const configSize = coverSize / 100;
+  const configSize = coverSizeWidth / 100;
 
   const configTools: Array<ToolConfig> = [
     {

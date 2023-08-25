@@ -30,7 +30,8 @@ export const CoverImage: React.FC<CoverImageProps> = ({
   const editLines = useUtilsStore((state) => state.editLines);
   const erase = useUtilsStore((state) => state.erase);
 
-  const coverSize = useMainStore((state) => state.coverSize());
+  const coverSizeWidth = useMainStore((state) => state.coverSizeWidth());
+  const coverSizeHeight = useMainStore((state) => state.coverSizeHeight());
   const fontSize = useMainStore((state) => state.fontSize());
 
   const [image, status] = useImage(link, 'anonymous');
@@ -58,8 +59,8 @@ export const CoverImage: React.FC<CoverImageProps> = ({
       {status === 'loaded' && image ? (
         <Image
           image={image}
-          width={coverSize}
-          height={coverSize}
+          width={coverSizeWidth}
+          height={coverSizeHeight}
           onClick={!editLines ? () => handleEraseImage(id) : undefined}
           onDblTap={!editLines ? () => handleEraseImage(id) : undefined}
           onMouseMove={(evt: KonvaEventObject<MouseEvent>) => {
@@ -74,8 +75,8 @@ export const CoverImage: React.FC<CoverImageProps> = ({
       ) : (
         <>
           <Rect
-            width={coverSize}
-            height={coverSize}
+            width={coverSizeWidth}
+            height={coverSizeHeight}
             fill={backColor}
             stroke={color}
             onClick={!editLines ? () => handleEraseImage(id) : undefined}
@@ -92,8 +93,8 @@ export const CoverImage: React.FC<CoverImageProps> = ({
           <Text
             fontSize={fontSize * 1.2}
             x={0}
-            y={coverSize / 2 - (fontSize * 1.2) / 2}
-            width={coverSize}
+            y={coverSizeHeight / 2 - (fontSize * 1.2) / 2}
+            width={coverSizeWidth}
             align="center"
             fill={color}
             text={status === 'failed' ? 'Error' : 'Loading...'}

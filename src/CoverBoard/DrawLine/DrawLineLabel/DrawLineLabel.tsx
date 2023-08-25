@@ -14,7 +14,7 @@ interface LineProps {
 
 export const DrawLineLabel: React.FC<LineProps> = ({ id, dir, lineParams }) => {
   const text = useMainStore((state) => state.getLineTextById(id));
-  const coverSize = useMainStore((state) => state.coverSize());
+  const coverSizeWidth = useMainStore((state) => state.coverSizeWidth());
   const fontSize = useMainStore((state) => state.fontSize());
 
   const resetLine = useMainStore((state) => state.resetLine);
@@ -71,9 +71,9 @@ export const DrawLineLabel: React.FC<LineProps> = ({ id, dir, lineParams }) => {
           onReset={handleReset}
           setLabel={handleUpdateLabel}
           pos={{
-            x: -coverSize,
+            x: -coverSizeWidth,
             y: fontSize * 1.5,
-            width: coverSize * 2,
+            width: coverSizeWidth * 2,
             align: getAlign(dir),
           }}
         />

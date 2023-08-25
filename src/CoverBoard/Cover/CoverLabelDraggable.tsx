@@ -29,7 +29,8 @@ export const CoverLabelDraggable = ({
   const erase = useUtilsStore((state) => state.erase);
   const dragLimits = useMainStore((state) => state.dragLimits(), shallow);
   const fontSize = useMainStore((state) => state.fontSize());
-  const coverSize = useMainStore((state) => state.coverSize());
+  const coverSizeWidth = useMainStore((state) => state.coverSizeWidth());
+  const coverSizeHeight = useMainStore((state) => state.coverSizeHeight());
   const [randId, setId] = useState(uuidv4());
 
   const handleDragStart = (e: KonvaEventObject<DragEvent>) => {
@@ -58,7 +59,7 @@ export const CoverLabelDraggable = ({
     const { x: xAbs, y: yAbs } = getClientPosition(e);
 
     let newDir: PosTypes;
-    if (yAbs > dragLimits.y + y + coverSize) {
+    if (yAbs > dragLimits.y + y + coverSizeHeight) {
       newDir = PosTypes.BOTTOM;
     } else if (yAbs < y + dragLimits.y) {
       newDir = PosTypes.TOP;
@@ -81,20 +82,20 @@ export const CoverLabelDraggable = ({
     } else if (dir === PosTypes.TOP) {
       return {
         x: 0,
-        y: -coverSize - 2 * 2 * fontSize + offSetTop,
+        y: -coverSizeHeight - 2 * 2 * fontSize + offSetTop,
       };
     } else if (dir === PosTypes.RIGHT) {
       return {
-        x: 2 * coverSize + fontSize,
-        y: -coverSize / 2 - fontSize - offset / 2,
+        x: 2 * coverSizeWidth + fontSize,
+        y: -coverSizeHeight / 2 - fontSize - offset / 2,
       };
     } else {
       return {
-        x: -2 * coverSize - fontSize,
-        y: -coverSize / 2 - fontSize - offset / 2,
+        x: -2 * coverSizeWidth - fontSize,
+        y: -coverSizeHeight / 2 - fontSize - offset / 2,
       };
     }
-  }, [coverSize, dir, fontSize, offSetTop, offset]);
+  }, [coverSizeHeight, coverSizeWidth, dir, fontSize, offSetTop, offset]);
 
   return (
     <Group

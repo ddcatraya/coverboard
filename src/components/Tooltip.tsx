@@ -16,7 +16,7 @@ export const Tooltip: React.FC<TooltipProps> = ({
   x,
   y,
 }) => {
-  const coverSize = useMainStore((state) => state.coverSize());
+  const coverSizeWidth = useMainStore((state) => state.coverSizeWidth());
   const fontSize = useMainStore((state) => state.fontSize());
   const backColor = useMainStore((state) => state.getBackColor());
   const textRef: RefObject<Konva.Text> = useRef(null);
@@ -31,7 +31,7 @@ export const Tooltip: React.FC<TooltipProps> = ({
   return (
     <Group x={x} y={y}>
       <Rect
-        x={align === 'right' ? coverSize * 2 - textWidth : 0}
+        x={align === 'right' ? coverSizeWidth * 2 - textWidth : 0}
         width={textWidth}
         height={fontSize}
         fill={backColor}
@@ -39,7 +39,7 @@ export const Tooltip: React.FC<TooltipProps> = ({
       />
       <Text
         ref={textRef}
-        width={coverSize * 2}
+        width={coverSizeWidth * 2}
         align={align}
         text={text}
         fontSize={fontSize}

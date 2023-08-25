@@ -25,7 +25,8 @@ export const CoverLabel: React.FC<CoverLabelProps> = ({
   const editLines = useUtilsStore((state) => state.editLines);
 
   const fontSize = useMainStore((state) => state.fontSize());
-  const coverSize = useMainStore((state) => state.coverSize());
+  const coverSizeWidth = useMainStore((state) => state.coverSizeWidth());
+  const coverSizeHeight = useMainStore((state) => state.coverSizeHeight());
   const [open, setOpen] = useState(false);
 
   const handleReset = () => {
@@ -47,9 +48,9 @@ export const CoverLabel: React.FC<CoverLabelProps> = ({
         updateCoverLabel(id, coverLabel, label);
       }}
       pos={{
-        x: -coverSize,
-        y: coverSize + fontSize / 2 + offset,
-        width: coverSize * 3,
+        x: -coverSizeWidth,
+        y: coverSizeHeight + fontSize / 2 + offset,
+        width: coverSizeWidth * 3,
         align: getAlign(dir),
       }}
     />

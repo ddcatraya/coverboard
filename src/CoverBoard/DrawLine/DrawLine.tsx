@@ -14,26 +14,30 @@ interface LineProps {
   targetDir: Lines['target']['dir'];
 }
 
-const convertPosToXY = (coverSize: number, pos: PosTypes) => {
+const convertPosToXY = (
+  coverSizeWidth: number,
+  coverSizeHeight: number,
+  pos: PosTypes,
+) => {
   if (pos === PosTypes.TOP) {
     return {
-      x: coverSize / 2,
-      y: -coverSize / 16,
+      x: coverSizeWidth / 2,
+      y: -coverSizeHeight / 16,
     };
   } else if (pos === PosTypes.BOTTOM) {
     return {
-      x: coverSize / 2,
-      y: coverSize + coverSize / 16,
+      x: coverSizeWidth / 2,
+      y: coverSizeHeight + coverSizeHeight / 16,
     };
   } else if (pos === PosTypes.LEFT) {
     return {
-      x: -coverSize / 16,
-      y: coverSize / 2,
+      x: -coverSizeWidth / 16,
+      y: coverSizeHeight / 2,
     };
   } else {
     return {
-      x: coverSize + coverSize / 16,
-      y: coverSize / 2,
+      x: coverSizeWidth + coverSizeWidth / 16,
+      y: coverSizeHeight / 2,
     };
   }
 };
@@ -46,7 +50,8 @@ export const DrawLineMemo: React.FC<LineProps> = ({
   targetId,
   targetDir,
 }) => {
-  const coverSize = useMainStore((state) => state.coverSize());
+  const coverSizeWidth = useMainStore((state) => state.coverSizeWidth());
+  const coverSizeHeight = useMainStore((state) => state.coverSizeHeight());
   const originSquare = useMainStore((state) =>
     state.covers.find((cov) => cov.id === originId),
   );
@@ -56,8 +61,16 @@ export const DrawLineMemo: React.FC<LineProps> = ({
 
   const lineParams = useMemo((): LineParams | undefined => {
     if (originSquare && targetSquare) {
-      const originPos = convertPosToXY(coverSize, originDir);
-      const targetPos = convertPosToXY(coverSize, targetDir);
+      const originPos = convertPosToXY(
+        coverSizeWidth,
+        coverSizeHeight,
+        originDir,
+      );
+      const targetPos = convertPosToXY(
+        coverSizeWidth,
+        coverSizeHeight,
+        targetDir,
+      );
 
       const points = [
         originSquare.x + originPos.x,
@@ -75,7 +88,14 @@ export const DrawLineMemo: React.FC<LineProps> = ({
         points,
       };
     }
-  }, [targetDir, originSquare, targetSquare, coverSize, originDir]);
+  }, [
+    originSquare,
+    targetSquare,
+    coverSizeWidth,
+    coverSizeHeight,
+    originDir,
+    targetDir,
+  ]);
 
   if (!lineParams) return null;
 

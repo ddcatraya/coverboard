@@ -16,7 +16,8 @@ export const CoverDrawLine: React.FC<CoverDrawLineProps> = ({ id }) => {
   const editLines = useUtilsStore((state) => state.editLines);
   const createLine = useMainStore((state) => state.createLine);
 
-  const coverSize = useMainStore((state) => state.coverSize());
+  const coverSizeWidth = useMainStore((state) => state.coverSizeWidth());
+  const coverSizeHeight = useMainStore((state) => state.coverSizeHeight());
   const selection: PosTypes | null = points?.id === id ? points.dir : null;
 
   const handleDrawLine = (id: string, dir: PosTypes) => {
@@ -33,23 +34,23 @@ export const CoverDrawLine: React.FC<CoverDrawLineProps> = ({ id }) => {
   const posArray = [
     {
       dir: PosTypes.TOP,
-      x: coverSize / 2,
-      y: -coverSize / 4 - coverSize / 8,
+      x: coverSizeWidth / 2,
+      y: -coverSizeHeight / 4 - coverSizeHeight / 8,
     },
     {
       dir: PosTypes.RIGHT,
-      x: coverSize,
-      y: coverSize / 8,
+      x: coverSizeWidth,
+      y: coverSizeHeight / 8,
     },
     {
       dir: PosTypes.LEFT,
       x: 0,
-      y: coverSize / 8,
+      y: coverSizeHeight / 8,
     },
     {
       dir: PosTypes.BOTTOM,
-      x: coverSize / 2,
-      y: coverSize - coverSize / 4 - coverSize / 8,
+      x: coverSizeWidth / 2,
+      y: coverSizeHeight - coverSizeHeight / 4 - coverSizeHeight / 8,
     },
   ];
 
@@ -62,8 +63,8 @@ export const CoverDrawLine: React.FC<CoverDrawLineProps> = ({ id }) => {
           key={pos.dir}
           x={pos.x}
           y={pos.y}
-          width={coverSize / 2}
-          height={coverSize / 2}
+          width={coverSizeWidth / 2}
+          height={coverSizeHeight / 2}
           fill={selection === pos.dir ? 'red' : 'white'}
           rotation={45}
           opacity={selection === pos.dir ? 0.3 : 0.05}

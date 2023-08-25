@@ -33,7 +33,6 @@ export interface UseConfigsParams {
   updateConfigs: (newConfig: ToolbarConfigParams) => void;
   resetTitle: () => void;
   updateTitle: (title: string) => void;
-  coverSize: () => number;
   coverSizeWidth: () => number;
   coverSizeHeight: () => number;
   toobarIconSize: () => number;
@@ -60,7 +59,6 @@ export const createConfigsSlice: StateCreator<
   UseConfigsParams
 > = (set, get) => ({
   configs: initialConfigValues(),
-  coverSize: () => get().configs.size,
   coverSizeWidth: () => get().configs.size,
   coverSizeHeight: () => get().configs.size,
   media: Media.MUSIC,
