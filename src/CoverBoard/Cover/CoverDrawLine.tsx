@@ -5,13 +5,11 @@ import { Covers, PosTypes } from 'types';
 import { KonvaEventObject } from 'konva/lib/Node';
 import { useUtilsStore, useMainStore } from 'store';
 
-interface AlbumCoverDrawLineProps {
+interface CoverDrawLineProps {
   id: Covers['id'];
 }
 
-export const AlbumCoverDrawLine: React.FC<AlbumCoverDrawLineProps> = ({
-  id,
-}) => {
+export const CoverDrawLine: React.FC<CoverDrawLineProps> = ({ id }) => {
   const erase = useUtilsStore((state) => state.erase);
   const points = useUtilsStore((state) => state.points);
   const setPoints = useUtilsStore((state) => state.setPoints);

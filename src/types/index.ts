@@ -14,7 +14,7 @@ export type { Point, Lines, LineParams } from './lineTypes';
 export type { TooltipValues, ToolConfig } from './toolbarTypes';
 export { ToolConfigIDs } from './toolbarTypes';
 
-export type { AlbumCoverValues, Covers } from './coverTypes';
+export type { CoverValues, Covers } from './coverTypes';
 export { LabelType } from './coverTypes';
 
 export type { ToolbarConfigParams, ApiKey } from './configTypes';

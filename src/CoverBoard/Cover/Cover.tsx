@@ -2,11 +2,11 @@ import React from 'react';
 
 import { Covers, LabelType } from 'types';
 import {
-  AlbumCoverDrawLine,
-  AlbumCoverImage,
-  AlbumCoverLabel,
-  AlbumCoverLabelDraggable,
-  AlbumCoverDraggable,
+  CoverDrawLine,
+  CoverImage,
+  CoverLabel,
+  CoverLabelDraggable,
+  CoverDraggable,
 } from '.';
 import { useMainStore } from 'store';
 import { shallow } from 'zustand/shallow';
@@ -20,7 +20,7 @@ interface CoverImageProps {
   link: Covers['link'];
 }
 
-const AlbumCoverMemo: React.FC<CoverImageProps> = ({
+const CoverMemo: React.FC<CoverImageProps> = ({
   id,
   title,
   subtitle,
@@ -43,7 +43,7 @@ const AlbumCoverMemo: React.FC<CoverImageProps> = ({
     : 0;
 
   return (
-    <AlbumCoverDraggable
+    <CoverDraggable
       id={id}
       x={x}
       y={y}
@@ -55,29 +55,29 @@ const AlbumCoverMemo: React.FC<CoverImageProps> = ({
         x: windowSize.width - 3.5 * toobarIconSize,
         y: windowSize.height - 3.5 * toobarIconSize,
       }}>
-      <AlbumCoverDrawLine id={id} />
-      <AlbumCoverImage id={id} title={title} subtitle={subtitle} link={link} />
+      <CoverDrawLine id={id} />
+      <CoverImage id={id} title={title} subtitle={subtitle} link={link} />
 
-      <AlbumCoverLabelDraggable
+      <CoverLabelDraggable
         id={id}
         x={x}
         y={y}
         offset={offSet}
         offSetTop={offSetTop}>
         {showTitle && title && (
-          <AlbumCoverLabel coverLabel={LabelType.TITLE} text={title} id={id} />
+          <CoverLabel coverLabel={LabelType.TITLE} text={title} id={id} />
         )}
         {showSubtitle && subtitle && (
-          <AlbumCoverLabel
+          <CoverLabel
             coverLabel={LabelType.SUBTITLE}
             text={subtitle}
             id={id}
             offset={offSet}
           />
         )}
-      </AlbumCoverLabelDraggable>
-    </AlbumCoverDraggable>
+      </CoverLabelDraggable>
+    </CoverDraggable>
   );
 };
 
-export const AlbumCover = React.memo(AlbumCoverMemo);
+export const Cover = React.memo(CoverMemo);

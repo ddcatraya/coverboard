@@ -1,14 +1,7 @@
 import React, { RefObject, useCallback, useRef, useState } from 'react';
 import { Stage, Layer, Group, Rect, Text } from 'react-konva';
 
-import {
-  AlbumCover,
-  DrawLine,
-  Toolbar,
-  TitleLabel,
-  BoundaryArrow,
-  Logo,
-} from './';
+import { Cover, DrawLine, Toolbar, TitleLabel, BoundaryArrow, Logo } from './';
 import { flushSync } from 'react-dom';
 import { formatDate } from 'utils';
 import { useMainStore } from 'store';
@@ -16,13 +9,13 @@ import { shallow } from 'zustand/shallow';
 import Konva from 'konva';
 import { LabelType } from 'types';
 
-const AlbumCovers: React.FC = () => {
+const Covers: React.FC = () => {
   const covers = useMainStore((state) => state.covers);
 
   return (
     <>
       {covers.map((star) => (
-        <AlbumCover
+        <Cover
           id={star.id}
           title={star[LabelType.TITLE].text}
           subtitle={star[LabelType.SUBTITLE].text}
@@ -66,7 +59,7 @@ const BoundaryArrows: React.FC = () => {
           id={star.id}
           x={star.x}
           y={star.y}
-          album={star.album.text}
+          title={star[LabelType.SUBTITLE].text}
           key={star.id}
         />
       ))}
@@ -152,7 +145,7 @@ export const CoverBoard: React.FC = () => {
           )}
           <Group name="board" x={dragLimits.x} y={dragLimits.y}>
             <DrawLines />
-            <AlbumCovers />
+            <Covers />
             <BoundaryArrows />
             <TitleLabel />
             <CountLabel />

@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { TextField, Button, Grid } from '@mui/material';
 
-import { LabelType, ToolConfigIDs, AlbumCoverValues } from 'types';
+import { LabelType, ToolConfigIDs, CoverValues } from 'types';
 import { clearHash, setHash } from 'utils';
 import { CommonDialog } from 'components';
 import { flushSync } from 'react-dom';
@@ -9,7 +9,7 @@ import { flushSync } from 'react-dom';
 interface PopupProps {
   open: boolean;
   onClose: () => void;
-  onSubmit: (inputArray: Array<AlbumCoverValues>) => void;
+  onSubmit: (inputArray: Array<CoverValues>) => void;
 }
 
 const initialState = () => [
@@ -25,7 +25,7 @@ export const ToolbarSearchPopover: React.FC<PopupProps> = ({
   onClose,
   onSubmit,
 }) => {
-  const [inputs, setInputs] = useState<Array<AlbumCoverValues>>(initialState());
+  const [inputs, setInputs] = useState<Array<CoverValues>>(initialState());
   const [loading, setLoading] = useState(false);
 
   setHash(ToolConfigIDs.SEARCH);

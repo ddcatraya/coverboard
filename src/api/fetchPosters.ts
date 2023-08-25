@@ -1,5 +1,5 @@
 import axios from 'axios';
-import { AlbumCoverValues, ApiKey, LabelType, SearchResults } from 'types';
+import { CoverValues, ApiKey, LabelType, SearchResults } from 'types';
 
 const TMDB_URL = 'https://api.themoviedb.org/3';
 
@@ -9,7 +9,7 @@ const isFulfilled = <T>(
 
 // Function to get the poster image of a movie
 export const getMoviePosters = async (
-  movieTitles: Array<AlbumCoverValues>,
+  movieTitles: Array<CoverValues>,
   apiKey: ApiKey,
 ): Promise<Array<SearchResults>> => {
   const posters = await Promise.allSettled(

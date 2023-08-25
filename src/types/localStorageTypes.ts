@@ -116,13 +116,13 @@ export const schema = (parsedData: LocalStorageData) =>
         }),
         [LabelType.SUBTITLE]: z.object({
           search: z.string({
-            invalid_type_error: 'covers:album:search must be a string',
-            required_error: 'covers:album:search is required',
+            invalid_type_error: 'covers:search must be a string',
+            required_error: 'covers:search is required',
           }),
           text: z
             .string({
-              invalid_type_error: 'covers:album:text must be a string',
-              required_error: 'covers:album:text is required',
+              invalid_type_error: 'covers:text must be a string',
+              required_error: 'covers:text is required',
             })
             .trim(),
         }),

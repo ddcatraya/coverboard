@@ -1,13 +1,13 @@
 import axios from 'axios';
 
-import { AlbumCoverValues, ApiKey, LabelType, SearchResults } from 'types';
+import { CoverValues, ApiKey, LabelType, SearchResults } from 'types';
 
 const isFulfilled = <T>(
   p: PromiseSettledResult<T>,
 ): p is PromiseFulfilledResult<T> => p.status === 'fulfilled';
 
 export const getLastFMAlbums = async (
-  bandArray: Array<AlbumCoverValues>,
+  bandArray: Array<CoverValues>,
   apiKey: ApiKey,
 ): Promise<Array<SearchResults>> => {
   const lastFMurl = apiKey.LastFMKey

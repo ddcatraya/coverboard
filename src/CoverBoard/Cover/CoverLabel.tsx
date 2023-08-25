@@ -5,14 +5,14 @@ import { TextLabel } from 'components';
 import { getAlign } from 'utils';
 import { useMainStore, useUtilsStore } from 'store';
 
-interface AlbumCoverLabelProps {
+interface CoverLabelProps {
   id: Covers['id'];
   coverLabel: LabelType;
   text: string;
   offset?: number;
 }
 
-export const AlbumCoverLabel: React.FC<AlbumCoverLabelProps> = ({
+export const CoverLabel: React.FC<CoverLabelProps> = ({
   id,
   coverLabel,
   text,

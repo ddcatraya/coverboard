@@ -1,9 +1,9 @@
 import React, { useState } from 'react';
 import { Image, Rect, Text } from 'react-konva';
 
-import { AlbumCoverValues, Covers, LabelType } from 'types';
+import { CoverValues, Covers, LabelType } from 'types';
 import { Html, useImage } from 'react-konva-utils';
-import { AlbumCoverImagePopover } from '.';
+import { CoverImagePopover } from '.';
 import { KonvaEventObject } from 'konva/lib/Node';
 import { useMainStore, useUtilsStore } from 'store';
 
@@ -14,7 +14,7 @@ interface CoverImageProps {
   link: Covers['link'];
 }
 
-export const AlbumCoverImage: React.FC<CoverImageProps> = ({
+export const CoverImage: React.FC<CoverImageProps> = ({
   id,
   title,
   subtitle,
@@ -45,7 +45,7 @@ export const AlbumCoverImage: React.FC<CoverImageProps> = ({
     setOpen(true);
   };
 
-  const handleSubmit = (values: AlbumCoverValues) => {
+  const handleSubmit = (values: CoverValues) => {
     updateCoversText(
       id,
       values[LabelType.TITLE].trim(),
@@ -102,7 +102,7 @@ export const AlbumCoverImage: React.FC<CoverImageProps> = ({
       )}
       {open && (
         <Html>
-          <AlbumCoverImagePopover
+          <CoverImagePopover
             open={open}
             onClose={() => setOpen(false)}
             onSubmit={handleSubmit}

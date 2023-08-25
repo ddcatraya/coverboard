@@ -2,7 +2,7 @@ import { Html } from 'react-konva-utils';
 
 import { getLastFMAlbums, getMoviePosters } from 'api';
 import { ToolbarSearchPopover } from '.';
-import { AlbumCoverValues, LabelType, PosTypes } from 'types';
+import { CoverValues, LabelType, PosTypes } from 'types';
 import { v4 as uuidv4 } from 'uuid';
 import { useMainStore, useToastStore, useToolbarStore } from 'store';
 import { shallow } from 'zustand/shallow';
@@ -18,7 +18,7 @@ export const ToolbarSearch: React.FC = () => {
     shallow,
   );
 
-  const handleSearch = async (inputArray: Array<AlbumCoverValues>) => {
+  const handleSearch = async (inputArray: Array<CoverValues>) => {
     try {
       const results = (await getLastFMAlbums(inputArray, apiKey)) ?? [];
 

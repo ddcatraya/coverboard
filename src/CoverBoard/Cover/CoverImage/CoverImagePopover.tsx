@@ -1,25 +1,25 @@
 import React, { useState } from 'react';
 import { TextField, Button, Link, Grid } from '@mui/material';
-import { LabelType, AlbumCoverValues } from 'types';
+import { LabelType, CoverValues } from 'types';
 import { CommonDialog } from 'components';
 
 interface PopupProps {
   open: boolean;
   onClose: () => void;
-  onSubmit: (values: AlbumCoverValues) => void;
+  onSubmit: (values: CoverValues) => void;
   onReset: () => void;
-  values: AlbumCoverValues;
+  values: CoverValues;
   title?: string;
 }
 
-export const AlbumCoverImagePopover: React.FC<PopupProps> = ({
+export const CoverImagePopover: React.FC<PopupProps> = ({
   open,
   onClose,
   onSubmit,
   onReset,
   values,
 }) => {
-  const [text, setText] = useState<AlbumCoverValues>(values);
+  const [text, setText] = useState<CoverValues>(values);
 
   const handTextChange = (
     event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>,

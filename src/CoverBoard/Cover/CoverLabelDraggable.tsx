@@ -16,7 +16,7 @@ interface DraggableGroupProps {
   offSetTop: number;
 }
 
-export const AlbumCoverLabelDraggable = ({
+export const CoverLabelDraggable = ({
   id,
   x,
   y,

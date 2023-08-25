@@ -10,14 +10,14 @@ import { shallow } from 'zustand/shallow';
 
 interface BoundaryArrowProps {
   id: Covers['id'];
-  album: Covers['album']['text'];
+  title: string;
   x: Covers['x'];
   y: Covers['y'];
 }
 
 export const BoundaryArrowMemo: React.FC<BoundaryArrowProps> = ({
   id,
-  album,
+  title,
   x,
   y,
 }) => {
@@ -106,7 +106,7 @@ export const BoundaryArrowMemo: React.FC<BoundaryArrowProps> = ({
       />
       {tooltip && (
         <Tooltip
-          text={album}
+          text={title}
           x={points[0] - 2 * coverSize - fontSize}
           y={points[1] - fontSize}
           align="right"

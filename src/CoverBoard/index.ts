@@ -1,4 +1,4 @@
-export { AlbumCover } from './AlbumCover';
+export { Cover } from './Cover';
 export { DrawLine } from './DrawLine';
 export { Toolbar } from './Toolbar';
 export { TitleLabel } from './TitleLabel';

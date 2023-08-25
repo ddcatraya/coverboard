@@ -74,7 +74,7 @@ export const ToolbarMemo: React.FC<ToolbarProps> = ({
   const configTools: Array<ToolConfig> = [
     {
       id: ToolConfigIDs.SEARCH,
-      tooltip: `Add albums (covers: ${coversLength})`,
+      tooltip: `Add (covers: ${coversLength})`,
       color: colorMap[Colors.GREEN],
       emoji: '🔍',
       value: openSearch,

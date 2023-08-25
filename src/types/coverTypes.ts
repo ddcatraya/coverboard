@@ -10,7 +10,7 @@ export enum LabelType {
   SUBTITLE = 'album',
 }
 
-export interface AlbumCoverValues {
+export interface CoverValues {
   [LabelType.TITLE]: string;
   [LabelType.SUBTITLE]: string;
 }
