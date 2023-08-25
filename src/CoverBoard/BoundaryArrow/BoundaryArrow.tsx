@@ -1,3 +1,4 @@
+import { Tooltip } from 'components';
 import { KonvaEventObject } from 'konva/lib/Node';
 import { Vector2d } from 'konva/lib/types';
 import React from 'react';
@@ -6,7 +7,6 @@ import { Arrow, Group } from 'react-konva';
 import { useMainStore, useUtilsStore } from 'store';
 import { Covers } from 'types';
 import { shallow } from 'zustand/shallow';
-import { BoundaryArrowTooltip } from '.';
 
 interface BoundaryArrowProps {
   id: Covers['id'];
@@ -78,6 +78,8 @@ export const BoundaryArrowMemo: React.FC<BoundaryArrowProps> = ({
     updateCoverPosition(id, newPos);
   };
 
+  console.log('rerender');
+
   return (
     <Group>
       <Arrow
@@ -102,7 +104,14 @@ export const BoundaryArrowMemo: React.FC<BoundaryArrowProps> = ({
           }
         }}
       />
-      {tooltip && <BoundaryArrowTooltip album={album} points={points} />}
+      {tooltip && (
+        <Tooltip
+          text={album}
+          x={points[0] - 2 * coverSize - fontSize}
+          y={points[1] - fontSize}
+          align="right"
+        />
+      )}
     </Group>
   );
 };

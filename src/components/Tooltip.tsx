@@ -2,16 +2,19 @@ import Konva from 'konva';
 import { RefObject, useRef, useState, useEffect } from 'react';
 import { Group, Rect, Text } from 'react-konva';
 import { useMainStore } from 'store';
-import { Covers } from 'types';
 
-interface BoundaryArrowTooltipProps {
-  album: Covers['album']['text'];
-  points: [number, number, number, number];
+interface TooltipProps {
+  text: string;
+  align?: 'left' | 'right';
+  x: number;
+  y: number;
 }
 
-export const BoundaryArrowTooltip: React.FC<BoundaryArrowTooltipProps> = ({
-  album,
-  points,
+export const Tooltip: React.FC<TooltipProps> = ({
+  text,
+  align = 'left',
+  x,
+  y,
 }) => {
   const coverSize = useMainStore((state) => state.configs.size);
   const fontSize = useMainStore((state) => state.fontSize());
@@ -23,12 +26,12 @@ export const BoundaryArrowTooltip: React.FC<BoundaryArrowTooltipProps> = ({
     if (textRef.current) {
       setTextWidth(textRef.current.getTextWidth());
     }
-  }, [textRef, album]);
+  }, [textRef, text]);
 
   return (
-    <Group x={points[0] - 2 * coverSize - fontSize} y={points[1] - fontSize}>
+    <Group x={x} y={y}>
       <Rect
-        x={coverSize * 2 - textWidth}
+        x={align === 'right' ? coverSize * 2 - textWidth : 0}
         width={textWidth}
         height={fontSize}
         fill={backColor}
@@ -37,8 +40,8 @@ export const BoundaryArrowTooltip: React.FC<BoundaryArrowTooltipProps> = ({
       <Text
         ref={textRef}
         width={coverSize * 2}
-        align="right"
-        text={album}
+        align={align}
+        text={text}
         fontSize={fontSize}
         fill="white"
         listening={false}
