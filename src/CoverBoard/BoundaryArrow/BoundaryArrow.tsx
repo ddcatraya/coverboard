@@ -2,10 +2,11 @@ import { KonvaEventObject } from 'konva/lib/Node';
 import { Vector2d } from 'konva/lib/types';
 import React from 'react';
 import { useMemo, useState } from 'react';
-import { Arrow, Group, Rect, Text } from 'react-konva';
+import { Arrow, Group } from 'react-konva';
 import { useMainStore, useUtilsStore } from 'store';
 import { Covers } from 'types';
 import { shallow } from 'zustand/shallow';
+import { BoundaryArrowTooltip } from '.';
 
 interface BoundaryArrowProps {
   id: Covers['id'];
@@ -21,7 +22,6 @@ export const BoundaryArrowMemo: React.FC<BoundaryArrowProps> = ({
   y,
 }) => {
   const color = useMainStore((state) => state.getColor());
-  const backColor = useMainStore((state) => state.getBackColor());
 
   const updateCoverPosition = useMainStore(
     (state) => state.updateCoverPosition,
@@ -36,7 +36,7 @@ export const BoundaryArrowMemo: React.FC<BoundaryArrowProps> = ({
 
   const [tooltip, setTooltip] = useState(false);
 
-  const points = useMemo(() => {
+  const points: [number, number, number, number] = useMemo(() => {
     if (x > dragLimits.width - coverSize && y > dragLimits.height - coverSize) {
       return [
         dragLimits.width - 1.8 * fontSize,
@@ -102,26 +102,7 @@ export const BoundaryArrowMemo: React.FC<BoundaryArrowProps> = ({
           }
         }}
       />
-      {tooltip && (
-        <Group
-          x={points[0] - 2 * coverSize - fontSize}
-          y={points[1] - fontSize}>
-          <Rect
-            width={coverSize * 2}
-            height={fontSize}
-            fill={backColor}
-            listening={false}
-          />
-          <Text
-            width={coverSize * 2}
-            align="right"
-            text={album}
-            fontSize={fontSize}
-            fill="white"
-            listening={false}
-          />
-        </Group>
-      )}
+      {tooltip && <BoundaryArrowTooltip album={album} points={points} />}
     </Group>
   );
 };
