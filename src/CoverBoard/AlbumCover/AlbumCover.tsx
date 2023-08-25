@@ -28,17 +28,17 @@ const AlbumCoverMemo: React.FC<CoverImageProps> = ({
   y,
   link,
 }) => {
-  const showArtist = useMainStore((state) => state.configs.showArtist);
-  const showAlbum = useMainStore((state) => state.configs.showAlbum);
+  const showTitle = useMainStore((state) => state.configs.showTitle);
+  const showSubtitle = useMainStore((state) => state.configs.showSubtitle);
   const dragLimits = useMainStore((state) => state.dragLimits(), shallow);
   const fontSize = useMainStore((state) => state.fontSize());
   const toobarIconSize = useMainStore((state) => state.toobarIconSize());
   const windowSize = useMainStore((state) => state.windowSize);
 
   const offSet =
-    showArtist && title && showAlbum && subtitle ? 1.5 * fontSize : 0;
+    showTitle && title && showSubtitle && subtitle ? 1.5 * fontSize : 0;
 
-  const offSetTop = !(showArtist && title && showAlbum && subtitle)
+  const offSetTop = !(showTitle && title && showSubtitle && subtitle)
     ? 1.5 * fontSize
     : 0;
 
@@ -64,10 +64,10 @@ const AlbumCoverMemo: React.FC<CoverImageProps> = ({
         y={y}
         offset={offSet}
         offSetTop={offSetTop}>
-        {showArtist && title && (
+        {showTitle && title && (
           <AlbumCoverLabel coverLabel={LabelType.TITLE} text={title} id={id} />
         )}
-        {showAlbum && subtitle && (
+        {showSubtitle && subtitle && (
           <AlbumCoverLabel
             coverLabel={LabelType.SUBTITLE}
             text={subtitle}

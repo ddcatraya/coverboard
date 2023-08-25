@@ -20,44 +20,45 @@ export const ToolbarSearch: React.FC = () => {
 
   const handleSearch = async (inputArray: Array<AlbumCoverValues>) => {
     try {
-      const albums = (await getLastFMAlbums(inputArray, apiKey)) ?? [];
+      const results = (await getLastFMAlbums(inputArray, apiKey)) ?? [];
 
-      const filteredAlbums = albums.filter(
-        (filteredAlbum) =>
+      const filtereResults = results.filter(
+        (filteredResult) =>
           !covers.find(
             (star) =>
-              star[LabelType.TITLE].search === filteredAlbum[LabelType.TITLE] &&
+              star[LabelType.TITLE].search ===
+                filteredResult[LabelType.TITLE] &&
               star[LabelType.SUBTITLE].search ===
-                filteredAlbum[LabelType.SUBTITLE],
+                filteredResult[LabelType.SUBTITLE],
           ),
       );
 
-      if (filteredAlbums.length) {
+      if (filtereResults.length) {
         addCovers(
-          filteredAlbums.map((filteredAlbum) => ({
+          filtereResults.map((filteredResult) => ({
             id: uuidv4(),
-            link: filteredAlbum.link,
+            link: filteredResult.link,
             x: 0,
             y: 0,
             [LabelType.TITLE]: {
-              search: filteredAlbum[LabelType.TITLE],
-              text: filteredAlbum[LabelType.TITLE],
+              search: filteredResult[LabelType.TITLE],
+              text: filteredResult[LabelType.TITLE],
             },
             [LabelType.SUBTITLE]: {
-              search: filteredAlbum[LabelType.SUBTITLE],
-              text: filteredAlbum[LabelType.SUBTITLE],
+              search: filteredResult[LabelType.SUBTITLE],
+              text: filteredResult[LabelType.SUBTITLE],
             },
             dir: PosTypes.BOTTOM,
           })),
         );
         showSuccessMessage(
-          `${filteredAlbums.length}/${inputArray.length} album found`,
+          `${filtereResults.length}/${inputArray.length} results found`,
         );
       } else {
-        showErrorMessage('Album not found or already exists');
+        showErrorMessage('Not found results or already exists');
       }
     } catch (err) {
-      showErrorMessage('Albums not found');
+      showErrorMessage('Result not found');
     }
   };
 

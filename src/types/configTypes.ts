@@ -41,9 +41,9 @@ export enum ToolbarConfigValues {
   SIZE = 'size',
   COLOR = 'color',
   BACK_COLOR = 'backColor',
-  SHOW_MAIN_TITLE = 'showTitle',
-  SHOW_TITLE = 'showArtist',
-  SHOW_SUBTITLE = 'showAlbum',
+  SHOW_MAIN_TITLE = 'showMainTitle',
+  SHOW_TITLE = 'showTitle',
+  SHOW_SUBTITLE = 'showSubtitle',
   LABEL_DIR = 'labelDir',
 }
 

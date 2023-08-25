@@ -9,7 +9,7 @@ export const TitleLabel: React.FC = () => {
   const updateTitle = useMainStore((state) => state.updateTitle);
   const resetTitle = useMainStore((state) => state.resetTitle);
   const title = useMainStore((state) => state.configs.title);
-  const showTitle = useMainStore((state) => state.configs.showTitle);
+  const showMainTitle = useMainStore((state) => state.configs.showMainTitle);
   const saveId = useMainStore((state) => state.saveId);
   const erase = useUtilsStore((state) => state.erase);
   const editLines = useUtilsStore((state) => state.editLines);
@@ -32,13 +32,13 @@ export const TitleLabel: React.FC = () => {
       return Modes.ERASE;
     } else if (editLines) {
       return Modes.ARROW;
-    } else if (!showTitle) {
+    } else if (!showMainTitle) {
       return '';
     } else if (!title) {
       return buildTitle(saveId);
     }
     return title;
-  }, [editLines, erase, saveId, showTitle, title]);
+  }, [editLines, erase, saveId, showMainTitle, title]);
 
   return (
     <TextLabel

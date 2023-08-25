@@ -52,17 +52,17 @@ export const schema = (parsedData: LocalStorageData) =>
             };
           },
         }),
-        showArtist: z.boolean({
-          invalid_type_error: 'configs:showArtist must be a boolean',
-          required_error: 'configs:showArtist is required',
-        }),
-        showAlbum: z.boolean({
-          invalid_type_error: 'configs:showAlbum must be a boolean',
-          required_error: 'configs:showAlbum is required',
-        }),
         showTitle: z.boolean({
           invalid_type_error: 'configs:showTitle must be a boolean',
           required_error: 'configs:showTitle is required',
+        }),
+        showSubtitle: z.boolean({
+          invalid_type_error: 'configs:showSubtitle must be a boolean',
+          required_error: 'configs:showSubtitle is required',
+        }),
+        showMainTitle: z.boolean({
+          invalid_type_error: 'configs:showMainTitle must be a boolean',
+          required_error: 'configs:showMainTitle is required',
         }),
         labelDir: z.nativeEnum(PosTypes, {
           errorMap: (_, _ctx) => {

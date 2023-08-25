@@ -20,9 +20,9 @@ export const initialConfigValues = () => ({
   title: '',
   color: Colors.YELLOW,
   backColor: BackColors.DARK,
-  showArtist: true,
-  showAlbum: true,
   showTitle: true,
+  showSubtitle: true,
+  showMainTitle: true,
   labelDir: PosTypes.BOTTOM,
 });
 

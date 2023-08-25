@@ -19,7 +19,7 @@ export interface UseCoverParams {
     titleText: string,
     subTitleText: string,
   ) => void;
-  addCovers: (filteredAlbums: Array<Covers>) => void;
+  addCovers: (filteredResults: Array<Covers>) => void;
   updateCoverPosition: (coverId: string, { x, y }: Vector2d) => void;
   updateAllCoverPosition: (arrayPos: Array<Vector2d>) => void;
   getDirById: (id: string) => Covers['dir'];
@@ -132,9 +132,9 @@ export const createCoversSlice: StateCreator<
       ),
     }));
   },
-  addCovers(filteredAlbums) {
+  addCovers(filteredResults) {
     set(({ covers }) => ({
-      covers: [...covers, ...filteredAlbums],
+      covers: [...covers, ...filteredResults],
     }));
   },
   updateCoverPosition(coverId, { x, y }) {
