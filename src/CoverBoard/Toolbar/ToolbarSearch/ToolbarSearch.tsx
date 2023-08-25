@@ -20,7 +20,7 @@ export const ToolbarSearch: React.FC = () => {
 
   const handleSearch = async (inputArray: Array<CoverValues>) => {
     try {
-      const results = (await getLastFMAlbums(inputArray, apiKey)) ?? [];
+      const results = (await getMoviePosters(inputArray, apiKey)) ?? [];
 
       const filtereResults = results.filter(
         (filteredResult) =>

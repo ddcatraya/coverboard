@@ -60,10 +60,10 @@ export const createConfigsSlice: StateCreator<
 > = (set, get) => ({
   configs: initialConfigValues(),
   coverSizeWidth: () => get().configs.size,
-  coverSizeHeight: () => get().configs.size,
+  coverSizeHeight: () => get().configs.size * 1.5,
   media: Media.MUSIC,
-  titleLabel: 'artist',
-  subTitleLabel: 'album',
+  titleLabel: 'movie',
+  subTitleLabel: 'desc',
   getColor: () => colorMap[get().configs.color],
   getBackColor: () => backColorMap[get().configs.backColor],
   windowSize: {
