@@ -8,6 +8,7 @@ import {
   colorMap,
   backColorMap,
 } from 'types';
+import { Media } from 'types/configTypes';
 import { StateCreator } from 'zustand';
 
 const getSize = () => {
@@ -27,6 +28,7 @@ export const initialConfigValues = () => ({
 
 export interface UseConfigsParams {
   configs: ToolbarConfigParams;
+  media: Media;
   resetConfigs: () => void;
   updateConfigs: (newConfig: ToolbarConfigParams) => void;
   resetTitle: () => void;
@@ -53,6 +55,7 @@ export const createConfigsSlice: StateCreator<
   UseConfigsParams
 > = (set, get) => ({
   configs: initialConfigValues(),
+  media: Media.MUSIC,
   getColor: () => colorMap[get().configs.color],
   getBackColor: () => backColorMap[get().configs.backColor],
   windowSize: {

@@ -1,5 +1,4 @@
-export type { SearchResults, SearchParams } from './searchTypes';
-export { PopupState } from './searchTypes';
+export type { SearchResults } from './searchTypes';
 
 export type { DragLimits } from './generalTypes';
 export {
@@ -25,6 +24,7 @@ export {
   ToolbarConfigValues,
   colorMap,
   backColorMap,
+  Media,
 } from './configTypes';
 
 export type { LocalStorageData } from './localStorageTypes';

@@ -1,5 +1,5 @@
 import { BackColors, Colors, ToolbarConfigParams } from './configTypes';
-import { Covers } from './coverTypes';
+import { Covers, LabelType } from './coverTypes';
 import { Lines } from './lineTypes';
 import { z } from 'zod';
 import { PosTypes } from './generalTypes';
@@ -102,19 +102,19 @@ export const schema = (parsedData: LocalStorageData) =>
             required_error: 'covers:y is required',
           })
           .min(0, 'covers:y position must be positive number'),
-        artist: z.object({
+        [LabelType.TITLE]: z.object({
           search: z.string({
-            invalid_type_error: 'covers:artist:search must be a string',
-            required_error: 'covers:artist:search is required',
+            invalid_type_error: 'covers:search must be a string',
+            required_error: 'covers:search is required',
           }),
           text: z
             .string({
-              invalid_type_error: 'covers:artist:text must be a string',
-              required_error: 'covers:artist:text is required',
+              invalid_type_error: 'covers:text must be a string',
+              required_error: 'covers:text is required',
             })
             .trim(),
         }),
-        album: z.object({
+        [LabelType.SUBTITLE]: z.object({
           search: z.string({
             invalid_type_error: 'covers:album:search must be a string',
             required_error: 'covers:album:search is required',

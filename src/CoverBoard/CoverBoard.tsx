@@ -14,6 +14,7 @@ import { formatDate } from 'utils';
 import { useMainStore } from 'store';
 import { shallow } from 'zustand/shallow';
 import Konva from 'konva';
+import { LabelType } from 'types';
 
 const AlbumCovers: React.FC = () => {
   const covers = useMainStore((state) => state.covers);
@@ -23,8 +24,8 @@ const AlbumCovers: React.FC = () => {
       {covers.map((star) => (
         <AlbumCover
           id={star.id}
-          artist={star.artist.text}
-          album={star.album.text}
+          title={star[LabelType.TITLE].text}
+          subtitle={star[LabelType.SUBTITLE].text}
           x={star.x}
           y={star.y}
           link={star.link}

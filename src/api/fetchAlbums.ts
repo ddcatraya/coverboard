@@ -1,18 +1,13 @@
 import axios from 'axios';
 
-import { ApiKey, SearchResults } from 'types';
-
-type BandSearchParams = Array<{
-  artist: string;
-  album: string;
-}>;
+import { AlbumCoverValues, ApiKey, LabelType, SearchResults } from 'types';
 
 const isFulfilled = <T>(
   p: PromiseSettledResult<T>,
 ): p is PromiseFulfilledResult<T> => p.status === 'fulfilled';
 
 export const getLastFMAlbums = async (
-  bandArray: BandSearchParams,
+  bandArray: Array<AlbumCoverValues>,
   apiKey: ApiKey,
 ): Promise<Array<SearchResults>> => {
   const lastFMurl = apiKey.LastFMKey
@@ -22,8 +17,8 @@ export const getLastFMAlbums = async (
   const albums = await Promise.allSettled(
     bandArray.map((band) => {
       const params = {
-        artist: band.artist,
-        album: band.album,
+        artist: band[LabelType.TITLE],
+        album: band[LabelType.SUBTITLE],
         ...(lastFMurl && {
           method: 'album.getinfo',
           api_key: apiKey.LastFMKey,
@@ -44,8 +39,8 @@ export const getLastFMAlbums = async (
       if (data.album.image[2]['#text']) {
         return {
           link: data.album.image[2]['#text'],
-          artist: data.album.artist,
-          album: data.album.name,
+          [LabelType.TITLE]: data.album.artist,
+          [LabelType.SUBTITLE]: data.album.name,
         };
       }
     }

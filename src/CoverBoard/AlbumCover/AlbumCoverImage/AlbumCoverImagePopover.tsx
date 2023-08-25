@@ -43,19 +43,19 @@ export const AlbumCoverImagePopover: React.FC<PopupProps> = ({
         <Grid container spacing={2}>
           <Grid item xs={12}>
             <TextField
-              label="Artist or Description"
+              label={[LabelType.TITLE]}
               fullWidth
-              value={text[LabelType.ARTIST]}
-              onChange={(evt) => handTextChange(evt, LabelType.ARTIST)}
+              value={text[LabelType.TITLE]}
+              onChange={(evt) => handTextChange(evt, LabelType.TITLE)}
               style={{ marginBottom: '20px' }}
             />
           </Grid>
           <Grid item xs={12}>
             <TextField
-              label="Album"
+              label={[LabelType.SUBTITLE]}
               fullWidth
-              value={text[LabelType.ALBUM]}
-              onChange={(evt) => handTextChange(evt, LabelType.ALBUM)}
+              value={text[LabelType.SUBTITLE]}
+              onChange={(evt) => handTextChange(evt, LabelType.SUBTITLE)}
               style={{ marginBottom: '20px' }}
             />
           </Grid>
@@ -84,8 +84,8 @@ export const AlbumCoverImagePopover: React.FC<PopupProps> = ({
               target="_blank"
               component={Link}
               href={`http://www.last.fm/music/${
-                values[LabelType.ARTIST].search
-              }/${values[LabelType.ALBUM].search}`}
+                values[LabelType.TITLE].search
+              }/${values[LabelType.SUBTITLE].search}`}
               style={{ marginRight: '20px', marginBottom: '20px' }}>
               Last FM
             </Button>
@@ -95,8 +95,8 @@ export const AlbumCoverImagePopover: React.FC<PopupProps> = ({
               target="_blank"
               component={Link}
               href={`https://open.spotify.com/search/artist%3A${
-                values[LabelType.ARTIST].search
-              }%20AND%20album%3A${values[LabelType.ALBUM].search}/`}
+                values[LabelType.TITLE].search
+              }%20AND%20album%3A${values[LabelType.SUBTITLE].search}/`}
               style={{ marginBottom: '20px' }}>
               Spotify
             </Button>

@@ -17,6 +17,7 @@ import {
   colorMap,
   Colors,
   Covers,
+  LabelType,
   PosTypes,
   ToolbarConfigParams,
   ToolbarConfigValues,
@@ -172,9 +173,9 @@ export const ToolbarConfigPopover: React.FC<ToolbarConfigPopoverProps> = ({
             <FormControlLabel
               control={
                 <Switch
-                  checked={param[ToolbarConfigValues.SHOW_TITLE]}
+                  checked={param[ToolbarConfigValues.SHOW_MAIN_TITLE]}
                   onChange={(evt) =>
-                    handleSwitchChange(evt, ToolbarConfigValues.SHOW_TITLE)
+                    handleSwitchChange(evt, ToolbarConfigValues.SHOW_MAIN_TITLE)
                   }
                 />
               }
@@ -183,24 +184,24 @@ export const ToolbarConfigPopover: React.FC<ToolbarConfigPopoverProps> = ({
             <FormControlLabel
               control={
                 <Switch
-                  checked={param[ToolbarConfigValues.SHOW_ARTIST]}
+                  checked={param[ToolbarConfigValues.SHOW_TITLE]}
                   onChange={(evt) =>
-                    handleSwitchChange(evt, ToolbarConfigValues.SHOW_ARTIST)
+                    handleSwitchChange(evt, ToolbarConfigValues.SHOW_TITLE)
                   }
                 />
               }
-              label="Show artist name"
+              label={`Show ${[LabelType.TITLE]} name`}
             />
             <FormControlLabel
               control={
                 <Switch
-                  checked={param[ToolbarConfigValues.SHOW_ALBUM]}
+                  checked={param[ToolbarConfigValues.SHOW_SUBTITLE]}
                   onChange={(evt) =>
-                    handleSwitchChange(evt, ToolbarConfigValues.SHOW_ALBUM)
+                    handleSwitchChange(evt, ToolbarConfigValues.SHOW_SUBTITLE)
                   }
                 />
               }
-              label="Show album name"
+              label={`Show ${[LabelType.SUBTITLE]} name`}
             />
           </Grid>
           <Grid item xs={12}>

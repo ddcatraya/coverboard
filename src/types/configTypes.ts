@@ -41,10 +41,15 @@ export enum ToolbarConfigValues {
   SIZE = 'size',
   COLOR = 'color',
   BACK_COLOR = 'backColor',
-  SHOW_TITLE = 'showTitle',
-  SHOW_ARTIST = 'showArtist',
-  SHOW_ALBUM = 'showAlbum',
+  SHOW_MAIN_TITLE = 'showTitle',
+  SHOW_TITLE = 'showArtist',
+  SHOW_SUBTITLE = 'showAlbum',
   LABEL_DIR = 'labelDir',
+}
+
+export enum Media {
+  MUSIC = 'music',
+  MOVIE = 'movie',
 }
 
 export interface ToolbarConfigParams {
@@ -52,12 +57,13 @@ export interface ToolbarConfigParams {
   [ToolbarConfigValues.SIZE]: number;
   [ToolbarConfigValues.COLOR]: Colors;
   [ToolbarConfigValues.BACK_COLOR]: BackColors;
+  [ToolbarConfigValues.SHOW_MAIN_TITLE]: boolean;
   [ToolbarConfigValues.SHOW_TITLE]: boolean;
-  [ToolbarConfigValues.SHOW_ARTIST]: boolean;
-  [ToolbarConfigValues.SHOW_ALBUM]: boolean;
+  [ToolbarConfigValues.SHOW_SUBTITLE]: boolean;
   [ToolbarConfigValues.LABEL_DIR]: PosTypes;
 }
 
 export interface ApiKey {
   LastFMKey: string;
+  TMDBKey: string;
 }

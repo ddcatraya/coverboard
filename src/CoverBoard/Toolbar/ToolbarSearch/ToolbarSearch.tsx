@@ -1,8 +1,8 @@
 import { Html } from 'react-konva-utils';
 
-import { getLastFMAlbums } from 'api';
+import { getLastFMAlbums, getMoviePosters } from 'api';
 import { ToolbarSearchPopover } from '.';
-import { PosTypes, SearchParams } from 'types';
+import { AlbumCoverValues, LabelType, PosTypes } from 'types';
 import { v4 as uuidv4 } from 'uuid';
 import { useMainStore, useToastStore, useToolbarStore } from 'store';
 import { shallow } from 'zustand/shallow';
@@ -18,7 +18,7 @@ export const ToolbarSearch: React.FC = () => {
     shallow,
   );
 
-  const handleSearch = async (inputArray: Array<SearchParams>) => {
+  const handleSearch = async (inputArray: Array<AlbumCoverValues>) => {
     try {
       const albums = (await getLastFMAlbums(inputArray, apiKey)) ?? [];
 
@@ -26,8 +26,9 @@ export const ToolbarSearch: React.FC = () => {
         (filteredAlbum) =>
           !covers.find(
             (star) =>
-              star.artist.search === filteredAlbum.artist &&
-              star.album.search === filteredAlbum.album,
+              star[LabelType.TITLE].search === filteredAlbum[LabelType.TITLE] &&
+              star[LabelType.SUBTITLE].search ===
+                filteredAlbum[LabelType.SUBTITLE],
           ),
       );
 
@@ -38,13 +39,13 @@ export const ToolbarSearch: React.FC = () => {
             link: filteredAlbum.link,
             x: 0,
             y: 0,
-            artist: {
-              search: filteredAlbum.artist,
-              text: filteredAlbum.artist,
+            [LabelType.TITLE]: {
+              search: filteredAlbum[LabelType.TITLE],
+              text: filteredAlbum[LabelType.TITLE],
             },
-            album: {
-              search: filteredAlbum.album,
-              text: filteredAlbum.album,
+            [LabelType.SUBTITLE]: {
+              search: filteredAlbum[LabelType.SUBTITLE],
+              text: filteredAlbum[LabelType.SUBTITLE],
             },
             dir: PosTypes.BOTTOM,
           })),

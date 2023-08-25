@@ -13,8 +13,8 @@ import { shallow } from 'zustand/shallow';
 
 interface CoverImageProps {
   id: Covers['id'];
-  artist: Covers['artist']['text'];
-  album: Covers['album']['text'];
+  title: string;
+  subtitle: string;
   x: Covers['x'];
   y: Covers['y'];
   link: Covers['link'];
@@ -22,8 +22,8 @@ interface CoverImageProps {
 
 const AlbumCoverMemo: React.FC<CoverImageProps> = ({
   id,
-  artist,
-  album,
+  title,
+  subtitle,
   x,
   y,
   link,
@@ -36,9 +36,9 @@ const AlbumCoverMemo: React.FC<CoverImageProps> = ({
   const windowSize = useMainStore((state) => state.windowSize);
 
   const offSet =
-    showArtist && artist && showAlbum && album ? 1.5 * fontSize : 0;
+    showArtist && title && showAlbum && subtitle ? 1.5 * fontSize : 0;
 
-  const offSetTop = !(showArtist && artist && showAlbum && album)
+  const offSetTop = !(showArtist && title && showAlbum && subtitle)
     ? 1.5 * fontSize
     : 0;
 
@@ -56,7 +56,7 @@ const AlbumCoverMemo: React.FC<CoverImageProps> = ({
         y: windowSize.height - 3.5 * toobarIconSize,
       }}>
       <AlbumCoverDrawLine id={id} />
-      <AlbumCoverImage id={id} artist={artist} album={album} link={link} />
+      <AlbumCoverImage id={id} title={title} subtitle={subtitle} link={link} />
 
       <AlbumCoverLabelDraggable
         id={id}
@@ -64,17 +64,13 @@ const AlbumCoverMemo: React.FC<CoverImageProps> = ({
         y={y}
         offset={offSet}
         offSetTop={offSetTop}>
-        {showArtist && artist && (
-          <AlbumCoverLabel
-            coverLabel={LabelType.ARTIST}
-            text={artist}
-            id={id}
-          />
+        {showArtist && title && (
+          <AlbumCoverLabel coverLabel={LabelType.TITLE} text={title} id={id} />
         )}
-        {showAlbum && album && (
+        {showAlbum && subtitle && (
           <AlbumCoverLabel
-            coverLabel={LabelType.ALBUM}
-            text={album}
+            coverLabel={LabelType.SUBTITLE}
+            text={subtitle}
             id={id}
             offset={offSet}
           />

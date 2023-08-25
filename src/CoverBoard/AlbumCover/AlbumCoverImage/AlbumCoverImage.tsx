@@ -9,15 +9,15 @@ import { useMainStore, useUtilsStore } from 'store';
 
 interface CoverImageProps {
   id: Covers['id'];
-  artist: Covers['artist']['text'];
-  album: Covers['album']['text'];
+  title: string;
+  subtitle: string;
   link: Covers['link'];
 }
 
 export const AlbumCoverImage: React.FC<CoverImageProps> = ({
   id,
-  artist,
-  album,
+  title,
+  subtitle,
   link,
 }) => {
   const resetCoverLabel = useMainStore((state) => state.resetCoverLabel);
@@ -48,8 +48,8 @@ export const AlbumCoverImage: React.FC<CoverImageProps> = ({
   const handleSubmit = (values: AlbumCoverValues) => {
     updateCoversText(
       id,
-      values[LabelType.ARTIST].trim(),
-      values[LabelType.ALBUM].trim(),
+      values[LabelType.TITLE].trim(),
+      values[LabelType.SUBTITLE].trim(),
     );
   };
 
@@ -107,12 +107,12 @@ export const AlbumCoverImage: React.FC<CoverImageProps> = ({
             onClose={() => setOpen(false)}
             onSubmit={handleSubmit}
             onReset={() => {
-              resetCoverLabel(id, LabelType.ARTIST);
-              resetCoverLabel(id, LabelType.ALBUM);
+              resetCoverLabel(id, LabelType.TITLE);
+              resetCoverLabel(id, LabelType.SUBTITLE);
             }}
             values={{
-              artist,
-              album,
+              [LabelType.TITLE]: title,
+              [LabelType.SUBTITLE]: title,
             }}
           />
         </Html>

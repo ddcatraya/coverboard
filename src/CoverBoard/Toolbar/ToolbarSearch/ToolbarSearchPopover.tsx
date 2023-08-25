@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { TextField, Button, Grid } from '@mui/material';
 
-import { SearchParams, PopupState, ToolConfigIDs } from 'types';
+import { LabelType, ToolConfigIDs, AlbumCoverValues } from 'types';
 import { clearHash, setHash } from 'utils';
 import { CommonDialog } from 'components';
 import { flushSync } from 'react-dom';
@@ -9,15 +9,15 @@ import { flushSync } from 'react-dom';
 interface PopupProps {
   open: boolean;
   onClose: () => void;
-  onSubmit: (inputArray: Array<SearchParams>) => void;
+  onSubmit: (inputArray: Array<AlbumCoverValues>) => void;
 }
 
 const initialState = () => [
-  { [PopupState.ARTIST]: '', [PopupState.ALBUM]: '' },
-  { [PopupState.ARTIST]: '', [PopupState.ALBUM]: '' },
-  { [PopupState.ARTIST]: '', [PopupState.ALBUM]: '' },
-  { [PopupState.ARTIST]: '', [PopupState.ALBUM]: '' },
-  { [PopupState.ARTIST]: '', [PopupState.ALBUM]: '' },
+  { [LabelType.TITLE]: '', [LabelType.SUBTITLE]: '' },
+  { [LabelType.TITLE]: '', [LabelType.SUBTITLE]: '' },
+  { [LabelType.TITLE]: '', [LabelType.SUBTITLE]: '' },
+  { [LabelType.TITLE]: '', [LabelType.SUBTITLE]: '' },
+  { [LabelType.TITLE]: '', [LabelType.SUBTITLE]: '' },
 ];
 
 export const ToolbarSearchPopover: React.FC<PopupProps> = ({
@@ -25,14 +25,14 @@ export const ToolbarSearchPopover: React.FC<PopupProps> = ({
   onClose,
   onSubmit,
 }) => {
-  const [inputs, setInputs] = useState<Array<SearchParams>>(initialState());
+  const [inputs, setInputs] = useState<Array<AlbumCoverValues>>(initialState());
   const [loading, setLoading] = useState(false);
 
   setHash(ToolConfigIDs.SEARCH);
 
   const handleInputChange = (
     index: number,
-    field: PopupState,
+    field: LabelType,
     value: string,
   ) => {
     setInputs((prevInputs) => {
@@ -51,7 +51,8 @@ export const ToolbarSearchPopover: React.FC<PopupProps> = ({
 
     try {
       const filterInputs = inputs.filter(
-        (input) => input.artist !== '' && input.album !== '',
+        (input) =>
+          input[LabelType.TITLE] !== '' && input[LabelType.SUBTITLE] !== '',
       );
       await onSubmit(filterInputs);
       setInputs(initialState());
@@ -65,12 +66,16 @@ export const ToolbarSearchPopover: React.FC<PopupProps> = ({
   const isInputDisabled =
     !!inputs.find(
       (input) =>
-        (input.artist !== '' && input.album === '') ||
-        (input.artist === '' && input.album !== ''),
-    ) || !inputs.some((input) => input.artist !== '' && input.album !== '');
+        (input[LabelType.TITLE] !== '' && input[LabelType.SUBTITLE] === '') ||
+        (input[LabelType.TITLE] === '' && input[LabelType.SUBTITLE] !== ''),
+    ) ||
+    !inputs.some(
+      (input) =>
+        input[LabelType.TITLE] !== '' && input[LabelType.SUBTITLE] !== '',
+    );
 
   return (
-    <CommonDialog open={open} title="Search albums" onClose={onClose}>
+    <CommonDialog open={open} title="Search" onClose={onClose}>
       <form onSubmit={handleSubmit}>
         {inputs.map((input, index) => (
           <Grid
@@ -84,20 +89,20 @@ export const ToolbarSearchPopover: React.FC<PopupProps> = ({
             <Grid item sm={6} xs={12}>
               <TextField
                 fullWidth
-                label="Artist Name"
-                value={input.artist}
+                label={[LabelType.TITLE]}
+                value={input[LabelType.TITLE]}
                 onChange={(e) =>
-                  handleInputChange(index, PopupState.ARTIST, e.target.value)
+                  handleInputChange(index, LabelType.TITLE, e.target.value)
                 }
               />
             </Grid>
             <Grid item sm={6} xs={12}>
               <TextField
                 fullWidth
-                label="Album Name"
-                value={input.album}
+                label={[LabelType.SUBTITLE]}
+                value={input[LabelType.SUBTITLE]}
                 onChange={(e) =>
-                  handleInputChange(index, PopupState.ALBUM, e.target.value)
+                  handleInputChange(index, LabelType.SUBTITLE, e.target.value)
                 }
               />
             </Grid>
