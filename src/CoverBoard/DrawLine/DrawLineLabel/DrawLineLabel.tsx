@@ -14,7 +14,7 @@ interface LineProps {
 
 export const DrawLineLabel: React.FC<LineProps> = ({ id, dir, lineParams }) => {
   const text = useMainStore((state) => state.getLineTextById(id));
-  const coverSize = useMainStore((state) => state.configs.size);
+  const coverSize = useMainStore((state) => state.coverSize());
   const fontSize = useMainStore((state) => state.fontSize());
 
   const resetLine = useMainStore((state) => state.resetLine);

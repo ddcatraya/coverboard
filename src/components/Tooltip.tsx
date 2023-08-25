@@ -16,7 +16,7 @@ export const Tooltip: React.FC<TooltipProps> = ({
   x,
   y,
 }) => {
-  const coverSize = useMainStore((state) => state.configs.size);
+  const coverSize = useMainStore((state) => state.coverSize());
   const fontSize = useMainStore((state) => state.fontSize());
   const backColor = useMainStore((state) => state.getBackColor());
   const textRef: RefObject<Konva.Text> = useRef(null);

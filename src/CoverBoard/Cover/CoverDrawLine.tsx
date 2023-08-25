@@ -16,7 +16,7 @@ export const CoverDrawLine: React.FC<CoverDrawLineProps> = ({ id }) => {
   const editLines = useUtilsStore((state) => state.editLines);
   const createLine = useMainStore((state) => state.createLine);
 
-  const coverSize = useMainStore((state) => state.configs.size);
+  const coverSize = useMainStore((state) => state.coverSize());
   const selection: PosTypes | null = points?.id === id ? points.dir : null;
 
   const handleDrawLine = (id: string, dir: PosTypes) => {

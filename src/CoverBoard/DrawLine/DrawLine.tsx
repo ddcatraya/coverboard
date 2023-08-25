@@ -46,7 +46,7 @@ export const DrawLineMemo: React.FC<LineProps> = ({
   targetId,
   targetDir,
 }) => {
-  const coverSize = useMainStore((state) => state.configs.size);
+  const coverSize = useMainStore((state) => state.coverSize());
   const originSquare = useMainStore((state) =>
     state.covers.find((cov) => cov.id === originId),
   );

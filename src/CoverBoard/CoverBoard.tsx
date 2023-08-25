@@ -71,13 +71,14 @@ const CountLabel: React.FC = () => {
   const pos0 = useMainStore(
     (state) => state.covers.filter((cov) => cov.x === 0 && cov.y === 0).length,
   );
-  const coverSize = useMainStore((state) => state.configs.size);
+  const coverSizeWidth = useMainStore((state) => state.coverSizeWidth());
+  const coverSizeHeight = useMainStore((state) => state.coverSizeHeight());
   const fontSize = useMainStore((state) => state.fontSize());
 
   return (
     <Text
-      x={coverSize + fontSize / 2}
-      y={coverSize - fontSize * 2}
+      x={coverSizeWidth + fontSize / 2}
+      y={coverSizeHeight - fontSize * 2}
       align="center"
       text={pos0 > 1 ? 'x' + String(pos0) : ''}
       fontSize={fontSize * 2}

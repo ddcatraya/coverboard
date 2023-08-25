@@ -11,7 +11,7 @@ export const ToolbarConfig: React.FC = () => {
     (state) => [state.openConfig, state.setOpenConfig],
     shallow,
   );
-  const coverSize = useMainStore((state) => state.configs.size);
+  const coverSize = useMainStore((state) => state.coverSize());
   const covers = useMainStore((state) => state.covers);
   const dragLimits = useMainStore((state) => state.dragLimits(), shallow);
   const updateConfigs = useMainStore((state) => state.updateConfigs);
