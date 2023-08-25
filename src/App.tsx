@@ -30,6 +30,8 @@ function App() {
     };
   }, [setWindowSize]);
 
+  console.log('rerender');
+
   return (
     <div
       className="App"
