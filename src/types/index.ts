@@ -17,7 +17,7 @@ export { ToolConfigIDs } from './toolbarTypes';
 export type { CoverValues, Covers } from './coverTypes';
 export { LabelType } from './coverTypes';
 
-export type { ToolbarConfigParams, ApiKey, MediaDesc } from './configTypes';
+export type { ToolbarConfigParams, MediaDesc } from './configTypes';
 export {
   Colors,
   BackColors,

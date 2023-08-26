@@ -1,6 +1,6 @@
 import axios from 'axios';
 
-import { CoverValues, ApiKey, LabelType, SearchResults } from 'types';
+import { CoverValues, LabelType, SearchResults } from 'types';
 
 const isFulfilled = <T>(
   p: PromiseSettledResult<T>,
@@ -8,25 +8,15 @@ const isFulfilled = <T>(
 
 export const getLastFMAlbums = async (
   bandArray: Array<CoverValues>,
-  apiKey: ApiKey,
 ): Promise<Array<SearchResults>> => {
-  const lastFMurl = apiKey.LastFMKey
-    ? 'https://ws.audioscrobbler.com/2.0/'
-    : 'https://albumcoverboard.vercel.app/api/get-album';
-
   const albums = await Promise.allSettled(
     bandArray.map((band) => {
-      const params = {
-        artist: band[LabelType.TITLE].trim(),
-        album: band[LabelType.SUBTITLE].trim(),
-        ...(lastFMurl && {
-          method: 'album.getinfo',
-          api_key: apiKey.LastFMKey,
-          format: 'json',
-        }),
-      };
-
-      return axios.get(`${lastFMurl}?${new URLSearchParams(params)}`);
+      return axios.get('https://albumcoverboard.vercel.app/api/get-album', {
+        params: {
+          artist: band[LabelType.TITLE].trim(),
+          album: band[LabelType.SUBTITLE].trim(),
+        },
+      });
     }),
   );
 

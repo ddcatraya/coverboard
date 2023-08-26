@@ -1,5 +1,5 @@
 import axios from 'axios';
-import { CoverValues, ApiKey, LabelType, SearchResults } from 'types';
+import { CoverValues, LabelType, SearchResults } from 'types';
 
 const GOOGLE_URL = 'https://www.googleapis.com';
 
@@ -7,22 +7,9 @@ const isFulfilled = <T>(
   p: PromiseSettledResult<T>,
 ): p is PromiseFulfilledResult<T> => p.status === 'fulfilled';
 
-const fetchImageCover = async (isbm: string): Promise<string> => {
-  try {
-    const result: any = await axios.get(
-      `https://www.librarything.com/services/rest/1.1/?method=librarything.ck.getwork&id=${isbm}&apikey=e0511ebe18b1788b0d78f3932f8482d1`,
-    );
-
-    return result['response']['ltml']['ltml'][0]['cover']['medium'];
-  } catch (err) {
-    return '';
-  }
-};
-
 // Function to get the poster image of a movie
 export const getBookCovers = async (
   bookTitles: Array<CoverValues>,
-  apiKey: ApiKey,
 ): Promise<Array<SearchResults>> => {
   const posters = await Promise.allSettled(
     bookTitles.map((bookTitle) => {
@@ -62,9 +49,11 @@ export const getBookCovers = async (
 
   const settledPosters = await Promise.allSettled(
     mappedPosers.map(({ isbm }: any) => {
-      return axios.get(
-        `https://www.librarything.com/services/rest/1.1/?method=librarything.ck.getwork&id=${isbm}&apikey=e0511ebe18b1788b0d78f3932f8482d1`,
-      );
+      return axios.get(`https://albumcoverboard.vercel.app/api/get-book`, {
+        params: {
+          isbm,
+        },
+      });
     }),
   );
 

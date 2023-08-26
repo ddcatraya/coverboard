@@ -98,8 +98,3 @@ export interface ToolbarConfigParams {
   [ToolbarConfigValues.SHOW_SUBTITLE]: boolean;
   [ToolbarConfigValues.LABEL_DIR]: PosTypes;
 }
-
-export interface ApiKey {
-  LastFMKey: string;
-  TMDBKey: string;
-}

@@ -17,7 +17,6 @@ export const ToolbarSearch: React.FC = () => {
   const covers = useMainStore((state) => state.covers);
   const media = useMainStore((state) => state.configs.media);
   const addCovers = useMainStore((state) => state.addCovers);
-  const apiKey = useMainStore((state) => state.apiKey);
   const showSuccessMessage = useToastStore((state) => state.showSuccessMessage);
   const showErrorMessage = useToastStore((state) => state.showErrorMessage);
   const [openSearch, setOpenSearch] = useToolbarStore(
@@ -28,7 +27,7 @@ export const ToolbarSearch: React.FC = () => {
   const handleSearch = async (inputArray: Array<CoverValues>) => {
     try {
       const ApiToCall = ApiToCallMap[media];
-      const results = (await ApiToCall(inputArray, apiKey)) ?? [];
+      const results = (await ApiToCall(inputArray)) ?? [];
 
       const filtereResults = results.filter(
         (filteredResult) =>
