@@ -7,6 +7,18 @@ const isFulfilled = <T>(
   p: PromiseSettledResult<T>,
 ): p is PromiseFulfilledResult<T> => p.status === 'fulfilled';
 
+const fetchImageCover = async (isbm: string): Promise<string> => {
+  try {
+    const result: any = await axios.get(
+      `https://www.librarything.com/services/rest/1.1/?method=librarything.ck.getwork&id=${isbm}&apikey=e0511ebe18b1788b0d78f3932f8482d1`,
+    );
+
+    return result['response']['ltml']['ltml'][0]['cover']['medium'];
+  } catch (err) {
+    return '';
+  }
+};
+
 // Function to get the poster image of a movie
 export const getBookCovers = async (
   bookTitles: Array<CoverValues>,
@@ -29,16 +41,38 @@ export const getBookCovers = async (
   );
   const fullPosters = posters.filter(isFulfilled);
 
-  return fullPosters.flatMap((response: any) => {
+  const mappedPosers = fullPosters.flatMap((response: any) => {
     const { items } = response.value.data;
     if (items && items.length > 0 && items[0].volumeInfo.imageLinks) {
-      return {
-        link: items[0].volumeInfo.imageLinks.smallThumbnail,
-        [LabelType.TITLE]: items[0].volumeInfo.title,
-        [LabelType.SUBTITLE]: items[0].volumeInfo.authors.join(', '),
-      };
+      const isbm = items[0].volumeInfo.industryIdentifiers.find(
+        (identifier: any) => identifier.type === 'ISBN_13',
+      )?.identifier;
+
+      if (isbm) {
+        return {
+          isbm,
+          [LabelType.TITLE]: items[0].volumeInfo.title,
+          [LabelType.SUBTITLE]: items[0].volumeInfo.authors.join(', '),
+        };
+      }
     }
 
     return [];
   });
+
+  const settledPosters = await Promise.allSettled(
+    mappedPosers.map(({ isbm }: any) => {
+      return axios.get(
+        `https://www.librarything.com/services/rest/1.1/?method=librarything.ck.getwork&id=${isbm}&apikey=e0511ebe18b1788b0d78f3932f8482d1`,
+      );
+    }),
+  );
+
+  return settledPosters
+    .map((result: any, index) => ({
+      link: result?.value ?? '',
+      [LabelType.TITLE]: mappedPosers[index][LabelType.TITLE],
+      [LabelType.SUBTITLE]: mappedPosers[index][LabelType.SUBTITLE],
+    }))
+    .filter((res) => res.link);
 };
