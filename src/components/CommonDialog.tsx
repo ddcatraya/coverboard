@@ -27,6 +27,11 @@ export const CommonDialog: React.FC<CommonDialogProps> = ({
       onClose={() => {
         clearHash();
         onClose();
+      }}
+      PaperProps={{
+        style: {
+          opacity: 0.9,
+        },
       }}>
       <DialogTitle>
         {title}
