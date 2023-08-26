@@ -71,7 +71,7 @@ export interface MediaDesc {
 
 export const MediaMap = {
   [Media.MUSIC]: {
-    [LabelType.TITLE]: { label: MediaValues.ARTIST, required: false },
+    [LabelType.TITLE]: { label: MediaValues.ARTIST, required: true },
     [LabelType.SUBTITLE]: { label: MediaValues.ALBUM, required: true },
     heightRatio: 1,
   },
@@ -86,6 +86,12 @@ export const MediaMap = {
     heightRatio: 1.5,
   },
 };
+
+export interface SearchResults {
+  link: string;
+  [LabelType.TITLE]: string;
+  [LabelType.SUBTITLE]: string;
+}
 
 export interface ToolbarConfigParams {
   [ToolbarConfigValues.MEDIA]: Media;
