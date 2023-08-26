@@ -43,8 +43,8 @@ export const ToolbarConfigPopover: React.FC<ToolbarConfigPopoverProps> = ({
   const offLimitCovers = useMainStore((state) => state.offLimitCovers());
   const configs = useMainStore((state) => state.configs);
   const [param, setParams] = useState(configs);
-  const titleLabel = useMainStore((state) => state.titleLabel);
-  const subTitleLabel = useMainStore((state) => state.subTitleLabel);
+  const titleLabel = useMainStore((state) => state.titleLabel().label);
+  const subTitleLabel = useMainStore((state) => state.subTitleLabel().label);
 
   setHash(ToolConfigIDs.CONFIG);
 

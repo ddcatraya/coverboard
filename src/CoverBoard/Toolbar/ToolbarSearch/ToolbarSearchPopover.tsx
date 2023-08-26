@@ -66,7 +66,11 @@ export const ToolbarSearchPopover: React.FC<PopupProps> = ({
     });
 
     try {
-      await onSubmit(inputs);
+      const filterInputs = inputs.filter(
+        (input) =>
+          input[LabelType.TITLE] !== '' || input[LabelType.SUBTITLE] !== '',
+      );
+      await onSubmit(filterInputs);
       setInputs(initialState());
       onClose();
     } finally {
@@ -117,6 +121,12 @@ export const ToolbarSearchPopover: React.FC<PopupProps> = ({
               value={Media.MOVIE}
               control={<Radio />}
               label={Media.MOVIE}
+            />
+            <FormControlLabel
+              disabled={!!coversLength}
+              value={Media.BOOK}
+              control={<Radio />}
+              label={Media.BOOK}
             />
           </RadioGroup>
         </Grid>

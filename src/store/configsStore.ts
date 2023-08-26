@@ -65,16 +65,9 @@ export const createConfigsSlice: StateCreator<
   coverSizeHeight: () =>
     get().configs.size * MediaMap[get().configs.media].heightRatio,
   setMedia: (media: Media) => {
-    if (media === Media.MUSIC) {
-      console.log('a');
-      set(({ configs }) => ({
-        configs: { ...configs, media },
-      }));
-    } else if (media === Media.MOVIE) {
-      set(({ configs }) => ({
-        configs: { ...configs, media },
-      }));
-    }
+    set(({ configs }) => ({
+      configs: { ...configs, media },
+    }));
   },
   titleLabel: () => MediaMap[get().configs.media][LabelType.TITLE],
   subTitleLabel: () => MediaMap[get().configs.media][LabelType.SUBTITLE],
