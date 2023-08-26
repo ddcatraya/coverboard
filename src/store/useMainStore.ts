@@ -1,4 +1,3 @@
-import { apiConfig } from 'api';
 import {
   ToolbarConfigParams,
   Lines,
@@ -35,9 +34,6 @@ interface CoverContextData {
   getStoreValues: () => LocalStorageData;
   offLimitCovers: () => Covers[];
   removeCoverAndRelatedLines: (id: string) => void;
-  apiKey: {
-    LastFMKey: string;
-  };
 }
 
 type MainStoreUnion = UseCoverParams &
@@ -104,9 +100,6 @@ export const useMainStore = createWithEqualityFn<MainStoreUnion>()(
       ...createConfigsSlice((value) => storageSet(value), get, api),
       ...createLinesSlice((value) => storageSet(value), get, api),
       ...createCoversSlice((value) => storageSet(value), get, api),
-      apiKey: {
-        LastFMKey: apiConfig.LastFMKey,
-      },
       setDefaultLocalStoreValues(saveId: string) {
         set({ saveId });
         try {

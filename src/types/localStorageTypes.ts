@@ -1,5 +1,5 @@
-import { BackColors, Colors, ToolbarConfigParams } from './configTypes';
-import { Covers } from './coverTypes';
+import { BackColors, Colors, Media, ToolbarConfigParams } from './configTypes';
+import { Covers, LabelType } from './coverTypes';
 import { Lines } from './lineTypes';
 import { z } from 'zod';
 import { PosTypes } from './generalTypes';
@@ -28,6 +28,15 @@ export const schema = (parsedData: LocalStorageData) =>
           })
           .min(50, 'configs:size must be a number higher than 50')
           .max(150, 'configs:size must be a number lower than 150'),
+        media: z.nativeEnum(Media, {
+          errorMap: (_, _ctx) => {
+            return {
+              message: `configs:media must be ${Object.values(Media).join(
+                ' | ',
+              )}`,
+            };
+          },
+        }),
         title: z
           .string({
             invalid_type_error: 'configs:title must be a string',
@@ -52,17 +61,17 @@ export const schema = (parsedData: LocalStorageData) =>
             };
           },
         }),
-        showArtist: z.boolean({
-          invalid_type_error: 'configs:showArtist must be a boolean',
-          required_error: 'configs:showArtist is required',
-        }),
-        showAlbum: z.boolean({
-          invalid_type_error: 'configs:showAlbum must be a boolean',
-          required_error: 'configs:showAlbum is required',
-        }),
         showTitle: z.boolean({
           invalid_type_error: 'configs:showTitle must be a boolean',
           required_error: 'configs:showTitle is required',
+        }),
+        showSubtitle: z.boolean({
+          invalid_type_error: 'configs:showSubtitle must be a boolean',
+          required_error: 'configs:showSubtitle is required',
+        }),
+        showMainTitle: z.boolean({
+          invalid_type_error: 'configs:showMainTitle must be a boolean',
+          required_error: 'configs:showMainTitle is required',
         }),
         labelDir: z.nativeEnum(PosTypes, {
           errorMap: (_, _ctx) => {
@@ -89,7 +98,9 @@ export const schema = (parsedData: LocalStorageData) =>
           .refine((id) => {
             return validate(id);
           }, 'covers:id has invalid format'),
-        link: z.string().url().includes('https://lastfm.freetls.fastly.net'),
+        link: z
+          .string()
+          .url() /* .includes('https://lastfm.freetls.fastly.net'), */,
         x: z
           .number({
             invalid_type_error: 'covers:x position must be a number',
@@ -102,27 +113,27 @@ export const schema = (parsedData: LocalStorageData) =>
             required_error: 'covers:y is required',
           })
           .min(0, 'covers:y position must be positive number'),
-        artist: z.object({
+        [LabelType.TITLE]: z.object({
           search: z.string({
-            invalid_type_error: 'covers:artist:search must be a string',
-            required_error: 'covers:artist:search is required',
+            invalid_type_error: 'covers:search must be a string',
+            required_error: 'covers:search is required',
           }),
           text: z
             .string({
-              invalid_type_error: 'covers:artist:text must be a string',
-              required_error: 'covers:artist:text is required',
+              invalid_type_error: 'covers:text must be a string',
+              required_error: 'covers:text is required',
             })
             .trim(),
         }),
-        album: z.object({
+        [LabelType.SUBTITLE]: z.object({
           search: z.string({
-            invalid_type_error: 'covers:album:search must be a string',
-            required_error: 'covers:album:search is required',
+            invalid_type_error: 'covers:search must be a string',
+            required_error: 'covers:search is required',
           }),
           text: z
             .string({
-              invalid_type_error: 'covers:album:text must be a string',
-              required_error: 'covers:album:text is required',
+              invalid_type_error: 'covers:text must be a string',
+              required_error: 'covers:text is required',
             })
             .trim(),
         }),

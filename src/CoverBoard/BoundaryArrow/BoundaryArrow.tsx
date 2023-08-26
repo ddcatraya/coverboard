@@ -10,14 +10,14 @@ import { shallow } from 'zustand/shallow';
 
 interface BoundaryArrowProps {
   id: Covers['id'];
-  album: Covers['album']['text'];
+  title: string;
   x: Covers['x'];
   y: Covers['y'];
 }
 
 export const BoundaryArrowMemo: React.FC<BoundaryArrowProps> = ({
   id,
-  album,
+  title,
   x,
   y,
 }) => {
@@ -30,14 +30,18 @@ export const BoundaryArrowMemo: React.FC<BoundaryArrowProps> = ({
     (state) => state.removeCoverAndRelatedLines,
   );
   const erase = useUtilsStore((state) => state.erase);
-  const coverSize = useMainStore((state) => state.configs.size);
+  const coverSizeWidth = useMainStore((state) => state.coverSizeWidth());
+  const coverSizeHeight = useMainStore((state) => state.coverSizeHeight());
   const fontSize = useMainStore((state) => state.fontSize());
   const dragLimits = useMainStore((state) => state.dragLimits(), shallow);
 
   const [tooltip, setTooltip] = useState(false);
 
   const points: [number, number, number, number] = useMemo(() => {
-    if (x > dragLimits.width - coverSize && y > dragLimits.height - coverSize) {
+    if (
+      x > dragLimits.width - coverSizeWidth &&
+      y > dragLimits.height - coverSizeHeight
+    ) {
       return [
         dragLimits.width - 1.8 * fontSize,
         dragLimits.height - 1.8 * fontSize,
@@ -45,23 +49,31 @@ export const BoundaryArrowMemo: React.FC<BoundaryArrowProps> = ({
         dragLimits.height - fontSize,
       ];
     } else if (
-      x > dragLimits.width - coverSize &&
-      y < dragLimits.height - coverSize
+      x > dragLimits.width - coverSizeWidth &&
+      y < dragLimits.height - coverSizeHeight
     ) {
       return [
         dragLimits.width - 2 * fontSize,
-        y + coverSize / 2,
+        y + coverSizeHeight / 2,
         dragLimits.width - fontSize,
-        y + coverSize / 2,
+        y + coverSizeHeight / 2,
       ];
     }
     return [
-      x + coverSize / 2,
+      x + coverSizeWidth / 2,
       dragLimits.height - 2 * fontSize,
-      x + coverSize / 2,
+      x + coverSizeWidth / 2,
       dragLimits.height - fontSize,
     ];
-  }, [x, dragLimits.width, dragLimits.height, coverSize, y, fontSize]);
+  }, [
+    x,
+    dragLimits.width,
+    dragLimits.height,
+    coverSizeWidth,
+    y,
+    coverSizeHeight,
+    fontSize,
+  ]);
 
   const handleBringIntoView = () => {
     if (erase) {
@@ -70,10 +82,10 @@ export const BoundaryArrowMemo: React.FC<BoundaryArrowProps> = ({
     }
     let newPos: Vector2d = { x, y };
     if (newPos.x > dragLimits.width) {
-      newPos.x = dragLimits.width - coverSize;
+      newPos.x = dragLimits.width - coverSizeWidth;
     }
     if (newPos.y > dragLimits.height) {
-      newPos.y = dragLimits.height - coverSize;
+      newPos.y = dragLimits.height - coverSizeHeight;
     }
     updateCoverPosition(id, newPos);
   };
@@ -106,8 +118,8 @@ export const BoundaryArrowMemo: React.FC<BoundaryArrowProps> = ({
       />
       {tooltip && (
         <Tooltip
-          text={album}
-          x={points[0] - 2 * coverSize - fontSize}
+          text={title}
+          x={points[0] - 2 * coverSizeWidth - fontSize}
           y={points[1] - fontSize}
           align="right"
         />

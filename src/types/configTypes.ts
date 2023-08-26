@@ -1,3 +1,4 @@
+import { LabelType } from './coverTypes';
 import { PosTypes } from './generalTypes';
 
 export enum Colors {
@@ -37,27 +38,63 @@ export const backColorMap = {
 };
 
 export enum ToolbarConfigValues {
+  MEDIA = 'media',
   TITLE = 'title',
   SIZE = 'size',
   COLOR = 'color',
   BACK_COLOR = 'backColor',
+  SHOW_MAIN_TITLE = 'showMainTitle',
   SHOW_TITLE = 'showTitle',
-  SHOW_ARTIST = 'showArtist',
-  SHOW_ALBUM = 'showAlbum',
+  SHOW_SUBTITLE = 'showSubtitle',
   LABEL_DIR = 'labelDir',
 }
 
+export enum Media {
+  MUSIC = 'music',
+  MOVIE = 'movie',
+  BOOK = 'book',
+}
+
+export enum MediaValues {
+  ARTIST = 'artist',
+  ALBUM = 'album',
+  MOVIE = 'movie',
+  YEAR = 'year',
+  BOOK = 'book',
+  AUTHOR = 'author',
+}
+
+export interface MediaDesc {
+  label: MediaValues;
+  required: boolean;
+}
+
+export const MediaMap = {
+  [Media.MUSIC]: {
+    [LabelType.TITLE]: { label: MediaValues.ARTIST, required: false },
+    [LabelType.SUBTITLE]: { label: MediaValues.ALBUM, required: true },
+    heightRatio: 1,
+  },
+  [Media.MOVIE]: {
+    [LabelType.TITLE]: { label: MediaValues.MOVIE, required: true },
+    [LabelType.SUBTITLE]: { label: MediaValues.YEAR, required: false },
+    heightRatio: 1.5,
+  },
+  [Media.BOOK]: {
+    [LabelType.TITLE]: { label: MediaValues.BOOK, required: true },
+    [LabelType.SUBTITLE]: { label: MediaValues.AUTHOR, required: false },
+    heightRatio: 1.5,
+  },
+};
+
 export interface ToolbarConfigParams {
+  [ToolbarConfigValues.MEDIA]: Media;
   [ToolbarConfigValues.TITLE]: string;
   [ToolbarConfigValues.SIZE]: number;
   [ToolbarConfigValues.COLOR]: Colors;
   [ToolbarConfigValues.BACK_COLOR]: BackColors;
+  [ToolbarConfigValues.SHOW_MAIN_TITLE]: boolean;
   [ToolbarConfigValues.SHOW_TITLE]: boolean;
-  [ToolbarConfigValues.SHOW_ARTIST]: boolean;
-  [ToolbarConfigValues.SHOW_ALBUM]: boolean;
+  [ToolbarConfigValues.SHOW_SUBTITLE]: boolean;
   [ToolbarConfigValues.LABEL_DIR]: PosTypes;
-}
-
-export interface ApiKey {
-  LastFMKey: string;
 }

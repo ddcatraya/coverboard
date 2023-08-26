@@ -1,16 +1,22 @@
 import { Html } from 'react-konva-utils';
 
-import { getLastFMAlbums } from 'api';
+import { getBookCovers, getLastFMAlbums, getMoviePosters } from 'api';
 import { ToolbarSearchPopover } from '.';
-import { PosTypes, SearchParams } from 'types';
+import { CoverValues, LabelType, Media, PosTypes } from 'types';
 import { v4 as uuidv4 } from 'uuid';
 import { useMainStore, useToastStore, useToolbarStore } from 'store';
 import { shallow } from 'zustand/shallow';
 
+const ApiToCallMap = {
+  [Media.MUSIC]: getLastFMAlbums,
+  [Media.MOVIE]: getMoviePosters,
+  [Media.BOOK]: getBookCovers,
+};
+
 export const ToolbarSearch: React.FC = () => {
   const covers = useMainStore((state) => state.covers);
+  const media = useMainStore((state) => state.configs.media);
   const addCovers = useMainStore((state) => state.addCovers);
-  const apiKey = useMainStore((state) => state.apiKey);
   const showSuccessMessage = useToastStore((state) => state.showSuccessMessage);
   const showErrorMessage = useToastStore((state) => state.showErrorMessage);
   const [openSearch, setOpenSearch] = useToolbarStore(
@@ -18,45 +24,48 @@ export const ToolbarSearch: React.FC = () => {
     shallow,
   );
 
-  const handleSearch = async (inputArray: Array<SearchParams>) => {
+  const handleSearch = async (inputArray: Array<CoverValues>) => {
     try {
-      const albums = (await getLastFMAlbums(inputArray, apiKey)) ?? [];
+      const ApiToCall = ApiToCallMap[media];
+      const results = (await ApiToCall(inputArray)) ?? [];
 
-      const filteredAlbums = albums.filter(
-        (filteredAlbum) =>
+      const filtereResults = results.filter(
+        (filteredResult) =>
           !covers.find(
             (star) =>
-              star.artist.search === filteredAlbum.artist &&
-              star.album.search === filteredAlbum.album,
+              star[LabelType.TITLE].search ===
+                filteredResult[LabelType.TITLE] &&
+              star[LabelType.SUBTITLE].search ===
+                filteredResult[LabelType.SUBTITLE],
           ),
       );
 
-      if (filteredAlbums.length) {
+      if (filtereResults.length) {
         addCovers(
-          filteredAlbums.map((filteredAlbum) => ({
+          filtereResults.map((filteredResult) => ({
             id: uuidv4(),
-            link: filteredAlbum.link,
+            link: filteredResult.link,
             x: 0,
             y: 0,
-            artist: {
-              search: filteredAlbum.artist,
-              text: filteredAlbum.artist,
+            [LabelType.TITLE]: {
+              search: filteredResult[LabelType.TITLE],
+              text: filteredResult[LabelType.TITLE],
             },
-            album: {
-              search: filteredAlbum.album,
-              text: filteredAlbum.album,
+            [LabelType.SUBTITLE]: {
+              search: filteredResult[LabelType.SUBTITLE],
+              text: filteredResult[LabelType.SUBTITLE],
             },
             dir: PosTypes.BOTTOM,
           })),
         );
         showSuccessMessage(
-          `${filteredAlbums.length}/${inputArray.length} album found`,
+          `${filtereResults.length}/${inputArray.length} results found`,
         );
       } else {
-        showErrorMessage('Album not found or already exists');
+        showErrorMessage('Not found results or already exists');
       }
     } catch (err) {
-      showErrorMessage('Albums not found');
+      showErrorMessage('Result not found');
     }
   };
 

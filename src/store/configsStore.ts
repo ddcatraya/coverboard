@@ -7,7 +7,9 @@ import {
   DragLimits,
   colorMap,
   backColorMap,
+  LabelType,
 } from 'types';
+import { Media, MediaDesc, MediaMap } from 'types/configTypes';
 import { StateCreator } from 'zustand';
 
 const getSize = () => {
@@ -19,10 +21,11 @@ export const initialConfigValues = () => ({
   title: '',
   color: Colors.YELLOW,
   backColor: BackColors.DARK,
-  showArtist: true,
-  showAlbum: true,
   showTitle: true,
+  showSubtitle: true,
+  showMainTitle: true,
   labelDir: PosTypes.BOTTOM,
+  media: Media.MUSIC,
 });
 
 export interface UseConfigsParams {
@@ -31,6 +34,8 @@ export interface UseConfigsParams {
   updateConfigs: (newConfig: ToolbarConfigParams) => void;
   resetTitle: () => void;
   updateTitle: (title: string) => void;
+  coverSizeWidth: () => number;
+  coverSizeHeight: () => number;
   toobarIconSize: () => number;
   fontSize: () => number;
   circleRadius: () => number;
@@ -44,6 +49,9 @@ export interface UseConfigsParams {
     width: number;
     height: number;
   };
+  titleLabel: () => MediaDesc;
+  subTitleLabel: () => MediaDesc;
+  setMedia: (media: Media) => void;
 }
 
 export const createConfigsSlice: StateCreator<
@@ -53,6 +61,16 @@ export const createConfigsSlice: StateCreator<
   UseConfigsParams
 > = (set, get) => ({
   configs: initialConfigValues(),
+  coverSizeWidth: () => get().configs.size,
+  coverSizeHeight: () =>
+    get().configs.size * MediaMap[get().configs.media].heightRatio,
+  setMedia: (media: Media) => {
+    set(({ configs }) => ({
+      configs: { ...configs, media },
+    }));
+  },
+  titleLabel: () => MediaMap[get().configs.media][LabelType.TITLE],
+  subTitleLabel: () => MediaMap[get().configs.media][LabelType.SUBTITLE],
   getColor: () => colorMap[get().configs.color],
   getBackColor: () => backColorMap[get().configs.backColor],
   windowSize: {

@@ -1,30 +1,24 @@
 import React, { RefObject, useCallback, useRef, useState } from 'react';
 import { Stage, Layer, Group, Rect, Text } from 'react-konva';
 
-import {
-  AlbumCover,
-  DrawLine,
-  Toolbar,
-  TitleLabel,
-  BoundaryArrow,
-  Logo,
-} from './';
+import { Cover, DrawLine, Toolbar, TitleLabel, BoundaryArrow, Logo } from './';
 import { flushSync } from 'react-dom';
 import { formatDate } from 'utils';
 import { useMainStore } from 'store';
 import { shallow } from 'zustand/shallow';
 import Konva from 'konva';
+import { LabelType } from 'types';
 
-const AlbumCovers: React.FC = () => {
+const Covers: React.FC = () => {
   const covers = useMainStore((state) => state.covers);
 
   return (
     <>
       {covers.map((star) => (
-        <AlbumCover
+        <Cover
           id={star.id}
-          artist={star.artist.text}
-          album={star.album.text}
+          title={star[LabelType.TITLE].text}
+          subtitle={star[LabelType.SUBTITLE].text}
           x={star.x}
           y={star.y}
           link={star.link}
@@ -65,7 +59,7 @@ const BoundaryArrows: React.FC = () => {
           id={star.id}
           x={star.x}
           y={star.y}
-          album={star.album.text}
+          title={star[LabelType.SUBTITLE].text}
           key={star.id}
         />
       ))}
@@ -77,13 +71,14 @@ const CountLabel: React.FC = () => {
   const pos0 = useMainStore(
     (state) => state.covers.filter((cov) => cov.x === 0 && cov.y === 0).length,
   );
-  const coverSize = useMainStore((state) => state.configs.size);
+  const coverSizeWidth = useMainStore((state) => state.coverSizeWidth());
+  const coverSizeHeight = useMainStore((state) => state.coverSizeHeight());
   const fontSize = useMainStore((state) => state.fontSize());
 
   return (
     <Text
-      x={coverSize + fontSize / 2}
-      y={coverSize - fontSize * 2}
+      x={coverSizeWidth + fontSize / 2}
+      y={coverSizeHeight - fontSize * 2}
       align="center"
       text={pos0 > 1 ? 'x' + String(pos0) : ''}
       fontSize={fontSize * 2}
@@ -151,7 +146,7 @@ export const CoverBoard: React.FC = () => {
           )}
           <Group name="board" x={dragLimits.x} y={dragLimits.y}>
             <DrawLines />
-            <AlbumCovers />
+            <Covers />
             <BoundaryArrows />
             <TitleLabel />
             <CountLabel />

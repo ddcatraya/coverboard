@@ -16,10 +16,10 @@ export interface UseCoverParams {
   removeCover: (coverId: string) => void;
   updateCoversText: (
     coverId: string,
-    artistText: string,
-    albumText: string,
+    titleText: string,
+    subTitleText: string,
   ) => void;
-  addCovers: (filteredAlbums: Array<Covers>) => void;
+  addCovers: (filteredResults: Array<Covers>) => void;
   updateCoverPosition: (coverId: string, { x, y }: Vector2d) => void;
   updateAllCoverPosition: (arrayPos: Array<Vector2d>) => void;
   getDirById: (id: string) => Covers['dir'];
@@ -58,13 +58,13 @@ export const createCoversSlice: StateCreator<
     set(({ covers }) => ({
       covers: covers.map((star) => ({
         ...star,
-        artist: {
-          ...star.artist,
-          text: star.artist.search,
+        [LabelType.TITLE]: {
+          ...star[LabelType.TITLE],
+          text: star[LabelType.TITLE].search,
         },
-        album: {
-          ...star.album,
-          text: star.album.search,
+        [LabelType.SUBTITLE]: {
+          ...star[LabelType.SUBTITLE],
+          text: star[LabelType.SUBTITLE].search,
         },
         dir: PosTypes.BOTTOM,
         x: 0,
@@ -113,28 +113,28 @@ export const createCoversSlice: StateCreator<
       ),
     ); */
   },
-  updateCoversText(coverId, artistText, albumText) {
+  updateCoversText(coverId, titleText, subTitleText) {
     set(({ covers }) => ({
       covers: covers.map((star) =>
         coverId === star.id
           ? {
               ...star,
-              [LabelType.ARTIST]: {
-                ...star[LabelType.ARTIST],
-                text: artistText,
+              [LabelType.TITLE]: {
+                ...star[LabelType.TITLE],
+                text: titleText,
               },
-              [LabelType.ALBUM]: {
-                ...star[LabelType.ALBUM],
-                text: albumText,
+              [LabelType.SUBTITLE]: {
+                ...star[LabelType.SUBTITLE],
+                text: subTitleText,
               },
             }
           : star,
       ),
     }));
   },
-  addCovers(filteredAlbums) {
+  addCovers(filteredResults) {
     set(({ covers }) => ({
-      covers: [...covers, ...filteredAlbums],
+      covers: [...covers, ...filteredResults],
     }));
   },
   updateCoverPosition(coverId, { x, y }) {

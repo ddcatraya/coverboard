@@ -1,23 +1,23 @@
 import React, { useState } from 'react';
 import { Image, Rect, Text } from 'react-konva';
 
-import { AlbumCoverValues, Covers, LabelType } from 'types';
+import { CoverValues, Covers, LabelType } from 'types';
 import { Html, useImage } from 'react-konva-utils';
-import { AlbumCoverImagePopover } from '.';
+import { CoverImagePopover } from '.';
 import { KonvaEventObject } from 'konva/lib/Node';
 import { useMainStore, useUtilsStore } from 'store';
 
 interface CoverImageProps {
   id: Covers['id'];
-  artist: Covers['artist']['text'];
-  album: Covers['album']['text'];
+  title: string;
+  subtitle: string;
   link: Covers['link'];
 }
 
-export const AlbumCoverImage: React.FC<CoverImageProps> = ({
+export const CoverImage: React.FC<CoverImageProps> = ({
   id,
-  artist,
-  album,
+  title,
+  subtitle,
   link,
 }) => {
   const resetCoverLabel = useMainStore((state) => state.resetCoverLabel);
@@ -30,7 +30,8 @@ export const AlbumCoverImage: React.FC<CoverImageProps> = ({
   const editLines = useUtilsStore((state) => state.editLines);
   const erase = useUtilsStore((state) => state.erase);
 
-  const coverSize = useMainStore((state) => state.configs.size);
+  const coverSizeWidth = useMainStore((state) => state.coverSizeWidth());
+  const coverSizeHeight = useMainStore((state) => state.coverSizeHeight());
   const fontSize = useMainStore((state) => state.fontSize());
 
   const [image, status] = useImage(link, 'anonymous');
@@ -45,11 +46,11 @@ export const AlbumCoverImage: React.FC<CoverImageProps> = ({
     setOpen(true);
   };
 
-  const handleSubmit = (values: AlbumCoverValues) => {
+  const handleSubmit = (values: CoverValues) => {
     updateCoversText(
       id,
-      values[LabelType.ARTIST].trim(),
-      values[LabelType.ALBUM].trim(),
+      values[LabelType.TITLE].trim(),
+      values[LabelType.SUBTITLE].trim(),
     );
   };
 
@@ -58,8 +59,8 @@ export const AlbumCoverImage: React.FC<CoverImageProps> = ({
       {status === 'loaded' && image ? (
         <Image
           image={image}
-          width={coverSize}
-          height={coverSize}
+          width={coverSizeWidth}
+          height={coverSizeHeight}
           onClick={!editLines ? () => handleEraseImage(id) : undefined}
           onDblTap={!editLines ? () => handleEraseImage(id) : undefined}
           onMouseMove={(evt: KonvaEventObject<MouseEvent>) => {
@@ -74,8 +75,8 @@ export const AlbumCoverImage: React.FC<CoverImageProps> = ({
       ) : (
         <>
           <Rect
-            width={coverSize}
-            height={coverSize}
+            width={coverSizeWidth}
+            height={coverSizeHeight}
             fill={backColor}
             stroke={color}
             onClick={!editLines ? () => handleEraseImage(id) : undefined}
@@ -92,8 +93,8 @@ export const AlbumCoverImage: React.FC<CoverImageProps> = ({
           <Text
             fontSize={fontSize * 1.2}
             x={0}
-            y={coverSize / 2 - (fontSize * 1.2) / 2}
-            width={coverSize}
+            y={coverSizeHeight / 2 - (fontSize * 1.2) / 2}
+            width={coverSizeWidth}
             align="center"
             fill={color}
             text={status === 'failed' ? 'Error' : 'Loading...'}
@@ -102,17 +103,17 @@ export const AlbumCoverImage: React.FC<CoverImageProps> = ({
       )}
       {open && (
         <Html>
-          <AlbumCoverImagePopover
+          <CoverImagePopover
             open={open}
             onClose={() => setOpen(false)}
             onSubmit={handleSubmit}
             onReset={() => {
-              resetCoverLabel(id, LabelType.ARTIST);
-              resetCoverLabel(id, LabelType.ALBUM);
+              resetCoverLabel(id, LabelType.TITLE);
+              resetCoverLabel(id, LabelType.SUBTITLE);
             }}
             values={{
-              artist,
-              album,
+              [LabelType.TITLE]: title,
+              [LabelType.SUBTITLE]: subtitle,
             }}
           />
         </Html>

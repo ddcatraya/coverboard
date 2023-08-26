@@ -9,10 +9,8 @@ import { shallow } from 'zustand/shallow';
 
 export const ToolbarShare: React.FC = () => {
   const navigate = useNavigate();
-  const saveId = useMainStore((state) => state.saveId);
   const resetStoreValues = useMainStore((state) => state.resetStoreValues);
   const updateStoreValues = useMainStore((state) => state.updateStoreValues);
-  const getStoreValues = useMainStore((state) => state.getStoreValues);
 
   const showSuccessMessage = useToastStore((state) => state.showSuccessMessage);
   const showErrorMessage = useToastStore((state) => state.showErrorMessage);
@@ -61,13 +59,11 @@ export const ToolbarShare: React.FC = () => {
   return (
     <Html>
       <ToolbarSharePopover
-        instance={getStoreValues()}
         open={openShare}
         onClose={() => setOpenShare(false)}
         handleImport={handleImport}
         handleCopy={handleCopy}
         navigate={navigate}
-        saveId={saveId}
         handleDeleteElements={handleDeleteElements}
       />
     </Html>

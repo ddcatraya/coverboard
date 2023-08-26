@@ -23,7 +23,7 @@ export const DrawLineLabelDraggable: React.FC<DraggableGroupProps> = ({
 }) => {
   const erase = useUtilsStore((state) => state.erase);
   const editLines = useUtilsStore((state) => state.editLines);
-  const coverSize = useMainStore((state) => state.configs.size);
+  const coverSizeWidth = useMainStore((state) => state.coverSizeWidth());
   const fontSize = useMainStore((state) => state.fontSize());
   const circleRadius = useMainStore((state) => state.circleRadius());
   const dragLimits = useMainStore((state) => state.dragLimits(), shallow);
@@ -81,16 +81,16 @@ export const DrawLineLabelDraggable: React.FC<DraggableGroupProps> = ({
       };
     } else if (dir === PosTypes.RIGHT) {
       return {
-        x: coverSize + 3 * circleRadius,
+        x: coverSizeWidth + 3 * circleRadius,
         y: -1.5 * 2 * circleRadius,
       };
     } else {
       return {
-        x: -coverSize - 3 * circleRadius,
+        x: -coverSizeWidth - 3 * circleRadius,
         y: -1.5 * 2 * circleRadius,
       };
     }
-  }, [circleRadius, coverSize, dir]);
+  }, [circleRadius, coverSizeWidth, dir]);
 
   return (
     <Group

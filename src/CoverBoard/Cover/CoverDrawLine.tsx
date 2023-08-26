@@ -5,20 +5,19 @@ import { Covers, PosTypes } from 'types';
 import { KonvaEventObject } from 'konva/lib/Node';
 import { useUtilsStore, useMainStore } from 'store';
 
-interface AlbumCoverDrawLineProps {
+interface CoverDrawLineProps {
   id: Covers['id'];
 }
 
-export const AlbumCoverDrawLine: React.FC<AlbumCoverDrawLineProps> = ({
-  id,
-}) => {
+export const CoverDrawLine: React.FC<CoverDrawLineProps> = ({ id }) => {
   const erase = useUtilsStore((state) => state.erase);
   const points = useUtilsStore((state) => state.points);
   const setPoints = useUtilsStore((state) => state.setPoints);
   const editLines = useUtilsStore((state) => state.editLines);
   const createLine = useMainStore((state) => state.createLine);
 
-  const coverSize = useMainStore((state) => state.configs.size);
+  const coverSizeWidth = useMainStore((state) => state.coverSizeWidth());
+  const coverSizeHeight = useMainStore((state) => state.coverSizeHeight());
   const selection: PosTypes | null = points?.id === id ? points.dir : null;
 
   const handleDrawLine = (id: string, dir: PosTypes) => {
@@ -35,23 +34,31 @@ export const AlbumCoverDrawLine: React.FC<AlbumCoverDrawLineProps> = ({
   const posArray = [
     {
       dir: PosTypes.TOP,
-      x: coverSize / 2,
-      y: -coverSize / 4 - coverSize / 8,
+      x: coverSizeWidth / 2,
+      y: -coverSizeWidth / 4 - coverSizeWidth / 8,
+      width: coverSizeWidth / 2,
+      height: coverSizeWidth / 2,
     },
     {
       dir: PosTypes.RIGHT,
-      x: coverSize,
-      y: coverSize / 8,
+      x: coverSizeWidth,
+      y: coverSizeHeight / 8,
+      width: coverSizeHeight / 2,
+      height: coverSizeHeight / 2,
     },
     {
       dir: PosTypes.LEFT,
       x: 0,
-      y: coverSize / 8,
+      y: coverSizeHeight / 8,
+      width: coverSizeHeight / 2,
+      height: coverSizeHeight / 2,
     },
     {
       dir: PosTypes.BOTTOM,
-      x: coverSize / 2,
-      y: coverSize - coverSize / 4 - coverSize / 8,
+      x: coverSizeWidth / 2,
+      y: coverSizeHeight - coverSizeWidth / 4 - coverSizeWidth / 8,
+      width: coverSizeWidth / 2,
+      height: coverSizeWidth / 2,
     },
   ];
 
@@ -64,8 +71,8 @@ export const AlbumCoverDrawLine: React.FC<AlbumCoverDrawLineProps> = ({
           key={pos.dir}
           x={pos.x}
           y={pos.y}
-          width={coverSize / 2}
-          height={coverSize / 2}
+          width={pos.width}
+          height={pos.height}
           fill={selection === pos.dir ? 'red' : 'white'}
           rotation={45}
           opacity={selection === pos.dir ? 0.3 : 0.05}

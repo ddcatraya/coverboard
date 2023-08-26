@@ -16,7 +16,6 @@ import {
   BackColors,
   colorMap,
   Colors,
-  Covers,
   PosTypes,
   ToolbarConfigParams,
   ToolbarConfigValues,
@@ -24,6 +23,7 @@ import {
 } from 'types';
 import { setHash } from 'utils';
 import { CommonDialog } from 'components';
+import { useMainStore } from 'store';
 interface ToolbarConfigPopoverProps {
   open: boolean;
   onClose: () => void;
@@ -31,20 +31,20 @@ interface ToolbarConfigPopoverProps {
     config: ToolbarConfigParams,
     updatedParam?: ToolbarConfigValues,
   ) => void;
-  config: ToolbarConfigParams;
   handleResetElements: () => void;
-  offLimitCovers: Array<Covers>;
 }
 
 export const ToolbarConfigPopover: React.FC<ToolbarConfigPopoverProps> = ({
   open,
   onClose,
   onSubmit,
-  config,
   handleResetElements,
-  offLimitCovers,
 }) => {
-  const [param, setParams] = useState(config);
+  const offLimitCovers = useMainStore((state) => state.offLimitCovers());
+  const configs = useMainStore((state) => state.configs);
+  const [param, setParams] = useState(configs);
+  const titleLabel = useMainStore((state) => state.titleLabel().label);
+  const subTitleLabel = useMainStore((state) => state.subTitleLabel().label);
 
   setHash(ToolConfigIDs.CONFIG);
 
@@ -172,9 +172,9 @@ export const ToolbarConfigPopover: React.FC<ToolbarConfigPopoverProps> = ({
             <FormControlLabel
               control={
                 <Switch
-                  checked={param[ToolbarConfigValues.SHOW_TITLE]}
+                  checked={param[ToolbarConfigValues.SHOW_MAIN_TITLE]}
                   onChange={(evt) =>
-                    handleSwitchChange(evt, ToolbarConfigValues.SHOW_TITLE)
+                    handleSwitchChange(evt, ToolbarConfigValues.SHOW_MAIN_TITLE)
                   }
                 />
               }
@@ -183,24 +183,24 @@ export const ToolbarConfigPopover: React.FC<ToolbarConfigPopoverProps> = ({
             <FormControlLabel
               control={
                 <Switch
-                  checked={param[ToolbarConfigValues.SHOW_ARTIST]}
+                  checked={param[ToolbarConfigValues.SHOW_TITLE]}
                   onChange={(evt) =>
-                    handleSwitchChange(evt, ToolbarConfigValues.SHOW_ARTIST)
+                    handleSwitchChange(evt, ToolbarConfigValues.SHOW_TITLE)
                   }
                 />
               }
-              label="Show artist name"
+              label={`Show ${titleLabel} name`}
             />
             <FormControlLabel
               control={
                 <Switch
-                  checked={param[ToolbarConfigValues.SHOW_ALBUM]}
+                  checked={param[ToolbarConfigValues.SHOW_SUBTITLE]}
                   onChange={(evt) =>
-                    handleSwitchChange(evt, ToolbarConfigValues.SHOW_ALBUM)
+                    handleSwitchChange(evt, ToolbarConfigValues.SHOW_SUBTITLE)
                   }
                 />
               }
-              label="Show album name"
+              label={`Show ${subTitleLabel} name`}
             />
           </Grid>
           <Grid item xs={12}>

@@ -1,5 +1,4 @@
-export type { SearchResults, SearchParams } from './searchTypes';
-export { PopupState } from './searchTypes';
+export type { SearchResults } from './searchTypes';
 
 export type { DragLimits } from './generalTypes';
 export {
@@ -15,16 +14,19 @@ export type { Point, Lines, LineParams } from './lineTypes';
 export type { TooltipValues, ToolConfig } from './toolbarTypes';
 export { ToolConfigIDs } from './toolbarTypes';
 
-export type { AlbumCoverValues, Covers } from './coverTypes';
+export type { CoverValues, Covers } from './coverTypes';
 export { LabelType } from './coverTypes';
 
-export type { ToolbarConfigParams, ApiKey } from './configTypes';
+export type { ToolbarConfigParams, MediaDesc } from './configTypes';
 export {
   Colors,
   BackColors,
   ToolbarConfigValues,
   colorMap,
   backColorMap,
+  Media,
+  MediaValues,
+  MediaMap,
 } from './configTypes';
 
 export type { LocalStorageData } from './localStorageTypes';

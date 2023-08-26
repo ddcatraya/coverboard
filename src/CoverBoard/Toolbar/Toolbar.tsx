@@ -64,17 +64,17 @@ export const ToolbarMemo: React.FC<ToolbarProps> = ({
 
   const coversLength = useMainStore((state) => state.covers.length);
   const linesLength = useMainStore((state) => state.lines.length);
-  const size = useMainStore((state) => state.configs.size);
+  const coverSizeWidth = useMainStore((state) => state.coverSizeWidth());
 
   const savesNumber = Object.keys(window.localStorage).filter((key) =>
     haxPrefix(key),
   ).length;
-  const configSize = size / 100;
+  const configSize = coverSizeWidth / 100;
 
   const configTools: Array<ToolConfig> = [
     {
       id: ToolConfigIDs.SEARCH,
-      tooltip: `Add albums (covers: ${coversLength})`,
+      tooltip: `Add (covers: ${coversLength})`,
       color: colorMap[Colors.GREEN],
       emoji: '🔍',
       value: openSearch,

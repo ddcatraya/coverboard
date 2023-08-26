@@ -5,14 +5,14 @@ import { TextLabel } from 'components';
 import { getAlign } from 'utils';
 import { useMainStore, useUtilsStore } from 'store';
 
-interface AlbumCoverLabelProps {
+interface CoverLabelProps {
   id: Covers['id'];
   coverLabel: LabelType;
   text: string;
   offset?: number;
 }
 
-export const AlbumCoverLabel: React.FC<AlbumCoverLabelProps> = ({
+export const CoverLabel: React.FC<CoverLabelProps> = ({
   id,
   coverLabel,
   text,
@@ -25,7 +25,8 @@ export const AlbumCoverLabel: React.FC<AlbumCoverLabelProps> = ({
   const editLines = useUtilsStore((state) => state.editLines);
 
   const fontSize = useMainStore((state) => state.fontSize());
-  const coverSize = useMainStore((state) => state.configs.size);
+  const coverSizeWidth = useMainStore((state) => state.coverSizeWidth());
+  const coverSizeHeight = useMainStore((state) => state.coverSizeHeight());
   const [open, setOpen] = useState(false);
 
   const handleReset = () => {
@@ -47,9 +48,9 @@ export const AlbumCoverLabel: React.FC<AlbumCoverLabelProps> = ({
         updateCoverLabel(id, coverLabel, label);
       }}
       pos={{
-        x: -coverSize,
-        y: coverSize + fontSize / 2 + offset,
-        width: coverSize * 3,
+        x: -coverSizeWidth,
+        y: coverSizeHeight + fontSize / 2 + offset,
+        width: coverSizeWidth * 3,
         align: getAlign(dir),
       }}
     />

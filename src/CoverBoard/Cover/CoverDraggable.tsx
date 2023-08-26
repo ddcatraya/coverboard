@@ -21,7 +21,7 @@ interface DraggableGroupProps {
   };
 }
 
-export const AlbumCoverDraggable: React.FC<DraggableGroupProps> = ({
+export const CoverDraggable: React.FC<DraggableGroupProps> = ({
   id,
   x,
   y,
