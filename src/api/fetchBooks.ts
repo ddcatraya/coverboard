@@ -32,7 +32,7 @@ export const getBookCovers = async (
     const { items } = response.value.data;
     if (items && items.length > 0 && items[0].volumeInfo.imageLinks) {
       const isbm = items[0].volumeInfo.industryIdentifiers.find(
-        (identifier: any) => identifier.type === 'ISBN_13',
+        (identifier: { type: string }) => identifier.type === 'ISBN_13',
       )?.identifier;
 
       if (isbm) {
