@@ -2,13 +2,14 @@ import { Html } from 'react-konva-utils';
 
 import { getLastFMAlbums, getMoviePosters } from 'api';
 import { ToolbarSearchPopover } from '.';
-import { CoverValues, LabelType, PosTypes } from 'types';
+import { CoverValues, LabelType, Media, PosTypes } from 'types';
 import { v4 as uuidv4 } from 'uuid';
 import { useMainStore, useToastStore, useToolbarStore } from 'store';
 import { shallow } from 'zustand/shallow';
 
 export const ToolbarSearch: React.FC = () => {
   const covers = useMainStore((state) => state.covers);
+  const media = useMainStore((state) => state.configs.media);
   const addCovers = useMainStore((state) => state.addCovers);
   const apiKey = useMainStore((state) => state.apiKey);
   const showSuccessMessage = useToastStore((state) => state.showSuccessMessage);
@@ -20,7 +21,9 @@ export const ToolbarSearch: React.FC = () => {
 
   const handleSearch = async (inputArray: Array<CoverValues>) => {
     try {
-      const results = (await getMoviePosters(inputArray, apiKey)) ?? [];
+      const ApiToCall =
+        media === Media.MUSIC ? getLastFMAlbums : getMoviePosters;
+      const results = (await ApiToCall(inputArray, apiKey)) ?? [];
 
       const filtereResults = results.filter(
         (filteredResult) =>

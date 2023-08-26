@@ -33,7 +33,7 @@ export const getMoviePosters = async (
       return {
         link: posterUrl,
         [LabelType.TITLE]: movies[0].original_title,
-        [LabelType.SUBTITLE]: '',
+        [LabelType.SUBTITLE]: movies[0].release_date.substring(0, 4),
       };
     }
 

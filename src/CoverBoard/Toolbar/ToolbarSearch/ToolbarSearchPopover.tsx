@@ -1,11 +1,20 @@
 import React, { useState } from 'react';
-import { TextField, Button, Grid } from '@mui/material';
+import {
+  TextField,
+  Button,
+  Grid,
+  FormControl,
+  FormControlLabel,
+  Radio,
+  RadioGroup,
+} from '@mui/material';
 
-import { LabelType, ToolConfigIDs, CoverValues } from 'types';
+import { LabelType, ToolConfigIDs, CoverValues, Media } from 'types';
 import { clearHash, setHash } from 'utils';
 import { CommonDialog } from 'components';
 import { flushSync } from 'react-dom';
 import { useMainStore } from 'store';
+import { shallow } from 'zustand/shallow';
 
 interface PopupProps {
   open: boolean;
@@ -28,6 +37,11 @@ export const ToolbarSearchPopover: React.FC<PopupProps> = ({
 }) => {
   const [inputs, setInputs] = useState<Array<CoverValues>>(initialState());
   const [loading, setLoading] = useState(false);
+  const [media, setMedia] = useMainStore(
+    (state) => [state.configs.media, state.setMedia],
+    shallow,
+  );
+  const coversLength = useMainStore((state) => state.coverSizeHeight.length);
   const titleLabel = useMainStore((state) => state.titleLabel);
   const subTitleLabel = useMainStore((state) => state.subTitleLabel);
 
@@ -66,6 +80,10 @@ export const ToolbarSearchPopover: React.FC<PopupProps> = ({
     }
   };
 
+  const handleMediaChange = (evt: React.ChangeEvent<HTMLInputElement>) => {
+    setMedia(evt.target.value as Media);
+  };
+
   const isInputDisabled =
     !!inputs.find(
       (input) =>
@@ -80,6 +98,28 @@ export const ToolbarSearchPopover: React.FC<PopupProps> = ({
   return (
     <CommonDialog open={open} title="Search" onClose={onClose}>
       <form onSubmit={handleSubmit}>
+        <Grid item sm={6} xs={12}>
+          <label>Pick the media:</label>
+          <RadioGroup
+            row
+            aria-label="media"
+            name="media"
+            value={media}
+            onChange={handleMediaChange}>
+            <FormControlLabel
+              disabled={!!coversLength}
+              value={Media.MUSIC}
+              control={<Radio />}
+              label={Media.MUSIC}
+            />
+            <FormControlLabel
+              disabled={!!coversLength}
+              value={Media.MOVIE}
+              control={<Radio />}
+              label={Media.MOVIE}
+            />
+          </RadioGroup>
+        </Grid>
         {inputs.map((input, index) => (
           <Grid
             container

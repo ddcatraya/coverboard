@@ -24,11 +24,11 @@ export const initialConfigValues = () => ({
   showSubtitle: true,
   showMainTitle: true,
   labelDir: PosTypes.BOTTOM,
+  media: Media.MUSIC,
 });
 
 export interface UseConfigsParams {
   configs: ToolbarConfigParams;
-  media: Media;
   resetConfigs: () => void;
   updateConfigs: (newConfig: ToolbarConfigParams) => void;
   resetTitle: () => void;
@@ -50,6 +50,8 @@ export interface UseConfigsParams {
   };
   titleLabel: string;
   subTitleLabel: string;
+  ratio: number;
+  setMedia: (media: Media) => void;
 }
 
 export const createConfigsSlice: StateCreator<
@@ -59,11 +61,28 @@ export const createConfigsSlice: StateCreator<
   UseConfigsParams
 > = (set, get) => ({
   configs: initialConfigValues(),
+  ratio: 1,
   coverSizeWidth: () => get().configs.size,
-  coverSizeHeight: () => get().configs.size * 1.5,
-  media: Media.MUSIC,
-  titleLabel: 'movie',
-  subTitleLabel: 'desc',
+  coverSizeHeight: () => get().configs.size * get().ratio,
+  setMedia: (media: Media) => {
+    if (media === Media.MUSIC) {
+      set(({ configs }) => ({
+        configs: { ...configs, media },
+        ratio: 1,
+        titleLabel: 'artist',
+        subTitleLabel: 'album',
+      }));
+    } else if (media === Media.MOVIE) {
+      set(({ configs }) => ({
+        configs: { ...configs, media },
+        ratio: 1.5,
+        titleLabel: 'movie',
+        subTitleLabel: 'year',
+      }));
+    }
+  },
+  titleLabel: 'artist',
+  subTitleLabel: 'album',
   getColor: () => colorMap[get().configs.color],
   getBackColor: () => backColorMap[get().configs.backColor],
   windowSize: {

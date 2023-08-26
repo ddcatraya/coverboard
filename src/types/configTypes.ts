@@ -37,6 +37,7 @@ export const backColorMap = {
 };
 
 export enum ToolbarConfigValues {
+  MEDIA = 'media',
   TITLE = 'title',
   SIZE = 'size',
   COLOR = 'color',
@@ -53,6 +54,7 @@ export enum Media {
 }
 
 export interface ToolbarConfigParams {
+  [ToolbarConfigValues.MEDIA]: string;
   [ToolbarConfigValues.TITLE]: string;
   [ToolbarConfigValues.SIZE]: number;
   [ToolbarConfigValues.COLOR]: Colors;

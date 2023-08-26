@@ -1,4 +1,4 @@
-import { BackColors, Colors, ToolbarConfigParams } from './configTypes';
+import { BackColors, Colors, Media, ToolbarConfigParams } from './configTypes';
 import { Covers, LabelType } from './coverTypes';
 import { Lines } from './lineTypes';
 import { z } from 'zod';
@@ -28,6 +28,15 @@ export const schema = (parsedData: LocalStorageData) =>
           })
           .min(50, 'configs:size must be a number higher than 50')
           .max(150, 'configs:size must be a number lower than 150'),
+        media: z.nativeEnum(Media, {
+          errorMap: (_, _ctx) => {
+            return {
+              message: `configs:media must be ${Object.values(Media).join(
+                ' | ',
+              )}`,
+            };
+          },
+        }),
         title: z
           .string({
             invalid_type_error: 'configs:title must be a string',
