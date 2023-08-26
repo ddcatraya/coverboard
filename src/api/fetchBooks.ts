@@ -28,7 +28,7 @@ export const getBookCovers = async (
   );
   const fullPosters = posters.filter(isFulfilled);
 
-  const mappedPosers = fullPosters.flatMap((response: any) => {
+  return fullPosters.flatMap((response: any) => {
     const { items } = response.value.data;
     if (items && items.length > 0 && items[0].volumeInfo.imageLinks) {
       const isbm = items[0].volumeInfo.industryIdentifiers.find(
@@ -37,7 +37,7 @@ export const getBookCovers = async (
 
       if (isbm) {
         return {
-          isbm,
+          link: `https://covers.openlibrary.org/b/isbn/${isbm}-M.jpg`,
           [LabelType.TITLE]: items[0].volumeInfo.title,
           [LabelType.SUBTITLE]: items[0].volumeInfo.authors.join(', '),
         };
@@ -46,22 +46,4 @@ export const getBookCovers = async (
 
     return [];
   });
-
-  const settledPosters = await Promise.allSettled(
-    mappedPosers.map(({ isbm }: any) => {
-      return axios.get(`https://albumcoverboard.vercel.app/api/get-book`, {
-        params: {
-          isbm,
-        },
-      });
-    }),
-  );
-
-  return settledPosters
-    .map((result: any, index) => ({
-      link: result?.value ?? '',
-      [LabelType.TITLE]: mappedPosers[index][LabelType.TITLE],
-      [LabelType.SUBTITLE]: mappedPosers[index][LabelType.SUBTITLE],
-    }))
-    .filter((res) => res.link);
 };

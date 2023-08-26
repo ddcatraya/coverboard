@@ -71,7 +71,7 @@ export interface MediaDesc {
 
 export const MediaMap = {
   [Media.MUSIC]: {
-    [LabelType.TITLE]: { label: MediaValues.ARTIST, required: true },
+    [LabelType.TITLE]: { label: MediaValues.ARTIST, required: false },
     [LabelType.SUBTITLE]: { label: MediaValues.ALBUM, required: true },
     heightRatio: 1,
   },
