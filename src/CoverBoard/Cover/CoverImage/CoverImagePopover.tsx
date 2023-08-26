@@ -21,8 +21,8 @@ export const CoverImagePopover: React.FC<PopupProps> = ({
   values,
 }) => {
   const [text, setText] = useState<CoverValues>(values);
-  const titleLabel = useMainStore((state) => state.titleLabel);
-  const subTitleLabel = useMainStore((state) => state.subTitleLabel);
+  const titleLabel = useMainStore((state) => state.titleLabel());
+  const subTitleLabel = useMainStore((state) => state.subTitleLabel());
 
   const handTextChange = (
     event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>,
@@ -46,7 +46,7 @@ export const CoverImagePopover: React.FC<PopupProps> = ({
         <Grid container spacing={2}>
           <Grid item xs={12}>
             <TextField
-              label={titleLabel}
+              label={titleLabel.label}
               fullWidth
               value={text[LabelType.TITLE]}
               onChange={(evt) => handTextChange(evt, LabelType.TITLE)}
@@ -55,7 +55,7 @@ export const CoverImagePopover: React.FC<PopupProps> = ({
           </Grid>
           <Grid item xs={12}>
             <TextField
-              label={subTitleLabel}
+              label={subTitleLabel.label}
               fullWidth
               value={text[LabelType.SUBTITLE]}
               onChange={(evt) => handTextChange(evt, LabelType.SUBTITLE)}

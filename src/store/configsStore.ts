@@ -7,8 +7,9 @@ import {
   DragLimits,
   colorMap,
   backColorMap,
+  LabelType,
 } from 'types';
-import { Media } from 'types/configTypes';
+import { Media, MediaDesc, MediaMap } from 'types/configTypes';
 import { StateCreator } from 'zustand';
 
 const getSize = () => {
@@ -48,9 +49,8 @@ export interface UseConfigsParams {
     width: number;
     height: number;
   };
-  titleLabel: string;
-  subTitleLabel: string;
-  ratio: number;
+  titleLabel: () => MediaDesc;
+  subTitleLabel: () => MediaDesc;
   setMedia: (media: Media) => void;
 }
 
@@ -61,28 +61,23 @@ export const createConfigsSlice: StateCreator<
   UseConfigsParams
 > = (set, get) => ({
   configs: initialConfigValues(),
-  ratio: 1,
   coverSizeWidth: () => get().configs.size,
-  coverSizeHeight: () => get().configs.size * get().ratio,
+  coverSizeHeight: () =>
+    get().configs.size * MediaMap[get().configs.media].heightRatio,
   setMedia: (media: Media) => {
     if (media === Media.MUSIC) {
+      console.log('a');
       set(({ configs }) => ({
         configs: { ...configs, media },
-        ratio: 1,
-        titleLabel: 'artist',
-        subTitleLabel: 'album',
       }));
     } else if (media === Media.MOVIE) {
       set(({ configs }) => ({
         configs: { ...configs, media },
-        ratio: 1.5,
-        titleLabel: 'movie',
-        subTitleLabel: 'year',
       }));
     }
   },
-  titleLabel: 'artist',
-  subTitleLabel: 'album',
+  titleLabel: () => MediaMap[get().configs.media][LabelType.TITLE],
+  subTitleLabel: () => MediaMap[get().configs.media][LabelType.SUBTITLE],
   getColor: () => colorMap[get().configs.color],
   getBackColor: () => backColorMap[get().configs.backColor],
   windowSize: {

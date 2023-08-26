@@ -1,3 +1,4 @@
+import { LabelType } from './coverTypes';
 import { PosTypes } from './generalTypes';
 
 export enum Colors {
@@ -53,8 +54,33 @@ export enum Media {
   MOVIE = 'movie',
 }
 
+export enum MediaValues {
+  ARTIST = 'artist',
+  ALBUM = 'album',
+  MOVIE = 'movie',
+  YEAR = 'year',
+}
+
+export interface MediaDesc {
+  label: MediaValues;
+  required: boolean;
+}
+
+export const MediaMap = {
+  [Media.MUSIC]: {
+    [LabelType.TITLE]: { label: MediaValues.ARTIST, required: true },
+    [LabelType.SUBTITLE]: { label: MediaValues.ALBUM, required: true },
+    heightRatio: 1,
+  },
+  [Media.MOVIE]: {
+    [LabelType.TITLE]: { label: MediaValues.MOVIE, required: true },
+    [LabelType.SUBTITLE]: { label: MediaValues.YEAR, required: false },
+    heightRatio: 1.5,
+  },
+};
+
 export interface ToolbarConfigParams {
-  [ToolbarConfigValues.MEDIA]: string;
+  [ToolbarConfigValues.MEDIA]: Media;
   [ToolbarConfigValues.TITLE]: string;
   [ToolbarConfigValues.SIZE]: number;
   [ToolbarConfigValues.COLOR]: Colors;

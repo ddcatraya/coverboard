@@ -3,7 +3,6 @@ import {
   TextField,
   Button,
   Grid,
-  FormControl,
   FormControlLabel,
   Radio,
   RadioGroup,
@@ -42,8 +41,8 @@ export const ToolbarSearchPopover: React.FC<PopupProps> = ({
     shallow,
   );
   const coversLength = useMainStore((state) => state.coverSizeHeight.length);
-  const titleLabel = useMainStore((state) => state.titleLabel);
-  const subTitleLabel = useMainStore((state) => state.subTitleLabel);
+  const titleLabel = useMainStore((state) => state.titleLabel());
+  const subTitleLabel = useMainStore((state) => state.subTitleLabel());
 
   setHash(ToolConfigIDs.SEARCH);
 
@@ -67,11 +66,7 @@ export const ToolbarSearchPopover: React.FC<PopupProps> = ({
     });
 
     try {
-      const filterInputs = inputs.filter(
-        (input) =>
-          input[LabelType.TITLE] !== '' && input[LabelType.SUBTITLE] !== '',
-      );
-      await onSubmit(filterInputs);
+      await onSubmit(inputs);
       setInputs(initialState());
       onClose();
     } finally {
@@ -87,24 +82,29 @@ export const ToolbarSearchPopover: React.FC<PopupProps> = ({
   const isInputDisabled =
     !!inputs.find(
       (input) =>
-        (input[LabelType.TITLE] !== '' && input[LabelType.SUBTITLE] === '') ||
-        (input[LabelType.TITLE] === '' && input[LabelType.SUBTITLE] !== ''),
+        (input[LabelType.TITLE] !== '' &&
+          input[LabelType.SUBTITLE] === '' &&
+          subTitleLabel.required) ||
+        (input[LabelType.TITLE] === '' &&
+          titleLabel.required &&
+          input[LabelType.SUBTITLE] !== ''),
     ) ||
-    !inputs.some(
+    inputs.every(
       (input) =>
-        input[LabelType.TITLE] !== '' && input[LabelType.SUBTITLE] !== '',
+        input[LabelType.TITLE] === '' && input[LabelType.SUBTITLE] === '',
     );
 
   return (
     <CommonDialog open={open} title="Search" onClose={onClose}>
       <form onSubmit={handleSubmit}>
         <Grid item sm={6} xs={12}>
-          <label>Pick the media:</label>
+          <label>Pick the media (if empty screen):</label>
           <RadioGroup
             row
             aria-label="media"
             name="media"
             value={media}
+            style={{ marginBottom: '20px' }}
             onChange={handleMediaChange}>
             <FormControlLabel
               disabled={!!coversLength}
@@ -132,7 +132,7 @@ export const ToolbarSearchPopover: React.FC<PopupProps> = ({
             <Grid item sm={6} xs={12}>
               <TextField
                 fullWidth
-                label={titleLabel}
+                label={`${titleLabel.label}${titleLabel.required ? '*' : ''}`}
                 value={input[LabelType.TITLE]}
                 onChange={(e) =>
                   handleInputChange(index, LabelType.TITLE, e.target.value)
@@ -142,7 +142,9 @@ export const ToolbarSearchPopover: React.FC<PopupProps> = ({
             <Grid item sm={6} xs={12}>
               <TextField
                 fullWidth
-                label={subTitleLabel}
+                label={`${subTitleLabel.label}${
+                  subTitleLabel.required ? '*' : ''
+                }`}
                 value={input[LabelType.SUBTITLE]}
                 onChange={(e) =>
                   handleInputChange(index, LabelType.SUBTITLE, e.target.value)

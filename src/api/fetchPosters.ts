@@ -17,7 +17,8 @@ export const getMoviePosters = async (
       return axios.get(`${TMDB_URL}/search/movie`, {
         params: {
           api_key: apiKey.TMDBKey,
-          query: movie[LabelType.TITLE],
+          query: movie[LabelType.TITLE].trim(),
+          year: movie[LabelType.SUBTITLE].trim() ?? undefined,
         },
       });
     }),

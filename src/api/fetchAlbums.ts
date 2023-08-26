@@ -17,8 +17,8 @@ export const getLastFMAlbums = async (
   const albums = await Promise.allSettled(
     bandArray.map((band) => {
       const params = {
-        artist: band[LabelType.TITLE],
-        album: band[LabelType.SUBTITLE],
+        artist: band[LabelType.TITLE].trim(),
+        album: band[LabelType.SUBTITLE].trim(),
         ...(lastFMurl && {
           method: 'album.getinfo',
           api_key: apiKey.LastFMKey,
