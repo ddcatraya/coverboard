@@ -89,7 +89,9 @@ export const schema = (parsedData: LocalStorageData) =>
           .refine((id) => {
             return validate(id);
           }, 'covers:id has invalid format'),
-        link: z.string().url().includes('https://lastfm.freetls.fastly.net'),
+        link: z
+          .string()
+          .url() /* .includes('https://lastfm.freetls.fastly.net'), */,
         x: z
           .number({
             invalid_type_error: 'covers:x position must be a number',

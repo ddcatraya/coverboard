@@ -35,22 +35,30 @@ export const CoverDrawLine: React.FC<CoverDrawLineProps> = ({ id }) => {
     {
       dir: PosTypes.TOP,
       x: coverSizeWidth / 2,
-      y: -coverSizeHeight / 4 - coverSizeHeight / 8,
+      y: -coverSizeWidth / 4 - coverSizeWidth / 8,
+      width: coverSizeWidth / 2,
+      height: coverSizeWidth / 2,
     },
     {
       dir: PosTypes.RIGHT,
       x: coverSizeWidth,
       y: coverSizeHeight / 8,
+      width: coverSizeHeight / 2,
+      height: coverSizeHeight / 2,
     },
     {
       dir: PosTypes.LEFT,
       x: 0,
       y: coverSizeHeight / 8,
+      width: coverSizeHeight / 2,
+      height: coverSizeHeight / 2,
     },
     {
       dir: PosTypes.BOTTOM,
       x: coverSizeWidth / 2,
-      y: coverSizeHeight - coverSizeHeight / 4 - coverSizeHeight / 8,
+      y: coverSizeHeight - coverSizeWidth / 4 - coverSizeWidth / 8,
+      width: coverSizeWidth / 2,
+      height: coverSizeWidth / 2,
     },
   ];
 
@@ -63,8 +71,8 @@ export const CoverDrawLine: React.FC<CoverDrawLineProps> = ({ id }) => {
           key={pos.dir}
           x={pos.x}
           y={pos.y}
-          width={coverSizeWidth / 2}
-          height={coverSizeHeight / 2}
+          width={pos.width}
+          height={pos.height}
           fill={selection === pos.dir ? 'red' : 'white'}
           rotation={45}
           opacity={selection === pos.dir ? 0.3 : 0.05}

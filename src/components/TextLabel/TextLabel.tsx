@@ -24,6 +24,7 @@ interface TitleTexProps {
   hasReset?: boolean;
   title?: string;
   editable?: boolean;
+  wrap?: 'word' | 'char' | 'none';
 }
 
 export const TextLabel: React.FC<TitleTexProps> = ({
@@ -37,6 +38,7 @@ export const TextLabel: React.FC<TitleTexProps> = ({
   listening = true,
   hasReset = false,
   editable = true,
+  wrap = 'none',
   title,
 }) => {
   const fontSize = useMainStore((state) => state.fontSize());
@@ -93,7 +95,7 @@ export const TextLabel: React.FC<TitleTexProps> = ({
             text={label}
             x={pos.x}
             y={pos.y}
-            wrap="none"
+            wrap={wrap}
             ellipsis={true}
             width={pos.width}
             fontSize={fontSize * labelSize}
