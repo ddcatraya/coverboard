@@ -47,8 +47,6 @@ export const DrawLineLabel: React.FC<LineProps> = ({ id, dir, lineParams }) => {
     setTextEdit(true);
   };
 
-  if (erase) return null;
-
   const getLabel = () => {
     if (text) {
       return text;
@@ -60,25 +58,27 @@ export const DrawLineLabel: React.FC<LineProps> = ({ id, dir, lineParams }) => {
 
   return (
     <>
-      <DrawLineLabelDraggable
-        dir={dir}
-        lineParams={lineParams}
-        setUpdate={handleUpdateDir}>
-        <TextLabel
-          open={textEdit}
-          setOpen={setTextEdit}
-          label={getLabel()}
-          onReset={handleReset}
-          setLabel={handleUpdateLabel}
-          pos={{
-            x: -coverSizeWidth,
-            y: fontSize * 1.5,
-            width: coverSizeWidth * 2,
-            align: getAlign(dir),
-          }}
-          wrap="word"
-        />
-      </DrawLineLabelDraggable>
+      {!erase && (
+        <DrawLineLabelDraggable
+          dir={dir}
+          lineParams={lineParams}
+          setUpdate={handleUpdateDir}>
+          <TextLabel
+            open={textEdit}
+            setOpen={setTextEdit}
+            label={getLabel()}
+            onReset={handleReset}
+            setLabel={handleUpdateLabel}
+            pos={{
+              x: -coverSizeWidth,
+              y: fontSize * 1.5,
+              width: coverSizeWidth * 2,
+              align: getAlign(dir),
+            }}
+            wrap="word"
+          />
+        </DrawLineLabelDraggable>
+      )}
       <DrawLineCircle id={id} handleOpen={handleOpen} />
     </>
   );
