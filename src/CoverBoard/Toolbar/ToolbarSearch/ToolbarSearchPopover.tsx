@@ -40,7 +40,7 @@ export const ToolbarSearchPopover: React.FC<PopupProps> = ({
     (state) => [state.configs.media, state.setMedia],
     shallow,
   );
-  const coversLength = useMainStore((state) => state.coverSizeHeight.length);
+  const coversLength = useMainStore((state) => state.covers.length);
   const titleLabel = useMainStore((state) => state.titleLabel());
   const subTitleLabel = useMainStore((state) => state.subTitleLabel());
 
