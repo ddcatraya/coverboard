@@ -90,8 +90,6 @@ export const BoundaryArrowMemo: React.FC<BoundaryArrowProps> = ({
     updateCoverPosition(id, newPos);
   };
 
-  console.log('rerender');
-
   return (
     <Group>
       <Arrow

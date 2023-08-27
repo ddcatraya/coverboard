@@ -58,20 +58,21 @@ const CoverMemo: React.FC<CoverImageProps> = ({
 
   return (
     <>
-      <Group onclick={() => setOpen(true)} onDblTap={() => setOpen(true)}>
-        <CoverDraggable
-          id={id}
-          x={x}
-          y={y}
-          min={{
-            x: dragLimits.x,
-            y: dragLimits.y,
-          }}
-          max={{
-            x: windowSize.width - 3.5 * toobarIconSize,
-            y: windowSize.height - 3.5 * toobarIconSize,
-          }}>
-          <CoverDrawLine id={id} />
+      <CoverDraggable
+        id={id}
+        x={x}
+        y={y}
+        min={{
+          x: dragLimits.x,
+          y: dragLimits.y,
+        }}
+        max={{
+          x: windowSize.width - 3.5 * toobarIconSize,
+          y: windowSize.height - 3.5 * toobarIconSize,
+        }}>
+        <CoverDrawLine id={id} />
+
+        <Group onclick={() => setOpen(true)} onDblTap={() => setOpen(true)}>
           <CoverImage id={id} link={link} />
 
           <CoverLabelDraggable
@@ -92,8 +93,8 @@ const CoverMemo: React.FC<CoverImageProps> = ({
               />
             )}
           </CoverLabelDraggable>
-        </CoverDraggable>
-      </Group>
+        </Group>
+      </CoverDraggable>
       {open && (
         <Html>
           <CoverPopover
