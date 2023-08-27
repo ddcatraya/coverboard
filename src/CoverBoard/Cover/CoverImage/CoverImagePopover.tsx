@@ -56,18 +56,26 @@ const getButtons = (media: Media, currentCover: Covers) => {
       },
     ];
   } else if (media === Media.BOOK) {
-    return [
-      {
-        name: 'Google Books',
-        href: `https://www.google.com/search?tbo=p&tbm=bks&q=intitle:${
-          currentCover[LabelType.TITLE].search
-        }${
-          currentCover[LabelType.SUBTITLE]
-            ? '+inauthor:' + currentCover[LabelType.SUBTITLE].search
-            : ''
-        }`,
-      },
-    ];
+    const isbm = currentCover.link.match(/isbn\/(\d+)-/i);
+
+    if (isbm?.length) {
+      return [
+        {
+          name: 'Open library',
+          href: `https://openlibrary.org/isbn/${isbm[1]}`,
+        },
+        {
+          name: 'Google Books',
+          href: `https://www.google.com/search?tbo=p&tbm=bks&q=intitle:${
+            currentCover[LabelType.TITLE].search
+          }${
+            currentCover[LabelType.SUBTITLE]
+              ? '+inauthor:' + currentCover[LabelType.SUBTITLE].search
+              : ''
+          }`,
+        },
+      ];
+    }
   }
 
   return [];

@@ -7,7 +7,7 @@ import { formatDate } from 'utils';
 import { useMainStore } from 'store';
 import { shallow } from 'zustand/shallow';
 import Konva from 'konva';
-import { LabelType } from 'types';
+import { LabelType, Media } from 'types';
 
 const Covers: React.FC = () => {
   const covers = useMainStore((state) => state.covers);
@@ -92,6 +92,7 @@ export const CoverBoard: React.FC = () => {
   const color = useMainStore((state) => state.getColor());
   const backColor = useMainStore((state) => state.getBackColor());
   const saveId = useMainStore((state) => state.saveId);
+  const media = useMainStore((state) => state.configs.media);
 
   const toolBarLimits = useMainStore((state) => state.toolBarLimits(), shallow);
   const toobarIconSize = useMainStore((state) => state.toobarIconSize());
