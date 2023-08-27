@@ -115,7 +115,7 @@ export const ToolbarMemo: React.FC<ToolbarProps> = ({
     {
       id: ToolConfigIDs.ERASE,
       tooltip: `Erase mode (elements: ${linesLength + coversLength})`,
-      color: colorMap[Colors.ORANGE],
+      color: colorMap[Colors.RED],
       emoji: '🗑️',
       value: erase,
       valueModifier: setErase,
@@ -125,7 +125,7 @@ export const ToolbarMemo: React.FC<ToolbarProps> = ({
     {
       id: ToolConfigIDs.SCREENSHOT,
       tooltip: `Take screenshot`,
-      color: colorMap[Colors.RED],
+      color: colorMap[Colors.ORANGE],
       emoji: '📷',
       value: editLines || erase || !showTooltips,
       valueModifier: takeScreenshot,
