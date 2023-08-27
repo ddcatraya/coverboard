@@ -250,14 +250,14 @@ export const ToolbarSharePopover: React.FC<SaveProps> = ({
           </Button>
           <Button
             variant="contained"
-            color="primary"
+            color="secondary"
             onClick={exportData}
             style={{ marginRight: '20px', marginBottom: '20px' }}
             disabled={!isValidJSON}>
             Download
           </Button>
           <Button
-            variant="contained"
+            variant="outlined"
             color="primary"
             disabled={JSON.stringify(instance, null, 4) === jsonData}
             onClick={() => {
