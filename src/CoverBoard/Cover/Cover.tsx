@@ -9,7 +9,7 @@ import {
   CoverDraggable,
   CoverPopover,
 } from '.';
-import { useMainStore, useUtilsStore } from 'store';
+import { useMainStore } from 'store';
 import { shallow } from 'zustand/shallow';
 import { Html } from 'react-konva-utils';
 import { Group } from 'react-konva';
