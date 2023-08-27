@@ -104,6 +104,7 @@ export const CoverImage: React.FC<CoverImageProps> = ({
       {open && (
         <Html>
           <CoverImagePopover
+            id={id}
             open={open}
             onClose={() => setOpen(false)}
             onSubmit={handleSubmit}

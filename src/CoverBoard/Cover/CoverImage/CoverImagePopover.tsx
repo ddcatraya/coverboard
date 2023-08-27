@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { TextField, Button, Link, Grid } from '@mui/material';
-import { LabelType, CoverValues } from 'types';
+import { LabelType, CoverValues, Covers, Media } from 'types';
 import { CommonDialog } from 'components';
 import { useMainStore } from 'store';
 
@@ -11,7 +11,67 @@ interface PopupProps {
   onReset: () => void;
   values: CoverValues;
   title?: string;
+  id: Covers['id'];
 }
+
+const getButtons = (media: Media, currentCover: Covers) => {
+  if (media === Media.MUSIC) {
+    return [
+      {
+        name: 'LastFM',
+        href: `http://www.last.fm/music/${
+          currentCover[LabelType.TITLE].search
+        }/${currentCover[LabelType.SUBTITLE].search}`,
+      },
+      {
+        name: 'Spotify',
+        href: `https://open.spotify.com/search/artist%3A${
+          currentCover[LabelType.TITLE].search
+        }%20AND%20album%3A${currentCover[LabelType.SUBTITLE].search}/`,
+      },
+    ];
+  } else if (media === Media.MOVIE) {
+    return [
+      {
+        name: 'TMDB',
+        href: `https://www.themoviedb.org/search?query=${
+          currentCover[LabelType.TITLE].search
+        }${
+          currentCover[LabelType.SUBTITLE]
+            ? '&year=' + currentCover[LabelType.SUBTITLE].search
+            : ''
+        }`,
+      },
+      {
+        name: 'IMDB',
+        href: `https://www.imdb.com/search/title/?title=${
+          currentCover[LabelType.TITLE].search
+        }${
+          currentCover[LabelType.SUBTITLE]
+            ? `&release_date=${currentCover[LabelType.SUBTITLE].search}-01-01,${
+                currentCover[LabelType.SUBTITLE].search
+              }-12-31`
+            : ''
+        }`,
+      },
+    ];
+  } else if (media === Media.BOOK) {
+    return [
+      {
+        name: 'Google Books',
+        href: `https://www.google.com/search?tbo=p&tbm=bks&q=intitle:${
+          currentCover[LabelType.TITLE].search
+        }${
+          currentCover[LabelType.SUBTITLE]
+            ? '+inauthor:' + currentCover[LabelType.SUBTITLE].search
+            : ''
+        }`,
+      },
+    ];
+  }
+
+  return [];
+};
 
 export const CoverImagePopover: React.FC<PopupProps> = ({
   open,
@@ -19,10 +79,17 @@ export const CoverImagePopover: React.FC<PopupProps> = ({
   onSubmit,
   onReset,
   values,
+  id,
 }) => {
   const [text, setText] = useState<CoverValues>(values);
   const titleLabel = useMainStore((state) => state.titleLabel().label);
   const subTitleLabel = useMainStore((state) => state.subTitleLabel().label);
+  const media = useMainStore((state) => state.configs.media);
+  const currentCover = useMainStore((state) =>
+    state.covers.find((cov) => cov.id === id),
+  )!;
+
+  const buttons = getButtons(media, currentCover);
 
   const handTextChange = (
     event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>,
@@ -81,28 +148,18 @@ export const CoverImagePopover: React.FC<PopupProps> = ({
               style={{ marginRight: '20px', marginBottom: '20px' }}>
               Reset
             </Button>
-            <Button
-              variant="contained"
-              color="primary"
-              target="_blank"
-              component={Link}
-              href={`http://www.last.fm/music/${
-                values[LabelType.TITLE].search
-              }/${values[LabelType.SUBTITLE].search}`}
-              style={{ marginRight: '20px', marginBottom: '20px' }}>
-              Last FM
-            </Button>
-            <Button
-              variant="contained"
-              color="primary"
-              target="_blank"
-              component={Link}
-              href={`https://open.spotify.com/search/artist%3A${
-                values[LabelType.TITLE].search
-              }%20AND%20album%3A${values[LabelType.SUBTITLE].search}/`}
-              style={{ marginBottom: '20px' }}>
-              Spotify
-            </Button>
+            {buttons.map((button) => (
+              <Button
+                key={button.name}
+                variant="contained"
+                color="primary"
+                target="_blank"
+                component={Link}
+                href={button.href}
+                style={{ marginRight: '20px', marginBottom: '20px' }}>
+                {button.name}
+              </Button>
+            ))}
           </Grid>
         </Grid>
       </form>

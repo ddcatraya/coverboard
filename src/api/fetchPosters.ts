@@ -14,7 +14,7 @@ export const getMoviePosters = async (
       return axios.get(`https://albumcoverboard.vercel.app/api/get-movie`, {
         params: {
           query: movie[LabelType.TITLE],
-          ...(movie[LabelType.SUBTITLE] && { year: movie[LabelType.TITLE] }),
+          ...(movie[LabelType.SUBTITLE] && { year: movie[LabelType.SUBTITLE] }),
         },
       });
     }),

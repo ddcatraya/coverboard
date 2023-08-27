@@ -101,6 +101,7 @@ export const ToolbarIcon: React.FC<ToolbarIconProps> = ({ config, index }) => {
         height={toobarIconSize / 2}
         align="right"
         fill="white"
+        fontStyle="bold"
         text={!!config.badge ? String(config.badge) : ''}
         fontSize={toobarIconSize / 3}
       />

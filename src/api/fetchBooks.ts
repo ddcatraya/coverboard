@@ -16,7 +16,7 @@ export const getBookCovers = async (
       return axios.get(`${GOOGLE_URL}/books/v1/volumes`, {
         params: bookTitle[LabelType.SUBTITLE]
           ? {
-              q: `intitle:${bookTitle}+inauthor:${
+              q: `intitle:${bookTitle[LabelType.TITLE]}+inauthor:${
                 bookTitle[LabelType.SUBTITLE]
               }`,
             }
