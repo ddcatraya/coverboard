@@ -9,7 +9,7 @@ import {
   CoverDraggable,
   CoverPopover,
 } from '.';
-import { useMainStore } from 'store';
+import { useMainStore, useUtilsStore } from 'store';
 import { shallow } from 'zustand/shallow';
 import { Html } from 'react-konva-utils';
 import { Group } from 'react-konva';
@@ -40,6 +40,8 @@ const CoverMemo: React.FC<CoverImageProps> = ({
   const [open, setOpen] = useState(false);
   const resetCoverLabel = useMainStore((state) => state.resetCoverLabel);
   const updateCoversText = useMainStore((state) => state.updateCoversText);
+  const editLines = useUtilsStore((state) => state.editLines);
+  const erase = useUtilsStore((state) => state.erase);
 
   const handleSubmit = (values: CoverValues) => {
     updateCoversText(
@@ -55,6 +57,8 @@ const CoverMemo: React.FC<CoverImageProps> = ({
   const offSetTop = !(showTitle && title && showSubtitle && subtitle)
     ? 1.5 * fontSize
     : 0;
+
+  const canOpenPopover = !editLines && !erase;
 
   return (
     <>
@@ -72,7 +76,9 @@ const CoverMemo: React.FC<CoverImageProps> = ({
         }}>
         <CoverDrawLine id={id} />
 
-        <Group onclick={() => setOpen(true)} onDblTap={() => setOpen(true)}>
+        <Group
+          onClick={canOpenPopover ? () => setOpen(true) : undefined}
+          onDblTap={canOpenPopover ? () => setOpen(true) : undefined}>
           <CoverImage id={id} link={link} />
 
           <CoverLabelDraggable
