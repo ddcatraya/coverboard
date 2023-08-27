@@ -243,7 +243,7 @@ export const ToolbarConfigPopover: React.FC<ToolbarConfigPopoverProps> = ({
               color="primary"
               type="submit"
               style={{ marginRight: '20px', marginBottom: '20px' }}>
-              Submit
+              Close
             </Button>
             <Button
               variant="outlined"

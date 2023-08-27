@@ -74,7 +74,7 @@ export const ToolbarMemo: React.FC<ToolbarProps> = ({
   const configTools: Array<ToolConfig> = [
     {
       id: ToolConfigIDs.SEARCH,
-      tooltip: `Add (covers: ${coversLength})`,
+      tooltip: `Search and add (covers: ${coversLength})`,
       color: colorMap[Colors.GREEN],
       emoji: '🔍',
       value: openSearch,
@@ -105,7 +105,7 @@ export const ToolbarMemo: React.FC<ToolbarProps> = ({
     {
       id: ToolConfigIDs.ARROW,
       tooltip: `Create arrow mode (arrows: ${linesLength})`,
-      color: colorMap[Colors.GOLD],
+      color: colorMap[Colors.YELLOW],
       emoji: '➜',
       value: editLines,
       valueModifier: setEditLines,

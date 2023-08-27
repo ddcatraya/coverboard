@@ -99,10 +99,12 @@ export const ToolbarSearchPopover: React.FC<PopupProps> = ({
     );
 
   return (
-    <CommonDialog open={open} title="Search" onClose={onClose}>
+    <CommonDialog open={open} title="Search and add" onClose={onClose}>
       <form onSubmit={handleSubmit}>
         <Grid item sm={6} xs={12}>
-          <label>Pick the media (if empty screen):</label>
+          <label>
+            Pick the media <small>(only if empty screen)</small>:
+          </label>
           <RadioGroup
             row
             aria-label="media"
