@@ -51,6 +51,7 @@ export enum Media {
   MUSIC = 'music',
   MOVIE = 'movie',
   BOOK = 'book',
+  GAME = 'game',
 }
 
 export enum MediaValues {
@@ -60,28 +61,68 @@ export enum MediaValues {
   YEAR = 'year',
   BOOK = 'book',
   AUTHOR = 'author',
+  GAME = 'game',
+  TEST = 'disabled',
 }
 
 export interface MediaDesc {
   label: MediaValues;
   required: boolean;
+  hidden: boolean;
 }
 
 export const MediaMap = {
   [Media.MUSIC]: {
-    [LabelType.TITLE]: { label: MediaValues.ARTIST, required: true },
-    [LabelType.SUBTITLE]: { label: MediaValues.ALBUM, required: true },
+    [LabelType.TITLE]: {
+      label: MediaValues.ARTIST,
+      required: true,
+      hidden: false,
+    },
+    [LabelType.SUBTITLE]: {
+      label: MediaValues.ALBUM,
+      required: true,
+      hidden: false,
+    },
     heightRatio: 1,
   },
   [Media.MOVIE]: {
-    [LabelType.TITLE]: { label: MediaValues.MOVIE, required: true },
-    [LabelType.SUBTITLE]: { label: MediaValues.YEAR, required: false },
+    [LabelType.TITLE]: {
+      label: MediaValues.MOVIE,
+      required: true,
+      hidden: false,
+    },
+    [LabelType.SUBTITLE]: {
+      label: MediaValues.YEAR,
+      required: false,
+      hidden: false,
+    },
     heightRatio: 1.5,
   },
   [Media.BOOK]: {
-    [LabelType.TITLE]: { label: MediaValues.BOOK, required: true },
-    [LabelType.SUBTITLE]: { label: MediaValues.AUTHOR, required: false },
+    [LabelType.TITLE]: {
+      label: MediaValues.BOOK,
+      required: true,
+      hidden: false,
+    },
+    [LabelType.SUBTITLE]: {
+      label: MediaValues.AUTHOR,
+      required: false,
+      hidden: false,
+    },
     heightRatio: 1.5,
+  },
+  [Media.GAME]: {
+    [LabelType.TITLE]: {
+      label: MediaValues.GAME,
+      required: true,
+      hidden: false,
+    },
+    [LabelType.SUBTITLE]: {
+      label: MediaValues.TEST,
+      required: false,
+      hidden: true,
+    },
+    heightRatio: 0.9,
   },
 };
 

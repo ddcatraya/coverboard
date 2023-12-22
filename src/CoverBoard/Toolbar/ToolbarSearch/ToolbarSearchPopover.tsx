@@ -130,6 +130,12 @@ export const ToolbarSearchPopover: React.FC<PopupProps> = ({
               control={<Radio />}
               label={Media.BOOK}
             />
+            <FormControlLabel
+              disabled={!!coversLength}
+              value={Media.GAME}
+              control={<Radio />}
+              label={Media.GAME}
+            />
           </RadioGroup>
         </Grid>
         {inputs.map((input, index) => (
@@ -154,6 +160,7 @@ export const ToolbarSearchPopover: React.FC<PopupProps> = ({
             <Grid item sm={6} xs={12}>
               <TextField
                 fullWidth
+                disabled={subTitleLabel.hidden}
                 label={`${subTitleLabel.label}${
                   subTitleLabel.required ? '*' : ''
                 }`}

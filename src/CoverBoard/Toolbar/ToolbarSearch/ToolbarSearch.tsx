@@ -1,6 +1,6 @@
 import { Html } from 'react-konva-utils';
 
-import { getBookCovers, getLastFMAlbums, getMoviePosters } from 'api';
+import { getBookCovers, getLastFMAlbums, getMoviePosters, getGames } from 'api';
 import { ToolbarSearchPopover } from '.';
 import { CoverValues, LabelType, Media, PosTypes } from 'types';
 import { v4 as uuidv4 } from 'uuid';
@@ -11,6 +11,7 @@ const ApiToCallMap = {
   [Media.MUSIC]: getLastFMAlbums,
   [Media.MOVIE]: getMoviePosters,
   [Media.BOOK]: getBookCovers,
+  [Media.GAME]: getGames,
 };
 
 export const ToolbarSearch: React.FC = () => {
