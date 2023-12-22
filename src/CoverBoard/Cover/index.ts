@@ -5,3 +5,4 @@ export { CoverPopover } from './CoverPopover';
 export { CoverDraggable } from './CoverDraggable';
 export { CoverLabelDraggable } from './CoverLabelDraggable';
 export { CoverImage } from './CoverImage';
+export { CoverLoadImage } from './CoverLoadImage';

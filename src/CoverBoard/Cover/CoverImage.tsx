@@ -1,62 +1,36 @@
 import React from 'react';
-import { Image, Rect, Text } from 'react-konva';
+import { Image, Text } from 'react-konva';
 
 import { Covers } from 'types';
 import { useImage } from 'react-konva-utils';
 import { KonvaEventObject } from 'konva/lib/Node';
-import { useMainStore, useUtilsStore } from 'store';
+import { useMainStore } from 'store';
 
 interface CoverImageProps {
-  id: Covers['id'];
   link: Covers['link'];
+  onRetry: (evt: KonvaEventObject<MouseEvent>) => void;
 }
 
-export const CoverImage: React.FC<CoverImageProps> = ({ id, link }) => {
-  const removeCoverAndRelatedLines = useMainStore(
-    (state) => state.removeCoverAndRelatedLines,
-  );
+export const CoverImage: React.FC<CoverImageProps> = ({ link, onRetry }) => {
   const color = useMainStore((state) => state.getColor());
-  const backColor = useMainStore((state) => state.getBackColor());
-  const editLines = useUtilsStore((state) => state.editLines);
-  const erase = useUtilsStore((state) => state.erase);
 
   const coverSizeWidth = useMainStore((state) => state.coverSizeWidth());
   const coverSizeHeight = useMainStore((state) => state.coverSizeHeight());
   const fontSize = useMainStore((state) => state.fontSize());
 
-  const [image, status] = useImage(link, 'anonymous');
-
-  const canDelete = !editLines && erase;
+  const [image, status] = useImage(link + '2', 'anonymous');
 
   return (
     <>
-      <Rect
-        width={coverSizeWidth - 2}
-        height={coverSizeHeight - 2}
-        x={1}
-        y={1}
-        fill={backColor}
-        strokeWidth={1}
-        stroke={color}
-        onClick={canDelete ? () => removeCoverAndRelatedLines(id) : undefined}
-        onDblTap={canDelete ? () => removeCoverAndRelatedLines(id) : undefined}
-        onMouseMove={(evt: KonvaEventObject<MouseEvent>) => {
-          if (!editLines) {
-            evt.currentTarget.opacity(0.5);
-          }
-        }}
-        onMouseLeave={(evt: KonvaEventObject<MouseEvent>) => {
-          evt.currentTarget.opacity(1);
-        }}
-      />
-      {status === 'loaded' && image ? (
+      {status === 'loaded' && image && (
         <Image
           listening={false}
           image={image}
           width={coverSizeWidth}
           height={coverSizeHeight}
         />
-      ) : (
+      )}
+      {status === 'loading' && (
         <Text
           fontSize={fontSize * 1.2}
           x={0}
@@ -64,7 +38,19 @@ export const CoverImage: React.FC<CoverImageProps> = ({ id, link }) => {
           width={coverSizeWidth}
           align="center"
           fill={color}
-          text={status === 'failed' ? 'Error' : 'Loading...'}
+          text="Loading..."
+        />
+      )}
+      {status === 'failed' && (
+        <Text
+          fontSize={fontSize * 1.2}
+          x={coverSizeWidth / 4.3}
+          y={coverSizeHeight / 2.5 - (fontSize * 1.2) / 2}
+          width={coverSizeWidth / 1.8}
+          align="center"
+          fill={color}
+          text="Error (Retry)"
+          onClick={onRetry}
         />
       )}
     </>

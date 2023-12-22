@@ -14,7 +14,7 @@ const Covers: React.FC = () => {
 
   return (
     <>
-      {covers.map((star) => (
+      {covers.map((star, index) => (
         <Cover
           id={star.id}
           title={star[LabelType.TITLE].text}
@@ -23,6 +23,7 @@ const Covers: React.FC = () => {
           y={star.y}
           link={star.link}
           key={star.id}
+          renderTime={500 * index}
         />
       ))}
     </>

@@ -3,11 +3,11 @@ import React, { useState } from 'react';
 import { Covers, CoverValues, LabelType } from 'types';
 import {
   CoverDrawLine,
-  CoverImage,
   CoverLabel,
   CoverLabelDraggable,
   CoverDraggable,
   CoverPopover,
+  CoverLoadImage,
 } from '.';
 import { useMainStore, useUtilsStore } from 'store';
 import { shallow } from 'zustand/shallow';
@@ -21,6 +21,7 @@ interface CoverImageProps {
   x: Covers['x'];
   y: Covers['y'];
   link: Covers['link'];
+  renderTime: number;
 }
 
 const CoverMemo: React.FC<CoverImageProps> = ({
@@ -30,6 +31,7 @@ const CoverMemo: React.FC<CoverImageProps> = ({
   x,
   y,
   link,
+  renderTime,
 }) => {
   const showTitle = useMainStore((state) => state.configs.showTitle);
   const showSubtitle = useMainStore((state) => state.configs.showSubtitle);
@@ -79,7 +81,7 @@ const CoverMemo: React.FC<CoverImageProps> = ({
         <Group
           onclick={canOpenPopover ? () => setOpen(true) : undefined}
           onDblTap={canOpenPopover ? () => setOpen(true) : undefined}>
-          <CoverImage id={id} link={link} />
+          <CoverLoadImage id={id} link={link} renderTime={renderTime} />
 
           <CoverLabelDraggable
             id={id}
