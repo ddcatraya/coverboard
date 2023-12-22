@@ -18,7 +18,7 @@ export const CoverImage: React.FC<CoverImageProps> = ({ link, onRetry }) => {
   const coverSizeHeight = useMainStore((state) => state.coverSizeHeight());
   const fontSize = useMainStore((state) => state.fontSize());
 
-  const [image, status] = useImage(link + '2', 'anonymous');
+  const [image, status] = useImage(link, 'anonymous');
 
   return (
     <>
