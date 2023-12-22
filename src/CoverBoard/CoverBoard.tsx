@@ -23,7 +23,7 @@ const Covers: React.FC = () => {
           y={star.y}
           link={star.link}
           key={star.id}
-          renderTime={500 * index}
+          renderTime={400 * index}
         />
       ))}
     </>
