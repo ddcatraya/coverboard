@@ -21,7 +21,7 @@ import {
   ToolbarConfigValues,
   ToolConfigIDs,
 } from 'types';
-import { setHash } from 'utils';
+import { clearHash, setHash } from 'utils';
 import { CommonDialog } from 'components';
 import { useMainStore } from 'store';
 interface ToolbarConfigPopoverProps {
@@ -46,7 +46,11 @@ export const ToolbarConfigPopover: React.FC<ToolbarConfigPopoverProps> = ({
   const titleLabel = useMainStore((state) => state.titleLabel().label);
   const subTitleLabel = useMainStore((state) => state.subTitleLabel().label);
 
-  setHash(ToolConfigIDs.CONFIG);
+  React.useEffect(() => {
+    setHash(ToolConfigIDs.CONFIG);
+
+    return clearHash;
+  });
 
   const handleNumberChange = (
     _: Event,

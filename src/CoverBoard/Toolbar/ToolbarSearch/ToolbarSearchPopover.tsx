@@ -44,7 +44,11 @@ export const ToolbarSearchPopover: React.FC<PopupProps> = ({
   const titleLabel = useMainStore((state) => state.titleLabel());
   const subTitleLabel = useMainStore((state) => state.subTitleLabel());
 
-  setHash(ToolConfigIDs.SEARCH);
+  React.useEffect(() => {
+    setHash(ToolConfigIDs.SEARCH);
+
+    return clearHash;
+  });
 
   const handleInputChange = (
     index: number,
@@ -75,7 +79,6 @@ export const ToolbarSearchPopover: React.FC<PopupProps> = ({
       onClose();
     } finally {
       setLoading(false);
-      clearHash();
     }
   };
 

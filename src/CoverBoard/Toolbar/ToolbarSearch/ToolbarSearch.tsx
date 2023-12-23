@@ -6,6 +6,7 @@ import { CoverValues, LabelType, Media, PosTypes } from 'types';
 import { v4 as uuidv4 } from 'uuid';
 import { useMainStore, useToastStore, useToolbarStore } from 'store';
 import { shallow } from 'zustand/shallow';
+import { clearHash } from 'utils';
 
 const ApiToCallMap = {
   [Media.MUSIC]: getLastFMAlbums,

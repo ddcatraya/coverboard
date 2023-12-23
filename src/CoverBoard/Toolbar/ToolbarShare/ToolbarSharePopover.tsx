@@ -46,7 +46,11 @@ export const ToolbarSharePopover: React.FC<SaveProps> = ({
   const [storage, setStorage] = useState(window.localStorage);
   const [newSave, setNewSave] = useState('');
 
-  setHash(ToolConfigIDs.SHARE);
+  React.useEffect(() => {
+    setHash(ToolConfigIDs.SHARE);
+
+    return clearHash;
+  });
 
   const handleCopyText = () => {
     try {
@@ -90,11 +94,6 @@ export const ToolbarSharePopover: React.FC<SaveProps> = ({
 
   const hasDefault = window.localStorage.getItem(addPrefix(DEFAULT_KEY));
 
-  const handleClose = () => {
-    clearHash();
-    onClose();
-  };
-
   const handleCreateNewSave = () => {
     const value = newSave.trim();
 
@@ -102,7 +101,7 @@ export const ToolbarSharePopover: React.FC<SaveProps> = ({
       navigate(`/${newSave}`);
       // navigate
       setNewSave('');
-      handleClose();
+      onClose();
     }
   };
 
@@ -143,7 +142,7 @@ export const ToolbarSharePopover: React.FC<SaveProps> = ({
                             currentSave === saveId
                           ) {
                             handleDeleteElements();
-                            handleClose();
+                            onClose();
                             return;
                           }
 

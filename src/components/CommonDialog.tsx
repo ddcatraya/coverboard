@@ -1,5 +1,4 @@
 import { Dialog, DialogTitle, IconButton, DialogContent } from '@mui/material';
-import { clearHash } from 'utils';
 import { Close as CloseIcon } from '@mui/icons-material';
 import useMediaQuery from '@mui/material/useMediaQuery';
 import { useTheme } from '@mui/material/styles';
@@ -24,10 +23,7 @@ export const CommonDialog: React.FC<CommonDialogProps> = ({
     <Dialog
       fullScreen={fullScreen}
       open={open}
-      onClose={() => {
-        clearHash();
-        onClose();
-      }}
+      onClose={onClose}
       PaperProps={{
         style: {
           opacity: 0.9,
