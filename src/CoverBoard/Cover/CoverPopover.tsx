@@ -30,7 +30,7 @@ const getButtons = (media: Media, currentCover: Covers) => {
         }%20AND%20album%3A${currentCover[LabelType.SUBTITLE].search}/`,
       },
     ];
-  } else if (media === Media.MOVIE) {
+  } else if (media === Media.MOVIE || media === Media.TVSHOW) {
     return [
       {
         name: 'TMDB',

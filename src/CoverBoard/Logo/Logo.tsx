@@ -81,7 +81,7 @@ export const Logo: React.FC = () => {
         />
       </Group>
     );
-  } else if (media === Media.MOVIE) {
+  } else if (media === Media.MOVIE || media === Media.TVSHOW) {
     return (
       <Image
         onMouseMove={(evt: KonvaEventObject<MouseEvent>) => {

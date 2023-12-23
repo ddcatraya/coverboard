@@ -25,7 +25,6 @@ export const getGames = async (
     const gameCount = game.data.count;
 
     if (gameCount > 0) {
-      console.log(game.data.results[0]);
       const link = game.data.results[0].background_image;
       return {
         link,
