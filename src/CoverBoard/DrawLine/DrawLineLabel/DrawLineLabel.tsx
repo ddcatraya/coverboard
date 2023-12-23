@@ -76,6 +76,7 @@ export const DrawLineLabel: React.FC<LineProps> = ({ id, dir, lineParams }) => {
               align: getAlign(dir),
             }}
             wrap="word"
+            type="arrow"
           />
         </DrawLineLabelDraggable>
       )}

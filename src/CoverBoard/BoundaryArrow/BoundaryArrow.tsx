@@ -21,7 +21,7 @@ export const BoundaryArrowMemo: React.FC<BoundaryArrowProps> = ({
   x,
   y,
 }) => {
-  const color = useMainStore((state) => state.getColor());
+  const color = useMainStore((state) => state.getArrowColor());
 
   const updateCoverPosition = useMainStore(
     (state) => state.updateCoverPosition,

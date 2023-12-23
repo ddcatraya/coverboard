@@ -40,6 +40,7 @@ export enum ToolbarConfigValues {
   TITLE = 'title',
   SIZE = 'size',
   COLOR = 'color',
+  ARROW_COLOR = 'arrowColor',
   BACK_COLOR = 'backColor',
   SHOW_MAIN_TITLE = 'showMainTitle',
   SHOW_TITLE = 'showTitle',
@@ -137,6 +138,7 @@ export interface ToolbarConfigParams {
   [ToolbarConfigValues.TITLE]: string;
   [ToolbarConfigValues.SIZE]: number;
   [ToolbarConfigValues.COLOR]: Colors;
+  [ToolbarConfigValues.ARROW_COLOR]: Colors;
   [ToolbarConfigValues.BACK_COLOR]: BackColors;
   [ToolbarConfigValues.SHOW_MAIN_TITLE]: boolean;
   [ToolbarConfigValues.SHOW_TITLE]: boolean;

@@ -146,6 +146,29 @@ export const ToolbarConfigPopover: React.FC<ToolbarConfigPopoverProps> = ({
             ))}
           </Grid>
           <Grid item xs={12}>
+            <Typography gutterBottom>Pick the arrows colors:</Typography>
+            {Object.values(Colors).map((arrowColor) => (
+              <Button
+                title={arrowColor}
+                key={arrowColor}
+                value={arrowColor}
+                onClick={(evt) =>
+                  handleButtonChange(evt, ToolbarConfigValues.ARROW_COLOR)
+                }
+                style={{
+                  backgroundColor: colorMap[arrowColor],
+                  height: '30px',
+                  width: '30px',
+                  margin: '5px 5px',
+                  border:
+                    arrowColor === param[ToolbarConfigValues.ARROW_COLOR]
+                      ? '2px solid black'
+                      : undefined,
+                }}
+              />
+            ))}
+          </Grid>
+          <Grid item xs={12}>
             <Typography gutterBottom>Pick a background color:</Typography>
             {Object.values(BackColors).map((color) => (
               <Button

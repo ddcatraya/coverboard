@@ -10,7 +10,7 @@ interface LineProps {
 
 export const DrawLineArrow: React.FC<LineProps> = ({ lineParams }) => {
   const fontSize = useMainStore((state) => state.fontSize());
-  const color = useMainStore((state) => state.getColor());
+  const color = useMainStore((state) => state.getArrowColor());
 
   if (!lineParams) return null;
 

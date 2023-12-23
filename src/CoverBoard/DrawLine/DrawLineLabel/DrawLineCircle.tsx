@@ -12,7 +12,7 @@ interface LineProps {
 
 export const DrawLineCircle: React.FC<LineProps> = ({ handleOpen, id }) => {
   const circleRadius = useMainStore((state) => state.circleRadius());
-  const color = useMainStore((state) => state.getColor());
+  const color = useMainStore((state) => state.getArrowColor());
   const erase = useUtilsStore((state) => state.erase);
 
   return (

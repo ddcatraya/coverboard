@@ -20,6 +20,7 @@ export const initialConfigValues = () => ({
   size: getSize(),
   title: '',
   color: Colors.YELLOW,
+  arrowColor: Colors.YELLOW,
   backColor: BackColors.DARK,
   showTitle: true,
   showSubtitle: true,
@@ -44,6 +45,7 @@ export interface UseConfigsParams {
   toolBarLimits: () => DragLimits;
   setWindowSize: () => void;
   getColor: () => string;
+  getArrowColor: () => string;
   getBackColor: () => string;
   windowSize: {
     width: number;
@@ -72,6 +74,7 @@ export const createConfigsSlice: StateCreator<
   titleLabel: () => MediaMap[get().configs.media][LabelType.TITLE],
   subTitleLabel: () => MediaMap[get().configs.media][LabelType.SUBTITLE],
   getColor: () => colorMap[get().configs.color],
+  getArrowColor: () => colorMap[get().configs.arrowColor],
   getBackColor: () => backColorMap[get().configs.backColor],
   windowSize: {
     width: window.innerWidth,

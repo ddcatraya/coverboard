@@ -52,6 +52,15 @@ export const schema = (parsedData: LocalStorageData) =>
             };
           },
         }),
+        arrowColor: z.nativeEnum(Colors, {
+          errorMap: (_, _ctx) => {
+            return {
+              message: `configs:arrowColor must be ${Object.values(Colors).join(
+                ' | ',
+              )}`,
+            };
+          },
+        }),
         backColor: z.nativeEnum(BackColors, {
           errorMap: (_, _ctx) => {
             return {
