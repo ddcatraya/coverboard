@@ -23,7 +23,7 @@ export const getMoviePosters = async (
   const fullPosters = posters.filter(isFulfilled);
 
   return fullPosters.flatMap((poster: any) => {
-    const movies = poster.value.data.results;
+    const movies = poster.value.data;
 
     if (movies.length > 0 && movies[0].poster_path) {
       const posterUrl = `https://image.tmdb.org/t/p/original${movies[0].poster_path}`;
@@ -55,7 +55,7 @@ export const getTvShowPosters = async (
   const fullPosters = posters.filter(isFulfilled);
 
   return fullPosters.flatMap((poster: any) => {
-    const movies = poster.value.data.results;
+    const movies = poster.value.data;
 
     if (movies.length > 0 && movies[0].poster_path) {
       const posterUrl = `https://image.tmdb.org/t/p/original${movies[0].poster_path}`;
