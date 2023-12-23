@@ -8,7 +8,7 @@ import { shallow } from 'zustand/shallow';
 const getURL = (media: Media) => {
   if (media === Media.MUSIC) {
     return 'https://www.last.fm/static/images/footer_logo@2x.49ca51948b0a.png';
-  } else if (media === Media.MOVIE) {
+  } else if (media === Media.MOVIE || media === Media.TVSHOW) {
     return 'https://www.themoviedb.org/assets/2/v4/logos/v2/blue_square_2-d537fb228cf3ded904ef09b136fe3fec72548ebc1fea3fbbd1ad9e36364db38b.svg';
   } else if (media === Media.BOOK) {
     return 'https://blog.openlibrary.org/files/2016/02/Open-Library-Logo-1.jpg';
