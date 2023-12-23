@@ -12,6 +12,8 @@ const getURL = (media: Media) => {
     return 'https://www.themoviedb.org/assets/2/v4/logos/v2/blue_square_2-d537fb228cf3ded904ef09b136fe3fec72548ebc1fea3fbbd1ad9e36364db38b.svg';
   } else if (media === Media.BOOK) {
     return 'https://blog.openlibrary.org/files/2016/02/Open-Library-Logo-1.jpg';
+  } else if (media === Media.GAME) {
+    return 'https://rapidapi-prod-apis.s3.amazonaws.com/aa/5f399a9426449aac6954ffc8c0b481/ce9eeca1905fdb11890f3afc10724191.png';
   }
   return '';
 };
@@ -126,6 +128,31 @@ export const Logo: React.FC = () => {
         scaleX={0.008 * toobarIconSize}
         scaleY={0.008 * toobarIconSize}
         x={toobarIconSize / 8}
+        y={dragLimits.height - 1.2 * toobarIconSize}
+      />
+    );
+  } else if (media === Media.GAME) {
+    return (
+      <Image
+        onMouseMove={(evt: KonvaEventObject<MouseEvent>) => {
+          const container = evt.target.getStage()?.container();
+
+          if (container) {
+            container.style.cursor = 'pointer';
+          }
+        }}
+        onMouseLeave={(evt: KonvaEventObject<MouseEvent>) => {
+          const container = evt.target.getStage()?.container();
+
+          if (container) {
+            container.style.cursor = 'default';
+          }
+        }}
+        onClick={() => window.open('https://rawg.io/')}
+        image={image}
+        scaleX={0.008 * toobarIconSize}
+        scaleY={0.008 * toobarIconSize}
+        x={toobarIconSize / 2}
         y={dragLimits.height - 1.2 * toobarIconSize}
       />
     );

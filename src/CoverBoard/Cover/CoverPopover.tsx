@@ -76,8 +76,28 @@ const getButtons = (media: Media, currentCover: Covers) => {
         },
       ];
     }
+  } else if (media === Media.GAME) {
+    return [
+      {
+        name: 'RAWG',
+        href: `https://rawg.io/search?query=${
+          currentCover[LabelType.TITLE].search
+        }`,
+      },
+      {
+        name: 'Steam',
+        href: `https://store.steampowered.com/search/?term=${
+          currentCover[LabelType.TITLE].search
+        }`,
+      },
+      {
+        name: 'Nintendo',
+        href: `https://www.nintendo.com/us/search/#q=${
+          currentCover[LabelType.TITLE].search
+        }`,
+      },
+    ];
   }
-
   return [];
 };
 
