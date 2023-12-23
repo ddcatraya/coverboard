@@ -36,6 +36,7 @@ export const ToolbarSearch: React.FC = () => {
     try {
       const ApiToCall = ApiToCallMap[media];
       const results = (await ApiToCall(inputArray)) ?? [];
+      const resultLength = results.length;
 
       const filtereResults = results.filter(
         (filteredResult) =>
@@ -70,10 +71,16 @@ export const ToolbarSearch: React.FC = () => {
           `${filtereResults.length}/${inputArray.length} results found`,
         );
       } else {
-        showErrorMessage('Not found results or already exists');
+        if (resultLength !== filtereResults.length) {
+          showErrorMessage('Result already exists on the board');
+        } else {
+          showErrorMessage('Result not found');
+        }
+
+        return Promise.reject('NOT_FOUND');
       }
     } catch (err) {
-      showErrorMessage('Result not found');
+      showErrorMessage('Invalid API call');
     }
   };
 

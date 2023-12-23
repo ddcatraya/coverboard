@@ -76,6 +76,12 @@ export const ToolbarSearchPopover: React.FC<PopupProps> = ({
       await onSubmit(filterInputs);
       setInputs(initialState());
       onClose();
+    } catch (err) {
+      if (err === 'NOT_FOUND') {
+        console.log(err);
+        return;
+      }
+      throw err;
     } finally {
       setLoading(false);
     }
@@ -105,7 +111,7 @@ export const ToolbarSearchPopover: React.FC<PopupProps> = ({
     const hasIncompleteYear = !!inputs.find(
       (input) =>
         input[LabelType.SUBTITLE].length > 0 &&
-        input[LabelType.SUBTITLE].length < 4,
+        input[LabelType.SUBTITLE].length !== 4,
     );
 
     if (hasIncompleteYear) {
