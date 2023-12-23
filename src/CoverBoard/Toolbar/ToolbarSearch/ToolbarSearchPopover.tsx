@@ -126,6 +126,12 @@ export const ToolbarSearchPopover: React.FC<PopupProps> = ({
             />
             <FormControlLabel
               disabled={!!coversLength}
+              value={Media.TVSHOW}
+              control={<Radio />}
+              label={Media.TVSHOW}
+            />
+            <FormControlLabel
+              disabled={!!coversLength}
               value={Media.BOOK}
               control={<Radio />}
               label={Media.BOOK}

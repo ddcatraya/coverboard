@@ -51,6 +51,7 @@ export enum ToolbarConfigValues {
 export enum Media {
   MUSIC = 'music',
   MOVIE = 'movie',
+  TVSHOW = 'tvshow',
   BOOK = 'book',
   GAME = 'game',
 }
@@ -59,6 +60,7 @@ export enum MediaValues {
   ARTIST = 'artist',
   ALBUM = 'album',
   MOVIE = 'movie',
+  TVSHOW = 'tvshow',
   YEAR = 'year',
   BOOK = 'book',
   AUTHOR = 'author',
@@ -89,6 +91,19 @@ export const MediaMap = {
   [Media.MOVIE]: {
     [LabelType.TITLE]: {
       label: MediaValues.MOVIE,
+      required: true,
+      hidden: false,
+    },
+    [LabelType.SUBTITLE]: {
+      label: MediaValues.YEAR,
+      required: false,
+      hidden: false,
+    },
+    heightRatio: 1.5,
+  },
+  [Media.TVSHOW]: {
+    [LabelType.TITLE]: {
+      label: MediaValues.TVSHOW,
       required: true,
       hidden: false,
     },
