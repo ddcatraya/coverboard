@@ -65,7 +65,6 @@ export enum MediaValues {
   BOOK = 'book',
   AUTHOR = 'author',
   GAME = 'game',
-  TEST = 'disabled',
 }
 
 export interface MediaDesc {
@@ -134,9 +133,9 @@ export const MediaMap = {
       hidden: false,
     },
     [LabelType.SUBTITLE]: {
-      label: MediaValues.TEST,
+      label: MediaValues.YEAR,
       required: false,
-      hidden: true,
+      hidden: false,
     },
     heightRatio: 0.9,
   },

@@ -10,10 +10,11 @@ export const getGames = async (
   movieTitles: Array<CoverValues>,
 ): Promise<Array<SearchResults>> => {
   const posters = await Promise.allSettled(
-    movieTitles.map((movie) => {
+    movieTitles.map((game) => {
       return axios.get(`https://albumcoverboard.vercel.app/api/get-game`, {
         params: {
-          game: movie[LabelType.TITLE],
+          game: game[LabelType.TITLE],
+          ...(game[LabelType.SUBTITLE] && { year: game[LabelType.SUBTITLE] }),
         },
       });
     }),
@@ -22,14 +23,14 @@ export const getGames = async (
   const fullPosters = posters.filter(isFulfilled);
 
   return fullPosters.flatMap(({ value: game }: any) => {
-    const gameCount = game.data.count;
+    const gameCount = game.data ?? [];
 
-    if (gameCount > 0) {
-      const link = game.data.results[0].background_image;
+    if (gameCount.length > 0) {
+      const link = gameCount[0].background_image;
       return {
         link,
-        [LabelType.TITLE]: game.data.results[0].name,
-        [LabelType.SUBTITLE]: game.data.results[0].released.substring(0, 4),
+        [LabelType.TITLE]: gameCount[0].name,
+        [LabelType.SUBTITLE]: gameCount[0].released.substring(0, 4),
       };
     }
 

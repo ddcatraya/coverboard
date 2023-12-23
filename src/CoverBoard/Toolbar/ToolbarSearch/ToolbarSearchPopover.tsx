@@ -8,7 +8,13 @@ import {
   RadioGroup,
 } from '@mui/material';
 
-import { LabelType, ToolConfigIDs, CoverValues, Media } from 'types';
+import {
+  LabelType,
+  ToolConfigIDs,
+  CoverValues,
+  Media,
+  MediaValues,
+} from 'types';
 import { CommonDialog } from 'components';
 import { flushSync } from 'react-dom';
 import { useMainStore } from 'store';
@@ -77,9 +83,10 @@ export const ToolbarSearchPopover: React.FC<PopupProps> = ({
 
   const handleMediaChange = (evt: React.ChangeEvent<HTMLInputElement>) => {
     setMedia(evt.target.value as Media);
+    setInputs(initialState());
   };
 
-  const isInputDisabled =
+  let isInputDisabled =
     !!inputs.find(
       (input) =>
         (input[LabelType.TITLE] !== '' &&
@@ -93,6 +100,18 @@ export const ToolbarSearchPopover: React.FC<PopupProps> = ({
       (input) =>
         input[LabelType.TITLE] === '' && input[LabelType.SUBTITLE] === '',
     );
+
+  if (subTitleLabel.label === MediaValues.YEAR) {
+    const hasIncompleteYear = !!inputs.find(
+      (input) =>
+        input[LabelType.SUBTITLE].length > 0 &&
+        input[LabelType.SUBTITLE].length < 4,
+    );
+
+    if (hasIncompleteYear) {
+      isInputDisabled = true;
+    }
+  }
 
   return (
     <CommonDialog
