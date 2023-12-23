@@ -2,12 +2,15 @@ import { Dialog, DialogTitle, IconButton, DialogContent } from '@mui/material';
 import { Close as CloseIcon } from '@mui/icons-material';
 import useMediaQuery from '@mui/material/useMediaQuery';
 import { useTheme } from '@mui/material/styles';
+import { useEffect } from 'react';
+import { clearHash, setHash } from 'utils';
 
 interface CommonDialogProps {
   open: boolean;
   onClose: () => void;
   children: React.ReactNode;
   title: string;
+  hash?: string;
 }
 
 export const CommonDialog: React.FC<CommonDialogProps> = ({
@@ -15,9 +18,18 @@ export const CommonDialog: React.FC<CommonDialogProps> = ({
   onClose,
   children,
   title,
+  hash,
 }) => {
   const theme = useTheme();
   const fullScreen = useMediaQuery(theme.breakpoints.down('sm')); // Detect small sc
+
+  useEffect(() => {
+    if (!hash) return;
+
+    setHash(hash);
+
+    return clearHash;
+  }, [hash]);
 
   return (
     <Dialog

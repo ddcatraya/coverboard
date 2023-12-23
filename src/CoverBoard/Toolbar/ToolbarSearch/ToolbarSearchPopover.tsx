@@ -9,7 +9,6 @@ import {
 } from '@mui/material';
 
 import { LabelType, ToolConfigIDs, CoverValues, Media } from 'types';
-import { clearHash, setHash } from 'utils';
 import { CommonDialog } from 'components';
 import { flushSync } from 'react-dom';
 import { useMainStore } from 'store';
@@ -43,12 +42,6 @@ export const ToolbarSearchPopover: React.FC<PopupProps> = ({
   const coversLength = useMainStore((state) => state.covers.length);
   const titleLabel = useMainStore((state) => state.titleLabel());
   const subTitleLabel = useMainStore((state) => state.subTitleLabel());
-
-  React.useEffect(() => {
-    setHash(ToolConfigIDs.SEARCH);
-
-    return clearHash;
-  });
 
   const handleInputChange = (
     index: number,
@@ -102,7 +95,11 @@ export const ToolbarSearchPopover: React.FC<PopupProps> = ({
     );
 
   return (
-    <CommonDialog open={open} title="Search and add" onClose={onClose}>
+    <CommonDialog
+      open={open}
+      title="Search and add"
+      onClose={onClose}
+      hash={ToolConfigIDs.SEARCH}>
       <form onSubmit={handleSubmit}>
         <Grid item sm={6} xs={12}>
           <label>

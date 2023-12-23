@@ -21,7 +21,6 @@ import {
   ToolbarConfigValues,
   ToolConfigIDs,
 } from 'types';
-import { clearHash, setHash } from 'utils';
 import { CommonDialog } from 'components';
 import { useMainStore } from 'store';
 interface ToolbarConfigPopoverProps {
@@ -45,12 +44,6 @@ export const ToolbarConfigPopover: React.FC<ToolbarConfigPopoverProps> = ({
   const [param, setParams] = useState(configs);
   const titleLabel = useMainStore((state) => state.titleLabel().label);
   const subTitleLabel = useMainStore((state) => state.subTitleLabel().label);
-
-  React.useEffect(() => {
-    setHash(ToolConfigIDs.CONFIG);
-
-    return clearHash;
-  });
 
   const handleNumberChange = (
     _: Event,
@@ -100,7 +93,11 @@ export const ToolbarConfigPopover: React.FC<ToolbarConfigPopoverProps> = ({
   };
 
   return (
-    <CommonDialog open={open} onClose={onClose} title="Settings">
+    <CommonDialog
+      open={open}
+      onClose={onClose}
+      title="Settings"
+      hash={ToolConfigIDs.CONFIG}>
       <form onSubmit={handleSubmit}>
         <Grid container spacing={2}>
           <Grid item xs={12}>

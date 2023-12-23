@@ -12,14 +12,7 @@ import { Close as CloseIcon } from '@mui/icons-material';
 
 import { ToolConfigIDs, DEFAULT_KEY } from 'types';
 import { NavigateFunction } from 'react-router-dom';
-import {
-  addPrefix,
-  clearHash,
-  DEFAULT_STORAGE,
-  haxPrefix,
-  removePrefix,
-  setHash,
-} from 'utils';
+import { addPrefix, DEFAULT_STORAGE, haxPrefix, removePrefix } from 'utils';
 import { CommonDialog } from 'components';
 import { useMainStore } from 'store';
 
@@ -45,12 +38,6 @@ export const ToolbarSharePopover: React.FC<SaveProps> = ({
   const [jsonData, setJsonData] = useState(JSON.stringify(instance, null, 4));
   const [storage, setStorage] = useState(window.localStorage);
   const [newSave, setNewSave] = useState('');
-
-  React.useEffect(() => {
-    setHash(ToolConfigIDs.SHARE);
-
-    return clearHash;
-  });
 
   const handleCopyText = () => {
     try {
@@ -106,7 +93,11 @@ export const ToolbarSharePopover: React.FC<SaveProps> = ({
   };
 
   return (
-    <CommonDialog onClose={onClose} open={open} title="Share options">
+    <CommonDialog
+      onClose={onClose}
+      open={open}
+      title="Share options"
+      hash={ToolConfigIDs.SHARE}>
       <Grid container spacing={2}>
         <Grid item xs={12}>
           <Typography gutterBottom>Pick a page:</Typography>
