@@ -26,3 +26,13 @@ export interface Covers {
   starDir: PosTypes;
   starCount: number;
 }
+
+export interface GroupCovers {
+  id: string;
+  x: number;
+  y: number;
+  title: string;
+  dir: PosTypes;
+  scaleX: number;
+  scaleY: number;
+}

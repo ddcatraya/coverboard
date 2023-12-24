@@ -5,6 +5,7 @@ import {
   LocalStorageData,
   schema,
   DEFAULT_KEY,
+  GroupCovers,
 } from 'types';
 import { addPrefix } from 'utils';
 import { createWithEqualityFn } from 'zustand/traditional';
@@ -15,6 +16,7 @@ import {
 } from './configsStore';
 import { UseCoverParams, createCoversSlice } from './coversStore';
 import { UseLinesParams, createLinesSlice } from './linesStore';
+import { UseGrouspParams, createGroupsSlice } from './groupStore';
 
 const MAX_UNDO = 10;
 
@@ -22,6 +24,7 @@ interface Actions {
   configs: ToolbarConfigParams;
   lines: Lines[];
   covers: Covers[];
+  groups: GroupCovers[];
 }
 
 interface CoverContextData {
@@ -39,18 +42,20 @@ interface CoverContextData {
 type MainStoreUnion = UseCoverParams &
   UseLinesParams &
   UseConfigsParams &
+  UseGrouspParams &
   CoverContextData;
 
 const defaultValues = () => ({
   configs: initialConfigValues(),
   lines: [],
   covers: [],
+  groups: [],
 });
 
 export const useMainStore = createWithEqualityFn<MainStoreUnion>()(
   (set, get, api) => {
     const saveLastAction = () => {
-      const { configs, lines, covers } = get();
+      const { configs, lines, covers, groups } = get();
 
       set(({ actions }) => ({
         actions:
@@ -61,6 +66,7 @@ export const useMainStore = createWithEqualityFn<MainStoreUnion>()(
                   configs,
                   lines,
                   covers,
+                  groups,
                 },
               ]
             : [
@@ -69,16 +75,17 @@ export const useMainStore = createWithEqualityFn<MainStoreUnion>()(
                   configs,
                   lines,
                   covers,
+                  groups,
                 },
               ],
       }));
     };
 
     const saveLocalStorage = () => {
-      const { configs, lines, covers } = get();
+      const { configs, lines, covers, groups } = get();
       window.localStorage.setItem(
         addPrefix(get().saveId),
-        JSON.stringify({ configs, lines, covers }),
+        JSON.stringify({ configs, lines, covers, groups }),
       );
     };
 
@@ -100,6 +107,7 @@ export const useMainStore = createWithEqualityFn<MainStoreUnion>()(
       ...createConfigsSlice((value) => storageSet(value), get, api),
       ...createLinesSlice((value) => storageSet(value), get, api),
       ...createCoversSlice((value) => storageSet(value), get, api),
+      ...createGroupsSlice((value) => storageSet(value), get, api),
       setDefaultLocalStoreValues(saveId: string) {
         set({ saveId });
         try {
@@ -113,6 +121,7 @@ export const useMainStore = createWithEqualityFn<MainStoreUnion>()(
                 configs: parsedSchema.configs,
                 lines: parsedSchema.lines,
                 covers: parsedSchema.covers,
+                groups: parsedSchema.groups,
               });
               return;
             }
@@ -131,16 +140,16 @@ export const useMainStore = createWithEqualityFn<MainStoreUnion>()(
           saveLocalStorage();
         }
       },
-      updateStoreValues({ configs, lines, covers }) {
-        storageSet({ configs, lines, covers });
+      updateStoreValues({ configs, lines, covers, groups }) {
+        storageSet({ configs, lines, covers, groups });
       },
       resetStoreValues() {
         storageSet(defaultValues());
       },
       getStoreValues() {
-        const { configs, lines, covers } = get();
+        const { configs, lines, covers, groups } = get();
 
-        return { configs, lines, covers };
+        return { configs, lines, covers, groups };
       },
       undoAction() {
         const copyArray = [...get().actions];
@@ -151,6 +160,7 @@ export const useMainStore = createWithEqualityFn<MainStoreUnion>()(
             configs: another.configs,
             lines: another.lines,
             covers: another.covers,
+            groups: another.groups,
             actions: copyArray,
           });
           window.localStorage.setItem(
@@ -159,6 +169,7 @@ export const useMainStore = createWithEqualityFn<MainStoreUnion>()(
               configs: another.configs,
               lines: another.lines,
               covers: another.covers,
+              groups: another.groups,
             }),
           );
         }

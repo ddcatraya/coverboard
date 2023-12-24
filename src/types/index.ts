@@ -12,7 +12,7 @@ export type { Point, Lines, LineParams } from './lineTypes';
 export type { TooltipValues, ToolConfig } from './toolbarTypes';
 export { ToolConfigIDs } from './toolbarTypes';
 
-export type { CoverValues, Covers } from './coverTypes';
+export type { CoverValues, Covers, GroupCovers } from './coverTypes';
 export { LabelType } from './coverTypes';
 
 export type {
