@@ -148,11 +148,6 @@ export const createCoversSlice: StateCreator<
     set(({ covers }) => ({
       covers: covers.filter((c) => c.id !== coverId),
     }));
-    /* setLines((currentLine) =>
-      currentLine.filter(
-        (l) => l.origin.id !== coverId || l.target.id !== coverId,
-      ),
-    ); */
   },
   updateCoversText(coverId, titleText, subTitleText) {
     set(({ covers }) => ({

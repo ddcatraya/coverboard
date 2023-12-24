@@ -24,6 +24,8 @@ const ApiToCallMap = {
 export const ToolbarSearch: React.FC = () => {
   const covers = useMainStore((state) => state.covers);
   const media = useMainStore((state) => state.configs.media);
+  const labelDir = useMainStore((state) => state.configs.labelDir);
+  const starsDir = useMainStore((state) => state.configs.starsDir);
   const addCovers = useMainStore((state) => state.addCovers);
   const showSuccessMessage = useToastStore((state) => state.showSuccessMessage);
   const showErrorMessage = useToastStore((state) => state.showErrorMessage);
@@ -64,8 +66,8 @@ export const ToolbarSearch: React.FC = () => {
               search: filteredResult[LabelType.SUBTITLE],
               text: filteredResult[LabelType.SUBTITLE],
             },
-            dir: PosTypes.BOTTOM,
-            starDir: PosTypes.BOTTOM,
+            dir: labelDir ?? PosTypes.BOTTOM,
+            starDir: starsDir ?? PosTypes.BOTTOM,
             starCount: 0,
           })),
         );
