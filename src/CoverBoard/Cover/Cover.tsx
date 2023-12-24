@@ -10,6 +10,7 @@ import {
   CoverLoadImage,
   CoverStar,
   CoverStarDraggable,
+  CoverGroup,
 } from '.';
 import { useMainStore, useUtilsStore } from 'store';
 import { shallow } from 'zustand/shallow';
@@ -70,14 +71,20 @@ const CoverMemo: React.FC<CoverImageProps> = ({
   const starRadius = useMainStore((state) => state.starRadius());
   const showStars = useMainStore((state) => state.getShowStars());
   const updateStarCount = useMainStore((state) => state.updateStarCount);
+  const updateScale = useMainStore((state) => state.updateScale);
 
-  const handleSubmit = (values: CoverValues, rating: number) => {
+  const handleSubmit = (
+    values: CoverValues,
+    rating: number,
+    scale: { scaleX: number; scaleY: number },
+  ) => {
     updateCoversText(
       id,
       values[LabelType.TITLE].trim(),
       values[LabelType.SUBTITLE].trim(),
     );
     updateStarCount(id, rating);
+    updateScale(id, scale);
   };
 
   const offSet =
@@ -110,7 +117,11 @@ const CoverMemo: React.FC<CoverImageProps> = ({
         <Group
           onclick={canOpenPopover ? () => setOpen(true) : undefined}
           onDblTap={canOpenPopover ? () => setOpen(true) : undefined}>
-          <CoverLoadImage id={id} link={link} renderTime={renderTime} />
+          {link ? (
+            <CoverLoadImage id={id} link={link} renderTime={renderTime} />
+          ) : (
+            <CoverGroup id={id} />
+          )}
 
           <CoverLabelDraggable
             id={id}

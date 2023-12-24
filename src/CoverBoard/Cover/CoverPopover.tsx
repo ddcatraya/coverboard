@@ -14,7 +14,11 @@ import { useMainStore } from 'store';
 interface PopupProps {
   open: boolean;
   onClose: () => void;
-  onSubmit: (values: CoverValues, rating: number) => void;
+  onSubmit: (
+    values: CoverValues,
+    rating: number,
+    scale: { scaleX: number; scaleY: number },
+  ) => void;
   onReset: () => void;
   values: CoverValues;
   title?: string;
@@ -117,8 +121,11 @@ export const CoverPopover: React.FC<PopupProps> = ({
   id,
 }) => {
   const starCount = useMainStore((state) => state.getStarCount(id));
+  const scale = useMainStore((state) => state.getScale(id));
+  const link = useMainStore((state) => state.getLink(id));
   const [text, setText] = useState<CoverValues>(values);
   const [rating, setRating] = useState(starCount);
+  const [currentScale, setCurrentScale] = useState(scale);
   const titleLabel = useMainStore((state) => state.titleLabel().label);
   const subTitleLabel = useMainStore((state) => state.subTitleLabel().label);
   const media = useMainStore((state) => state.configs.media);
@@ -143,9 +150,21 @@ export const CoverPopover: React.FC<PopupProps> = ({
     setRating(value);
   };
 
+  const handleScaleChange = (
+    _: Event,
+    value: number | number[],
+    scaleParam: 'scaleX' | 'scaleY',
+  ) => {
+    if (Array.isArray(value)) return;
+    setCurrentScale((prevScale) => ({
+      ...prevScale,
+      [scaleParam]: value,
+    }));
+  };
+
   const handleSubmit = (evt: React.SyntheticEvent<HTMLFormElement>) => {
     evt.preventDefault();
-    onSubmit(text, rating);
+    onSubmit(text, rating, currentScale);
     onClose();
   };
 
@@ -155,7 +174,7 @@ export const CoverPopover: React.FC<PopupProps> = ({
         <Grid container spacing={2}>
           <Grid item xs={12}>
             <TextField
-              label={titleLabel}
+              label={link ? titleLabel : 'title'}
               fullWidth
               value={text[LabelType.TITLE]}
               onChange={(evt) => handTextChange(evt, LabelType.TITLE)}
@@ -164,7 +183,7 @@ export const CoverPopover: React.FC<PopupProps> = ({
           </Grid>
           <Grid item xs={12}>
             <TextField
-              label={subTitleLabel}
+              label={link ? subTitleLabel : 'subtitle'}
               fullWidth
               value={text[LabelType.SUBTITLE]}
               onChange={(evt) => handTextChange(evt, LabelType.SUBTITLE)}
@@ -183,6 +202,38 @@ export const CoverPopover: React.FC<PopupProps> = ({
               onChange={(evt, value) => handleNumberChange(evt, value)}
             />
           </Grid>
+          {!link && (
+            <>
+              <Grid item xs={12}>
+                <Typography gutterBottom>ScaleX:</Typography>
+                <Slider
+                  min={1}
+                  max={10}
+                  step={0.5}
+                  valueLabelDisplay="on"
+                  defaultValue={currentScale.scaleX}
+                  value={currentScale.scaleX}
+                  onChange={(evt, value) =>
+                    handleScaleChange(evt, value, 'scaleX')
+                  }
+                />
+              </Grid>
+              <Grid item xs={12}>
+                <Typography gutterBottom>ScaleY:</Typography>
+                <Slider
+                  min={1}
+                  max={10}
+                  step={0.5}
+                  valueLabelDisplay="on"
+                  defaultValue={currentScale.scaleY}
+                  value={currentScale.scaleY}
+                  onChange={(evt, value) =>
+                    handleScaleChange(evt, value, 'scaleY')
+                  }
+                />
+              </Grid>
+            </>
+          )}
           <Grid item xs={12}>
             <Button
               variant="contained"

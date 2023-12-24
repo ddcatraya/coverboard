@@ -29,8 +29,12 @@ export const CoverLabelDraggable = ({
   const erase = useUtilsStore((state) => state.erase);
   const dragLimits = useMainStore((state) => state.dragLimits(), shallow);
   const fontSize = useMainStore((state) => state.fontSize());
-  const coverSizeWidth = useMainStore((state) => state.coverSizeWidth());
-  const coverSizeHeight = useMainStore((state) => state.coverSizeHeight());
+  const coverSizeWidth = useMainStore((state) =>
+    state.coverSizeWidthScaled(id),
+  );
+  const coverSizeHeight = useMainStore((state) =>
+    state.coverSizeHeightScaled(id),
+  );
   const [randId, setId] = useState(uuidv4());
 
   const handleDragStart = (e: KonvaEventObject<DragEvent>) => {

@@ -21,6 +21,15 @@ const ApiToCallMap = {
   [Media.TVSHOW]: getTvShowPosters,
 };
 
+/*
+[Media.GROUP]: (groups) =>
+    groups.map((group) => ({
+      link: '',
+      [LabelType.TITLE]: group.title,
+      [LabelType.SUBTITLE]: group.subtitle,
+    })),
+    */
+
 export const ToolbarSearch: React.FC = () => {
   const covers = useMainStore((state) => state.covers);
   const media = useMainStore((state) => state.configs.media);
@@ -69,6 +78,8 @@ export const ToolbarSearch: React.FC = () => {
             dir: labelDir ?? PosTypes.BOTTOM,
             starDir: starsDir ?? PosTypes.BOTTOM,
             starCount: 0,
+            scaleX: 1,
+            scaleY: 1,
           })),
         );
         showSuccessMessage(

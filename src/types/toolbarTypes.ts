@@ -12,6 +12,7 @@ export enum ToolConfigIDs {
   ERASE = 'erase',
   UNDO = 'undo',
   SCREENSHOT = 'screenshot',
+  GROUP = 'group',
 }
 
 export interface ToolConfig {

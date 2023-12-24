@@ -1,4 +1,3 @@
-import { useState } from 'react';
 import { Group, Rect, Star } from 'react-konva';
 import { useMainStore, useUtilsStore } from 'store';
 import { Covers } from 'types';
@@ -11,8 +10,12 @@ interface CoverStarProps {
 export const CoverStar: React.FC<CoverStarProps> = ({ id, offset = 0 }) => {
   const starRadius = useMainStore((state) => state.starRadius());
   const starCount = useMainStore((state) => state.getStarCount(id));
-  const coverSizeWidth = useMainStore((state) => state.coverSizeWidth());
-  const coverSizeHeight = useMainStore((state) => state.coverSizeHeight());
+  const coverSizeWidth = useMainStore((state) =>
+    state.coverSizeWidthScaled(id),
+  );
+  const coverSizeHeight = useMainStore((state) =>
+    state.coverSizeHeightScaled(id),
+  );
   const fontSize = useMainStore((state) => state.fontSize());
   const color = useMainStore((state) => state.getColor());
   const backColor = useMainStore((state) => state.getBackColor());
@@ -43,7 +46,7 @@ export const CoverStar: React.FC<CoverStarProps> = ({ id, offset = 0 }) => {
       {[...Array(5)].map((_, index) => (
         <Group
           key={index}
-          x={coverSizeWidth / 2 + index * starRadius * 3 - totalWidth / 2}
+          x={coverSizeWidth / 2 + index * starRadius * 3}
           y={coverSizeHeight + fontSize / 2 + offset}
           onClick={(evt) => handleClick(evt, index + 1)}
           onTap={(evt) => handleClick(evt, index + 1)}>

@@ -33,6 +33,8 @@ interface CoverContextData {
   resetStoreValues: () => void;
   getStoreValues: () => LocalStorageData;
   offLimitCovers: () => Covers[];
+  coverSizeWidthScaled: (coverId: string) => number;
+  coverSizeHeightScaled: (coverId: string) => number;
   removeCoverAndRelatedLines: (id: string) => void;
 }
 
@@ -100,6 +102,12 @@ export const useMainStore = createWithEqualityFn<MainStoreUnion>()(
       ...createConfigsSlice((value) => storageSet(value), get, api),
       ...createLinesSlice((value) => storageSet(value), get, api),
       ...createCoversSlice((value) => storageSet(value), get, api),
+      coverSizeWidthScaled(coverId: string) {
+        return get().coverSizeWidth() * get().getScale(coverId).scaleX;
+      },
+      coverSizeHeightScaled(coverId: string) {
+        return get().coverSizeHeight() * get().getScale(coverId).scaleY;
+      },
       setDefaultLocalStoreValues(saveId: string) {
         set({ saveId });
         try {

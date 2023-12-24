@@ -28,8 +28,12 @@ export const CoverStarDraggable = ({
   const updateCoverStarDir = useMainStore((state) => state.updateCoverStarDir);
   const erase = useUtilsStore((state) => state.erase);
   const dragLimits = useMainStore((state) => state.dragLimits(), shallow);
-  const coverSizeWidth = useMainStore((state) => state.coverSizeWidth());
-  const coverSizeHeight = useMainStore((state) => state.coverSizeHeight());
+  const coverSizeWidth = useMainStore((state) =>
+    state.coverSizeWidthScaled(id),
+  );
+  const coverSizeHeight = useMainStore((state) =>
+    state.coverSizeHeightScaled(id),
+  );
   const [randId, setId] = useState(uuidv4());
   const starRadius = useMainStore((state) => state.starRadius());
 
@@ -78,22 +82,22 @@ export const CoverStarDraggable = ({
   const newPos = useMemo(() => {
     if (dir === PosTypes.BOTTOM) {
       return {
-        x: 0,
+        x: -totalWidth / 2,
         y: starRadius * 2,
       };
     } else if (dir === PosTypes.TOP) {
       return {
-        x: 0,
+        x: -totalWidth / 2,
         y: -coverSizeHeight - 4 * starRadius + offSetTop,
       };
     } else if (dir === PosTypes.RIGHT) {
       return {
-        x: coverSizeWidth + starRadius * 2.5,
+        x: coverSizeWidth / 2 + 2.5 * starRadius,
         y: -coverSizeHeight / 2 - starRadius - offset / 2,
       };
     } else {
       return {
-        x: -totalWidth - starRadius * 3.5,
+        x: -coverSizeWidth - 2 * starRadius,
         y: -coverSizeHeight / 2 - starRadius - offset / 2,
       };
     }

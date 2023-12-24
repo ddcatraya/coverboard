@@ -27,8 +27,12 @@ export const CoverLabel: React.FC<CoverLabelProps> = ({
   const editLines = useUtilsStore((state) => state.editLines);
 
   const fontSize = useMainStore((state) => state.fontSize());
-  const coverSizeWidth = useMainStore((state) => state.coverSizeWidth());
-  const coverSizeHeight = useMainStore((state) => state.coverSizeHeight());
+  const coverSizeWidth = useMainStore((state) =>
+    state.coverSizeWidthScaled(id),
+  );
+  const coverSizeHeight = useMainStore((state) =>
+    state.coverSizeHeightScaled(id),
+  );
   const [open, setOpen] = useState(false);
 
   const handleReset = () => {

@@ -5,11 +5,19 @@ import {
   ToolbarIcon,
   ToolbarTooltip,
 } from '.';
-import { colorMap, Colors, ToolConfig, ToolConfigIDs } from 'types';
+import {
+  colorMap,
+  Colors,
+  LabelType,
+  PosTypes,
+  ToolConfig,
+  ToolConfigIDs,
+} from 'types';
 import { haxPrefix } from 'utils';
 import { useUtilsStore, useMainStore, useToolbarStore } from 'store';
 import React, { useMemo } from 'react';
 import { shallow } from 'zustand/shallow';
+import { v4 as uuidv4 } from 'uuid';
 
 interface ToolbarProps {
   takeScreenshot: () => void;
@@ -34,7 +42,7 @@ const ToolbarActionIcon: React.FC = () => {
     [actionsLength, undoAction],
   );
 
-  return <ToolbarIcon config={actionConfig} index={6} />;
+  return <ToolbarIcon config={actionConfig} index={7} />;
 };
 
 export const ToolbarMemo: React.FC<ToolbarProps> = ({
@@ -63,6 +71,9 @@ export const ToolbarMemo: React.FC<ToolbarProps> = ({
   );
 
   const coversLength = useMainStore((state) => state.covers.length);
+  const coverGroupLength = useMainStore(
+    (state) => state.covers.filter((cov) => !cov.link).length,
+  );
   const linesLength = useMainStore((state) => state.lines.length);
   const coverSizeWidth = useMainStore((state) => state.coverSizeWidth());
 
@@ -70,6 +81,34 @@ export const ToolbarMemo: React.FC<ToolbarProps> = ({
     haxPrefix(key),
   ).length;
   const configSize = coverSizeWidth / 100;
+
+  const addCovers = useMainStore((state) => state.addCovers);
+  const labelDir = useMainStore((state) => state.configs.labelDir);
+  const starsDir = useMainStore((state) => state.configs.starsDir);
+
+  const createGroup = () => {
+    addCovers([
+      {
+        id: uuidv4(),
+        link: '',
+        x: 0,
+        y: 0,
+        [LabelType.TITLE]: {
+          search: 'Group',
+          text: 'Group',
+        },
+        [LabelType.SUBTITLE]: {
+          search: '',
+          text: '',
+        },
+        dir: labelDir ?? PosTypes.BOTTOM,
+        starDir: starsDir ?? PosTypes.BOTTOM,
+        starCount: 0,
+        scaleX: 3,
+        scaleY: 3,
+      },
+    ]);
+  };
 
   const configTools: Array<ToolConfig> = [
     {
@@ -131,6 +170,16 @@ export const ToolbarMemo: React.FC<ToolbarProps> = ({
       valueModifier: takeScreenshot,
       badge: 0,
       enabled: showTooltips && !editLines && !erase,
+    },
+    {
+      id: ToolConfigIDs.GROUP,
+      tooltip: `Create group`,
+      color: colorMap[Colors.BLUE],
+      emoji: 'G',
+      value: false,
+      valueModifier: createGroup,
+      badge: coverGroupLength,
+      enabled: true,
     },
   ];
 

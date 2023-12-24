@@ -26,7 +26,19 @@ export interface UseCoverParams {
   updateCoverPosition: (coverId: string, { x, y }: Vector2d) => void;
   updateAllCoverPosition: (arrayPos: Array<Vector2d>) => void;
   getDirById: (id: string) => Covers['dir'];
+  updateScale: (
+    id: string,
+    scale: {
+      scaleX: Covers['scaleX'];
+      scaleY: Covers['scaleY'];
+    },
+  ) => void;
   getStarCount: (id: string) => Covers['starCount'];
+  getScale: (id: string) => {
+    scaleX: Covers['scaleX'];
+    scaleY: Covers['scaleY'];
+  };
+  getLink: (id: string) => Covers['link'];
   getStarDirById: (id: string) => Covers['dir'];
 }
 
@@ -37,12 +49,19 @@ export const createCoversSlice: StateCreator<
   UseCoverParams
 > = (set, get) => ({
   covers: [],
+  getLink: (id: string) =>
+    get().covers.find((star) => star.id === id)?.link ?? '',
   getDirById: (id: string) =>
     get().covers.find((star) => star.id === id)?.dir ?? PosTypes.BOTTOM,
   getStarDirById: (id: string) =>
     get().covers.find((star) => star.id === id)?.starDir ?? PosTypes.TOP,
   getStarCount: (id: string) =>
     get().covers.find((star) => star.id === id)?.starCount ?? 0,
+  getScale: (id: string) => ({
+    scaleX: get().covers.find((star) => star.id === id)?.scaleX ?? 1,
+    scaleY: get().covers.find((star) => star.id === id)?.scaleY ?? 1,
+  }),
+
   updateAllCoversDir(dir) {
     set(({ covers }) => ({
       covers: covers.map((star) => ({
@@ -66,6 +85,19 @@ export const createCoversSlice: StateCreator<
           ? {
               ...star,
               dir,
+            }
+          : star,
+      ),
+    }));
+  },
+  updateScale(coverId, scale) {
+    set(({ covers }) => ({
+      covers: covers.map((star) =>
+        star.id === coverId
+          ? {
+              ...star,
+              scaleX: scale.scaleX,
+              scaleY: scale.scaleY,
             }
           : star,
       ),
