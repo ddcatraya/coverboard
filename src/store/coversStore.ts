@@ -211,11 +211,24 @@ export const createCoversSlice: StateCreator<
     }));
   },
   updateCoverPosition(coverId, { x, y }) {
-    set(({ covers }) => ({
-      covers: covers.map((star) => {
-        return coverId === star.id ? { ...star, x, y } : star;
-      }),
-    }));
+    set(({ covers }) => {
+      const coverToChange = covers.find((star) => coverId === star.id);
+      if (coverToChange) {
+        const filteredCovers = covers.filter((star) => coverId !== star.id);
+
+        if (coverToChange.link) {
+          filteredCovers.push({ ...coverToChange, x, y });
+        } else {
+          filteredCovers.unshift({ ...coverToChange, x, y });
+        }
+
+        return { covers: filteredCovers };
+      }
+
+      return {
+        covers,
+      };
+    });
   },
   updateAllCoverPosition(posArray) {
     set(({ covers }) => ({
