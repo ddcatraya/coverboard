@@ -51,7 +51,7 @@ export const CoverDraggable: React.FC<DraggableGroupProps> = ({
 
   const dragLimits = useMainStore((state) => state.dragLimits(), shallow);
   const [hintLines, setHintLines] = useState<
-    [Covers | undefined, Covers | undefined]
+    [Covers | GroupCovers | undefined, Covers | GroupCovers | undefined]
   >([undefined, undefined]);
 
   const handleDragBound = (pos: Vector2d) => {
@@ -86,8 +86,12 @@ export const CoverDraggable: React.FC<DraggableGroupProps> = ({
     const targetY = Math.round(e.target.y());
     const targetX = Math.round(e.target.x());
 
-    const foundY = covers.find((star) => star.id !== id && star.y === targetY);
-    const foundX = covers.find((star) => star.id !== id && star.x === targetX);
+    const foundY =
+      covers.find((star) => star.id !== id && star.y === targetY) ||
+      groups.find((star) => star.id !== id && star.y === targetY);
+    const foundX =
+      covers.find((star) => star.id !== id && star.x === targetX) ||
+      groups.find((star) => star.id !== id && star.x === targetX);
 
     if (
       (typeof hintLines[0] === 'undefined' && foundY) ||
