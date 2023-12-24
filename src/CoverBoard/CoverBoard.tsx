@@ -76,15 +76,43 @@ const DrawLines: React.FC = () => {
 
 const BoundaryArrows: React.FC = () => {
   const offLimitCovers = useMainStore((state) => state.offLimitCovers());
+  const offLimitGroups = useMainStore((state) => state.offLimitGroups());
+  const updateCoverPosition = useMainStore(
+    (state) => state.updateCoverPosition,
+  );
+  const updateGroupPosition = useMainStore(
+    (state) => state.updateGroupPosition,
+  );
+  const removeCoverAndRelatedLines = useMainStore(
+    (state) => state.removeCoverAndRelatedLines,
+  );
+  const removeGroupAndRelatedLines = useMainStore(
+    (state) => state.removeGroupAndRelatedLines,
+  );
 
   return (
     <>
       {offLimitCovers.map((star) => (
         <BoundaryArrow
+          updatePosition={updateCoverPosition}
+          removeCascade={removeCoverAndRelatedLines}
           id={star.id}
           x={star.x}
           y={star.y}
           title={star[LabelType.SUBTITLE].text}
+          key={star.id}
+        />
+      ))}
+      {offLimitGroups.map((star) => (
+        <BoundaryArrow
+          updatePosition={updateGroupPosition}
+          removeCascade={removeGroupAndRelatedLines}
+          id={star.id}
+          x={star.x}
+          y={star.y}
+          scaleX={star.scaleX}
+          scaleY={star.scaleY}
+          title={star.title}
           key={star.id}
         />
       ))}

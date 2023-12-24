@@ -70,6 +70,9 @@ const CoverMemo: React.FC<CoverImageProps> = ({
   const starRadius = useMainStore((state) => state.starRadius());
   const showStars = useMainStore((state) => state.getShowStars());
   const updateStarCount = useMainStore((state) => state.updateStarCount);
+  const updateCoverPosition = useMainStore(
+    (state) => state.updateCoverPosition,
+  );
 
   const handleSubmit = (values: CoverValues, rating: number) => {
     updateCoversText(
@@ -94,6 +97,7 @@ const CoverMemo: React.FC<CoverImageProps> = ({
   return (
     <>
       <CoverDraggable
+        updatePosition={updateCoverPosition}
         id={id}
         x={x}
         y={y}

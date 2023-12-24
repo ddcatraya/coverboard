@@ -19,6 +19,7 @@ interface DraggableGroupProps {
     x: number;
     y: number;
   };
+  updatePosition: (coverId: string, { x, y }: Vector2d) => void;
 }
 
 export const CoverDraggable: React.FC<DraggableGroupProps> = ({
@@ -28,12 +29,10 @@ export const CoverDraggable: React.FC<DraggableGroupProps> = ({
   min,
   max,
   children,
+  updatePosition,
 }) => {
   const covers = useMainStore((state) => state.covers);
   const color = useMainStore((state) => state.getColor());
-  const updateCoverPosition = useMainStore(
-    (state) => state.updateCoverPosition,
-  );
   const erase = useUtilsStore((state) => state.erase);
 
   const dragLimits = useMainStore((state) => state.dragLimits(), shallow);
@@ -101,7 +100,7 @@ export const CoverDraggable: React.FC<DraggableGroupProps> = ({
       container.style.cursor = 'not-allowed';
     }
 
-    updateCoverPosition(id, {
+    updatePosition(id, {
       x: Math.round(e.target.x()),
       y: Math.round(e.target.y()),
     });

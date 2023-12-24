@@ -36,7 +36,9 @@ interface CoverContextData {
   resetStoreValues: () => void;
   getStoreValues: () => LocalStorageData;
   offLimitCovers: () => Covers[];
+  offLimitGroups: () => GroupCovers[];
   removeCoverAndRelatedLines: (id: string) => void;
+  removeGroupAndRelatedLines: (id: string) => void;
 }
 
 type MainStoreUnion = UseCoverParams &
@@ -176,6 +178,7 @@ export const useMainStore = createWithEqualityFn<MainStoreUnion>()(
       },
       offLimitCovers() {
         const { dragLimits, configs } = get();
+
         return get().covers.flatMap((covers) => {
           if (
             (covers.x > dragLimits().width &&
@@ -189,9 +192,32 @@ export const useMainStore = createWithEqualityFn<MainStoreUnion>()(
           return [];
         });
       },
+      offLimitGroups() {
+        const { dragLimits, configs } = get();
+
+        return get().groups.flatMap((group) => {
+          if (
+            (group.x > dragLimits().width &&
+              dragLimits().width > configs.size) ||
+            (group.y > dragLimits().height &&
+              dragLimits().height > configs.size)
+          ) {
+            console.log('a');
+            return group;
+          }
+
+          return [];
+        });
+      },
       removeCoverAndRelatedLines(id: string) {
         saveLastAction();
         get().removeCover(id);
+        get().removeLinesWithCover(id);
+        saveLocalStorage();
+      },
+      removeGroupAndRelatedLines(id: string) {
+        saveLastAction();
+        get().removeGroup(id);
         get().removeLinesWithCover(id);
         saveLocalStorage();
       },

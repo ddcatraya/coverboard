@@ -44,6 +44,9 @@ const GroupCoverMemo: React.FC<CoverImageProps> = ({
   const editLines = useUtilsStore((state) => state.editLines);
   const erase = useUtilsStore((state) => state.erase);
   const updateGroupScale = useMainStore((state) => state.updateGroupScale);
+  const updateGroupPosition = useMainStore(
+    (state) => state.updateGroupPosition,
+  );
 
   const handleSubmit = (
     title: string,
@@ -60,6 +63,7 @@ const GroupCoverMemo: React.FC<CoverImageProps> = ({
   return (
     <>
       <CoverDraggable
+        updatePosition={updateGroupPosition}
         id={id}
         x={x}
         y={y}
