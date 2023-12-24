@@ -47,6 +47,7 @@ const GroupCoverMemo: React.FC<CoverImageProps> = ({
   const updateGroupPosition = useMainStore(
     (state) => state.updateGroupPosition,
   );
+  const updateGroupDir = useMainStore((state) => state.updateGroupDir);
 
   const handleSubmit = (
     title: string,
@@ -82,6 +83,7 @@ const GroupCoverMemo: React.FC<CoverImageProps> = ({
           onDblTap={canOpenPopover ? () => setOpen(true) : undefined}>
           <GroupSquare id={id} />
           <CoverLabelDraggable
+            updateDir={updateGroupDir}
             id={id}
             x={x}
             y={y}

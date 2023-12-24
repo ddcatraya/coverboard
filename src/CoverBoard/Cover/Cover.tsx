@@ -73,6 +73,7 @@ const CoverMemo: React.FC<CoverImageProps> = ({
   const updateCoverPosition = useMainStore(
     (state) => state.updateCoverPosition,
   );
+  const updateCoverDir = useMainStore((state) => state.updateCoverDir);
 
   const handleSubmit = (values: CoverValues, rating: number) => {
     updateCoversText(
@@ -117,6 +118,7 @@ const CoverMemo: React.FC<CoverImageProps> = ({
           <CoverLoadImage id={id} link={link} renderTime={renderTime} />
 
           <CoverLabelDraggable
+            updateDir={updateCoverDir}
             id={id}
             x={x}
             y={y}

@@ -16,6 +16,7 @@ interface DraggableGroupProps {
   offSetTop: number;
   scaleX?: GroupCovers['scaleX'];
   scaleY?: GroupCovers['scaleY'];
+  updateDir: (coverId: string, dir: PosTypes) => void;
 }
 
 export const CoverLabelDraggable = ({
@@ -27,6 +28,7 @@ export const CoverLabelDraggable = ({
   offSetTop,
   scaleX = 1,
   scaleY = 1,
+  updateDir,
 }: DraggableGroupProps) => {
   const dir = useMainStore((state) => state.getDirById(id));
   const updateCoverDir = useMainStore((state) => state.updateCoverDir);
@@ -76,7 +78,7 @@ export const CoverLabelDraggable = ({
     }
 
     setId(uuidv4());
-    updateCoverDir(id, newDir);
+    updateDir(id, newDir);
   };
 
   const newPos = useMemo(() => {
