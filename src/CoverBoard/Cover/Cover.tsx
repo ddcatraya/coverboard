@@ -25,6 +25,7 @@ interface CoverImageProps {
   y: Covers['y'];
   dir: Covers['dir'];
   starDir: Covers['starDir'];
+  starCount: Covers['starCount'];
   link: Covers['link'];
   renderTime: number;
 }
@@ -54,6 +55,7 @@ const CoverMemo: React.FC<CoverImageProps> = ({
   y,
   dir,
   starDir,
+  starCount,
   link,
   renderTime,
 }) => {
@@ -75,7 +77,7 @@ const CoverMemo: React.FC<CoverImageProps> = ({
 
   const handleSubmit = (
     values: CoverValues,
-    rating: number,
+    rating?: number,
     scale?: { scaleX: number; scaleY: number },
   ) => {
     updateCoversText(
@@ -83,7 +85,7 @@ const CoverMemo: React.FC<CoverImageProps> = ({
       values[LabelType.TITLE].trim(),
       values[LabelType.SUBTITLE].trim(),
     );
-    updateStarCount(id, rating);
+    rating && updateStarCount(id, rating);
 
     scale && updateScale(id, scale);
   };
@@ -118,11 +120,10 @@ const CoverMemo: React.FC<CoverImageProps> = ({
         <Group
           onclick={canOpenPopover ? () => setOpen(true) : undefined}
           onDblTap={canOpenPopover ? () => setOpen(true) : undefined}>
-          {link ? (
+          {link && starDir && (
             <CoverLoadImage id={id} link={link} renderTime={renderTime} />
-          ) : (
-            <CoverGroup id={id} />
           )}
+          {!link && !starDir && <CoverGroup id={id} />}
 
           <CoverLabelDraggable
             id={id}
@@ -147,9 +148,9 @@ const CoverMemo: React.FC<CoverImageProps> = ({
               />
             )}
           </CoverLabelDraggable>
-          {showStars && (
+          {showStars && typeof starCount !== 'undefined' && (
             <CoverStarDraggable id={id} x={x} y={y} offset={0} offSetTop={0}>
-              <CoverStar id={id} offset={starOffset} />
+              <CoverStar id={id} offset={starOffset} starCount={starCount} />
             </CoverStarDraggable>
           )}
         </Group>

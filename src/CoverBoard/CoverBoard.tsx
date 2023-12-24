@@ -23,6 +23,7 @@ const Covers: React.FC = () => {
           y={star.y}
           dir={star.dir}
           starDir={star.starDir}
+          starCount={star.starCount}
           link={star.link}
           key={star.id}
           renderTime={400 * index}

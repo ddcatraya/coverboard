@@ -33,7 +33,6 @@ export const CoverGroup: React.FC<CoverImageProps> = ({ id }) => {
       height={coverSizeHeight - 2}
       x={1}
       y={1}
-      fill={backColor}
       strokeWidth={1}
       stroke={color}
       onClick={canDelete ? () => removeCoverAndRelatedLines(id) : undefined}

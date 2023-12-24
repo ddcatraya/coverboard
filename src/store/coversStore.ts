@@ -39,7 +39,7 @@ export interface UseCoverParams {
     scaleY: number;
   };
   getLink: (id: string) => Covers['link'];
-  getStarDirById: (id: string) => Covers['dir'];
+  getStarDirById: (id: string) => Covers['starDir'];
 }
 
 export const createCoversSlice: StateCreator<

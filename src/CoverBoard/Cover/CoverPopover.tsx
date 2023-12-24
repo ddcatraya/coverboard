@@ -16,7 +16,7 @@ interface PopupProps {
   onClose: () => void;
   onSubmit: (
     values: CoverValues,
-    rating: number,
+    rating?: number,
     scale?: { scaleX: number; scaleY: number },
   ) => void;
   onReset: () => void;
@@ -167,7 +167,7 @@ export const CoverPopover: React.FC<PopupProps> = ({
     if (link) {
       onSubmit(text, rating);
     } else {
-      onSubmit(text, rating, currentScale);
+      onSubmit(text, undefined, currentScale);
     }
 
     onClose();

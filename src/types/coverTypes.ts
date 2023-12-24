@@ -25,6 +25,6 @@ export interface Covers {
   link?: string;
   scaleX?: number;
   scaleY?: number;
-  starDir: PosTypes;
-  starCount: number;
+  starDir?: PosTypes;
+  starCount?: number;
 }

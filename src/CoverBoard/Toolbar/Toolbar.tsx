@@ -84,7 +84,6 @@ export const ToolbarMemo: React.FC<ToolbarProps> = ({
 
   const addCovers = useMainStore((state) => state.addCovers);
   const labelDir = useMainStore((state) => state.configs.labelDir);
-  const starsDir = useMainStore((state) => state.configs.starsDir);
 
   const createGroup = () => {
     addCovers([
@@ -101,8 +100,6 @@ export const ToolbarMemo: React.FC<ToolbarProps> = ({
           text: '',
         },
         dir: labelDir ?? PosTypes.BOTTOM,
-        starDir: starsDir ?? PosTypes.BOTTOM,
-        starCount: 0,
         scaleX: 4,
         scaleY: 4,
       },
