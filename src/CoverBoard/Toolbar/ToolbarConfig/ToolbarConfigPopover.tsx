@@ -124,7 +124,7 @@ export const ToolbarConfigPopover: React.FC<ToolbarConfigPopoverProps> = ({
             />
           </Grid>
           <Grid item xs={12}>
-            <Typography gutterBottom>Pick a font color:</Typography>
+            <Typography gutterBottom>Main font color:</Typography>
             {Object.values(Colors).map((color) => (
               <Button
                 title={color}
@@ -147,7 +147,7 @@ export const ToolbarConfigPopover: React.FC<ToolbarConfigPopoverProps> = ({
             ))}
           </Grid>
           <Grid item xs={12}>
-            <Typography gutterBottom>Pick the arrows colors:</Typography>
+            <Typography gutterBottom>Arrows color:</Typography>
             {Object.values(Colors).map((arrowColor) => (
               <Button
                 title={arrowColor}
@@ -170,7 +170,7 @@ export const ToolbarConfigPopover: React.FC<ToolbarConfigPopoverProps> = ({
             ))}
           </Grid>
           <Grid item xs={12}>
-            <Typography gutterBottom>Pick a background color:</Typography>
+            <Typography gutterBottom>Background color:</Typography>
             {Object.values(BackColors).map((color) => (
               <Button
                 title={color}
@@ -240,7 +240,7 @@ export const ToolbarConfigPopover: React.FC<ToolbarConfigPopoverProps> = ({
           </Grid>
           <Grid item xs={12}>
             <FormControl>
-              <label>Cover labels position:</label>
+              <label>Cover labels default position:</label>
               <RadioGroup
                 row
                 aria-label="position"
@@ -274,7 +274,7 @@ export const ToolbarConfigPopover: React.FC<ToolbarConfigPopoverProps> = ({
           </Grid>
           <Grid item xs={12}>
             <FormControl>
-              <label>Rating stars position:</label>
+              <label>Rating stars default position:</label>
               <RadioGroup
                 row
                 aria-label="stars position"
