@@ -195,18 +195,20 @@ export const CoverPopover: React.FC<PopupProps> = ({
               style={{ marginBottom: '20px' }}
             />
           </Grid>
-          <Grid item xs={12}>
-            <Typography gutterBottom>Rating:</Typography>
-            <Slider
-              min={0}
-              max={5}
-              step={0.5}
-              valueLabelDisplay="on"
-              defaultValue={rating}
-              value={rating}
-              onChange={(evt, value) => handleNumberChange(evt, value)}
-            />
-          </Grid>
+          {link && (
+            <Grid item xs={12}>
+              <Typography gutterBottom>Rating:</Typography>
+              <Slider
+                min={0}
+                max={5}
+                step={0.5}
+                valueLabelDisplay="on"
+                defaultValue={rating}
+                value={rating}
+                onChange={(evt, value) => handleNumberChange(evt, value)}
+              />
+            </Grid>
+          )}
           {!link && (
             <>
               <Grid item xs={12}>
