@@ -71,7 +71,7 @@ const GroupCoverMemo: React.FC<CoverImageProps> = ({
           x: windowSize.width - 3.5 * toobarIconSize,
           y: windowSize.height - 3.5 * toobarIconSize,
         }}>
-        <CoverDrawLine id={id} />
+        <CoverDrawLine id={id} scaleX={scaleX} scaleY={scaleY} />
 
         <Group
           onclick={canOpenPopover ? () => setOpen(true) : undefined}

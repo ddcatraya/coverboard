@@ -50,25 +50,55 @@ export const DrawLineMemo: React.FC<LineProps> = ({
   targetId,
   targetDir,
 }) => {
-  const coverSizeWidth = useMainStore((state) => state.coverSizeWidth());
-  const coverSizeHeight = useMainStore((state) => state.coverSizeHeight());
-  const originSquare = useMainStore((state) =>
+  const originSquareCover = useMainStore((state) =>
     state.covers.find((cov) => cov.id === originId),
   );
-  const targetSquare = useMainStore((state) =>
+  const targetSquareCover = useMainStore((state) =>
     state.covers.find((cov) => cov.id === targetId),
+  );
+
+  const originSquareGroup = useMainStore((state) =>
+    state.groups.find((cov) => cov.id === originId),
+  );
+  const targetSquareGroup = useMainStore((state) =>
+    state.groups.find((cov) => cov.id === targetId),
+  );
+
+  const originSquare = originSquareCover ?? originSquareGroup;
+  const targetSquare = targetSquareCover ?? targetSquareGroup;
+
+  const scaleOriginX =
+    originSquare && 'scaleX' in originSquare ? originSquare.scaleX : 1;
+  const scaleOriginY =
+    originSquare && 'scaleY' in originSquare ? originSquare.scaleY : 1;
+  const scaleDestX =
+    targetSquare && 'scaleX' in targetSquare ? targetSquare.scaleX : 1;
+  const scaleDestY =
+    targetSquare && 'scaleY' in targetSquare ? targetSquare.scaleY : 1;
+
+  const coverSizeOriginWidth = useMainStore(
+    (state) => state.coverSizeWidth() * scaleOriginX,
+  );
+  const coverSizeOriginHeight = useMainStore(
+    (state) => state.coverSizeHeight() * scaleOriginY,
+  );
+  const coverSizeDistWidth = useMainStore(
+    (state) => state.coverSizeWidth() * scaleDestX,
+  );
+  const coverSizeDistHeight = useMainStore(
+    (state) => state.coverSizeHeight() * scaleDestY,
   );
 
   const lineParams = useMemo((): LineParams | undefined => {
     if (originSquare && targetSquare) {
       const originPos = convertPosToXY(
-        coverSizeWidth,
-        coverSizeHeight,
+        coverSizeOriginWidth,
+        coverSizeOriginHeight,
         originDir,
       );
       const targetPos = convertPosToXY(
-        coverSizeWidth,
-        coverSizeHeight,
+        coverSizeDistWidth,
+        coverSizeDistHeight,
         targetDir,
       );
 
@@ -91,9 +121,11 @@ export const DrawLineMemo: React.FC<LineProps> = ({
   }, [
     originSquare,
     targetSquare,
-    coverSizeWidth,
-    coverSizeHeight,
+    coverSizeOriginWidth,
+    coverSizeOriginHeight,
     originDir,
+    coverSizeDistWidth,
+    coverSizeDistHeight,
     targetDir,
   ]);
 

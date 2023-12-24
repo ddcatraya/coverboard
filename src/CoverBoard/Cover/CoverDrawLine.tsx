@@ -7,17 +7,25 @@ import { useUtilsStore, useMainStore } from 'store';
 
 interface CoverDrawLineProps {
   id: Covers['id'];
+  scaleX?: number;
+  scaleY?: number;
 }
 
-export const CoverDrawLine: React.FC<CoverDrawLineProps> = ({ id }) => {
+export const CoverDrawLine: React.FC<CoverDrawLineProps> = ({
+  id,
+  scaleX = 1,
+  scaleY = 1,
+}) => {
   const erase = useUtilsStore((state) => state.erase);
   const points = useUtilsStore((state) => state.points);
   const setPoints = useUtilsStore((state) => state.setPoints);
   const editLines = useUtilsStore((state) => state.editLines);
   const createLine = useMainStore((state) => state.createLine);
 
-  const coverSizeWidth = useMainStore((state) => state.coverSizeWidth());
-  const coverSizeHeight = useMainStore((state) => state.coverSizeHeight());
+  const coverSizeWidth =
+    useMainStore((state) => state.coverSizeWidth()) * scaleX;
+  const coverSizeHeight =
+    useMainStore((state) => state.coverSizeHeight()) * scaleY;
   const selection: PosTypes | null = points?.id === id ? points.dir : null;
 
   const handleDrawLine = (id: string, dir: PosTypes) => {
