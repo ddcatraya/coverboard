@@ -88,12 +88,12 @@ export const CoverStarDraggable = ({
       };
     } else if (dir === PosTypes.RIGHT) {
       return {
-        x: coverSizeWidth + starRadius * 3,
+        x: coverSizeWidth + starRadius * 2.5,
         y: -coverSizeHeight / 2 - starRadius - offset / 2,
       };
     } else {
       return {
-        x: -totalWidth - starRadius * 4,
+        x: -totalWidth - starRadius * 3.5,
         y: -coverSizeHeight / 2 - starRadius - offset / 2,
       };
     }

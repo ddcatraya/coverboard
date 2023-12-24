@@ -273,6 +273,40 @@ export const ToolbarConfigPopover: React.FC<ToolbarConfigPopoverProps> = ({
             </FormControl>
           </Grid>
           <Grid item xs={12}>
+            <FormControl>
+              <label>Rating stars position:</label>
+              <RadioGroup
+                row
+                aria-label="stars position"
+                name="starPosition"
+                value={param[ToolbarConfigValues.STARS_DIR]}
+                onChange={(evt) =>
+                  handleChange(evt, ToolbarConfigValues.STARS_DIR)
+                }>
+                <FormControlLabel
+                  value={PosTypes.BOTTOM}
+                  control={<Radio />}
+                  label={PosTypes.BOTTOM}
+                />
+                <FormControlLabel
+                  value={PosTypes.TOP}
+                  control={<Radio />}
+                  label={PosTypes.TOP}
+                />
+                <FormControlLabel
+                  value={PosTypes.LEFT}
+                  control={<Radio />}
+                  label={PosTypes.LEFT}
+                />
+                <FormControlLabel
+                  value={PosTypes.RIGHT}
+                  control={<Radio />}
+                  label={PosTypes.RIGHT}
+                />
+              </RadioGroup>
+            </FormControl>
+          </Grid>
+          <Grid item xs={12}>
             <Button
               variant="contained"
               color="primary"

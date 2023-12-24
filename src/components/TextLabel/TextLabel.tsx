@@ -26,6 +26,7 @@ interface TitleTexProps {
   editable?: boolean;
   wrap?: 'word' | 'char' | 'none';
   type?: 'title' | 'label' | 'arrow';
+  fontStyle?: 'bold';
 }
 
 export const TextLabel: React.FC<TitleTexProps> = ({
@@ -42,6 +43,7 @@ export const TextLabel: React.FC<TitleTexProps> = ({
   wrap = 'none',
   title,
   type,
+  fontStyle,
 }) => {
   const fontSize = useMainStore((state) => state.fontSize());
   const color = useMainStore((state) =>
@@ -97,6 +99,7 @@ export const TextLabel: React.FC<TitleTexProps> = ({
             listening={listening}
             align={pos.align}
             text={label}
+            fontStyle={fontStyle}
             x={pos.x}
             y={pos.y}
             wrap={wrap}

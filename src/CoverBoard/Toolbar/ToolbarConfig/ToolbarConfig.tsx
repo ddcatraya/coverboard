@@ -20,6 +20,7 @@ export const ToolbarConfig: React.FC = () => {
     (state) => state.updateAllCoverPosition,
   );
   const updateAllCoversDir = useMainStore((state) => state.updateAllCoversDir);
+  const updateAllStarsDir = useMainStore((state) => state.updateAllStarsDir);
   const showSuccessMessage = useToastStore((state) => state.showSuccessMessage);
 
   const handleUpdateCover = (
@@ -28,9 +29,10 @@ export const ToolbarConfig: React.FC = () => {
   ) => {
     if (updatedParam === ToolbarConfigValues.LABEL_DIR) {
       updateAllCoversDir(config[ToolbarConfigValues.LABEL_DIR]);
-    } else {
-      updateConfigs({ ...config, title: config.title.trim() });
+    } else if (updatedParam === ToolbarConfigValues.STARS_DIR) {
+      updateAllStarsDir(config[ToolbarConfigValues.STARS_DIR]);
     }
+    updateConfigs({ ...config, title: config.title.trim() });
   };
 
   const handleResetElements = () => {

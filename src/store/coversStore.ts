@@ -8,6 +8,7 @@ export interface UseCoverParams {
   updateCoverStarDir: (coverId: string, dir: PosTypes) => void;
   updateStarCount: (coverId: string, count: number) => void;
   updateAllCoversDir: (dir: PosTypes) => void;
+  updateAllStarsDir: (dir: PosTypes) => void;
   resetAllCovers: () => void;
   resetCoverLabel: (coverId: string, coverLabel: LabelType) => void;
   updateCoverLabel: (
@@ -47,6 +48,14 @@ export const createCoversSlice: StateCreator<
       covers: covers.map((star) => ({
         ...star,
         dir,
+      })),
+    }));
+  },
+  updateAllStarsDir(starDir) {
+    set(({ covers }) => ({
+      covers: covers.map((star) => ({
+        ...star,
+        starDir,
       })),
     }));
   },

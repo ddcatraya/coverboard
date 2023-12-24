@@ -10,6 +10,7 @@ interface CoverLabelProps {
   coverLabel: LabelType;
   text: string;
   offset?: number;
+  fontStyle?: 'bold';
 }
 
 export const CoverLabel: React.FC<CoverLabelProps> = ({
@@ -17,6 +18,7 @@ export const CoverLabel: React.FC<CoverLabelProps> = ({
   coverLabel,
   text,
   offset = 0,
+  fontStyle,
 }) => {
   const dir = useMainStore((state) => state.getDirById(id));
   const updateCoverLabel = useMainStore((state) => state.updateCoverLabel);
@@ -38,6 +40,7 @@ export const CoverLabel: React.FC<CoverLabelProps> = ({
   return (
     <TextLabel
       title={coverLabel}
+      fontStyle={fontStyle}
       hasReset
       open={open}
       setOpen={setOpen}

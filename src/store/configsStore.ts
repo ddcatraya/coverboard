@@ -26,6 +26,7 @@ export const initialConfigValues = (): ToolbarConfigParams => ({
   showSubtitle: true,
   showMainTitle: true,
   labelDir: PosTypes.BOTTOM,
+  starsDir: PosTypes.TOP,
   media: Media.MUSIC,
   showStars: true,
 });
