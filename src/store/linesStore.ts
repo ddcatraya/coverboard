@@ -11,6 +11,7 @@ export interface UseLinesParams {
   resetAllLines: () => void;
   createLine: (id: string, points: Point, pos: PosTypes) => void;
   removeLinesWithCover: (coverId: string) => void;
+  removeLinesWithCoverTogether: (coverId: string, coverId2: string) => void;
   getLineTextById: (id: string) => Lines['text'];
 }
 
@@ -125,7 +126,18 @@ export const createLinesSlice: StateCreator<
   removeLinesWithCover(coverId: string) {
     set(({ lines }) => ({
       lines: lines.filter(
-        (l) => l.origin.id !== coverId && l.target.id !== coverId,
+        (l) => l.origin.id !== coverId || l.target.id !== coverId,
+      ),
+    }));
+  },
+  removeLinesWithCoverTogether(id1: string, id2: string) {
+    set(({ lines }) => ({
+      lines: lines.filter(
+        (l) =>
+          !(
+            (l.origin.id === id1 && l.target.id === id2) ||
+            (l.origin.id === id2 && l.target.id === id1)
+          ),
       ),
     }));
   },

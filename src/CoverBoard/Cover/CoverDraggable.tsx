@@ -45,8 +45,8 @@ export const CoverDraggable: React.FC<DraggableGroupProps> = ({
   const updateCoverPosition = useMainStore(
     (state) => state.updateCoverPosition,
   );
-  const removeLinesWithCover = useMainStore(
-    (state) => state.removeLinesWithCover,
+  const removeLinesWithCoverTogether = useMainStore(
+    (state) => state.removeLinesWithCoverTogether,
   );
 
   const dragLimits = useMainStore((state) => state.dragLimits(), shallow);
@@ -124,7 +124,7 @@ export const CoverDraggable: React.FC<DraggableGroupProps> = ({
       );
 
       if (colGroup) {
-        removeLinesWithCover(id);
+        removeLinesWithCoverTogether(id, colGroup.id);
       }
     }
 
@@ -146,7 +146,7 @@ export const CoverDraggable: React.FC<DraggableGroupProps> = ({
         });
       }
 
-      const colGroup = covers.filter(
+      const colGroup = covers.find(
         (cover) =>
           cover.x > e.target.x() &&
           cover.x < e.target.x() + coverSizeWidth * scaleX &&
@@ -154,8 +154,8 @@ export const CoverDraggable: React.FC<DraggableGroupProps> = ({
           cover.y < e.target.y() + coverSizeHeight * scaleY,
       );
 
-      if (colGroup.length > 0) {
-        removeLinesWithCover(id);
+      if (colGroup) {
+        removeLinesWithCoverTogether(id, colGroup.id);
       }
     }
 
