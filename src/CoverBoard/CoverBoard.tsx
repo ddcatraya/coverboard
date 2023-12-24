@@ -8,6 +8,7 @@ import { useMainStore } from 'store';
 import { shallow } from 'zustand/shallow';
 import Konva from 'konva';
 import { LabelType } from 'types';
+import { GroupCover } from './GroupCover';
 
 const Covers: React.FC = () => {
   const covers = useMainStore((state) => state.covers);
@@ -26,6 +27,27 @@ const Covers: React.FC = () => {
           link={star.link}
           key={star.id}
           renderTime={400 * index}
+        />
+      ))}
+    </>
+  );
+};
+
+const GroupCovers: React.FC = () => {
+  const groups = useMainStore((state) => state.groups);
+
+  return (
+    <>
+      {groups.map((star, index) => (
+        <GroupCover
+          id={star.id}
+          title={star.title}
+          x={star.x}
+          y={star.y}
+          dir={star.dir}
+          scaleX={star.scaleX}
+          scaleY={star.scaleY}
+          key={star.id}
         />
       ))}
     </>
@@ -149,6 +171,7 @@ export const CoverBoard: React.FC = () => {
           )}
           <Group name="board" x={dragLimits.x} y={dragLimits.y}>
             <DrawLines />
+            <GroupCovers />
             <Covers />
             <BoundaryArrows />
             <TitleLabel />

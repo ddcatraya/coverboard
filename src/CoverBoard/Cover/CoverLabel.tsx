@@ -1,16 +1,18 @@
 import React, { useState } from 'react';
 
-import { Covers, LabelType } from 'types';
+import { Covers, GroupCovers, LabelType } from 'types';
 import { TextLabel } from 'components';
 import { getAlign } from 'utils';
 import { useMainStore, useUtilsStore } from 'store';
 
 interface CoverLabelProps {
-  id: Covers['id'];
+  id: Covers['id'] | GroupCovers['id'];
   coverLabel: LabelType;
   text: string;
   offset?: number;
   fontStyle?: 'bold';
+  scaleX?: GroupCovers['scaleX'];
+  scaleY?: GroupCovers['scaleY'];
 }
 
 export const CoverLabel: React.FC<CoverLabelProps> = ({
@@ -19,6 +21,8 @@ export const CoverLabel: React.FC<CoverLabelProps> = ({
   text,
   offset = 0,
   fontStyle,
+  scaleX = 1,
+  scaleY = 1,
 }) => {
   const dir = useMainStore((state) => state.getDirById(id));
   const updateCoverLabel = useMainStore((state) => state.updateCoverLabel);
@@ -27,8 +31,10 @@ export const CoverLabel: React.FC<CoverLabelProps> = ({
   const editLines = useUtilsStore((state) => state.editLines);
 
   const fontSize = useMainStore((state) => state.fontSize());
-  const coverSizeWidth = useMainStore((state) => state.coverSizeWidth());
-  const coverSizeHeight = useMainStore((state) => state.coverSizeHeight());
+  const coverSizeWidth =
+    useMainStore((state) => state.coverSizeWidth()) * scaleX;
+  const coverSizeHeight =
+    useMainStore((state) => state.coverSizeHeight()) * scaleY;
   const [open, setOpen] = useState(false);
 
   const handleReset = () => {

@@ -1,7 +1,7 @@
 import { Group } from 'react-konva';
 import { KonvaEventObject } from 'konva/lib/Node';
 import { useMemo, useState } from 'react';
-import { Covers, PosTypes } from 'types';
+import { Covers, GroupCovers, PosTypes } from 'types';
 import { v4 as uuidv4 } from 'uuid';
 import { getClientPosition } from 'utils';
 import { useMainStore, useUtilsStore } from 'store';
@@ -9,11 +9,13 @@ import { shallow } from 'zustand/shallow';
 
 interface DraggableGroupProps {
   children: React.ReactNode;
-  id: Covers['id'];
-  x: Covers['x'];
-  y: Covers['y'];
+  id: Covers['id'] | GroupCovers['id'];
+  x: Covers['x'] | GroupCovers['x'];
+  y: Covers['y'] | GroupCovers['y'];
   offset: number;
   offSetTop: number;
+  scaleX?: GroupCovers['scaleX'];
+  scaleY?: GroupCovers['scaleY'];
 }
 
 export const CoverLabelDraggable = ({
@@ -23,14 +25,18 @@ export const CoverLabelDraggable = ({
   children,
   offset,
   offSetTop,
+  scaleX = 1,
+  scaleY = 1,
 }: DraggableGroupProps) => {
   const dir = useMainStore((state) => state.getDirById(id));
   const updateCoverDir = useMainStore((state) => state.updateCoverDir);
   const erase = useUtilsStore((state) => state.erase);
   const dragLimits = useMainStore((state) => state.dragLimits(), shallow);
   const fontSize = useMainStore((state) => state.fontSize());
-  const coverSizeWidth = useMainStore((state) => state.coverSizeWidth());
-  const coverSizeHeight = useMainStore((state) => state.coverSizeHeight());
+  const coverSizeWidth =
+    useMainStore((state) => state.coverSizeWidth()) * scaleX;
+  const coverSizeHeight =
+    useMainStore((state) => state.coverSizeHeight()) * scaleY;
   const [randId, setId] = useState(uuidv4());
 
   const handleDragStart = (e: KonvaEventObject<DragEvent>) => {
