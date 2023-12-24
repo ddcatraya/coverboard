@@ -46,6 +46,7 @@ export enum ToolbarConfigValues {
   SHOW_TITLE = 'showTitle',
   SHOW_SUBTITLE = 'showSubtitle',
   LABEL_DIR = 'labelDir',
+  SHOW_STARS = 'showStars',
 }
 
 export enum Media {
@@ -163,4 +164,5 @@ export interface ToolbarConfigParams {
   [ToolbarConfigValues.SHOW_TITLE]: boolean;
   [ToolbarConfigValues.SHOW_SUBTITLE]: boolean;
   [ToolbarConfigValues.LABEL_DIR]: PosTypes;
+  [ToolbarConfigValues.SHOW_STARS]: boolean;
 }

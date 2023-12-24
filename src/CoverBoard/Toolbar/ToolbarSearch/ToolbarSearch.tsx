@@ -65,6 +65,8 @@ export const ToolbarSearch: React.FC = () => {
               text: filteredResult[LabelType.SUBTITLE],
             },
             dir: PosTypes.BOTTOM,
+            starDir: PosTypes.BOTTOM,
+            starCount: 0,
           })),
         );
         showSuccessMessage(

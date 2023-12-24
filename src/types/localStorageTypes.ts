@@ -82,6 +82,10 @@ export const schema = (parsedData: LocalStorageData) =>
           invalid_type_error: 'configs:showMainTitle must be a boolean',
           required_error: 'configs:showMainTitle is required',
         }),
+        showStars: z.boolean({
+          invalid_type_error: 'configs:showStars must be a boolean',
+          required_error: 'configs:showStars is required',
+        }),
         labelDir: z.nativeEnum(PosTypes, {
           errorMap: (_, _ctx) => {
             return {
@@ -155,6 +159,22 @@ export const schema = (parsedData: LocalStorageData) =>
             };
           },
         }),
+        starDir: z.nativeEnum(PosTypes, {
+          errorMap: (_, _ctx) => {
+            return {
+              message: `covers:starDir must be ${Object.values(PosTypes).join(
+                ' | ',
+              )}`,
+            };
+          },
+        }),
+        starCount: z
+          .number({
+            invalid_type_error: 'covers:starCount must be a number',
+            required_error: 'covers:starCount is required',
+          })
+          .min(0, 'covers:starCount must be positive number')
+          .max(5, 'covers:starCount  must be less than 5'),
       }),
       {
         invalid_type_error: 'covers must be an array of objects',

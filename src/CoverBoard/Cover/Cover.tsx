@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 
-import { Covers, CoverValues, LabelType } from 'types';
+import { Covers, CoverValues, LabelType, PosTypes } from 'types';
 import {
   CoverDrawLine,
   CoverLabel,
@@ -8,6 +8,8 @@ import {
   CoverDraggable,
   CoverPopover,
   CoverLoadImage,
+  CoverStar,
+  CoverStarDraggable,
 } from '.';
 import { useMainStore, useUtilsStore } from 'store';
 import { shallow } from 'zustand/shallow';
@@ -20,9 +22,26 @@ interface CoverImageProps {
   subtitle: string;
   x: Covers['x'];
   y: Covers['y'];
+  dir: Covers['dir'];
+  starDir: Covers['starDir'];
   link: Covers['link'];
   renderTime: number;
 }
+
+const getStarOffset = (
+  dir: Covers['dir'],
+  starDir: Covers['starDir'],
+  offSet: number,
+  offSetTop: number,
+  circleRadius: number,
+) => {
+  if (dir !== starDir) {
+    return 0;
+  } else if (dir === PosTypes.TOP && starDir === PosTypes.TOP) {
+    return -(offSet + offSetTop) - circleRadius * 3;
+  }
+  return offSet + offSetTop + circleRadius * 2.5;
+};
 
 const CoverMemo: React.FC<CoverImageProps> = ({
   id,
@@ -30,6 +49,8 @@ const CoverMemo: React.FC<CoverImageProps> = ({
   subtitle,
   x,
   y,
+  dir,
+  starDir,
   link,
   renderTime,
 }) => {
@@ -44,13 +65,17 @@ const CoverMemo: React.FC<CoverImageProps> = ({
   const updateCoversText = useMainStore((state) => state.updateCoversText);
   const editLines = useUtilsStore((state) => state.editLines);
   const erase = useUtilsStore((state) => state.erase);
+  const starRadius = useMainStore((state) => state.starRadius());
+  const showStars = useMainStore((state) => state.getShowStars());
+  const updateStarCount = useMainStore((state) => state.updateStarCount);
 
-  const handleSubmit = (values: CoverValues) => {
+  const handleSubmit = (values: CoverValues, rating: number) => {
     updateCoversText(
       id,
       values[LabelType.TITLE].trim(),
       values[LabelType.SUBTITLE].trim(),
     );
+    updateStarCount(id, rating);
   };
 
   const offSet =
@@ -61,6 +86,8 @@ const CoverMemo: React.FC<CoverImageProps> = ({
     : 0;
 
   const canOpenPopover = !editLines && !erase;
+
+  const starOffset = getStarOffset(dir, starDir, offSet, offSetTop, starRadius);
 
   return (
     <>
@@ -101,6 +128,11 @@ const CoverMemo: React.FC<CoverImageProps> = ({
               />
             )}
           </CoverLabelDraggable>
+          {showStars && (
+            <CoverStarDraggable id={id} x={x} y={y} offset={0} offSetTop={0}>
+              <CoverStar id={id} offset={starOffset} />
+            </CoverStarDraggable>
+          )}
         </Group>
       </CoverDraggable>
       {open && (

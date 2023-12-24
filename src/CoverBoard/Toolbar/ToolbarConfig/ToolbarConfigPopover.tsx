@@ -226,6 +226,17 @@ export const ToolbarConfigPopover: React.FC<ToolbarConfigPopoverProps> = ({
               }
               label={`Show ${subTitleLabel} name`}
             />
+            <FormControlLabel
+              control={
+                <Switch
+                  checked={param[ToolbarConfigValues.SHOW_STARS]}
+                  onChange={(evt) =>
+                    handleSwitchChange(evt, ToolbarConfigValues.SHOW_STARS)
+                  }
+                />
+              }
+              label={`Show rating stars`}
+            />
           </Grid>
           <Grid item xs={12}>
             <FormControl>

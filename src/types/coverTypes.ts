@@ -23,4 +23,6 @@ export interface Covers {
   [LabelType.TITLE]: CoverImageParamsText;
   [LabelType.SUBTITLE]: CoverImageParamsText;
   dir: PosTypes;
+  starDir: PosTypes;
+  starCount: number;
 }

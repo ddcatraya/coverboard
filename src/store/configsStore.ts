@@ -16,7 +16,7 @@ const getSize = () => {
   const size = Math.min(150, Math.max(70, window.innerWidth / 20));
   return Math.ceil(size / 10) * 10;
 };
-export const initialConfigValues = () => ({
+export const initialConfigValues = (): ToolbarConfigParams => ({
   size: getSize(),
   title: '',
   color: Colors.YELLOW,
@@ -27,6 +27,7 @@ export const initialConfigValues = () => ({
   showMainTitle: true,
   labelDir: PosTypes.BOTTOM,
   media: Media.MUSIC,
+  showStars: true,
 });
 
 export interface UseConfigsParams {
@@ -40,6 +41,7 @@ export interface UseConfigsParams {
   toobarIconSize: () => number;
   fontSize: () => number;
   circleRadius: () => number;
+  starRadius: () => number;
   getCurrentY: (index: number) => number;
   dragLimits: () => DragLimits;
   toolBarLimits: () => DragLimits;
@@ -47,6 +49,7 @@ export interface UseConfigsParams {
   getColor: () => string;
   getArrowColor: () => string;
   getBackColor: () => string;
+  getShowStars: () => boolean;
   windowSize: {
     width: number;
     height: number;
@@ -71,6 +74,7 @@ export const createConfigsSlice: StateCreator<
       configs: { ...configs, media },
     }));
   },
+  getShowStars: () => get().configs.showStars,
   titleLabel: () => MediaMap[get().configs.media][LabelType.TITLE],
   subTitleLabel: () => MediaMap[get().configs.media][LabelType.SUBTITLE],
   getColor: () => colorMap[get().configs.color],
@@ -112,6 +116,7 @@ export const createConfigsSlice: StateCreator<
   toobarIconSize: () => get().configs.size / 2.5,
   fontSize: () => get().configs.size / 7,
   circleRadius: () => get().configs.size / 7 / 1.5,
+  starRadius: () => get().circleRadius() * 0.8,
   dragLimits: () => ({
     x: 2.5 * get().toobarIconSize(),
     y: 0,

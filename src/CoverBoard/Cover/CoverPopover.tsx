@@ -1,5 +1,12 @@
 import React, { useState } from 'react';
-import { TextField, Button, Link, Grid } from '@mui/material';
+import {
+  TextField,
+  Button,
+  Link,
+  Grid,
+  Slider,
+  Typography,
+} from '@mui/material';
 import { LabelType, CoverValues, Covers, Media } from 'types';
 import { CommonDialog } from 'components';
 import { useMainStore } from 'store';
@@ -7,7 +14,7 @@ import { useMainStore } from 'store';
 interface PopupProps {
   open: boolean;
   onClose: () => void;
-  onSubmit: (values: CoverValues) => void;
+  onSubmit: (values: CoverValues, rating: number) => void;
   onReset: () => void;
   values: CoverValues;
   title?: string;
@@ -109,7 +116,9 @@ export const CoverPopover: React.FC<PopupProps> = ({
   values,
   id,
 }) => {
+  const starCount = useMainStore((state) => state.getStarCount(id));
   const [text, setText] = useState<CoverValues>(values);
+  const [rating, setRating] = useState(starCount);
   const titleLabel = useMainStore((state) => state.titleLabel().label);
   const subTitleLabel = useMainStore((state) => state.subTitleLabel().label);
   const media = useMainStore((state) => state.configs.media);
@@ -129,9 +138,14 @@ export const CoverPopover: React.FC<PopupProps> = ({
     }));
   };
 
+  const handleNumberChange = (_: Event, value: number | number[]) => {
+    if (Array.isArray(value)) return;
+    setRating(value);
+  };
+
   const handleSubmit = (evt: React.SyntheticEvent<HTMLFormElement>) => {
     evt.preventDefault();
-    onSubmit(text);
+    onSubmit(text, rating);
     onClose();
   };
 
@@ -155,6 +169,18 @@ export const CoverPopover: React.FC<PopupProps> = ({
               value={text[LabelType.SUBTITLE]}
               onChange={(evt) => handTextChange(evt, LabelType.SUBTITLE)}
               style={{ marginBottom: '20px' }}
+            />
+          </Grid>
+          <Grid item xs={12}>
+            <Typography gutterBottom>Rating:</Typography>
+            <Slider
+              min={0}
+              max={5}
+              step={1}
+              valueLabelDisplay="on"
+              defaultValue={rating}
+              value={rating}
+              onChange={(evt, value) => handleNumberChange(evt, value)}
             />
           </Grid>
           <Grid item xs={12}>
