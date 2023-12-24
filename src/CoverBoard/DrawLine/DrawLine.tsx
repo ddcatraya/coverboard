@@ -22,21 +22,21 @@ const convertPosToXY = (
   if (pos === PosTypes.TOP) {
     return {
       x: coverSizeWidth / 2,
-      y: -coverSizeHeight / 16,
+      y: -8,
     };
   } else if (pos === PosTypes.BOTTOM) {
     return {
       x: coverSizeWidth / 2,
-      y: coverSizeHeight + coverSizeHeight / 16,
+      y: coverSizeHeight + 8,
     };
   } else if (pos === PosTypes.LEFT) {
     return {
-      x: -coverSizeWidth / 16,
+      x: -8,
       y: coverSizeHeight / 2,
     };
   } else {
     return {
-      x: coverSizeWidth + coverSizeWidth / 16,
+      x: coverSizeWidth + 8,
       y: coverSizeHeight / 2,
     };
   }

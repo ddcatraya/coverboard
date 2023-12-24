@@ -35,6 +35,7 @@ export const CoverGroup: React.FC<CoverImageProps> = ({ id }) => {
       y={1}
       strokeWidth={1}
       stroke={color}
+      fill={backColor}
       onClick={canDelete ? () => removeCoverAndRelatedLines(id) : undefined}
       onDblTap={canDelete ? () => removeCoverAndRelatedLines(id) : undefined}
       onMouseMove={(evt: KonvaEventObject<MouseEvent>) => {
