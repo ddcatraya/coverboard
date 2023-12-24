@@ -18,25 +18,27 @@ const convertPosToXY = (
   coverSizeWidth: number,
   coverSizeHeight: number,
   pos: PosTypes,
+  type: 'cover' | 'group',
 ) => {
+  const connection = type === 'cover' ? 16 : 32;
   if (pos === PosTypes.TOP) {
     return {
       x: coverSizeWidth / 2,
-      y: -coverSizeHeight / 16,
+      y: -coverSizeHeight / connection,
     };
   } else if (pos === PosTypes.BOTTOM) {
     return {
       x: coverSizeWidth / 2,
-      y: coverSizeHeight + coverSizeHeight / 16,
+      y: coverSizeHeight + coverSizeHeight / connection,
     };
   } else if (pos === PosTypes.LEFT) {
     return {
-      x: -coverSizeWidth / 16,
+      x: -coverSizeWidth / connection,
       y: coverSizeHeight / 2,
     };
   } else {
     return {
-      x: coverSizeWidth + coverSizeWidth / 16,
+      x: coverSizeWidth + coverSizeWidth / connection,
       y: coverSizeHeight / 2,
     };
   }
@@ -63,6 +65,9 @@ export const DrawLineMemo: React.FC<LineProps> = ({
   const targetSquareGroup = useMainStore((state) =>
     state.groups.find((cov) => cov.id === targetId),
   );
+
+  const origin = originSquareCover ? 'cover' : 'group';
+  const target = targetSquareCover ? 'cover' : 'group';
 
   const originSquare = originSquareCover ?? originSquareGroup;
   const targetSquare = targetSquareCover ?? targetSquareGroup;
@@ -95,11 +100,13 @@ export const DrawLineMemo: React.FC<LineProps> = ({
         coverSizeOriginWidth,
         coverSizeOriginHeight,
         originDir,
+        origin,
       );
       const targetPos = convertPosToXY(
         coverSizeDistWidth,
         coverSizeDistHeight,
         targetDir,
+        target,
       );
 
       const points = [

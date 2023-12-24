@@ -68,6 +68,8 @@ const GroupCoverMemo: React.FC<CoverImageProps> = ({
         id={id}
         x={x}
         y={y}
+        scaleX={scaleX}
+        scaleY={scaleY}
         min={{
           x: dragLimits.x,
           y: dragLimits.y,

@@ -68,7 +68,7 @@ export const GroupCoverPopover: React.FC<PopupProps> = ({
             <Typography gutterBottom>ScaleX:</Typography>
             <Slider
               min={0}
-              max={5}
+              max={10}
               step={0.5}
               valueLabelDisplay="on"
               defaultValue={currentScale.scaleX}
@@ -82,7 +82,7 @@ export const GroupCoverPopover: React.FC<PopupProps> = ({
             <Typography gutterBottom>ScaleY:</Typography>
             <Slider
               min={0}
-              max={5}
+              max={10}
               step={0.5}
               valueLabelDisplay="on"
               defaultValue={currentScale.scaleY}

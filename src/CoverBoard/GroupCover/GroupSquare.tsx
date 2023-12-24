@@ -10,8 +10,8 @@ interface CoverImageProps {
 }
 
 export const GroupSquare: React.FC<CoverImageProps> = ({ id }) => {
-  const removeCoverAndRelatedLines = useMainStore(
-    (state) => state.removeCoverAndRelatedLines,
+  const removeGroupAndRelatedLines = useMainStore(
+    (state) => state.removeGroupAndRelatedLines,
   );
   const color = useMainStore((state) => state.getColor());
   const backColor = useMainStore((state) => state.getBackColor());
@@ -37,8 +37,8 @@ export const GroupSquare: React.FC<CoverImageProps> = ({ id }) => {
       strokeWidth={1}
       stroke={color}
       fill={backColor}
-      onClick={canDelete ? () => removeCoverAndRelatedLines(id) : undefined}
-      onDblTap={canDelete ? () => removeCoverAndRelatedLines(id) : undefined}
+      onClick={canDelete ? () => removeGroupAndRelatedLines(id) : undefined}
+      onDblTap={canDelete ? () => removeGroupAndRelatedLines(id) : undefined}
       onMouseMove={(evt: KonvaEventObject<MouseEvent>) => {
         if (!editLines) {
           evt.currentTarget.opacity(0.5);

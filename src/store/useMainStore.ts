@@ -39,6 +39,7 @@ interface CoverContextData {
   offLimitGroups: () => GroupCovers[];
   removeCoverAndRelatedLines: (id: string) => void;
   removeGroupAndRelatedLines: (id: string) => void;
+  getIdType: (id: string) => 'cover' | 'group';
 }
 
 type MainStoreUnion = UseCoverParams &
@@ -220,6 +221,11 @@ export const useMainStore = createWithEqualityFn<MainStoreUnion>()(
         get().removeGroup(id);
         get().removeLinesWithCover(id);
         saveLocalStorage();
+      },
+      getIdType(id: string) {
+        const isCover = get().covers.find((cover) => cover.id === id);
+
+        return isCover ? 'cover' : 'group';
       },
     };
   },

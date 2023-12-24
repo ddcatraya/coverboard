@@ -125,7 +125,7 @@ export const createLinesSlice: StateCreator<
   removeLinesWithCover(coverId: string) {
     set(({ lines }) => ({
       lines: lines.filter(
-        (l) => l.origin.id !== coverId || l.target.id !== coverId,
+        (l) => l.origin.id !== coverId && l.target.id !== coverId,
       ),
     }));
   },
