@@ -11,6 +11,7 @@ export enum ToolConfigIDs {
   ARROW = 'arrow',
   ERASE = 'erase',
   UNDO = 'undo',
+  GROUP = 'group',
   SCREENSHOT = 'screenshot',
 }
 

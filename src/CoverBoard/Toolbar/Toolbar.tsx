@@ -5,11 +5,12 @@ import {
   ToolbarIcon,
   ToolbarTooltip,
 } from '.';
-import { colorMap, Colors, ToolConfig, ToolConfigIDs } from 'types';
+import { colorMap, Colors, PosTypes, ToolConfig, ToolConfigIDs } from 'types';
 import { haxPrefix } from 'utils';
 import { useUtilsStore, useMainStore, useToolbarStore } from 'store';
 import React, { useMemo } from 'react';
 import { shallow } from 'zustand/shallow';
+import { v4 as uuidv4 } from 'uuid';
 
 interface ToolbarProps {
   takeScreenshot: () => void;
@@ -34,7 +35,7 @@ const ToolbarActionIcon: React.FC = () => {
     [actionsLength, undoAction],
   );
 
-  return <ToolbarIcon config={actionConfig} index={6} />;
+  return <ToolbarIcon config={actionConfig} index={7} />;
 };
 
 export const ToolbarMemo: React.FC<ToolbarProps> = ({
@@ -64,7 +65,24 @@ export const ToolbarMemo: React.FC<ToolbarProps> = ({
 
   const coversLength = useMainStore((state) => state.covers.length);
   const linesLength = useMainStore((state) => state.lines.length);
+  const groupsLength = useMainStore((state) => state.groups.length);
   const coverSizeWidth = useMainStore((state) => state.coverSizeWidth());
+  const addGroups = useMainStore((state) => state.addGroups);
+  const labelDir = useMainStore((state) => state.configs.labelDir);
+
+  const createGroup = () => {
+    addGroups([
+      {
+        id: uuidv4(),
+        x: 0,
+        y: 0,
+        title: 'Group',
+        dir: labelDir ?? PosTypes.BOTTOM,
+        scaleX: 4,
+        scaleY: 4,
+      },
+    ]);
+  };
 
   const savesNumber = Object.keys(window.localStorage).filter((key) =>
     haxPrefix(key),
@@ -131,6 +149,16 @@ export const ToolbarMemo: React.FC<ToolbarProps> = ({
       valueModifier: takeScreenshot,
       badge: 0,
       enabled: showTooltips && !editLines && !erase,
+    },
+    {
+      id: ToolConfigIDs.GROUP,
+      tooltip: `Create Group`,
+      color: colorMap[Colors.BLUE],
+      emoji: '📁',
+      value: false,
+      valueModifier: createGroup,
+      badge: groupsLength,
+      enabled: true,
     },
   ];
 
