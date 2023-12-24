@@ -31,6 +31,27 @@ interface SaveProps {
   handleDeleteElements: () => void;
 }
 
+const getMediaFromStorage = (storageString: string) => {
+  try {
+    const item = window.localStorage.getItem(storageString);
+    if (item) {
+      const curentData: LocalStorageData = JSON.parse(item);
+
+      if (
+        curentData &&
+        Object.values(Media).includes(curentData.configs.media)
+      ) {
+        return curentData.configs.media;
+      }
+    }
+
+    return Media.MUSIC;
+  } catch (err) {
+    console.error('Could not parse media type');
+    return Media.MUSIC;
+  }
+};
+
 export const ToolbarSharePopover: React.FC<SaveProps> = ({
   open,
   onClose,
@@ -110,22 +131,14 @@ export const ToolbarSharePopover: React.FC<SaveProps> = ({
           <div style={{ display: 'flex', flexWrap: 'wrap' }}>
             {keyList.map((currentSaveWithPrefix) => {
               const currentSave = removePrefix(currentSaveWithPrefix);
-
-              const item = window.localStorage.getItem(currentSaveWithPrefix);
-              let currentMedia = Media.MUSIC;
-
-              if (item) {
-                const curentData: LocalStorageData = JSON.parse(item);
-                if (curentData) {
-                  currentMedia = curentData.configs.media;
-                }
-              }
-
               const showDelete =
                 currentSave !== DEFAULT_KEY ||
                 (currentSave === DEFAULT_KEY &&
                   currentSave === saveId &&
                   hasDefault);
+
+              const currentMedia = getMediaFromStorage(currentSaveWithPrefix);
+
               return (
                 <Chip
                   key={currentSave}
