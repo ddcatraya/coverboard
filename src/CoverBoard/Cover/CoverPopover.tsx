@@ -176,7 +176,7 @@ export const CoverPopover: React.FC<PopupProps> = ({
             <Slider
               min={0}
               max={5}
-              step={1}
+              step={0.5}
               valueLabelDisplay="on"
               defaultValue={rating}
               value={rating}
