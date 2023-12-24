@@ -38,9 +38,11 @@ const getStarOffset = (
   if (dir !== starDir) {
     return 0;
   } else if (dir === PosTypes.TOP && starDir === PosTypes.TOP) {
-    return -(offSet + offSetTop) - circleRadius * 3.5;
+    return -offSet - circleRadius * 3.5;
+  } else if (starDir === PosTypes.LEFT || starDir === PosTypes.RIGHT) {
+    return offSet + offSetTop + circleRadius * 2.5;
   }
-  return offSet + offSetTop + circleRadius * 3;
+  return offSet + circleRadius * 3;
 };
 
 const CoverMemo: React.FC<CoverImageProps> = ({

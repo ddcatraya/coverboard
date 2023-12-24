@@ -18,40 +18,31 @@ export const CoverStar: React.FC<CoverStarProps> = ({ id, offset = 0 }) => {
   const backColor = useMainStore((state) => state.getBackColor());
   const updateStarCount = useMainStore((state) => state.updateStarCount);
 
-  const [filledIndex, setFilledIndex] = useState(0);
-
-  const handleClick = (evt) => {
+  const handleClick = (evt, index) => {
     evt.cancelBubble = true;
 
-    if (filledIndex < 0 || filledIndex > 5) return;
-
-    updateStarCount(id, filledIndex);
-  };
-
-  const handleMouseEnter = (evt, index) => {
-    evt.cancelBubble = true;
+    if (index < 0 || index > 5) return;
 
     if (index === starCount) {
-      setFilledIndex(index - 1);
+      updateStarCount(id, index - 1);
     } else if (index - 0.5 === starCount) {
-      setFilledIndex(index);
+      updateStarCount(id, index);
     } else {
-      setFilledIndex(index - 0.5);
+      updateStarCount(id, index - 0.5);
     }
   };
 
   const totalWidth = 4 * starRadius * 3;
 
   return (
-    <>
+    <Group opacity={starCount ? 1 : 0.3}>
       {[...Array(5)].map((_, index) => (
         <Group
           key={index}
           x={coverSizeWidth / 2 + index * starRadius * 3 - totalWidth / 2}
           y={coverSizeHeight + fontSize / 2 + offset}
-          onClick={handleClick}
-          onMouseEnter={(evt) => handleMouseEnter(evt, index + 1)}
-          onMouseLeave={() => setFilledIndex(0)}>
+          onClick={(evt) => handleClick(evt, index + 1)}
+          onTap={(evt) => handleClick(evt, index + 1)}>
           <Star
             numPoints={5}
             innerRadius={starRadius / 1.7}
@@ -79,6 +70,6 @@ export const CoverStar: React.FC<CoverStarProps> = ({ id, offset = 0 }) => {
           )}
         </Group>
       ))}
-    </>
+    </Group>
   );
 };
