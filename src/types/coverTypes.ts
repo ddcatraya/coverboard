@@ -17,14 +17,14 @@ export interface CoverValues {
 
 export interface Covers {
   id: string;
-  link: string;
   x: number;
   y: number;
   [LabelType.TITLE]: CoverImageParamsText;
   [LabelType.SUBTITLE]: CoverImageParamsText;
   dir: PosTypes;
+  link?: string;
+  scaleX?: number;
+  scaleY?: number;
   starDir: PosTypes;
   starCount: number;
-  scaleX: number;
-  scaleY: number;
 }

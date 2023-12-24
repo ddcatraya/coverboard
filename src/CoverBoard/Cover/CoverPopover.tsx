@@ -17,7 +17,7 @@ interface PopupProps {
   onSubmit: (
     values: CoverValues,
     rating: number,
-    scale: { scaleX: number; scaleY: number },
+    scale?: { scaleX: number; scaleY: number },
   ) => void;
   onReset: () => void;
   values: CoverValues;
@@ -66,7 +66,7 @@ const getButtons = (media: Media, currentCover: Covers) => {
         }`,
       },
     ];
-  } else if (media === Media.BOOK) {
+  } else if (media === Media.BOOK && currentCover.link) {
     const isbm = currentCover.link.match(/isbn\/(\d+)-/i);
 
     if (isbm?.length) {
@@ -164,7 +164,12 @@ export const CoverPopover: React.FC<PopupProps> = ({
 
   const handleSubmit = (evt: React.SyntheticEvent<HTMLFormElement>) => {
     evt.preventDefault();
-    onSubmit(text, rating, currentScale);
+    if (link) {
+      onSubmit(text, rating);
+    } else {
+      onSubmit(text, rating, currentScale);
+    }
+
     onClose();
   };
 

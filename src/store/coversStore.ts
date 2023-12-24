@@ -29,14 +29,14 @@ export interface UseCoverParams {
   updateScale: (
     id: string,
     scale: {
-      scaleX: Covers['scaleX'];
-      scaleY: Covers['scaleY'];
+      scaleX: number;
+      scaleY: number;
     },
   ) => void;
   getStarCount: (id: string) => Covers['starCount'];
   getScale: (id: string) => {
-    scaleX: Covers['scaleX'];
-    scaleY: Covers['scaleY'];
+    scaleX: number;
+    scaleY: number;
   };
   getLink: (id: string) => Covers['link'];
   getStarDirById: (id: string) => Covers['dir'];
@@ -201,6 +201,11 @@ export const createCoversSlice: StateCreator<
     }));
   },
   addCovers(filteredResults) {
+    set(({ covers }) => ({
+      covers: [...covers, ...filteredResults],
+    }));
+  },
+  addGroupCovers(filteredResults) {
     set(({ covers }) => ({
       covers: [...covers, ...filteredResults],
     }));

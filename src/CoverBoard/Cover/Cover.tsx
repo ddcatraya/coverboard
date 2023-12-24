@@ -76,7 +76,7 @@ const CoverMemo: React.FC<CoverImageProps> = ({
   const handleSubmit = (
     values: CoverValues,
     rating: number,
-    scale: { scaleX: number; scaleY: number },
+    scale?: { scaleX: number; scaleY: number },
   ) => {
     updateCoversText(
       id,
@@ -84,7 +84,8 @@ const CoverMemo: React.FC<CoverImageProps> = ({
       values[LabelType.SUBTITLE].trim(),
     );
     updateStarCount(id, rating);
-    updateScale(id, scale);
+
+    scale && updateScale(id, scale);
   };
 
   const offSet =

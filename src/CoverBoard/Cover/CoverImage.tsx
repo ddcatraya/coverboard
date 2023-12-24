@@ -1,13 +1,12 @@
 import React from 'react';
 import { Image, Text } from 'react-konva';
 
-import { Covers } from 'types';
 import { useImage } from 'react-konva-utils';
 import { KonvaEventObject } from 'konva/lib/Node';
 import { useMainStore } from 'store';
 
 interface CoverImageProps {
-  link: Covers['link'];
+  link: string;
   onRetry: (evt: KonvaEventObject<MouseEvent>) => void;
 }
 

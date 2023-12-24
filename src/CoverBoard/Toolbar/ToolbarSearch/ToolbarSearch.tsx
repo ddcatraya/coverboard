@@ -78,8 +78,6 @@ export const ToolbarSearch: React.FC = () => {
             dir: labelDir ?? PosTypes.BOTTOM,
             starDir: starsDir ?? PosTypes.BOTTOM,
             starCount: 0,
-            scaleX: 1,
-            scaleY: 1,
           })),
         );
         showSuccessMessage(

@@ -103,10 +103,10 @@ export const useMainStore = createWithEqualityFn<MainStoreUnion>()(
       ...createLinesSlice((value) => storageSet(value), get, api),
       ...createCoversSlice((value) => storageSet(value), get, api),
       coverSizeWidthScaled(coverId: string) {
-        return get().coverSizeWidth() * get().getScale(coverId).scaleX;
+        return get().coverSizeWidth() * get().getScale(coverId).scaleX ?? 1;
       },
       coverSizeHeightScaled(coverId: string) {
-        return get().coverSizeHeight() * get().getScale(coverId).scaleY;
+        return get().coverSizeHeight() * get().getScale(coverId).scaleY ?? 1;
       },
       setDefaultLocalStoreValues(saveId: string) {
         set({ saveId });

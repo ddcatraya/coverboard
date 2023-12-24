@@ -121,10 +121,9 @@ export const schema = (parsedData: LocalStorageData) =>
             return validate(id);
           }, 'covers:id has invalid format'),
         link: z
-          .literal('')
-          .or(
-            z.string().url(),
-          ) /* .includes('https://lastfm.freetls.fastly.net'), */,
+          .string()
+          .url()
+          .optional() /* .includes('https://lastfm.freetls.fastly.net'), */,
         x: z
           .number({
             invalid_type_error: 'covers:x position must be a number',
@@ -140,15 +139,15 @@ export const schema = (parsedData: LocalStorageData) =>
         scaleX: z
           .number({
             invalid_type_error: 'covers:scaleX position must be a number',
-            required_error: 'covers:scaleX is required',
           })
-          .min(0, 'covers:scaleX position must be positive number'),
+          .min(0, 'covers:scaleX position must be positive number')
+          .optional(),
         scaleY: z
           .number({
             invalid_type_error: 'covers:scaleY position must be a number',
-            required_error: 'covers:scaleY is required',
           })
-          .min(0, 'covers:scaleY position must be positive number'),
+          .min(0, 'covers:scaleY position must be positive number')
+          .optional(),
         [LabelType.TITLE]: z.object({
           search: z.string({
             invalid_type_error: 'covers:search must be a string',

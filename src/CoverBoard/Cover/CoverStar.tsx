@@ -37,8 +37,6 @@ export const CoverStar: React.FC<CoverStarProps> = ({ id, offset = 0 }) => {
     }
   };
 
-  const totalWidth = 4 * starRadius * 3;
-
   if (erase || editLines) return null;
 
   return (

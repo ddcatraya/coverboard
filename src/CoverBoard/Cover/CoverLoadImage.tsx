@@ -8,7 +8,7 @@ import { CoverImage } from '.';
 
 interface CoverImageProps {
   id: Covers['id'];
-  link: Covers['link'];
+  link: string;
   renderTime: number;
 }
 

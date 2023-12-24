@@ -90,7 +90,6 @@ export const ToolbarMemo: React.FC<ToolbarProps> = ({
     addCovers([
       {
         id: uuidv4(),
-        link: '',
         x: 0,
         y: 0,
         [LabelType.TITLE]: {
@@ -104,8 +103,8 @@ export const ToolbarMemo: React.FC<ToolbarProps> = ({
         dir: labelDir ?? PosTypes.BOTTOM,
         starDir: starsDir ?? PosTypes.BOTTOM,
         starCount: 0,
-        scaleX: 3,
-        scaleY: 3,
+        scaleX: 4,
+        scaleY: 4,
       },
     ]);
   };
