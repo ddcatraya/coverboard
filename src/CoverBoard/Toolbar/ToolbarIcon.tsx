@@ -30,6 +30,7 @@ export const ToolbarIcon: React.FC<ToolbarIconProps> = ({ config, index }) => {
 
   const handleClick = () => {
     setPoints(null);
+    clearHash();
 
     if (config.id !== ToolConfigIDs.ERASE) {
       setErase(false);
@@ -41,10 +42,6 @@ export const ToolbarIcon: React.FC<ToolbarIconProps> = ({ config, index }) => {
       setEditLines(false);
     } else if (config.id === ToolConfigIDs.ARROW) {
       setHash(ToolConfigIDs.ARROW);
-    }
-
-    if (config.value) {
-      clearHash();
     }
 
     return config.value

@@ -78,7 +78,6 @@ export const ToolbarSearchPopover: React.FC<PopupProps> = ({
       onClose();
     } catch (err) {
       if (err === 'NOT_FOUND') {
-        console.log(err);
         return;
       }
       throw err;

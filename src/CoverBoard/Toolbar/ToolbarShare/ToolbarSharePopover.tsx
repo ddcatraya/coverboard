@@ -10,7 +10,13 @@ import {
 } from '@mui/material';
 import { Close as CloseIcon } from '@mui/icons-material';
 
-import { ToolConfigIDs, DEFAULT_KEY } from 'types';
+import {
+  ToolConfigIDs,
+  DEFAULT_KEY,
+  LocalStorageData,
+  Media,
+  MediaMap,
+} from 'types';
 import { NavigateFunction } from 'react-router-dom';
 import { addPrefix, DEFAULT_STORAGE, haxPrefix, removePrefix } from 'utils';
 import { CommonDialog } from 'components';
@@ -104,6 +110,17 @@ export const ToolbarSharePopover: React.FC<SaveProps> = ({
           <div style={{ display: 'flex', flexWrap: 'wrap' }}>
             {keyList.map((currentSaveWithPrefix) => {
               const currentSave = removePrefix(currentSaveWithPrefix);
+
+              const item = window.localStorage.getItem(currentSaveWithPrefix);
+              let currentMedia = Media.MUSIC;
+
+              if (item) {
+                const curentData: LocalStorageData = JSON.parse(item);
+                if (curentData) {
+                  currentMedia = curentData.configs.media;
+                }
+              }
+
               const showDelete =
                 currentSave !== DEFAULT_KEY ||
                 (currentSave === DEFAULT_KEY &&
@@ -112,7 +129,7 @@ export const ToolbarSharePopover: React.FC<SaveProps> = ({
               return (
                 <Chip
                   key={currentSave}
-                  label={currentSave}
+                  label={`${MediaMap[currentMedia].emoji} ${currentSave}`}
                   color={saveId === currentSave ? 'primary' : 'default'}
                   onClick={() => {
                     navigate(`/${currentSave}#${ToolConfigIDs.SHARE}`);

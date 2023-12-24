@@ -75,6 +75,7 @@ export interface MediaDesc {
 
 export const MediaMap = {
   [Media.MUSIC]: {
+    emoji: '🎵',
     [LabelType.TITLE]: {
       label: MediaValues.ARTIST,
       required: true,
@@ -88,6 +89,7 @@ export const MediaMap = {
     heightRatio: 1,
   },
   [Media.MOVIE]: {
+    emoji: '🎬',
     [LabelType.TITLE]: {
       label: MediaValues.MOVIE,
       required: true,
@@ -101,6 +103,7 @@ export const MediaMap = {
     heightRatio: 1.5,
   },
   [Media.TVSHOW]: {
+    emoji: '📺',
     [LabelType.TITLE]: {
       label: MediaValues.TVSHOW,
       required: true,
@@ -114,6 +117,7 @@ export const MediaMap = {
     heightRatio: 1.5,
   },
   [Media.BOOK]: {
+    emoji: '📚',
     [LabelType.TITLE]: {
       label: MediaValues.BOOK,
       required: true,
@@ -127,6 +131,7 @@ export const MediaMap = {
     heightRatio: 1.5,
   },
   [Media.GAME]: {
+    emoji: '🎮',
     [LabelType.TITLE]: {
       label: MediaValues.GAME,
       required: true,
