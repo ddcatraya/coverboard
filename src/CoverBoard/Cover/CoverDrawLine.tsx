@@ -28,6 +28,8 @@ export const CoverDrawLine: React.FC<CoverDrawLineProps> = ({
     useMainStore((state) => state.coverSizeHeight()) * scaleY;
   const selection: PosTypes | null = points?.id === id ? points.dir : null;
 
+  const square = 40 + coverSizeWidth / 20;
+
   const handleDrawLine = (id: string, dir: PosTypes) => {
     if (!points) {
       setPoints({ id, dir });
@@ -43,30 +45,30 @@ export const CoverDrawLine: React.FC<CoverDrawLineProps> = ({
     {
       dir: PosTypes.TOP,
       x: coverSizeWidth / 2,
-      y: -coverSizeWidth / 4 - coverSizeWidth / 8,
-      width: coverSizeWidth / 2,
-      height: coverSizeWidth / 2,
+      y: -square / 1.5,
+      width: square,
+      height: square,
     },
     {
       dir: PosTypes.RIGHT,
       x: coverSizeWidth,
-      y: coverSizeHeight / 8,
-      width: coverSizeHeight / 2,
-      height: coverSizeHeight / 2,
+      y: coverSizeHeight / 2 - square / 1.5,
+      width: square,
+      height: square,
     },
     {
       dir: PosTypes.LEFT,
       x: 0,
-      y: coverSizeHeight / 8,
-      width: coverSizeHeight / 2,
-      height: coverSizeHeight / 2,
+      y: coverSizeHeight / 2 - square / 1.5,
+      width: square,
+      height: square,
     },
     {
       dir: PosTypes.BOTTOM,
       x: coverSizeWidth / 2,
-      y: coverSizeHeight - coverSizeWidth / 4 - coverSizeWidth / 8,
-      width: coverSizeWidth / 2,
-      height: coverSizeWidth / 2,
+      y: coverSizeHeight - square / 1.5,
+      width: square,
+      height: square,
     },
   ];
 
