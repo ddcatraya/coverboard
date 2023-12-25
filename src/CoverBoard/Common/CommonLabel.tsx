@@ -31,7 +31,6 @@ export const CommonLabel: React.FC<CommonLabelProps> = ({
   const updateCoverLabel = useMainStore((state) => state.updateCoverLabel);
   const resetCoverLabel = useMainStore((state) => state.resetCoverLabel);
   const editLines = useUtilsStore((state) => state.editLines);
-  console.log(editLines);
 
   const coverSizeWidth =
     useMainStore((state) => state.coverSizeWidth()) * scaleX;
