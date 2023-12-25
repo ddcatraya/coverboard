@@ -13,6 +13,7 @@ interface CommonLabelProps {
   fontStyle?: 'bold';
   scaleX?: GroupCovers['scaleX'];
   scaleY?: GroupCovers['scaleY'];
+  dir: Covers['dir'] | GroupCovers['dir'];
 }
 
 export const CommonLabel: React.FC<CommonLabelProps> = ({
@@ -23,8 +24,8 @@ export const CommonLabel: React.FC<CommonLabelProps> = ({
   fontStyle,
   scaleX = 1,
   scaleY = 1,
+  dir,
 }) => {
-  const dir = useMainStore((state) => state.getDirById(id));
   const updateCoverLabel = useMainStore((state) => state.updateCoverLabel);
   const resetCoverLabel = useMainStore((state) => state.resetCoverLabel);
   const erase = useUtilsStore((state) => state.erase);

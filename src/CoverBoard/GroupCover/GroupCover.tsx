@@ -89,12 +89,14 @@ const GroupCoverMemo: React.FC<CoverImageProps> = ({
             id={id}
             x={x}
             y={y}
+            dir={dir}
             scaleX={scaleX}
             scaleY={scaleY}
             offset={offSet}
             offSetTop={0}>
             {showTitle && title && (
               <CommonLabel
+                dir={dir}
                 coverLabel={LabelType.TITLE}
                 text={title}
                 id={id}

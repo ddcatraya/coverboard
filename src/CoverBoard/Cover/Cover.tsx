@@ -91,7 +91,6 @@ const CoverMemo: React.FC<CoverImageProps> = ({
   const canOpenPopover = !editLines && !erase;
 
   const starOffset = getStarOffset(dir, starDir, offSet, offSetTop, starRadius);
-
   return (
     <>
       <CommonDraggable
@@ -119,10 +118,12 @@ const CoverMemo: React.FC<CoverImageProps> = ({
             id={id}
             x={x}
             y={y}
+            dir={dir}
             offset={offSet}
             offSetTop={offSetTop}>
             {showTitle && title && (
               <CommonLabel
+                dir={dir}
                 coverLabel={LabelType.TITLE}
                 text={title}
                 id={id}
@@ -131,6 +132,7 @@ const CoverMemo: React.FC<CoverImageProps> = ({
             )}
             {showSubtitle && subtitle && (
               <CommonLabel
+                dir={dir}
                 coverLabel={LabelType.SUBTITLE}
                 text={subtitle}
                 id={id}

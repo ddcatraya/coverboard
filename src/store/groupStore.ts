@@ -6,7 +6,6 @@ export interface UseGrouspParams {
   updateGroupDir: (coverId: string, dir: PosTypes) => void;
   updateGroupsText: (coverId: string, titleText: string) => void;
   addGroups: (filteredResults: Array<GroupCovers>) => void;
-  getDirById: (id: string) => GroupCovers['dir'];
   getScale: (id: string) => {
     scaleX: GroupCovers['scaleX'];
     scaleY: GroupCovers['scaleY'];
@@ -24,8 +23,6 @@ export const createGroupsSlice: StateCreator<
     scaleX: get().groups.find((star) => star.id === id)?.scaleX ?? 1,
     scaleY: get().groups.find((star) => star.id === id)?.scaleY ?? 1,
   }),
-  getDirById: (id: string) =>
-    get().groups.find((star) => star.id === id)?.dir ?? PosTypes.BOTTOM,
   updateGroupDir(coverId, dir) {
     set(({ groups }) => ({
       groups: groups.map((star) =>

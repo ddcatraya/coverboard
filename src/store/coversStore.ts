@@ -20,7 +20,6 @@ export interface UseCoverParams {
     subTitleText: string,
   ) => void;
   addCovers: (filteredResults: Array<Covers>) => void;
-  getDirById: (id: string) => Covers['dir'];
   getStarCount: (id: string) => Covers['starCount'];
   getStarDirById: (id: string) => Covers['dir'];
 }
@@ -32,8 +31,6 @@ export const createCoversSlice: StateCreator<
   UseCoverParams
 > = (set, get) => ({
   covers: [],
-  getDirById: (id: string) =>
-    get().covers.find((star) => star.id === id)?.dir ?? PosTypes.BOTTOM,
   getStarDirById: (id: string) =>
     get().covers.find((star) => star.id === id)?.starDir ?? PosTypes.TOP,
   getStarCount: (id: string) =>

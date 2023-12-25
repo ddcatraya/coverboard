@@ -12,6 +12,7 @@ import { GroupCover } from './GroupCover';
 
 const Covers: React.FC = () => {
   const covers = useMainStore((state) => state.covers);
+  console.log(covers);
 
   return (
     <>

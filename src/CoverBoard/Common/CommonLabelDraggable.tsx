@@ -12,6 +12,7 @@ interface CommonLabelDraggableProps {
   id: Covers['id'] | GroupCovers['id'];
   x: Covers['x'] | GroupCovers['x'];
   y: Covers['y'] | GroupCovers['y'];
+  dir: Covers['dir'] | GroupCovers['dir'];
   offset: number;
   offSetTop: number;
   scaleX?: GroupCovers['scaleX'];
@@ -23,6 +24,7 @@ export const CommonLabelDraggable = ({
   id,
   x,
   y,
+  dir,
   children,
   offset,
   offSetTop,
@@ -30,7 +32,6 @@ export const CommonLabelDraggable = ({
   scaleY = 1,
   updateDir,
 }: CommonLabelDraggableProps) => {
-  const dir = useMainStore((state) => state.getDirById(id));
   const erase = useUtilsStore((state) => state.erase);
   const dragLimits = useMainStore((state) => state.dragLimits(), shallow);
   const fontSize = useMainStore((state) => state.fontSize());
