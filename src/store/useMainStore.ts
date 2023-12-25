@@ -39,12 +39,9 @@ interface CoverContextData {
   offLimitCovers: () => Covers[];
   offLimitGroups: () => GroupCovers[];
   removeCoverAndRelatedLines: (id: string) => void;
-  removeLinesIfCoverInsideGroup: (id: string) => void;
-  removeLinesIfGroupInsideCover: (id: string) => void;
   removeGroupAndRelatedLines: (id: string) => void;
   updateGroupPosition: (coverId: string, { x, y }: Vector2d) => void;
   updateCoverPosition: (coverId: string, { x, y }: Vector2d) => void;
-  moveAllCoversInsideGroup: (coverId: string, { x, y }: Vector2d) => void;
   updateGroupScale: (
     coverId: string,
     scale: { scaleX: number; scaleY: number },
@@ -218,16 +215,34 @@ export const useMainStore = createWithEqualityFn<MainStoreUnion>()(
           return [];
         });
       },
-      removeCoverAndRelatedLines(id) {
+      removeCoverAndRelatedLines(coverId) {
         saveLastAction();
-        get().removeCover(id);
-        get().removeLinesWithCover(id);
+
+        set(({ covers }) => ({
+          covers: covers.filter((c) => c.id !== coverId),
+        }));
+
+        set(({ lines }) => ({
+          lines: lines.filter(
+            (l) => l.origin.id !== coverId || l.target.id !== coverId,
+          ),
+        }));
+
         saveLocalStorage();
       },
-      removeGroupAndRelatedLines(id: string) {
+      removeGroupAndRelatedLines(groupId: string) {
         saveLastAction();
-        get().removeGroup(id);
-        get().removeLinesWithCover(id);
+
+        set(({ groups }) => ({
+          groups: groups.filter((c) => c.id !== groupId),
+        }));
+
+        set(({ lines }) => ({
+          lines: lines.filter(
+            (l) => l.origin.id !== groupId || l.target.id !== groupId,
+          ),
+        }));
+
         saveLocalStorage();
       },
       updateGroupPosition(groupId, { x, y }) {
@@ -246,8 +261,41 @@ export const useMainStore = createWithEqualityFn<MainStoreUnion>()(
             }),
           }));
 
-          get().removeLinesIfCoverInsideGroup(groupId);
-          get().moveAllCoversInsideGroup(groupId, prev);
+          const colGroup = get().covers.find(
+            (cover) =>
+              cover.x > x &&
+              cover.x < x + get().coverSizeWidth() * group.scaleX &&
+              cover.y > y &&
+              cover.y < y + get().coverSizeHeight() * group.scaleY,
+          );
+
+          if (colGroup) {
+            get().removeLinesWithCoverTogether(groupId, colGroup.id);
+          }
+
+          const coversDetect = get().covers.filter(
+            (cover) =>
+              cover.x > prev.x &&
+              cover.x < prev.x + get().coverSizeWidth() * group.scaleX &&
+              cover.y > prev.y &&
+              cover.y < prev.y + get().coverSizeHeight() * group.scaleY,
+          );
+
+          if (coversDetect.length > 0) {
+            coversDetect.forEach((cover) => {
+              set(({ covers }) => ({
+                covers: covers.map((star) => {
+                  return cover.id === star.id
+                    ? {
+                        ...star,
+                        x: star.x - (prev.x - x),
+                        y: star.y - (prev.y - y),
+                      }
+                    : star;
+                }),
+              }));
+            });
+          }
         }
         saveLocalStorage();
       },
@@ -273,7 +321,7 @@ export const useMainStore = createWithEqualityFn<MainStoreUnion>()(
             }),
           }));
 
-          get().updateGroupPositionRelative(groupId, {
+          const newPos = {
             x:
               (get().coverSizeWidth() * scale.scaleX -
                 get().coverSizeWidth() * prevScale.scaleX) /
@@ -282,8 +330,27 @@ export const useMainStore = createWithEqualityFn<MainStoreUnion>()(
               (get().coverSizeHeight() * scale.scaleY -
                 get().coverSizeHeight() * prevScale.scaleY) /
               2,
-          });
-          get().removeLinesIfCoverInsideGroup(groupId);
+          };
+
+          set(({ groups }) => ({
+            groups: groups.map((star) => {
+              return groupId === star.id
+                ? { ...star, x: star.x - newPos.x, y: star.y - newPos.y }
+                : star;
+            }),
+          }));
+
+          const colGroup = get().covers.find(
+            (cover) =>
+              cover.x > newPos.x &&
+              cover.x < newPos.x + get().coverSizeWidth() * group.scaleX &&
+              cover.y > newPos.y &&
+              cover.y < newPos.y + get().coverSizeHeight() * group.scaleY,
+          );
+
+          if (colGroup) {
+            get().removeLinesWithCoverTogether(groupId, colGroup.id);
+          }
         }
         saveLocalStorage();
       },
@@ -298,66 +365,19 @@ export const useMainStore = createWithEqualityFn<MainStoreUnion>()(
             }),
           }));
 
-          get().removeLinesIfGroupInsideCover(coverId);
-        }
-        saveLocalStorage();
-      },
-
-      moveAllCoversInsideGroup(groupId, { x, y }) {
-        const group = get().groups.find((group) => group.id === groupId);
-
-        if (group) {
-          const coversDetect = get().covers.filter(
-            (cover) =>
-              cover.x > x &&
-              cover.x < x + get().coverSizeWidth() * group.scaleX &&
-              cover.y > y &&
-              cover.y < y + get().coverSizeHeight() * group.scaleY,
-          );
-
-          if (coversDetect.length > 0) {
-            coversDetect.forEach((cover) => {
-              get().updateCoverPositionRelative(cover.id, {
-                x: x - group.x,
-                y: y - group.y,
-              });
-            });
-          }
-        }
-      },
-      removeLinesIfCoverInsideGroup(groupId) {
-        const group = get().groups.find((group) => group.id === groupId);
-
-        if (group) {
-          const colGroup = get().covers.find(
-            (cover) =>
-              cover.x > group.x &&
-              cover.x < group.x + get().coverSizeWidth() * group.scaleX &&
-              cover.y > group.y &&
-              cover.y < group.y + get().coverSizeHeight() * group.scaleY,
-          );
-
-          if (colGroup) {
-            get().removeLinesWithCoverTogether(groupId, colGroup.id);
-          }
-        }
-      },
-      removeLinesIfGroupInsideCover(coverId) {
-        const cover = get().covers.find((cover) => cover.id === coverId);
-
-        if (cover) {
           const colGroup = get().groups.find(
             (group) =>
-              cover.x > group.x &&
-              cover.x < group.x + get().coverSizeWidth() * group.scaleX &&
-              cover.y > group.y &&
-              cover.y < group.y + get().coverSizeHeight() * group.scaleY,
+              x > group.x &&
+              x < group.x + get().coverSizeWidth() * group.scaleX &&
+              y > group.y &&
+              y < group.y + get().coverSizeHeight() * group.scaleY,
           );
 
           if (colGroup) {
             get().removeLinesWithCoverTogether(coverId, colGroup.id);
           }
         }
+        saveLocalStorage();
       },
     };
   },
