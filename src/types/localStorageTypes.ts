@@ -1,5 +1,5 @@
 import { BackColors, Colors, Media, ToolbarConfigParams } from './configTypes';
-import { Covers, GroupCovers, LabelType } from './coverTypes';
+import { Covers, GroupCovers } from './coverTypes';
 import { Lines } from './lineTypes';
 import { z } from 'zod';
 import { PosTypes } from './generalTypes';
@@ -155,7 +155,7 @@ export const schema = (parsedData: LocalStorageData) =>
             required_error: 'covers:y is required',
           })
           .min(0, 'covers:y position must be positive number'),
-        [LabelType.TITLE]: z.object({
+        title: z.object({
           search: z.string({
             invalid_type_error: 'covers:search must be a string',
             required_error: 'covers:search is required',
@@ -176,7 +176,7 @@ export const schema = (parsedData: LocalStorageData) =>
             },
           }),
         }),
-        [LabelType.SUBTITLE]: z.object({
+        subtitle: z.object({
           search: z.string({
             invalid_type_error: 'covers:search must be a string',
             required_error: 'covers:search is required',

@@ -8,13 +8,7 @@ import {
   RadioGroup,
 } from '@mui/material';
 
-import {
-  LabelType,
-  ToolConfigIDs,
-  CoverValues,
-  Media,
-  MediaValues,
-} from 'types';
+import { ToolConfigIDs, CoverValues, Media, MediaValues } from 'types';
 import { CommonDialog } from 'components';
 import { flushSync } from 'react-dom';
 import { useMainStore } from 'store';
@@ -27,11 +21,11 @@ interface PopupProps {
 }
 
 const initialState = () => [
-  { [LabelType.TITLE]: '', [LabelType.SUBTITLE]: '' },
-  { [LabelType.TITLE]: '', [LabelType.SUBTITLE]: '' },
-  { [LabelType.TITLE]: '', [LabelType.SUBTITLE]: '' },
-  { [LabelType.TITLE]: '', [LabelType.SUBTITLE]: '' },
-  { [LabelType.TITLE]: '', [LabelType.SUBTITLE]: '' },
+  { title: '', subtitle: '' },
+  { title: '', subtitle: '' },
+  { title: '', subtitle: '' },
+  { title: '', subtitle: '' },
+  { title: '', subtitle: '' },
 ];
 
 export const ToolbarSearchPopover: React.FC<PopupProps> = ({
@@ -51,7 +45,7 @@ export const ToolbarSearchPopover: React.FC<PopupProps> = ({
 
   const handleInputChange = (
     index: number,
-    field: LabelType,
+    field: 'title' | 'subtitle',
     value: string,
   ) => {
     setInputs((prevInputs) => {
@@ -70,8 +64,7 @@ export const ToolbarSearchPopover: React.FC<PopupProps> = ({
 
     try {
       const filterInputs = inputs.filter(
-        (input) =>
-          input[LabelType.TITLE] !== '' || input[LabelType.SUBTITLE] !== '',
+        (input) => input.title !== '' || input.subtitle !== '',
       );
       await onSubmit(filterInputs);
       setInputs(initialState());
@@ -94,23 +87,15 @@ export const ToolbarSearchPopover: React.FC<PopupProps> = ({
   let isInputDisabled =
     !!inputs.find(
       (input) =>
-        (input[LabelType.TITLE] !== '' &&
-          input[LabelType.SUBTITLE] === '' &&
+        (input.title !== '' &&
+          input.subtitle === '' &&
           subTitleLabel.required) ||
-        (input[LabelType.TITLE] === '' &&
-          titleLabel.required &&
-          input[LabelType.SUBTITLE] !== ''),
-    ) ||
-    inputs.every(
-      (input) =>
-        input[LabelType.TITLE] === '' && input[LabelType.SUBTITLE] === '',
-    );
+        (input.title === '' && titleLabel.required && input.subtitle !== ''),
+    ) || inputs.every((input) => input.title === '' && input.subtitle === '');
 
   if (subTitleLabel.label === MediaValues.YEAR) {
     const hasIncompleteYear = !!inputs.find(
-      (input) =>
-        input[LabelType.SUBTITLE].length > 0 &&
-        input[LabelType.SUBTITLE].length !== 4,
+      (input) => input.subtitle.length > 0 && input.subtitle.length !== 4,
     );
 
     if (hasIncompleteYear) {
@@ -181,9 +166,9 @@ export const ToolbarSearchPopover: React.FC<PopupProps> = ({
               <TextField
                 fullWidth
                 label={`${titleLabel.label}${titleLabel.required ? '*' : ''}`}
-                value={input[LabelType.TITLE]}
+                value={input.title}
                 onChange={(e) =>
-                  handleInputChange(index, LabelType.TITLE, e.target.value)
+                  handleInputChange(index, 'title', e.target.value)
                 }
               />
             </Grid>
@@ -194,9 +179,9 @@ export const ToolbarSearchPopover: React.FC<PopupProps> = ({
                 label={`${subTitleLabel.label}${
                   subTitleLabel.required ? '*' : ''
                 }`}
-                value={input[LabelType.SUBTITLE]}
+                value={input.subtitle}
                 onChange={(e) =>
-                  handleInputChange(index, LabelType.SUBTITLE, e.target.value)
+                  handleInputChange(index, 'subtitle', e.target.value)
                 }
               />
             </Grid>

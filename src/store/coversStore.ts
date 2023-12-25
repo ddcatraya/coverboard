@@ -1,4 +1,4 @@
-import { Covers, LabelType, PosTypes } from 'types';
+import { Covers, PosTypes } from 'types';
 import { StateCreator } from 'zustand';
 
 export interface UseCoverParams {
@@ -7,10 +7,10 @@ export interface UseCoverParams {
   updateStarCount: (coverId: string, count: number) => void;
   updateAllCoversDir: (dir: PosTypes) => void;
   updateAllStarsDir: (dir: PosTypes) => void;
-  resetCoverLabel: (coverId: string, coverLabel: LabelType) => void;
+  resetCoverLabel: (coverId: string, coverLabel: 'title' | 'subtitle') => void;
   updateCoverLabel: (
     coverId: string,
-    coverLabel: LabelType,
+    coverLabel: 'title' | 'subtitle',
     label: string,
   ) => void;
   updateCoversText: (
@@ -150,12 +150,12 @@ export const createCoversSlice: StateCreator<
         coverId === star.id
           ? {
               ...star,
-              [LabelType.TITLE]: {
-                ...star[LabelType.TITLE],
+              title: {
+                ...star.title,
                 text: titleText,
               },
-              [LabelType.SUBTITLE]: {
-                ...star[LabelType.SUBTITLE],
+              subtitle: {
+                ...star.subtitle,
                 text: subTitleText,
               },
             }

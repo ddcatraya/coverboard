@@ -7,7 +7,6 @@ import { formatDate } from 'utils';
 import { useMainStore } from 'store';
 import { shallow } from 'zustand/shallow';
 import Konva from 'konva';
-import { LabelType } from 'types';
 import { GroupCover } from './GroupCover';
 
 const Covers: React.FC = () => {
@@ -18,12 +17,12 @@ const Covers: React.FC = () => {
       {covers.map((star, index) => (
         <Cover
           id={star.id}
-          title={star[LabelType.TITLE].text}
-          subtitle={star[LabelType.SUBTITLE].text}
+          title={star.title.text}
+          subtitle={star.subtitle.text}
           x={star.x}
           y={star.y}
-          titleDir={star[LabelType.TITLE].dir}
-          subTitleDir={star[LabelType.SUBTITLE].dir}
+          titleDir={star.title.dir}
+          subTitleDir={star.subtitle.dir}
           starDir={star.starDir}
           link={star.link}
           key={star.id}
@@ -120,7 +119,7 @@ const BoundaryArrows: React.FC = () => {
           id={star.id}
           x={star.x}
           y={star.y}
-          title={star[LabelType.SUBTITLE].text}
+          title={star.subtitle.text}
           key={star.id}
         />
       ))}

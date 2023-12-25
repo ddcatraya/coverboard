@@ -8,7 +8,7 @@ import {
   getTvShowPosters,
 } from 'api';
 import { ToolbarSearchPopover } from '.';
-import { CoverValues, LabelType, Media, PosTypes } from 'types';
+import { CoverValues, Media, PosTypes } from 'types';
 import { v4 as uuidv4 } from 'uuid';
 import { useMainStore, useToastStore, useToolbarStore } from 'store';
 import { shallow } from 'zustand/shallow';
@@ -44,10 +44,8 @@ export const ToolbarSearch: React.FC = () => {
         (filteredResult) =>
           !covers.find(
             (star) =>
-              star[LabelType.TITLE].search ===
-                filteredResult[LabelType.TITLE] &&
-              star[LabelType.SUBTITLE].search ===
-                filteredResult[LabelType.SUBTITLE],
+              star.title.search === filteredResult.title &&
+              star.subtitle.search === filteredResult.subtitle,
           ),
       );
 
@@ -58,14 +56,14 @@ export const ToolbarSearch: React.FC = () => {
             link: filteredResult.link,
             x: 0,
             y: 0,
-            [LabelType.TITLE]: {
-              search: filteredResult[LabelType.TITLE],
-              text: filteredResult[LabelType.TITLE],
+            title: {
+              search: filteredResult.title,
+              text: filteredResult.title,
               dir: labelDir ?? PosTypes.BOTTOM,
             },
-            [LabelType.SUBTITLE]: {
-              search: filteredResult[LabelType.SUBTITLE],
-              text: filteredResult[LabelType.SUBTITLE],
+            subtitle: {
+              search: filteredResult.subtitle,
+              text: filteredResult.subtitle,
               dir: labelDir ?? PosTypes.BOTTOM,
             },
             starDir: starsDir ?? PosTypes.BOTTOM,

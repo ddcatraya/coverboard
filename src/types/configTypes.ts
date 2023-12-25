@@ -1,4 +1,3 @@
-import { LabelType } from './coverTypes';
 import { PosTypes } from './generalTypes';
 
 export enum Colors {
@@ -99,12 +98,12 @@ export interface MediaDesc {
 export const MediaMap = {
   [Media.MUSIC]: {
     emoji: '🎵',
-    [LabelType.TITLE]: {
+    title: {
       label: MediaValues.ARTIST,
       required: true,
       hidden: false,
     },
-    [LabelType.SUBTITLE]: {
+    subtitle: {
       label: MediaValues.ALBUM,
       required: true,
       hidden: false,
@@ -113,12 +112,12 @@ export const MediaMap = {
   },
   [Media.MOVIE]: {
     emoji: '🎬',
-    [LabelType.TITLE]: {
+    title: {
       label: MediaValues.MOVIE,
       required: true,
       hidden: false,
     },
-    [LabelType.SUBTITLE]: {
+    subtitle: {
       label: MediaValues.YEAR,
       required: false,
       hidden: false,
@@ -127,12 +126,12 @@ export const MediaMap = {
   },
   [Media.TVSHOW]: {
     emoji: '📺',
-    [LabelType.TITLE]: {
+    title: {
       label: MediaValues.TVSHOW,
       required: true,
       hidden: false,
     },
-    [LabelType.SUBTITLE]: {
+    subtitle: {
       label: MediaValues.YEAR,
       required: false,
       hidden: false,
@@ -141,12 +140,12 @@ export const MediaMap = {
   },
   [Media.BOOK]: {
     emoji: '📚',
-    [LabelType.TITLE]: {
+    title: {
       label: MediaValues.BOOK,
       required: true,
       hidden: false,
     },
-    [LabelType.SUBTITLE]: {
+    subtitle: {
       label: MediaValues.AUTHOR,
       required: false,
       hidden: false,
@@ -155,12 +154,12 @@ export const MediaMap = {
   },
   [Media.GAME]: {
     emoji: '🎮',
-    [LabelType.TITLE]: {
+    title: {
       label: MediaValues.GAME,
       required: true,
       hidden: false,
     },
-    [LabelType.SUBTITLE]: {
+    subtitle: {
       label: MediaValues.YEAR,
       required: false,
       hidden: false,
@@ -171,8 +170,8 @@ export const MediaMap = {
 
 export interface SearchResults {
   link: string;
-  [LabelType.TITLE]: string;
-  [LabelType.SUBTITLE]: string;
+  title: string;
+  subtitle: string;
 }
 
 export interface ToolbarConfigParams {

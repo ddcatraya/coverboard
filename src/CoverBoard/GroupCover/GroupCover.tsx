@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 
-import { GroupCovers, LabelType, PosTypes } from 'types';
+import { GroupCovers, PosTypes } from 'types';
 
 import { useMainStore, useUtilsStore } from 'store';
 import { shallow } from 'zustand/shallow';
@@ -102,7 +102,7 @@ const GroupCoverMemo: React.FC<CoverImageProps> = ({
             <CommonLabel
               color={color}
               dir={dir}
-              coverLabel={LabelType.TITLE}
+              coverLabel="title"
               text={title}
               id={id}
               fontStyle="bold"
@@ -123,7 +123,7 @@ const GroupCoverMemo: React.FC<CoverImageProps> = ({
             <CommonLabel
               color={color}
               dir={subDir}
-              coverLabel={LabelType.SUBTITLE}
+              coverLabel="subtitle"
               text={subtitle}
               id={id}
               fontStyle="bold"

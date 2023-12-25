@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 
-import { Covers, CoverValues, LabelType, PosTypes } from 'types';
+import { Covers, CoverValues, PosTypes } from 'types';
 import { CoverPopover, CoverLoadImage, CoverStar, CoverStarDraggable } from '.';
 import {
   CommonDraggable,
@@ -63,11 +63,7 @@ const CoverMemo: React.FC<CoverImageProps> = ({
   );
 
   const handleSubmit = (values: CoverValues, rating: number) => {
-    updateCoversText(
-      id,
-      values[LabelType.TITLE].trim(),
-      values[LabelType.SUBTITLE].trim(),
-    );
+    updateCoversText(id, values.title.trim(), values.subtitle.trim());
     updateStarCount(id, rating);
   };
 
@@ -151,7 +147,7 @@ const CoverMemo: React.FC<CoverImageProps> = ({
               dir={titleDir}>
               <CommonLabel
                 dir={titleDir}
-                coverLabel={LabelType.TITLE}
+                coverLabel="title"
                 text={title}
                 id={id}
                 fontStyle="bold"
@@ -170,7 +166,7 @@ const CoverMemo: React.FC<CoverImageProps> = ({
               dir={subTitleDir}>
               <CommonLabel
                 dir={subTitleDir}
-                coverLabel={LabelType.SUBTITLE}
+                coverLabel="subtitle"
                 text={subtitle}
                 id={id}
                 offset={subtitleOffset}
@@ -194,12 +190,12 @@ const CoverMemo: React.FC<CoverImageProps> = ({
             onClose={() => setOpen(false)}
             onSubmit={handleSubmit}
             onReset={() => {
-              resetCoverLabel(id, LabelType.TITLE);
-              resetCoverLabel(id, LabelType.SUBTITLE);
+              resetCoverLabel(id, 'title');
+              resetCoverLabel(id, 'subtitle');
             }}
             values={{
-              [LabelType.TITLE]: title,
-              [LabelType.SUBTITLE]: subtitle,
+              title: title,
+              subtitle: subtitle,
             }}
           />
         </Html>

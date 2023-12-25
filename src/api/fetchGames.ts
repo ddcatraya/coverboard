@@ -1,5 +1,5 @@
 import axios from 'axios';
-import { CoverValues, LabelType, SearchResults } from 'types';
+import { CoverValues, SearchResults } from 'types';
 
 const isFulfilled = <T>(
   p: PromiseSettledResult<T>,
@@ -13,8 +13,8 @@ export const getGames = async (
     movieTitles.map((game) => {
       return axios.get(`https://albumcoverboard.vercel.app/api/get-game`, {
         params: {
-          game: game[LabelType.TITLE],
-          ...(game[LabelType.SUBTITLE] && { year: game[LabelType.SUBTITLE] }),
+          game: game.title,
+          ...(game.subtitle && { year: game.subtitle }),
         },
       });
     }),
@@ -29,8 +29,8 @@ export const getGames = async (
       const link = gameCount[0].background_image;
       return {
         link,
-        [LabelType.TITLE]: gameCount[0].name,
-        [LabelType.SUBTITLE]: gameCount[0].released.substring(0, 4),
+        title: gameCount[0].name,
+        subtitle: gameCount[0].released.substring(0, 4),
       };
     }
 

@@ -1,5 +1,5 @@
 import axios from 'axios';
-import { CoverValues, LabelType, SearchResults } from 'types';
+import { CoverValues, SearchResults } from 'types';
 
 const isFulfilled = <T>(
   p: PromiseSettledResult<T>,
@@ -13,8 +13,8 @@ export const getMoviePosters = async (
     movieTitles.map((movie) => {
       return axios.get(`https://albumcoverboard.vercel.app/api/get-movie`, {
         params: {
-          query: movie[LabelType.TITLE],
-          ...(movie[LabelType.SUBTITLE] && { year: movie[LabelType.SUBTITLE] }),
+          query: movie.title,
+          ...(movie.subtitle && { year: movie.subtitle }),
         },
       });
     }),
@@ -29,8 +29,8 @@ export const getMoviePosters = async (
       const posterUrl = `https://image.tmdb.org/t/p/original${movies[0].poster_path}`;
       return {
         link: posterUrl,
-        [LabelType.TITLE]: movies[0].original_title,
-        [LabelType.SUBTITLE]: movies[0].release_date.substring(0, 4),
+        title: movies[0].original_title,
+        subtitle: movies[0].release_date.substring(0, 4),
       };
     }
 
@@ -45,8 +45,8 @@ export const getTvShowPosters = async (
     movieTitles.map((movie) => {
       return axios.get(`https://albumcoverboard.vercel.app/api/get-tv`, {
         params: {
-          query: movie[LabelType.TITLE],
-          ...(movie[LabelType.SUBTITLE] && { year: movie[LabelType.SUBTITLE] }),
+          query: movie.title,
+          ...(movie.subtitle && { year: movie.subtitle }),
         },
       });
     }),
@@ -61,8 +61,8 @@ export const getTvShowPosters = async (
       const posterUrl = `https://image.tmdb.org/t/p/original${movies[0].poster_path}`;
       return {
         link: posterUrl,
-        [LabelType.TITLE]: movies[0].name,
-        [LabelType.SUBTITLE]: movies[0].first_air_date.substring(0, 4),
+        title: movies[0].name,
+        subtitle: movies[0].first_air_date.substring(0, 4),
       };
     }
 

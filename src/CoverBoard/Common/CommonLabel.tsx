@@ -1,13 +1,13 @@
 import React, { useState } from 'react';
 
-import { Covers, GroupCovers, LabelType, PosTypes } from 'types';
+import { Covers, GroupCovers, PosTypes } from 'types';
 import { TextLabel } from 'components';
 import { getAlign } from 'utils';
 import { useMainStore, useUtilsStore } from 'store';
 
 interface CommonLabelProps {
   id: Covers['id'] | GroupCovers['id'];
-  coverLabel: LabelType;
+  coverLabel: 'title' | 'subtitle';
   text: string;
   offset?: number;
   fontStyle?: 'bold';

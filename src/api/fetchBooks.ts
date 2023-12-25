@@ -1,5 +1,5 @@
 import axios from 'axios';
-import { CoverValues, LabelType, SearchResults } from 'types';
+import { CoverValues, SearchResults } from 'types';
 
 const GOOGLE_URL = 'https://www.googleapis.com';
 
@@ -14,14 +14,12 @@ export const getBookCovers = async (
   const posters = await Promise.allSettled(
     bookTitles.map((bookTitle) => {
       return axios.get(`${GOOGLE_URL}/books/v1/volumes`, {
-        params: bookTitle[LabelType.SUBTITLE]
+        params: bookTitle.subtitle
           ? {
-              q: `intitle:${bookTitle[LabelType.TITLE]}+inauthor:${
-                bookTitle[LabelType.SUBTITLE]
-              }`,
+              q: `intitle:${bookTitle.title}+inauthor:${bookTitle.subtitle}`,
             }
           : {
-              q: `intitle:${bookTitle[LabelType.TITLE]}`,
+              q: `intitle:${bookTitle.title}`,
             },
       });
     }),
@@ -38,8 +36,8 @@ export const getBookCovers = async (
       if (isbm) {
         return {
           link: `https://covers.openlibrary.org/b/isbn/${isbm}-M.jpg`,
-          [LabelType.TITLE]: items[0].volumeInfo.title,
-          [LabelType.SUBTITLE]: items[0].volumeInfo.authors.join(', '),
+          title: items[0].volumeInfo.title,
+          subtitle: items[0].volumeInfo.authors.join(', '),
         };
       }
     }

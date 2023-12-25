@@ -7,7 +7,7 @@ import {
   Slider,
   Typography,
 } from '@mui/material';
-import { LabelType, CoverValues, Covers, Media } from 'types';
+import { CoverValues, Covers, Media } from 'types';
 import { CommonDialog } from 'components';
 import { useMainStore } from 'store';
 
@@ -26,15 +26,11 @@ const getButtons = (media: Media, currentCover: Covers) => {
     return [
       {
         name: 'LastFM',
-        href: `http://www.last.fm/music/${
-          currentCover[LabelType.TITLE].search
-        }/${currentCover[LabelType.SUBTITLE].search}`,
+        href: `http://www.last.fm/music/${currentCover.title.search}/${currentCover.subtitle.search}`,
       },
       {
         name: 'Spotify',
-        href: `https://open.spotify.com/search/artist%3A${
-          currentCover[LabelType.TITLE].search
-        }%20AND%20album%3A${currentCover[LabelType.SUBTITLE].search}/`,
+        href: `https://open.spotify.com/search/artist%3A${currentCover.title.search}%20AND%20album%3A${currentCover.subtitle.search}/`,
       },
     ];
   } else if (media === Media.MOVIE || media === Media.TVSHOW) {
@@ -42,22 +38,18 @@ const getButtons = (media: Media, currentCover: Covers) => {
       {
         name: 'TMDB',
         href: `https://www.themoviedb.org/search?query=${
-          currentCover[LabelType.TITLE].search
+          currentCover.title.search
         }${
-          currentCover[LabelType.SUBTITLE]
-            ? '&year=' + currentCover[LabelType.SUBTITLE].search
-            : ''
+          currentCover.subtitle ? '&year=' + currentCover.subtitle.search : ''
         }`,
       },
       {
         name: 'IMDB',
         href: `https://www.imdb.com/search/title/?title=${
-          currentCover[LabelType.TITLE].search
+          currentCover.title.search
         }${
-          currentCover[LabelType.SUBTITLE]
-            ? `&release_date=${currentCover[LabelType.SUBTITLE].search}-01-01,${
-                currentCover[LabelType.SUBTITLE].search
-              }-12-31`
+          currentCover.subtitle
+            ? `&release_date=${currentCover.subtitle.search}-01-01,${currentCover.subtitle.search}-12-31`
             : ''
         }`,
       },
@@ -74,10 +66,10 @@ const getButtons = (media: Media, currentCover: Covers) => {
         {
           name: 'Google Books',
           href: `https://www.google.com/search?tbo=p&tbm=bks&q=intitle:${
-            currentCover[LabelType.TITLE].search
+            currentCover.title.search
           }${
-            currentCover[LabelType.SUBTITLE]
-              ? '+inauthor:' + currentCover[LabelType.SUBTITLE].search
+            currentCover.subtitle
+              ? '+inauthor:' + currentCover.subtitle.search
               : ''
           }`,
         },
@@ -87,21 +79,15 @@ const getButtons = (media: Media, currentCover: Covers) => {
     return [
       {
         name: 'RAWG',
-        href: `https://rawg.io/search?query=${
-          currentCover[LabelType.TITLE].search
-        }`,
+        href: `https://rawg.io/search?query=${currentCover.title.search}`,
       },
       {
         name: 'Steam',
-        href: `https://store.steampowered.com/search/?term=${
-          currentCover[LabelType.TITLE].search
-        }`,
+        href: `https://store.steampowered.com/search/?term=${currentCover.title.search}`,
       },
       {
         name: 'Nintendo',
-        href: `https://www.nintendo.com/us/search/#q=${
-          currentCover[LabelType.TITLE].search
-        }`,
+        href: `https://www.nintendo.com/us/search/#q=${currentCover.title.search}`,
       },
     ];
   }
@@ -130,7 +116,7 @@ export const CoverPopover: React.FC<PopupProps> = ({
 
   const handTextChange = (
     event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>,
-    label: LabelType,
+    label: 'title' | 'subtitle',
   ) => {
     setText((currentText) => ({
       ...currentText,
@@ -165,8 +151,8 @@ export const CoverPopover: React.FC<PopupProps> = ({
             <TextField
               label={titleLabel}
               fullWidth
-              value={text[LabelType.TITLE]}
-              onChange={(evt) => handTextChange(evt, LabelType.TITLE)}
+              value={text.title}
+              onChange={(evt) => handTextChange(evt, 'title')}
               style={{ marginBottom: '20px' }}
             />
           </Grid>
@@ -174,8 +160,8 @@ export const CoverPopover: React.FC<PopupProps> = ({
             <TextField
               label={subTitleLabel}
               fullWidth
-              value={text[LabelType.SUBTITLE]}
-              onChange={(evt) => handTextChange(evt, LabelType.SUBTITLE)}
+              value={text.subtitle}
+              onChange={(evt) => handTextChange(evt, 'subtitle')}
               style={{ marginBottom: '20px' }}
             />
           </Grid>

@@ -7,7 +7,6 @@ import {
   DragLimits,
   colorMap,
   backColorMap,
-  LabelType,
 } from 'types';
 import { Media, MediaDesc, MediaMap } from 'types/configTypes';
 import { StateCreator } from 'zustand';
@@ -80,8 +79,8 @@ export const createConfigsSlice: StateCreator<
     }));
   },
   getShowStars: () => get().configs.showStars,
-  titleLabel: () => MediaMap[get().configs.media][LabelType.TITLE],
-  subTitleLabel: () => MediaMap[get().configs.media][LabelType.SUBTITLE],
+  titleLabel: () => MediaMap[get().configs.media].title,
+  subTitleLabel: () => MediaMap[get().configs.media].subtitle,
   getColor: () => colorMap[get().configs.color],
   getArrowColor: () => colorMap[get().configs.arrowColor],
   getCoverColor: () => colorMap[get().configs.coverColor],

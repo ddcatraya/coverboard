@@ -1,6 +1,6 @@
 import axios from 'axios';
 
-import { CoverValues, LabelType, SearchResults } from 'types';
+import { CoverValues, SearchResults } from 'types';
 
 const isFulfilled = <T>(
   p: PromiseSettledResult<T>,
@@ -13,8 +13,8 @@ export const getLastFMAlbums = async (
     bandArray.map((band) => {
       return axios.get('https://albumcoverboard.vercel.app/api/get-album', {
         params: {
-          artist: band[LabelType.TITLE].trim(),
-          album: band[LabelType.SUBTITLE].trim(),
+          artist: band.title.trim(),
+          album: band.subtitle.trim(),
         },
       });
     }),
@@ -29,8 +29,8 @@ export const getLastFMAlbums = async (
       if (data.album.image[2]['#text']) {
         return {
           link: data.album.image[2]['#text'],
-          [LabelType.TITLE]: data.album.artist,
-          [LabelType.SUBTITLE]: data.album.name,
+          title: data.album.artist,
+          subtitle: data.album.name,
         };
       }
     }

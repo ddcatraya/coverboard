@@ -11,14 +11,9 @@ interface GroupCoverParamsText {
   dir: PosTypes;
 }
 
-export enum LabelType {
-  TITLE = 'title',
-  SUBTITLE = 'subtitle',
-}
-
 export interface CoverValues {
-  [LabelType.TITLE]: string;
-  [LabelType.SUBTITLE]: string;
+  title: string;
+  subtitle: string;
 }
 
 export interface Covers {
@@ -26,8 +21,8 @@ export interface Covers {
   link: string;
   x: number;
   y: number;
-  [LabelType.TITLE]: CoverImageParamsText;
-  [LabelType.SUBTITLE]: CoverImageParamsText;
+  title: CoverImageParamsText;
+  subtitle: CoverImageParamsText;
   starDir: PosTypes;
   starCount: number;
 }
