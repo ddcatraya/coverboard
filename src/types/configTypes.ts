@@ -47,6 +47,7 @@ export enum ToolbarConfigValues {
   SHOW_TITLE = 'showTitle',
   SHOW_SUBTITLE = 'showSubtitle',
   LABEL_DIR = 'labelDir',
+  GROUP_DIR = 'groupDir',
   STARS_DIR = 'starsDir',
   SHOW_STARS = 'showStars',
 }
@@ -188,5 +189,6 @@ export interface ToolbarConfigParams {
   [ToolbarConfigValues.SHOW_SUBTITLE]: boolean;
   [ToolbarConfigValues.LABEL_DIR]: PosTypes;
   [ToolbarConfigValues.STARS_DIR]: PosTypes;
+  [ToolbarConfigValues.GROUP_DIR]: PosTypes;
   [ToolbarConfigValues.SHOW_STARS]: boolean;
 }

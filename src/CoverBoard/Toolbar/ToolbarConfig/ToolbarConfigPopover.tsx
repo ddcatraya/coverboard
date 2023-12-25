@@ -246,7 +246,7 @@ export const ToolbarConfigPopover: React.FC<ToolbarConfigPopoverProps> = ({
           </Grid>
           <Grid item xs={12}>
             <FormControl>
-              <label>Labels default position:</label>
+              <label>Cover labels default position:</label>
               <RadioGroup
                 row
                 aria-label="position"
@@ -254,6 +254,40 @@ export const ToolbarConfigPopover: React.FC<ToolbarConfigPopoverProps> = ({
                 value={param[ToolbarConfigValues.LABEL_DIR]}
                 onChange={(evt) =>
                   handleChange(evt, ToolbarConfigValues.LABEL_DIR)
+                }>
+                <FormControlLabel
+                  value={PosTypes.BOTTOM}
+                  control={<Radio />}
+                  label={PosTypes.BOTTOM}
+                />
+                <FormControlLabel
+                  value={PosTypes.TOP}
+                  control={<Radio />}
+                  label={PosTypes.TOP}
+                />
+                <FormControlLabel
+                  value={PosTypes.LEFT}
+                  control={<Radio />}
+                  label={PosTypes.LEFT}
+                />
+                <FormControlLabel
+                  value={PosTypes.RIGHT}
+                  control={<Radio />}
+                  label={PosTypes.RIGHT}
+                />
+              </RadioGroup>
+            </FormControl>
+          </Grid>
+          <Grid item xs={12}>
+            <FormControl>
+              <label>Group labels default position:</label>
+              <RadioGroup
+                row
+                aria-label="position"
+                name="position"
+                value={param[ToolbarConfigValues.GROUP_DIR]}
+                onChange={(evt) =>
+                  handleChange(evt, ToolbarConfigValues.GROUP_DIR)
                 }>
                 <FormControlLabel
                   value={PosTypes.BOTTOM}

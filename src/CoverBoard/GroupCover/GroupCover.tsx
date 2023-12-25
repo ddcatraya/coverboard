@@ -67,7 +67,12 @@ const GroupCoverMemo: React.FC<CoverImageProps> = ({
 
   const canOpenPopover = !editLines && !erase;
 
-  const offset1 = dir === subDir && dir === PosTypes.TOP ? -fontSize * 1.5 : 0;
+  const offset1 =
+    dir === subDir && subtitle && dir === PosTypes.TOP
+      ? -fontSize * 1.5
+      : subtitle && dir === subDir && dir !== PosTypes.BOTTOM
+      ? -fontSize
+      : 0;
   const offset2 = dir === subDir && title ? offset1 + fontSize * 1.5 : 0;
 
   return (

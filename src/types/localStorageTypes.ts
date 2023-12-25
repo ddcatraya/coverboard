@@ -124,6 +124,15 @@ export const schema = (parsedData: LocalStorageData) =>
             };
           },
         }),
+        groupDir: z.nativeEnum(PosTypes, {
+          errorMap: (_, _ctx) => {
+            return {
+              message: `configs:starsDir must be ${Object.values(PosTypes).join(
+                ' | ',
+              )}`,
+            };
+          },
+        }),
       },
       {
         invalid_type_error: 'configs must be a object',

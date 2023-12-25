@@ -14,6 +14,7 @@ export const ToolbarConfig: React.FC = () => {
 
   const updateAllCoversDir = useMainStore((state) => state.updateAllCoversDir);
   const updateAllStarsDir = useMainStore((state) => state.updateAllStarsDir);
+  const updateAllGroupsDir = useMainStore((state) => state.updateAllGroupsDir);
 
   const handleUpdateCover = (
     config: ToolbarConfigParams,
@@ -23,6 +24,8 @@ export const ToolbarConfig: React.FC = () => {
       updateAllCoversDir(config[ToolbarConfigValues.LABEL_DIR]);
     } else if (updatedParam === ToolbarConfigValues.STARS_DIR) {
       updateAllStarsDir(config[ToolbarConfigValues.STARS_DIR]);
+    } else if (updatedParam === ToolbarConfigValues.GROUP_DIR) {
+      updateAllGroupsDir(config[ToolbarConfigValues.GROUP_DIR]);
     }
     updateConfigs({ ...config, title: config.title.trim() });
   };

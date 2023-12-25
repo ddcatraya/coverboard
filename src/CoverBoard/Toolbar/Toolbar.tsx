@@ -68,7 +68,7 @@ export const ToolbarMemo: React.FC<ToolbarProps> = ({
   const groupsLength = useMainStore((state) => state.groups.length);
   const coverSizeWidth = useMainStore((state) => state.coverSizeWidth());
   const addGroups = useMainStore((state) => state.addGroups);
-  const labelDir = useMainStore((state) => state.configs.labelDir);
+  const groupDir = useMainStore((state) => state.configs.groupDir);
 
   const createGroup = () => {
     addGroups([
@@ -76,8 +76,8 @@ export const ToolbarMemo: React.FC<ToolbarProps> = ({
         id: uuidv4(),
         x: 0,
         y: 0,
-        title: { text: 'Group', dir: labelDir ?? PosTypes.BOTTOM },
-        subtitle: { text: '', dir: labelDir ?? PosTypes.BOTTOM },
+        title: { text: 'Group', dir: groupDir ?? PosTypes.TOP },
+        subtitle: { text: '', dir: groupDir ?? PosTypes.TOP },
         scaleX: 4,
         scaleY: 4,
       },
