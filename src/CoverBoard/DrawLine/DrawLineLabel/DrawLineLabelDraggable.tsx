@@ -4,7 +4,6 @@ import { useMemo, useState } from 'react';
 import { LineParams, Lines, PosTypes } from 'types';
 import { v4 as uuidv4 } from 'uuid';
 import { getClientPosition } from 'utils';
-import { useUtilsStore } from 'store/useUtilsStore';
 import { useMainStore } from 'store';
 import { shallow } from 'zustand/shallow';
 
@@ -21,7 +20,6 @@ export const DrawLineLabelDraggable: React.FC<DraggableGroupProps> = ({
   setUpdate,
   children,
 }) => {
-  const editLines = useUtilsStore((state) => state.editLines);
   const coverSizeWidth = useMainStore((state) => state.coverSizeWidth());
   const fontSize = useMainStore((state) => state.fontSize());
   const circleRadius = useMainStore((state) => state.circleRadius());
@@ -98,10 +96,8 @@ export const DrawLineLabelDraggable: React.FC<DraggableGroupProps> = ({
       onMouseMove={(evt: KonvaEventObject<MouseEvent>) => {
         const container = evt.target.getStage()?.container();
 
-        if (container && !editLines) {
+        if (container) {
           container.style.cursor = 'grab';
-        } else if (container) {
-          container.style.cursor = 'not-allowed';
         }
       }}
       onMouseLeave={(evt: KonvaEventObject<MouseEvent>) => {

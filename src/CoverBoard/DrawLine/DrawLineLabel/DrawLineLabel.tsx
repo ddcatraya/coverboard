@@ -26,7 +26,6 @@ export const DrawLineLabel: React.FC<LineProps> = ({
   const resetLine = useMainStore((state) => state.resetLine);
   const updateLineDir = useMainStore((state) => state.updateLineDir);
   const updateLineText = useMainStore((state) => state.updateLineText);
-  const removeLine = useMainStore((state) => state.removeLine);
   const editLines = useUtilsStore((state) => state.editLines);
 
   const [textEdit, setTextEdit] = useState(isSelected);

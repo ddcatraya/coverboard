@@ -1,8 +1,8 @@
 import React, { useMemo, useState } from 'react';
 
 import { TextLabel } from 'components';
-import { buildTitle, Modes } from 'types';
-import { useMainStore, useUtilsStore } from 'store';
+import { buildTitle } from 'types';
+import { useMainStore } from 'store';
 import { shallow } from 'zustand/shallow';
 
 export const TitleLabel: React.FC = () => {
@@ -11,7 +11,6 @@ export const TitleLabel: React.FC = () => {
   const title = useMainStore((state) => state.configs.title);
   const showMainTitle = useMainStore((state) => state.configs.showMainTitle);
   const saveId = useMainStore((state) => state.saveId);
-  const editLines = useUtilsStore((state) => state.editLines);
   const color = useMainStore((state) => state.getColor());
 
   const toobarIconSize = useMainStore((state) => state.toobarIconSize());
@@ -28,21 +27,18 @@ export const TitleLabel: React.FC = () => {
   };
 
   const titleMode = useMemo(() => {
-    if (editLines) {
-      return Modes.ARROW;
-    } else if (!showMainTitle) {
+    if (!showMainTitle) {
       return '';
     } else if (!title) {
       return buildTitle(saveId);
     }
     return title;
-  }, [editLines, saveId, showMainTitle, title]);
+  }, [saveId, showMainTitle, title]);
 
   return (
     <TextLabel
       color={color}
       title="title"
-      listening={!editLines}
       open={open}
       setOpen={setOpen}
       onReset={handleReset}

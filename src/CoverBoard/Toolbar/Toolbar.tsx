@@ -35,17 +35,14 @@ const ToolbarActionIcon: React.FC = () => {
     [actionsLength, undoAction],
   );
 
-  return <ToolbarIcon config={actionConfig} index={6} />;
+  return <ToolbarIcon config={actionConfig} index={5} />;
 };
 
 export const ToolbarMemo: React.FC<ToolbarProps> = ({
   takeScreenshot,
   showTooltips,
 }) => {
-  const [editLines, setEditLines] = useUtilsStore(
-    (state) => [state.editLines, state.setEditLines],
-    shallow,
-  );
+  const editLines = useUtilsStore((state) => state.editLines);
   const [openConfig, setOpenConfig] = useToolbarStore(
     (state) => [state.openConfig, state.setOpenConfig],
     shallow,
@@ -60,7 +57,6 @@ export const ToolbarMemo: React.FC<ToolbarProps> = ({
   );
 
   const coversLength = useMainStore((state) => state.covers.length);
-  const linesLength = useMainStore((state) => state.lines.length);
   const groupsLength = useMainStore((state) => state.groups.length);
   const coverSizeWidth = useMainStore((state) => state.coverSizeWidth());
   const addGroups = useMainStore((state) => state.addGroups);
@@ -124,16 +120,6 @@ export const ToolbarMemo: React.FC<ToolbarProps> = ({
       value: false,
       valueModifier: createGroup,
       badge: groupsLength,
-      enabled: true,
-    },
-    {
-      id: ToolConfigIDs.ARROW,
-      tooltip: `Create arrow mode (arrows: ${linesLength})`,
-      color: colorMap[Colors.YELLOW],
-      emoji: '➜',
-      value: editLines,
-      valueModifier: setEditLines,
-      badge: linesLength,
       enabled: true,
     },
     {

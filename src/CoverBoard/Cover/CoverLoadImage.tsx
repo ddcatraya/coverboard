@@ -2,33 +2,24 @@ import React, { useEffect, useState } from 'react';
 import { Rect, Text } from 'react-konva';
 
 import { Covers } from 'types';
-import { KonvaEventObject } from 'konva/lib/Node';
-import { useMainStore, useUtilsStore } from 'store';
+import { useMainStore } from 'store';
 import { CoverImage } from '.';
 
 interface CoverImageProps {
-  id: Covers['id'];
   link: Covers['link'];
   renderTime: number;
 }
 
 export const CoverLoadImage: React.FC<CoverImageProps> = ({
-  id,
   link,
   renderTime,
 }) => {
-  const removeCoverAndRelatedLines = useMainStore(
-    (state) => state.removeCoverAndRelatedLines,
-  );
   const color = useMainStore((state) => state.getColor());
   const backColor = useMainStore((state) => state.getBackColor());
-  const editLines = useUtilsStore((state) => state.editLines);
 
   const coverSizeWidth = useMainStore((state) => state.coverSizeWidth());
   const coverSizeHeight = useMainStore((state) => state.coverSizeHeight());
   const fontSize = useMainStore((state) => state.fontSize());
-
-  const canDelete = !editLines;
 
   const [shouldRender, setShouldRender] = useState(false);
   const [hasRetries, setHasRetries] = useState(false);
@@ -62,16 +53,6 @@ export const CoverLoadImage: React.FC<CoverImageProps> = ({
         fill={backColor}
         strokeWidth={1}
         stroke={color}
-        onClick={canDelete ? () => removeCoverAndRelatedLines(id) : undefined}
-        onDblTap={canDelete ? () => removeCoverAndRelatedLines(id) : undefined}
-        onMouseMove={(evt: KonvaEventObject<MouseEvent>) => {
-          if (!editLines) {
-            evt.currentTarget.opacity(0.5);
-          }
-        }}
-        onMouseLeave={(evt: KonvaEventObject<MouseEvent>) => {
-          evt.currentTarget.opacity(1);
-        }}
       />
       {shouldRender ? (
         <CoverImage link={link} onRetry={onRetry} />

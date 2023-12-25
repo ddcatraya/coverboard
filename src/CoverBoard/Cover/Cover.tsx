@@ -8,7 +8,7 @@ import {
   CommonLabelDraggable,
   CommonLabel,
 } from 'CoverBoard/Common';
-import { useMainStore, useUtilsStore } from 'store';
+import { useMainStore } from 'store';
 import { shallow } from 'zustand/shallow';
 import { Html } from 'react-konva-utils';
 import { Group } from 'react-konva';
@@ -50,7 +50,6 @@ const CoverMemo: React.FC<CoverImageProps> = ({
   const [open, setOpen] = useState(false);
   const resetCoverLabel = useMainStore((state) => state.resetCoverLabel);
   const updateCoversText = useMainStore((state) => state.updateCoversText);
-  const editLines = useUtilsStore((state) => state.editLines);
   const showStars = useMainStore((state) => state.getShowStars());
   const updateStarCount = useMainStore((state) => state.updateStarCount);
   const updateCoverPosition = useMainStore(
@@ -75,8 +74,6 @@ const CoverMemo: React.FC<CoverImageProps> = ({
     updateCoverStarDir(id, currentStarDir);
     updateStarCount(id, rating);
   };
-
-  const canOpenPopover = !editLines;
 
   let titleOffset = 0;
   let subtitleOffset = 0;
@@ -142,10 +139,8 @@ const CoverMemo: React.FC<CoverImageProps> = ({
         }}>
         <CommonDrawLine id={id} selected={isSelected} />
 
-        <Group
-          onDblclick={canOpenPopover ? () => setOpen(true) : undefined}
-          onDblTap={canOpenPopover ? () => setOpen(true) : undefined}>
-          <CoverLoadImage id={id} link={link} renderTime={renderTime} />
+        <Group onDblclick={() => setOpen(true)} onDblTap={() => setOpen(true)}>
+          <CoverLoadImage link={link} renderTime={renderTime} />
 
           {showTitle && title && (
             <CommonLabelDraggable

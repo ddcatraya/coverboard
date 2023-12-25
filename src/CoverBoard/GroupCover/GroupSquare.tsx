@@ -2,8 +2,7 @@ import React, { useRef } from 'react';
 import { Rect, Transformer } from 'react-konva';
 
 import { GroupCovers } from 'types';
-import { KonvaEventObject } from 'konva/lib/Node';
-import { useMainStore, useUtilsStore } from 'store';
+import { useMainStore } from 'store';
 import Konva from 'konva';
 
 interface CoverImageProps {
@@ -12,12 +11,8 @@ interface CoverImageProps {
 }
 
 export const GroupSquare: React.FC<CoverImageProps> = ({ id, isSelected }) => {
-  const removeGroupAndRelatedLines = useMainStore(
-    (state) => state.removeGroupAndRelatedLines,
-  );
   const color = useMainStore((state) => state.getGroupColor());
   const backColor = useMainStore((state) => state.getBackColor());
-  const editLines = useUtilsStore((state) => state.editLines);
   const scale = useMainStore((state) => state.getScale(id));
 
   const boxRef = useRef<null | { width: number; height: number }>(null);
@@ -29,7 +24,6 @@ export const GroupSquare: React.FC<CoverImageProps> = ({ id, isSelected }) => {
   const coverSizeWidthScaled = coverSizeWidth * scale.scaleX;
   const coverSizeHeightScaled = coverSizeHeight * scale.scaleY;
 
-  const canDelete = !editLines;
   const removeCoverAndRelatedLines = useMainStore(
     (state) => state.removeGroupAndRelatedLines,
   );
@@ -72,16 +66,6 @@ export const GroupSquare: React.FC<CoverImageProps> = ({ id, isSelected }) => {
         strokeWidth={1}
         stroke={color}
         fill={backColor}
-        onClick={canDelete ? () => removeGroupAndRelatedLines(id) : undefined}
-        onDblTap={canDelete ? () => removeGroupAndRelatedLines(id) : undefined}
-        onMouseMove={(evt: KonvaEventObject<MouseEvent>) => {
-          if (!editLines) {
-            evt.currentTarget.opacity(0.5);
-          }
-        }}
-        onMouseLeave={(evt: KonvaEventObject<MouseEvent>) => {
-          evt.currentTarget.opacity(1);
-        }}
         ref={rectRef}
         onTransformEnd={handleTransform}
       />

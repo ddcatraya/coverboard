@@ -4,6 +4,7 @@ import { Group, Rect } from 'react-konva';
 import { Covers, PosTypes } from 'types';
 import { KonvaEventObject } from 'konva/lib/Node';
 import { useUtilsStore, useMainStore } from 'store';
+import { shallow } from 'zustand/shallow';
 
 interface CommonDrawLineProps {
   id: Covers['id'];
@@ -20,8 +21,11 @@ export const CommonDrawLine: React.FC<CommonDrawLineProps> = ({
 }) => {
   const points = useUtilsStore((state) => state.points);
   const setPoints = useUtilsStore((state) => state.setPoints);
-  const editLines = useUtilsStore((state) => state.editLines);
   const createLine = useMainStore((state) => state.createLine);
+  const [editLines, setEditLines] = useUtilsStore(
+    (state) => [state.editLines, state.setEditLines],
+    shallow,
+  );
 
   const coverSizeWidth =
     useMainStore((state) => state.coverSizeWidth()) * scaleX;
@@ -34,11 +38,14 @@ export const CommonDrawLine: React.FC<CommonDrawLineProps> = ({
   const handleDrawLine = (id: string, dir: PosTypes) => {
     if (!points) {
       setPoints({ id, dir });
+      setEditLines(true);
     } else if (points.id !== id) {
       createLine(id, points, dir);
       setPoints(null);
+      setEditLines(false);
     } else if (points.id === id) {
       setPoints(null);
+      setEditLines(false);
     }
   };
 

@@ -1,5 +1,4 @@
-import { Point, ToolConfigIDs } from 'types';
-import { getHash } from 'utils';
+import { Point } from 'types';
 import { createWithEqualityFn } from 'zustand/traditional';
 
 interface UseUtilParams {
@@ -10,10 +9,8 @@ interface UseUtilParams {
 }
 
 export const useUtilsStore = createWithEqualityFn<UseUtilParams>()((set) => {
-  const hash = getHash();
-
   return {
-    editLines: hash === ToolConfigIDs.ARROW,
+    editLines: false,
     points: null,
     setEditLines: (value: boolean) => set({ editLines: value }),
     setPoints: (value: Point | null) => set({ points: value }),

@@ -8,7 +8,6 @@ export enum ToolConfigIDs {
   SEARCH = 'search',
   CONFIG = 'config',
   SHARE = 'share',
-  ARROW = 'arrow',
   UNDO = 'undo',
   GROUP = 'group',
   SCREENSHOT = 'screenshot',

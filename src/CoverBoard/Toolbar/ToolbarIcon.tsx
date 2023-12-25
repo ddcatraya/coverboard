@@ -1,8 +1,8 @@
 import { KonvaEventObject } from 'konva/lib/Node';
 import { Group, Rect, Text } from 'react-konva';
 
-import { ToolConfig, ToolConfigIDs } from 'types';
-import { clearHash, setHash } from 'utils';
+import { ToolConfig } from 'types';
+import { clearHash } from 'utils';
 import { useMainStore, useToolbarStore, useUtilsStore } from 'store';
 
 const MIN_OPACITY = 0.3;
@@ -14,7 +14,6 @@ interface ToolbarIconProps {
 
 export const ToolbarIcon: React.FC<ToolbarIconProps> = ({ config, index }) => {
   const setPoints = useUtilsStore((state) => state.setPoints);
-  const setEditLines = useUtilsStore((state) => state.setEditLines);
   const toobarIconSize = useMainStore((state) => state.toobarIconSize());
   const getCurrentY = useMainStore((state) => state.getCurrentY);
   const setTooltip = useToolbarStore((state) => state.setTooltip);
@@ -30,12 +29,6 @@ export const ToolbarIcon: React.FC<ToolbarIconProps> = ({ config, index }) => {
   const handleClick = () => {
     setPoints(null);
     clearHash();
-
-    if (config.id !== ToolConfigIDs.ARROW) {
-      setEditLines(false);
-    } else if (config.id === ToolConfigIDs.ARROW) {
-      setHash(ToolConfigIDs.ARROW);
-    }
 
     return config.value
       ? config.valueModifier(false)
