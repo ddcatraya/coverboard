@@ -40,9 +40,11 @@ interface CoverContextData {
   offLimitGroups: () => GroupCovers[];
   removeCoverAndRelatedLines: (id: string) => void;
   removeLinesIfCoverInsideGroup: (id: string) => void;
+  removeLinesIfGroupInsideCover: (id: string) => void;
   removeGroupAndRelatedLines: (id: string) => void;
-  getIdType: (id: string) => 'cover' | 'group';
   updateGroupPosition: (coverId: string, { x, y }: Vector2d) => void;
+  updateGroupPositionRelative: (coverId: string, { x, y }: Vector2d) => void;
+  updateCoverPosition: (coverId: string, { x, y }: Vector2d) => void;
   moveAllCoversInsideGroup: (coverId: string, { x, y }: Vector2d) => void;
 }
 
@@ -219,23 +221,6 @@ export const useMainStore = createWithEqualityFn<MainStoreUnion>()(
         get().removeLinesWithCover(id);
         saveLocalStorage();
       },
-      removeLinesIfCoverInsideGroup(groupId) {
-        const group = get().groups.find((group) => group.id === groupId);
-
-        if (group) {
-          const colGroup = get().covers.find(
-            (cover) =>
-              cover.x > group.x &&
-              cover.x < group.x + get().coverSizeWidth() * group.scaleX &&
-              cover.y > group.y &&
-              cover.y < group.y + get().coverSizeHeight() * group.scaleY,
-          );
-
-          if (colGroup) {
-            get().removeLinesWithCoverTogether(groupId, colGroup.id);
-          }
-        }
-      },
       removeGroupAndRelatedLines(id: string) {
         saveLastAction();
         get().removeGroup(id);
@@ -261,12 +246,11 @@ export const useMainStore = createWithEqualityFn<MainStoreUnion>()(
                 y: y - group.y,
               });
             });
-
-            console.log(group.x, x, group.x - x);
           }
         }
       },
       updateGroupPosition(groupId, { x, y }) {
+        saveLastAction();
         const group = get().groups.find((group) => group.id === groupId);
 
         if (group) {
@@ -284,11 +268,69 @@ export const useMainStore = createWithEqualityFn<MainStoreUnion>()(
           get().removeLinesIfCoverInsideGroup(groupId);
           get().moveAllCoversInsideGroup(groupId, prev);
         }
+        saveLocalStorage();
       },
-      getIdType(id: string) {
-        const isCover = get().covers.find((cover) => cover.id === id);
+      updateGroupPositionRelative(groupId, { x, y }) {
+        saveLastAction();
+        set(({ groups }) => ({
+          groups: groups.map((star) => {
+            return groupId === star.id
+              ? { ...star, x: star.x - x, y: star.y - y }
+              : star;
+          }),
+        }));
 
-        return isCover ? 'cover' : 'group';
+        get().removeLinesIfCoverInsideGroup(groupId);
+        saveLocalStorage();
+      },
+      updateCoverPosition(coverId, { x, y }) {
+        saveLastAction();
+        const cover = get().covers.find((cover) => cover.id === coverId);
+
+        if (cover) {
+          set(({ covers }) => ({
+            covers: covers.map((star) => {
+              return coverId === star.id ? { ...star, x, y } : star;
+            }),
+          }));
+
+          get().removeLinesIfGroupInsideCover(coverId);
+        }
+        saveLocalStorage();
+      },
+      removeLinesIfCoverInsideGroup(groupId) {
+        const group = get().groups.find((group) => group.id === groupId);
+
+        if (group) {
+          const colGroup = get().covers.find(
+            (cover) =>
+              cover.x > group.x &&
+              cover.x < group.x + get().coverSizeWidth() * group.scaleX &&
+              cover.y > group.y &&
+              cover.y < group.y + get().coverSizeHeight() * group.scaleY,
+          );
+
+          if (colGroup) {
+            get().removeLinesWithCoverTogether(groupId, colGroup.id);
+          }
+        }
+      },
+      removeLinesIfGroupInsideCover(coverId) {
+        const cover = get().covers.find((cover) => cover.id === coverId);
+
+        if (cover) {
+          const colGroup = get().groups.find(
+            (group) =>
+              cover.x > group.x &&
+              cover.x < group.x + get().coverSizeWidth() * group.scaleX &&
+              cover.y > group.y &&
+              cover.y < group.y + get().coverSizeHeight() * group.scaleY,
+          );
+
+          if (colGroup) {
+            get().removeLinesWithCoverTogether(coverId, colGroup.id);
+          }
+        }
       },
     };
   },

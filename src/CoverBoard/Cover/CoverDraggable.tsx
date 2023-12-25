@@ -36,18 +36,9 @@ export const CoverDraggable: React.FC<DraggableGroupProps> = ({
   updatePosition,
 }) => {
   const covers = useMainStore((state) => state.covers);
-  const getIdType = useMainStore((state) => state.getIdType(id));
   const groups = useMainStore((state) => state.groups);
   const color = useMainStore((state) => state.getColor());
   const erase = useUtilsStore((state) => state.erase);
-  const coverSizeWidth = useMainStore((state) => state.coverSizeWidth());
-  const coverSizeHeight = useMainStore((state) => state.coverSizeHeight());
-  const updateCoverPosition = useMainStore(
-    (state) => state.updateCoverPosition,
-  );
-  const removeLinesWithCoverTogether = useMainStore(
-    (state) => state.removeLinesWithCoverTogether,
-  );
 
   const dragLimits = useMainStore((state) => state.dragLimits(), shallow);
   const [hintLines, setHintLines] = useState<
@@ -116,20 +107,6 @@ export const CoverDraggable: React.FC<DraggableGroupProps> = ({
       container.style.cursor = 'pointer';
     } else if (container && erase) {
       container.style.cursor = 'not-allowed';
-    }
-
-    if (getIdType === 'cover') {
-      const colGroup = groups.find(
-        (group) =>
-          e.target.x() > group.x &&
-          e.target.x() < group.x + coverSizeWidth * group.scaleX &&
-          e.target.y() > group.y &&
-          e.target.y() < group.y + coverSizeHeight * group.scaleY,
-      );
-
-      if (colGroup) {
-        removeLinesWithCoverTogether(id, colGroup.id);
-      }
     }
 
     updatePosition(id, {

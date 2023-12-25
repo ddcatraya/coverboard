@@ -24,7 +24,6 @@ export interface UseCoverParams {
   ) => void;
   addCovers: (filteredResults: Array<Covers>) => void;
   updateCoverPositionRelative: (coverId: string, { x, y }: Vector2d) => void;
-  updateCoverPosition: (coverId: string, { x, y }: Vector2d) => void;
   updateAllCoverPosition: (arrayPos: Array<Vector2d>) => void;
   getDirById: (id: string) => Covers['dir'];
   getStarCount: (id: string) => Covers['starCount'];
@@ -172,13 +171,6 @@ export const createCoversSlice: StateCreator<
   addCovers(filteredResults) {
     set(({ covers }) => ({
       covers: [...covers, ...filteredResults],
-    }));
-  },
-  updateCoverPosition(coverId, { x, y }) {
-    set(({ covers }) => ({
-      covers: covers.map((star) => {
-        return coverId === star.id ? { ...star, x, y } : star;
-      }),
     }));
   },
   updateCoverPositionRelative(coverId, { x, y }) {
