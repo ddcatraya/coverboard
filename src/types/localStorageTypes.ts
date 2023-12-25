@@ -197,22 +197,24 @@ export const schema = (parsedData: LocalStorageData) =>
             },
           }),
         }),
-        starDir: z.nativeEnum(PosTypes, {
-          errorMap: (_, _ctx) => {
-            return {
-              message: `covers:starDir must be ${Object.values(PosTypes).join(
-                ' | ',
-              )}`,
-            };
-          },
+        star: z.object({
+          dir: z.nativeEnum(PosTypes, {
+            errorMap: (_, _ctx) => {
+              return {
+                message: `covers:star:dir must be ${Object.values(
+                  PosTypes,
+                ).join(' | ')}`,
+              };
+            },
+          }),
+          count: z
+            .number({
+              invalid_type_error: 'covers:star:count must be a number',
+              required_error: 'covers:star:count is required',
+            })
+            .min(0, 'covers:star:count must be positive number')
+            .max(5, 'covers:star:count  must be less than 5'),
         }),
-        starCount: z
-          .number({
-            invalid_type_error: 'covers:starCount must be a number',
-            required_error: 'covers:starCount is required',
-          })
-          .min(0, 'covers:starCount must be positive number')
-          .max(5, 'covers:starCount  must be less than 5'),
       }),
       {
         invalid_type_error: 'covers must be an array of objects',

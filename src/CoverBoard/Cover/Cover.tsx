@@ -21,7 +21,7 @@ interface CoverImageProps {
   y: Covers['y'];
   titleDir: PosTypes;
   subTitleDir: PosTypes;
-  starDir: Covers['starDir'];
+  starDir: PosTypes;
   link: Covers['link'];
   renderTime: number;
 }

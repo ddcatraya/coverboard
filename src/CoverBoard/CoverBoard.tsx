@@ -14,18 +14,18 @@ const Covers: React.FC = () => {
 
   return (
     <>
-      {covers.map((star, index) => (
+      {covers.map((cover, index) => (
         <Cover
-          id={star.id}
-          title={star.title.text}
-          subtitle={star.subtitle.text}
-          x={star.x}
-          y={star.y}
-          titleDir={star.title.dir}
-          subTitleDir={star.subtitle.dir}
-          starDir={star.starDir}
-          link={star.link}
-          key={star.id}
+          id={cover.id}
+          title={cover.title.text}
+          subtitle={cover.subtitle.text}
+          x={cover.x}
+          y={cover.y}
+          titleDir={cover.title.dir}
+          subTitleDir={cover.subtitle.dir}
+          starDir={cover.star.dir}
+          link={cover.link}
+          key={cover.id}
           renderTime={400 * index}
         />
       ))}

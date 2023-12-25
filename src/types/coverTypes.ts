@@ -23,8 +23,10 @@ export interface Covers {
   y: number;
   title: CoverImageParamsText;
   subtitle: CoverImageParamsText;
-  starDir: PosTypes;
-  starCount: number;
+  star: {
+    dir: PosTypes;
+    count: number;
+  };
 }
 
 export interface GroupCovers {

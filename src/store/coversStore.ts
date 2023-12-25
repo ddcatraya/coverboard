@@ -19,8 +19,8 @@ export interface UseCoverParams {
     subTitleText: string,
   ) => void;
   addCovers: (filteredResults: Array<Covers>) => void;
-  getStarCount: (id: string) => Covers['starCount'];
-  getStarDirById: (id: string) => Covers['starDir'];
+  getStarCount: (id: string) => number;
+  getStarDirById: (id: string) => PosTypes;
   updateCoverTitleDir: (coverId: string, dir: PosTypes) => void;
   updateCoverSubtitleDir: (coverId: string, dir: PosTypes) => void;
 }
@@ -33,9 +33,9 @@ export const createCoversSlice: StateCreator<
 > = (set, get) => ({
   covers: [],
   getStarDirById: (id: string) =>
-    get().covers.find((star) => star.id === id)?.starDir ?? PosTypes.TOP,
+    get().covers.find((star) => star.id === id)?.star.dir ?? PosTypes.TOP,
   getStarCount: (id: string) =>
-    get().covers.find((star) => star.id === id)?.starCount ?? 0,
+    get().covers.find((star) => star.id === id)?.star.count ?? 0,
   updateAllCoversDir(dir) {
     set(({ covers }) => ({
       covers: covers.map((star) => ({
@@ -89,27 +89,33 @@ export const createCoversSlice: StateCreator<
       ),
     }));
   },
-  updateCoverStarDir(coverId, starDir) {
+  updateCoverStarDir(coverId, dir) {
     set(({ covers }) => ({
-      covers: covers.map((star) =>
-        star.id === coverId
+      covers: covers.map((cover) =>
+        cover.id === coverId
           ? {
-              ...star,
-              starDir,
+              ...cover,
+              star: {
+                ...cover.star,
+                dir,
+              },
             }
-          : star,
+          : cover,
       ),
     }));
   },
-  updateStarCount(coverId, starCount) {
+  updateStarCount(coverId, count) {
     set(({ covers }) => ({
-      covers: covers.map((star) =>
-        star.id === coverId
+      covers: covers.map((cover) =>
+        cover.id === coverId
           ? {
-              ...star,
-              starCount,
+              ...cover,
+              star: {
+                ...cover.star,
+                count,
+              },
             }
-          : star,
+          : cover,
       ),
     }));
   },
