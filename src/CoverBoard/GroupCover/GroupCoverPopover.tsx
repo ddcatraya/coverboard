@@ -51,6 +51,14 @@ export const GroupCoverPopover: React.FC<PopupProps> = ({
     onClose();
   };
 
+  const removeCoverAndRelatedLines = useMainStore(
+    (state) => state.removeGroupAndRelatedLines,
+  );
+  const handleDelete = () => {
+    removeCoverAndRelatedLines(id);
+    onClose();
+  };
+
   return (
     <CommonDialog open={open} onClose={onClose} title="Edit group">
       <form onSubmit={handleSubmit}>
@@ -99,6 +107,14 @@ export const GroupCoverPopover: React.FC<PopupProps> = ({
               type="submit"
               style={{ marginRight: '20px', marginBottom: '20px' }}>
               Submit
+            </Button>
+            <Button
+              variant="contained"
+              color="error"
+              type="button"
+              onClick={handleDelete}
+              style={{ marginRight: '20px', marginBottom: '20px' }}>
+              Delete
             </Button>
           </Grid>
         </Grid>

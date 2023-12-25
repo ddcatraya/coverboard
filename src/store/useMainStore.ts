@@ -216,7 +216,10 @@ export const useMainStore = createWithEqualityFn<MainStoreUnion>()(
         });
       },
       removeCoverAndRelatedLines(coverId) {
+        console.log('x');
         saveLastAction();
+
+        console.log(get().covers.filter((c) => c.id !== coverId));
 
         set(({ covers }) => ({
           covers: covers.filter((c) => c.id !== coverId),
