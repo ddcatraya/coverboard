@@ -33,22 +33,37 @@ const Covers: React.FC = () => {
   );
 };
 
-const GroupCovers: React.FC = () => {
+interface GroupCoverProps {
+  selectedId: string | null;
+  setSelectedId: React.Dispatch<React.SetStateAction<string | null>>;
+}
+
+const GroupCovers: React.FC<GroupCoverProps> = ({
+  selectedId,
+  setSelectedId,
+}) => {
   const groups = useMainStore((state) => state.groups);
+
+  const handlesSelect = (evt, coverId: string) => {
+    evt.cancelBubble = true;
+    setSelectedId(coverId);
+  };
 
   return (
     <>
-      {groups.map((star, index) => (
-        <GroupCover
-          id={star.id}
-          title={star.title}
-          x={star.x}
-          y={star.y}
-          dir={star.dir}
-          scaleX={star.scaleX}
-          scaleY={star.scaleY}
-          key={star.id}
-        />
+      {groups.map((star) => (
+        <Group key={star.id} onClick={(evt) => handlesSelect(evt, star.id)}>
+          <GroupCover
+            id={star.id}
+            title={star.title}
+            x={star.x}
+            y={star.y}
+            dir={star.dir}
+            scaleX={star.scaleX}
+            scaleY={star.scaleY}
+            isSelected={star.id === selectedId}
+          />
+        </Group>
       ))}
     </>
   );
@@ -155,6 +170,8 @@ export const CoverBoard: React.FC = () => {
   const [screenshotUrl, setScreenshotUrl] = useState('');
   const [showLogo, setShowLogo] = useState(true);
 
+  const [selectedId, setSelectedId] = useState<string | null>(null);
+
   const takeScreenshot = useCallback(() => {
     const stage = stageRef.current;
 
@@ -181,12 +198,22 @@ export const CoverBoard: React.FC = () => {
     }
   }, [dragLimits, saveId]);
 
+  const checkDeselect = (e) => {
+    // deselect when clicked on empty area
+    const clickedOnEmpty = e.target === e.target.getStage();
+    if (clickedOnEmpty) {
+      setSelectedId(null);
+    }
+  };
+
   return (
     <>
       <Stage
         width={windowSize.width - toobarIconSize}
         height={windowSize.height - toobarIconSize}
-        ref={stageRef}>
+        ref={stageRef}
+        onMouseDown={checkDeselect}
+        onTouchStart={checkDeselect}>
         <Layer>
           {!showLogo && (
             <Rect
@@ -198,12 +225,16 @@ export const CoverBoard: React.FC = () => {
             />
           )}
           <Group name="board" x={dragLimits.x} y={dragLimits.y}>
-            <GroupCovers />
+            <GroupCovers
+              selectedId={selectedId}
+              setSelectedId={setSelectedId}
+            />
             <Covers />
             <DrawLines />
             <BoundaryArrows />
             <TitleLabel />
             <CountLabel />
+
             <Rect
               name="arenaBorder"
               x={1}

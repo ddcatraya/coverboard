@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 
-import { CoverValues, GroupCovers, LabelType } from 'types';
+import { GroupCovers, LabelType } from 'types';
 
 import { useMainStore, useUtilsStore } from 'store';
 import { shallow } from 'zustand/shallow';
@@ -23,6 +23,7 @@ interface CoverImageProps {
   dir: GroupCovers['dir'];
   scaleX: GroupCovers['scaleX'];
   scaleY: GroupCovers['scaleY'];
+  isSelected: boolean;
 }
 
 const GroupCoverMemo: React.FC<CoverImageProps> = ({
@@ -33,6 +34,7 @@ const GroupCoverMemo: React.FC<CoverImageProps> = ({
   dir,
   scaleX,
   scaleY,
+  isSelected,
 }) => {
   const showTitle = useMainStore((state) => state.configs.showTitle);
   const dragLimits = useMainStore((state) => state.dragLimits(), shallow);
@@ -81,9 +83,9 @@ const GroupCoverMemo: React.FC<CoverImageProps> = ({
         <CoverDrawLine id={id} scaleX={scaleX} scaleY={scaleY} />
 
         <Group
-          onclick={canOpenPopover ? () => setOpen(true) : undefined}
+          onDblclick={canOpenPopover ? () => setOpen(true) : undefined}
           onDblTap={canOpenPopover ? () => setOpen(true) : undefined}>
-          <GroupSquare id={id} />
+          <GroupSquare id={id} isSelected={isSelected} />
           <CoverLabelDraggable
             updateDir={updateGroupDir}
             id={id}

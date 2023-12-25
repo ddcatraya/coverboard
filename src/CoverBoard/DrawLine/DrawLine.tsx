@@ -131,9 +131,11 @@ export const DrawLineMemo: React.FC<LineProps> = ({
     coverSizeOriginWidth,
     coverSizeOriginHeight,
     originDir,
+    origin,
     coverSizeDistWidth,
     coverSizeDistHeight,
     targetDir,
+    target,
   ]);
 
   if (!lineParams) return null;

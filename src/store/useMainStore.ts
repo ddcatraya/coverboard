@@ -203,7 +203,6 @@ export const useMainStore = createWithEqualityFn<MainStoreUnion>()(
             (group.y > dragLimits().height &&
               dragLimits().height > configs.size)
           ) {
-            console.log('a');
             return group;
           }
 

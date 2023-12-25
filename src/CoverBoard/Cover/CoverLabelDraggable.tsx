@@ -31,7 +31,6 @@ export const CoverLabelDraggable = ({
   updateDir,
 }: DraggableGroupProps) => {
   const dir = useMainStore((state) => state.getDirById(id));
-  const updateCoverDir = useMainStore((state) => state.updateCoverDir);
   const erase = useUtilsStore((state) => state.erase);
   const dragLimits = useMainStore((state) => state.dragLimits(), shallow);
   const fontSize = useMainStore((state) => state.fontSize());
