@@ -1,10 +1,12 @@
 import React, { useState } from 'react';
 
-import { LineParams, Lines, PosTypes } from 'types';
-import { DrawLineCircle, DrawLineLabelDraggable } from '.';
+import { LineParams, LineValues, Lines, PosTypes } from 'types';
+import { DrawLineCircle, DrawLineLabelDraggable, DrawLinePopover } from '.';
 import { TextLabel } from 'components';
 import { getAlign } from 'utils';
 import { useMainStore, useUtilsStore } from 'store';
+import { Html } from 'react-konva-utils';
+import { Group } from 'react-konva';
 
 interface LineProps {
   id: Lines['id'];
@@ -23,27 +25,14 @@ export const DrawLineLabel: React.FC<LineProps> = ({
   const coverSizeWidth = useMainStore((state) => state.coverSizeWidth());
   const fontSize = useMainStore((state) => state.fontSize());
   const color = useMainStore((state) => state.getArrowColor());
-  const resetLine = useMainStore((state) => state.resetLine);
   const updateLineDir = useMainStore((state) => state.updateLineDir);
   const updateLineText = useMainStore((state) => state.updateLineText);
   const editLines = useUtilsStore((state) => state.editLines);
 
-  const [textEdit, setTextEdit] = useState(isSelected);
-
-  const handleUpdateLabel = (text: string) => {
-    updateLineText(id, text);
-  };
+  const [open, setOpen] = useState(false);
 
   const handleUpdateDir = (dir: PosTypes) => {
     updateLineDir(id, dir);
-  };
-
-  const handleReset = () => {
-    resetLine(id);
-  };
-
-  const handleOpen = () => {
-    setTextEdit(true);
   };
 
   const getLabel = () => {
@@ -55,35 +44,52 @@ export const DrawLineLabel: React.FC<LineProps> = ({
     return '';
   };
 
+  const handleSubmit = (values: LineValues) => {
+    updateLineText(id, values.text);
+    updateLineDir(id, values.dir);
+  };
+
   return (
     <>
-      <DrawLineLabelDraggable
-        dir={dir}
-        lineParams={lineParams}
-        setUpdate={handleUpdateDir}>
-        <TextLabel
-          color={color}
-          open={textEdit}
-          setOpen={setTextEdit}
-          label={getLabel()}
-          onReset={handleReset}
-          setLabel={handleUpdateLabel}
-          pos={{
-            x: -coverSizeWidth,
-            y: fontSize * 1.5,
-            width: coverSizeWidth * 2,
-            align: getAlign(dir),
-          }}
-          wrap="word"
-        />
-      </DrawLineLabelDraggable>
-      <DrawLineCircle
-        id={id}
-        dir={dir}
-        text={text}
-        handleOpen={handleOpen}
-        isSelected={isSelected}
-      />
+      <Group onDblClick={() => setOpen(true)} onDblTap={() => setOpen(true)}>
+        <DrawLineLabelDraggable
+          dir={dir}
+          lineParams={lineParams}
+          setUpdate={handleUpdateDir}>
+          <TextLabel
+            label={getLabel()}
+            color={color}
+            open={open}
+            editable={false}
+            setOpen={() => void 0}
+            onReset={() => void 0}
+            setLabel={() => void 0}
+            pos={{
+              x: -coverSizeWidth,
+              y: fontSize * 1.5,
+              width: coverSizeWidth * 2,
+              align: getAlign(dir),
+            }}
+            wrap="word"
+          />
+        </DrawLineLabelDraggable>
+        <DrawLineCircle isSelected={isSelected} />
+      </Group>
+
+      {open && (
+        <Html>
+          <DrawLinePopover
+            id={id}
+            open={open}
+            onClose={() => setOpen(false)}
+            onSubmit={handleSubmit}
+            values={{
+              text,
+              dir,
+            }}
+          />
+        </Html>
+      )}
     </>
   );
 };

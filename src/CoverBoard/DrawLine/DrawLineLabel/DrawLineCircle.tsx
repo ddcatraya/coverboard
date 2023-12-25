@@ -1,47 +1,19 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { Circle, Group } from 'react-konva';
 import { KonvaEventObject } from 'konva/lib/Node';
 
-import { LineValues, Lines } from 'types';
-import { useMainStore, useUtilsStore } from 'store';
-import { Html } from 'react-konva-utils';
-import { DrawLinePopover } from './DrawLinePopover';
+import { useMainStore } from 'store';
 
 interface LineProps {
-  id: Lines['id'];
-  text: Lines['text'];
-  dir: Lines['dir'];
-  handleOpen: () => void;
   isSelected: boolean;
 }
 
-export const DrawLineCircle: React.FC<LineProps> = ({
-  id,
-  text,
-  dir,
-  handleOpen,
-  isSelected,
-}) => {
+export const DrawLineCircle: React.FC<LineProps> = ({ isSelected }) => {
   const circleRadius = useMainStore((state) => state.circleRadius());
   const color = useMainStore((state) => state.getArrowColor());
-  const [open, setOpen] = useState(false);
-
-  const updateLineText = useMainStore((state) => state.updateLineText);
-  const updateLineDir = useMainStore((state) => state.updateLineDir);
-
-  const handleSubmit = (values: LineValues) => {
-    updateLineText(id, values.text);
-    updateLineDir(id, values.dir);
-  };
 
   return (
-    <Group
-      width={circleRadius * 2}
-      height={circleRadius * 2}
-      onMouseClick={handleOpen}
-      onTap={handleOpen}
-      onDblclick={() => setOpen(true)}
-      onDblTap={() => setOpen(true)}>
+    <Group width={circleRadius * 2} height={circleRadius * 2}>
       <Circle
         radius={isSelected ? circleRadius * 1.3 : circleRadius}
         fill={color}
@@ -69,20 +41,6 @@ export const DrawLineCircle: React.FC<LineProps> = ({
           }
         }}
       />
-      {open && (
-        <Html>
-          <DrawLinePopover
-            id={id}
-            open={open}
-            onClose={() => setOpen(false)}
-            onSubmit={handleSubmit}
-            values={{
-              text,
-              dir,
-            }}
-          />
-        </Html>
-      )}
     </Group>
   );
 };
