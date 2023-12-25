@@ -55,7 +55,7 @@ const GroupCovers: React.FC<GroupCoverProps> = ({
         <Group
           key={group.id}
           onClick={(evt) => handlesSelect(evt, group.id)}
-          onTap={(evt) => handlesSelect(evt, group.id)}>
+          onTouchStart={(evt) => handlesSelect(evt, group.id)}>
           <GroupCover
             id={group.id}
             title={group.title.text}
