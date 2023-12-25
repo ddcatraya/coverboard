@@ -38,14 +38,14 @@ export const createCoversSlice: StateCreator<
     get().covers.find((cover) => cover.id === id)?.star.count ?? 0,
   updateAllCoversDir(dir) {
     set(({ covers }) => ({
-      covers: covers.map((star) => ({
-        ...star,
+      covers: covers.map((cover) => ({
+        ...cover,
         title: {
-          ...star.title,
+          ...cover.title,
           dir,
         },
         subtitle: {
-          ...star.subtitle,
+          ...cover.subtitle,
           dir,
         },
       })),
