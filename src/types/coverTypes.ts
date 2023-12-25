@@ -32,7 +32,9 @@ export interface GroupCovers {
   x: number;
   y: number;
   title: string;
+  subtitle: string;
   dir: PosTypes;
+  subDir: PosTypes;
   scaleX: number;
   scaleY: number;
 }

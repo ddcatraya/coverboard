@@ -9,9 +9,11 @@ interface PopupProps {
   onClose: () => void;
   onSubmit: (
     title: string,
+    subtext: string,
     currentScale: { scaleX: number; scaleY: number },
   ) => void;
   title: string;
+  subtitle: string;
   id: GroupCovers['id'];
 }
 
@@ -20,16 +22,24 @@ export const GroupCoverPopover: React.FC<PopupProps> = ({
   onClose,
   onSubmit,
   title,
+  subtitle,
   id,
 }) => {
   const scale = useMainStore((state) => state.getScale(id));
   const [text, setText] = useState(title);
+  const [subtext, setSubtext] = useState(subtitle);
   const [currentScale, setCurrentScale] = useState(scale);
 
   const handTextChange = (
     event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>,
   ) => {
     setText(event.target.value);
+  };
+
+  const handSubTextChange = (
+    event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>,
+  ) => {
+    setSubtext(event.target.value);
   };
 
   const handleNumberChange = (
@@ -47,7 +57,7 @@ export const GroupCoverPopover: React.FC<PopupProps> = ({
 
   const handleSubmit = (evt: React.SyntheticEvent<HTMLFormElement>) => {
     evt.preventDefault();
-    onSubmit(text, currentScale);
+    onSubmit(text, subtext, currentScale);
     onClose();
   };
 
@@ -69,6 +79,15 @@ export const GroupCoverPopover: React.FC<PopupProps> = ({
               fullWidth
               value={text}
               onChange={handTextChange}
+              style={{ marginBottom: '20px' }}
+            />
+          </Grid>
+          <Grid item xs={12}>
+            <TextField
+              label="group description"
+              fullWidth
+              value={subtext}
+              onChange={handSubTextChange}
               style={{ marginBottom: '20px' }}
             />
           </Grid>

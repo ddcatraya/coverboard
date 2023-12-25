@@ -18,9 +18,11 @@ import { Html } from 'react-konva-utils';
 interface CoverImageProps {
   id: GroupCovers['id'];
   title: GroupCovers['title'];
+  subtitle: GroupCovers['subtitle'];
   x: GroupCovers['x'];
   y: GroupCovers['y'];
   dir: GroupCovers['dir'];
+  subDir: GroupCovers['subDir'];
   scaleX: GroupCovers['scaleX'];
   scaleY: GroupCovers['scaleY'];
   isSelected: boolean;
@@ -29,15 +31,16 @@ interface CoverImageProps {
 const GroupCoverMemo: React.FC<CoverImageProps> = ({
   id,
   title,
+  subtitle,
   x,
   y,
   dir,
+  subDir,
   scaleX,
   scaleY,
   isSelected,
 }) => {
   const color = useMainStore((state) => state.getGroupColor());
-  const showTitle = useMainStore((state) => state.configs.showTitle);
   const dragLimits = useMainStore((state) => state.dragLimits(), shallow);
   const fontSize = useMainStore((state) => state.fontSize());
   const toobarIconSize = useMainStore((state) => state.toobarIconSize());
@@ -51,16 +54,16 @@ const GroupCoverMemo: React.FC<CoverImageProps> = ({
     (state) => state.updateGroupPosition,
   );
   const updateGroupDir = useMainStore((state) => state.updateGroupDir);
+  const updateGroupSubDir = useMainStore((state) => state.updateGroupSubDir);
 
   const handleSubmit = (
     title: string,
+    subtitle: string,
     scale: { scaleX: number; scaleY: number },
   ) => {
-    updateGroupsText(id, title);
+    updateGroupsText(id, title, subtitle);
     updateGroupScale(id, scale);
   };
-
-  const offSet = !(showTitle && title) ? 1.5 * fontSize : 0;
 
   const canOpenPopover = !editLines && !erase;
 
@@ -93,8 +96,8 @@ const GroupCoverMemo: React.FC<CoverImageProps> = ({
             dir={dir}
             scaleX={scaleX}
             scaleY={scaleY}
-            offset={offSet}
-            offSetTop={0}>
+            offset={0}
+            offSetTop={dir === subDir ? 0 : fontSize * 1.5}>
             <CommonLabel
               color={color}
               dir={dir}
@@ -104,6 +107,29 @@ const GroupCoverMemo: React.FC<CoverImageProps> = ({
               fontStyle="bold"
               scaleX={scaleX}
               scaleY={scaleY}
+            />
+          </CommonLabelDraggable>
+
+          <CommonLabelDraggable
+            updateDir={updateGroupSubDir}
+            id={id}
+            x={x}
+            y={y}
+            dir={subDir}
+            scaleX={scaleX}
+            scaleY={scaleY}
+            offset={0}
+            offSetTop={0}>
+            <CommonLabel
+              color={color}
+              dir={subDir}
+              coverLabel={LabelType.SUBTITLE}
+              text={subtitle}
+              id={id}
+              fontStyle="bold"
+              scaleX={scaleX}
+              scaleY={scaleY}
+              offset={dir === subDir ? fontSize * 1.5 : 0}
             />
           </CommonLabelDraggable>
         </Group>
@@ -116,6 +142,7 @@ const GroupCoverMemo: React.FC<CoverImageProps> = ({
             onClose={() => setOpen(false)}
             onSubmit={handleSubmit}
             title={title}
+            subtitle={subtitle}
           />
         </Html>
       )}

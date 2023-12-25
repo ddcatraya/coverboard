@@ -139,7 +139,7 @@ export const ToolbarConfigPopover: React.FC<ToolbarConfigPopoverProps> = ({
                     handleButtonChange(evt as any, colorSetting.name)
                   }>
                   {Object.values(Colors).map((clr) => (
-                    <MenuItem value={clr}>
+                    <MenuItem value={clr} key={clr}>
                       <Button
                         style={{
                           backgroundColor: colorMap[clr],
@@ -176,7 +176,7 @@ export const ToolbarConfigPopover: React.FC<ToolbarConfigPopoverProps> = ({
                   handleButtonChange(evt as any, ToolbarConfigValues.BACK_COLOR)
                 }>
                 {Object.values(BackColors).map((clr) => (
-                  <MenuItem value={clr}>
+                  <MenuItem value={clr} key={clr}>
                     <Button
                       style={{
                         backgroundColor: backColorMap[clr],

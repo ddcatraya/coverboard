@@ -78,8 +78,10 @@ export const ToolbarMemo: React.FC<ToolbarProps> = ({
         y: 0,
         title: 'Group',
         dir: labelDir ?? PosTypes.BOTTOM,
+        subDir: labelDir ?? PosTypes.BOTTOM,
         scaleX: 4,
         scaleY: 4,
+        subtitle: '',
       },
     ]);
   };

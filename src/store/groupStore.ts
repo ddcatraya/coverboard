@@ -4,7 +4,12 @@ import { StateCreator } from 'zustand';
 export interface UseGrouspParams {
   groups: Array<GroupCovers>;
   updateGroupDir: (coverId: string, dir: PosTypes) => void;
-  updateGroupsText: (coverId: string, titleText: string) => void;
+  updateGroupSubDir: (coverId: string, dir: PosTypes) => void;
+  updateGroupsText: (
+    coverId: string,
+    titleText: string,
+    subtitleText: string,
+  ) => void;
   addGroups: (filteredResults: Array<GroupCovers>) => void;
   getScale: (id: string) => {
     scaleX: GroupCovers['scaleX'];
@@ -35,13 +40,26 @@ export const createGroupsSlice: StateCreator<
       ),
     }));
   },
-  updateGroupsText(coverId, titleText) {
+  updateGroupSubDir(coverId, subDir) {
+    set(({ groups }) => ({
+      groups: groups.map((star) =>
+        star.id === coverId
+          ? {
+              ...star,
+              subDir,
+            }
+          : star,
+      ),
+    }));
+  },
+  updateGroupsText(coverId, titleText, subtitleText) {
     set(({ groups }) => ({
       groups: groups.map((star) =>
         coverId === star.id
           ? {
               ...star,
               title: titleText,
+              subtitle: subtitleText,
             }
           : star,
       ),

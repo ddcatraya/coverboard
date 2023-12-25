@@ -248,7 +248,20 @@ export const schema = (parsedData: LocalStorageData) =>
           invalid_type_error: 'covers:search must be a string',
           required_error: 'covers:search is required',
         }),
+        subtitle: z.string({
+          invalid_type_error: 'covers:subtitle must be a string',
+          required_error: 'covers:subtitle is required',
+        }),
         dir: z.nativeEnum(PosTypes, {
+          errorMap: (_, _ctx) => {
+            return {
+              message: `covers:dir must be ${Object.values(PosTypes).join(
+                ' | ',
+              )}`,
+            };
+          },
+        }),
+        subDir: z.nativeEnum(PosTypes, {
           errorMap: (_, _ctx) => {
             return {
               message: `covers:dir must be ${Object.values(PosTypes).join(

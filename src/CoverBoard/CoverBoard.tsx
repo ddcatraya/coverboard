@@ -56,9 +56,11 @@ const GroupCovers: React.FC<GroupCoverProps> = ({
           <GroupCover
             id={star.id}
             title={star.title}
+            subtitle={star.subtitle}
             x={star.x}
             y={star.y}
             dir={star.dir}
+            subDir={star.subDir}
             scaleX={star.scaleX}
             scaleY={star.scaleY}
             isSelected={star.id === selectedId}
