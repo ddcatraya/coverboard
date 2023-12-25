@@ -121,6 +121,16 @@ export const ToolbarMemo: React.FC<ToolbarProps> = ({
       enabled: true,
     },
     {
+      id: ToolConfigIDs.GROUP,
+      tooltip: `Create Group`,
+      color: 'gray',
+      emoji: '📁',
+      value: false,
+      valueModifier: createGroup,
+      badge: groupsLength,
+      enabled: true,
+    },
+    {
       id: ToolConfigIDs.ARROW,
       tooltip: `Create arrow mode (arrows: ${linesLength})`,
       color: colorMap[Colors.YELLOW],
@@ -149,16 +159,6 @@ export const ToolbarMemo: React.FC<ToolbarProps> = ({
       valueModifier: takeScreenshot,
       badge: 0,
       enabled: showTooltips && !editLines && !erase,
-    },
-    {
-      id: ToolConfigIDs.GROUP,
-      tooltip: `Create Group`,
-      color: colorMap[Colors.BLUE],
-      emoji: '📁',
-      value: false,
-      valueModifier: createGroup,
-      badge: groupsLength,
-      enabled: true,
     },
   ];
 

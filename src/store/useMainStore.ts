@@ -216,10 +216,7 @@ export const useMainStore = createWithEqualityFn<MainStoreUnion>()(
         });
       },
       removeCoverAndRelatedLines(coverId) {
-        console.log('x');
         saveLastAction();
-
-        console.log(get().covers.filter((c) => c.id !== coverId));
 
         set(({ covers }) => ({
           covers: covers.filter((c) => c.id !== coverId),
@@ -305,51 +302,42 @@ export const useMainStore = createWithEqualityFn<MainStoreUnion>()(
       },
       updateGroupScale(groupId, scale) {
         saveLastAction();
+
         const group = get().groups.find((group) => group.id === groupId);
 
         if (group) {
-          const prevScale = {
-            scaleX: group.scaleX,
-            scaleY: group.scaleY,
-          };
-
-          set(({ groups }) => ({
-            groups: groups.map((star) => {
-              return groupId === star.id
-                ? {
-                    ...star,
-                    scaleX: scale.scaleX,
-                    scaleY: scale.scaleY,
-                  }
-                : star;
-            }),
-          }));
-
           const newPos = {
             x:
+              group.x -
               (get().coverSizeWidth() * scale.scaleX -
-                get().coverSizeWidth() * prevScale.scaleX) /
-              2,
+                get().coverSizeWidth() * group.scaleX) /
+                2,
             y:
+              group.y -
               (get().coverSizeHeight() * scale.scaleY -
-                get().coverSizeHeight() * prevScale.scaleY) /
-              2,
+                get().coverSizeHeight() * group.scaleY) /
+                2,
           };
 
-          set(({ groups }) => ({
-            groups: groups.map((star) => {
-              return groupId === star.id
-                ? { ...star, x: star.x - newPos.x, y: star.y - newPos.y }
-                : star;
-            }),
-          }));
+          const filteredGroups = get().groups.filter(
+            (cov) => cov.id !== groupId,
+          );
+          filteredGroups.push({
+            ...group,
+            scaleX: scale.scaleX,
+            scaleY: scale.scaleY,
+            x: newPos.x,
+            y: newPos.y,
+          });
+
+          set({ groups: filteredGroups });
 
           const colGroup = get().covers.find(
             (cover) =>
               cover.x > newPos.x &&
-              cover.x < newPos.x + get().coverSizeWidth() * group.scaleX &&
+              cover.x < newPos.x + get().coverSizeWidth() * scale.scaleX &&
               cover.y > newPos.y &&
-              cover.y < newPos.y + get().coverSizeHeight() * group.scaleY,
+              cover.y < newPos.y + get().coverSizeHeight() * scale.scaleY,
           );
 
           if (colGroup) {
