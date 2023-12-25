@@ -52,9 +52,9 @@ export const TitleLabel: React.FC = () => {
       label={titleMode}
       setLabel={handleSetLabel}
       pos={{
-        x: dragLimits.width / 4,
+        x: dragLimits.width / 21,
         y: dragLimits.y + toobarIconSize / 2,
-        width: dragLimits.width / 2,
+        width: dragLimits.width * 0.9,
         align: 'center',
       }}
       labelSize={2}
