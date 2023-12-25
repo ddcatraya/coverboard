@@ -143,7 +143,7 @@ export const ToolbarConfigPopover: React.FC<ToolbarConfigPopoverProps> = ({
                       <Button
                         style={{
                           backgroundColor: colorMap[clr],
-                          color: 'white',
+                          color: clr === 'yellow' ? 'gray' : 'white',
                           fontSize: '10px',
                           fontWeight: 'bold',
                           height: '30px',
@@ -246,7 +246,7 @@ export const ToolbarConfigPopover: React.FC<ToolbarConfigPopoverProps> = ({
           </Grid>
           <Grid item xs={12}>
             <FormControl>
-              <label>Cover labels default position:</label>
+              <label>Labels default position:</label>
               <RadioGroup
                 row
                 aria-label="position"
