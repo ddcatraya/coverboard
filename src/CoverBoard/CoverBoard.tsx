@@ -8,6 +8,7 @@ import { useMainStore } from 'store';
 import { shallow } from 'zustand/shallow';
 import Konva from 'konva';
 import { LabelType } from 'types';
+import { GroupCover } from './GroupCover';
 
 const Covers: React.FC = () => {
   const covers = useMainStore((state) => state.covers);
@@ -27,6 +28,42 @@ const Covers: React.FC = () => {
           key={star.id}
           renderTime={400 * index}
         />
+      ))}
+    </>
+  );
+};
+
+interface GroupCoverProps {
+  selectedId: string | null;
+  setSelectedId: React.Dispatch<React.SetStateAction<string | null>>;
+}
+
+const GroupCovers: React.FC<GroupCoverProps> = ({
+  selectedId,
+  setSelectedId,
+}) => {
+  const groups = useMainStore((state) => state.groups);
+
+  const handlesSelect = (evt, coverId: string) => {
+    evt.cancelBubble = true;
+    setSelectedId(coverId);
+  };
+
+  return (
+    <>
+      {groups.map((star) => (
+        <Group key={star.id} onClick={(evt) => handlesSelect(evt, star.id)}>
+          <GroupCover
+            id={star.id}
+            title={star.title}
+            x={star.x}
+            y={star.y}
+            dir={star.dir}
+            scaleX={star.scaleX}
+            scaleY={star.scaleY}
+            isSelected={star.id === selectedId}
+          />
+        </Group>
       ))}
     </>
   );
@@ -54,15 +91,43 @@ const DrawLines: React.FC = () => {
 
 const BoundaryArrows: React.FC = () => {
   const offLimitCovers = useMainStore((state) => state.offLimitCovers());
+  const offLimitGroups = useMainStore((state) => state.offLimitGroups());
+  const updateCoverPosition = useMainStore(
+    (state) => state.updateCoverPosition,
+  );
+  const updateGroupPosition = useMainStore(
+    (state) => state.updateGroupPosition,
+  );
+  const removeCoverAndRelatedLines = useMainStore(
+    (state) => state.removeCoverAndRelatedLines,
+  );
+  const removeGroupAndRelatedLines = useMainStore(
+    (state) => state.removeGroupAndRelatedLines,
+  );
 
   return (
     <>
       {offLimitCovers.map((star) => (
         <BoundaryArrow
+          updatePosition={updateCoverPosition}
+          removeCascade={removeCoverAndRelatedLines}
           id={star.id}
           x={star.x}
           y={star.y}
           title={star[LabelType.SUBTITLE].text}
+          key={star.id}
+        />
+      ))}
+      {offLimitGroups.map((star) => (
+        <BoundaryArrow
+          updatePosition={updateGroupPosition}
+          removeCascade={removeGroupAndRelatedLines}
+          id={star.id}
+          x={star.x}
+          y={star.y}
+          scaleX={star.scaleX}
+          scaleY={star.scaleY}
+          title={star.title}
           key={star.id}
         />
       ))}
@@ -76,6 +141,27 @@ const CountLabel: React.FC = () => {
   );
   const coverSizeWidth = useMainStore((state) => state.coverSizeWidth());
   const coverSizeHeight = useMainStore((state) => state.coverSizeHeight());
+  const fontSize = useMainStore((state) => state.fontSize());
+
+  return (
+    <Text
+      x={coverSizeWidth + fontSize / 2}
+      y={coverSizeHeight - fontSize * 2}
+      align="center"
+      text={pos0 > 1 ? 'x' + String(pos0) : ''}
+      fontSize={fontSize * 2}
+      fill="white"
+      listening={false}
+    />
+  );
+};
+
+const GroupCountLabel: React.FC = () => {
+  const pos0 = useMainStore(
+    (state) => state.groups.filter((cov) => cov.x === 0 && cov.y === 0).length,
+  );
+  const coverSizeWidth = useMainStore((state) => state.coverSizeWidth()) * 4;
+  const coverSizeHeight = useMainStore((state) => state.coverSizeHeight()) * 4;
   const fontSize = useMainStore((state) => state.fontSize());
 
   return (
@@ -105,6 +191,8 @@ export const CoverBoard: React.FC = () => {
   const [screenshotUrl, setScreenshotUrl] = useState('');
   const [showLogo, setShowLogo] = useState(true);
 
+  const [selectedId, setSelectedId] = useState<string | null>(null);
+
   const takeScreenshot = useCallback(() => {
     const stage = stageRef.current;
 
@@ -131,12 +219,22 @@ export const CoverBoard: React.FC = () => {
     }
   }, [dragLimits, saveId]);
 
+  const checkDeselect = (e) => {
+    // deselect when clicked on empty area
+    const clickedOnEmpty = e.target === e.target.getStage();
+    if (clickedOnEmpty) {
+      setSelectedId(null);
+    }
+  };
+
   return (
     <>
       <Stage
         width={windowSize.width - toobarIconSize}
         height={windowSize.height - toobarIconSize}
-        ref={stageRef}>
+        ref={stageRef}
+        onMouseDown={checkDeselect}
+        onTouchStart={checkDeselect}>
         <Layer>
           {!showLogo && (
             <Rect
@@ -148,11 +246,17 @@ export const CoverBoard: React.FC = () => {
             />
           )}
           <Group name="board" x={dragLimits.x} y={dragLimits.y}>
-            <DrawLines />
+            <GroupCovers
+              selectedId={selectedId}
+              setSelectedId={setSelectedId}
+            />
             <Covers />
+            <DrawLines />
             <BoundaryArrows />
             <TitleLabel />
             <CountLabel />
+            <GroupCountLabel />
+
             <Rect
               name="arenaBorder"
               x={1}

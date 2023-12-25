@@ -1,16 +1,16 @@
 import { Group, Line } from 'react-konva';
 import { KonvaEventObject } from 'konva/lib/Node';
 import { Vector2d } from 'konva/lib/types';
-import { Covers } from 'types';
+import { Covers, GroupCovers } from 'types';
 import { useState } from 'react';
 import { useMainStore, useUtilsStore } from 'store';
 import { shallow } from 'zustand/shallow';
 
-interface DraggableGroupProps {
+interface CommonDraggableProps {
   children: React.ReactNode;
-  id: Covers['id'];
-  x: Covers['x'];
-  y: Covers['y'];
+  id: Covers['id'] | GroupCovers['id'];
+  x: Covers['x'] | GroupCovers['x'];
+  y: Covers['y'] | GroupCovers['y'];
   min: {
     x: number;
     y: number;
@@ -19,26 +19,26 @@ interface DraggableGroupProps {
     x: number;
     y: number;
   };
+  updatePosition: (coverId: string, { x, y }: Vector2d) => void;
 }
 
-export const CoverDraggable: React.FC<DraggableGroupProps> = ({
+export const CommonDraggable: React.FC<CommonDraggableProps> = ({
   id,
   x,
   y,
   min,
   max,
   children,
+  updatePosition,
 }) => {
   const covers = useMainStore((state) => state.covers);
+  const groups = useMainStore((state) => state.groups);
   const color = useMainStore((state) => state.getColor());
-  const updateCoverPosition = useMainStore(
-    (state) => state.updateCoverPosition,
-  );
   const erase = useUtilsStore((state) => state.erase);
 
   const dragLimits = useMainStore((state) => state.dragLimits(), shallow);
   const [hintLines, setHintLines] = useState<
-    [Covers | undefined, Covers | undefined]
+    [Covers | GroupCovers | undefined, Covers | GroupCovers | undefined]
   >([undefined, undefined]);
 
   const handleDragBound = (pos: Vector2d) => {
@@ -73,8 +73,12 @@ export const CoverDraggable: React.FC<DraggableGroupProps> = ({
     const targetY = Math.round(e.target.y());
     const targetX = Math.round(e.target.x());
 
-    const foundY = covers.find((star) => star.id !== id && star.y === targetY);
-    const foundX = covers.find((star) => star.id !== id && star.x === targetX);
+    const foundY =
+      covers.find((star) => star.id !== id && star.y === targetY) ||
+      groups.find((star) => star.id !== id && star.y === targetY);
+    const foundX =
+      covers.find((star) => star.id !== id && star.x === targetX) ||
+      groups.find((star) => star.id !== id && star.x === targetX);
 
     if (
       (typeof hintLines[0] === 'undefined' && foundY) ||
@@ -101,7 +105,7 @@ export const CoverDraggable: React.FC<DraggableGroupProps> = ({
       container.style.cursor = 'not-allowed';
     }
 
-    updateCoverPosition(id, {
+    updatePosition(id, {
       x: Math.round(e.target.x()),
       y: Math.round(e.target.y()),
     });

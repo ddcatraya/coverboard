@@ -1,2 +1,2 @@
-export { ToolbarShare } from './ToolbarShare';
-export { ToolbarSharePopover } from './ToolbarSharePopover';
+export * from './ToolbarShare';
+export * from './ToolbarSharePopover';

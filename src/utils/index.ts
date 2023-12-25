@@ -1,6 +1,6 @@
-export { getAlign } from './getAlign';
-export { clearHash, setHash, getHash } from './hash';
-export { addPrefix, haxPrefix, removePrefix, DEFAULT_STORAGE } from './storage';
-export { formatDate } from './time';
-export { getClientPosition } from './drag';
-export { throttle } from './throttle';
+export * from './getAlign';
+export * from './hash';
+export * from './storage';
+export * from './time';
+export * from './drag';
+export * from './throttle';

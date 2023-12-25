@@ -1,2 +1,2 @@
-export { TextLabel } from './TextLabel';
-export { TextLabelPopover } from './TextLabelPopover';
+export * from './TextLabel';
+export * from './TextLabelPopover';

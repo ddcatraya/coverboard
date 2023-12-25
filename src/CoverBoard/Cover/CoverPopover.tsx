@@ -126,7 +126,7 @@ export const CoverPopover: React.FC<PopupProps> = ({
     state.covers.find((cov) => cov.id === id),
   )!;
 
-  const buttons = getButtons(media, currentCover);
+  const buttons = currentCover ? getButtons(media, currentCover) : [];
 
   const handTextChange = (
     event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>,
@@ -146,6 +146,14 @@ export const CoverPopover: React.FC<PopupProps> = ({
   const handleSubmit = (evt: React.SyntheticEvent<HTMLFormElement>) => {
     evt.preventDefault();
     onSubmit(text, rating);
+    onClose();
+  };
+
+  const removeCoverAndRelatedLines = useMainStore(
+    (state) => state.removeCoverAndRelatedLines,
+  );
+  const handleDelete = () => {
+    removeCoverAndRelatedLines(id);
     onClose();
   };
 
@@ -184,6 +192,20 @@ export const CoverPopover: React.FC<PopupProps> = ({
             />
           </Grid>
           <Grid item xs={12}>
+            {buttons.map((button) => (
+              <Button
+                key={button.name}
+                variant="contained"
+                color="secondary"
+                target="_blank"
+                component={Link}
+                href={button.href}
+                style={{ marginRight: '20px', marginBottom: '20px' }}>
+                {button.name}
+              </Button>
+            ))}
+          </Grid>
+          <Grid item xs={12}>
             <Button
               variant="contained"
               color="primary"
@@ -202,18 +224,14 @@ export const CoverPopover: React.FC<PopupProps> = ({
               style={{ marginRight: '20px', marginBottom: '20px' }}>
               Reset
             </Button>
-            {buttons.map((button) => (
-              <Button
-                key={button.name}
-                variant="contained"
-                color="secondary"
-                target="_blank"
-                component={Link}
-                href={button.href}
-                style={{ marginRight: '20px', marginBottom: '20px' }}>
-                {button.name}
-              </Button>
-            ))}
+            <Button
+              variant="contained"
+              color="error"
+              type="button"
+              onClick={handleDelete}
+              style={{ marginRight: '20px', marginBottom: '20px' }}>
+              Delete
+            </Button>
           </Grid>
         </Grid>
       </form>

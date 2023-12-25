@@ -1,1 +1,1 @@
-export { BoundaryArrow } from './BoundaryArrow';
+export * from './BoundaryArrow';

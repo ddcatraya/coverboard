@@ -5,14 +5,18 @@ import React from 'react';
 import { useMemo, useState } from 'react';
 import { Arrow, Group } from 'react-konva';
 import { useMainStore, useUtilsStore } from 'store';
-import { Covers } from 'types';
+import { Covers, GroupCovers } from 'types';
 import { shallow } from 'zustand/shallow';
 
 interface BoundaryArrowProps {
-  id: Covers['id'];
+  id: Covers['id'] | GroupCovers['id'];
   title: string;
-  x: Covers['x'];
-  y: Covers['y'];
+  x: Covers['x'] | GroupCovers['x'];
+  y: Covers['y'] | GroupCovers['y'];
+  scaleX?: GroupCovers['x'];
+  scaleY?: GroupCovers['y'];
+  updatePosition: (coverId: string, { x, y }: Vector2d) => void;
+  removeCascade: (id: string) => void;
 }
 
 export const BoundaryArrowMemo: React.FC<BoundaryArrowProps> = ({
@@ -20,18 +24,18 @@ export const BoundaryArrowMemo: React.FC<BoundaryArrowProps> = ({
   title,
   x,
   y,
+  scaleX = 1,
+  scaleY = 1,
+  updatePosition,
+  removeCascade,
 }) => {
   const color = useMainStore((state) => state.getArrowColor());
 
-  const updateCoverPosition = useMainStore(
-    (state) => state.updateCoverPosition,
-  );
-  const removeCoverAndRelatedLines = useMainStore(
-    (state) => state.removeCoverAndRelatedLines,
-  );
   const erase = useUtilsStore((state) => state.erase);
-  const coverSizeWidth = useMainStore((state) => state.coverSizeWidth());
-  const coverSizeHeight = useMainStore((state) => state.coverSizeHeight());
+  const coverSizeWidth =
+    useMainStore((state) => state.coverSizeWidth()) * scaleX;
+  const coverSizeHeight =
+    useMainStore((state) => state.coverSizeHeight()) * scaleY;
   const fontSize = useMainStore((state) => state.fontSize());
   const dragLimits = useMainStore((state) => state.dragLimits(), shallow);
 
@@ -77,7 +81,7 @@ export const BoundaryArrowMemo: React.FC<BoundaryArrowProps> = ({
 
   const handleBringIntoView = () => {
     if (erase) {
-      removeCoverAndRelatedLines(id);
+      removeCascade(id);
       return;
     }
     let newPos: Vector2d = { x, y };
@@ -87,7 +91,8 @@ export const BoundaryArrowMemo: React.FC<BoundaryArrowProps> = ({
     if (newPos.y > dragLimits.height) {
       newPos.y = dragLimits.height - coverSizeHeight;
     }
-    updateCoverPosition(id, newPos);
+
+    updatePosition(id, newPos);
   };
 
   return (

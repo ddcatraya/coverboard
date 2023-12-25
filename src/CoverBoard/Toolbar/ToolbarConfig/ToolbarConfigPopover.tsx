@@ -30,16 +30,13 @@ interface ToolbarConfigPopoverProps {
     config: ToolbarConfigParams,
     updatedParam?: ToolbarConfigValues,
   ) => void;
-  handleResetElements: () => void;
 }
 
 export const ToolbarConfigPopover: React.FC<ToolbarConfigPopoverProps> = ({
   open,
   onClose,
   onSubmit,
-  handleResetElements,
 }) => {
-  const offLimitCovers = useMainStore((state) => state.offLimitCovers());
   const configs = useMainStore((state) => state.configs);
   const [param, setParams] = useState(configs);
   const titleLabel = useMainStore((state) => state.titleLabel().label);
@@ -313,18 +310,6 @@ export const ToolbarConfigPopover: React.FC<ToolbarConfigPopoverProps> = ({
               type="submit"
               style={{ marginRight: '20px', marginBottom: '20px' }}>
               Close
-            </Button>
-            <Button
-              variant="outlined"
-              color="primary"
-              type="button"
-              disabled={offLimitCovers.length === 0}
-              style={{ marginBottom: '20px' }}
-              onClick={() => {
-                handleResetElements();
-                onClose();
-              }}>
-              Move {offLimitCovers.length} elem into view
             </Button>
           </Grid>
         </Grid>

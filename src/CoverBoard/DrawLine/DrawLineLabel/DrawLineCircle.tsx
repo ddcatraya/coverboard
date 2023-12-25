@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useCallback, useEffect } from 'react';
 import { Circle, Group } from 'react-konva';
 import { KonvaEventObject } from 'konva/lib/Node';
 
@@ -15,6 +15,20 @@ export const DrawLineCircle: React.FC<LineProps> = ({ handleOpen, id }) => {
   const color = useMainStore((state) => state.getArrowColor());
   const erase = useUtilsStore((state) => state.erase);
 
+  const removeLine = useMainStore((state) => state.removeLine);
+  const deleteFn = useCallback(
+    (e) => {
+      if (e.key === 'Delete') {
+        removeLine(id);
+      }
+    },
+    [id, removeLine],
+  );
+
+  useEffect(() => {
+    return () => document.removeEventListener('keydown', deleteFn);
+  }, [deleteFn]);
+
   return (
     <Group
       width={circleRadius * 2}
@@ -24,6 +38,9 @@ export const DrawLineCircle: React.FC<LineProps> = ({ handleOpen, id }) => {
       <Circle
         radius={circleRadius}
         fill={color}
+        onMouseEnter={() => {
+          document.addEventListener('keydown', deleteFn);
+        }}
         onMouseMove={(evt: KonvaEventObject<MouseEvent>) => {
           evt.currentTarget.scaleX(1.3);
           evt.currentTarget.scaleY(1.3);
@@ -40,6 +57,7 @@ export const DrawLineCircle: React.FC<LineProps> = ({ handleOpen, id }) => {
           evt.currentTarget.scaleY(1);
 
           const container = evt.target.getStage()?.container();
+          document.removeEventListener('keydown', deleteFn);
 
           if (container) {
             container.style.cursor = 'default';

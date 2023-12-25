@@ -1,4 +1,3 @@
-import { useState } from 'react';
 import { Group, Rect, Star } from 'react-konva';
 import { useMainStore, useUtilsStore } from 'store';
 import { Covers } from 'types';

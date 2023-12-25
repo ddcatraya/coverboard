@@ -1,1 +1,1 @@
-export { TitleLabel } from './TitleLabel';
+export * from './TitleLabel';

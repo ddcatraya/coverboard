@@ -1,16 +1,13 @@
 import React, { useState } from 'react';
 
 import { Covers, CoverValues, LabelType, PosTypes } from 'types';
+import { CoverPopover, CoverLoadImage, CoverStar, CoverStarDraggable } from '.';
 import {
-  CoverDrawLine,
-  CoverLabel,
-  CoverLabelDraggable,
-  CoverDraggable,
-  CoverPopover,
-  CoverLoadImage,
-  CoverStar,
-  CoverStarDraggable,
-} from '.';
+  CommonDraggable,
+  CommonDrawLine,
+  CommonLabelDraggable,
+  CommonLabel,
+} from 'CoverBoard/Common';
 import { useMainStore, useUtilsStore } from 'store';
 import { shallow } from 'zustand/shallow';
 import { Html } from 'react-konva-utils';
@@ -70,6 +67,10 @@ const CoverMemo: React.FC<CoverImageProps> = ({
   const starRadius = useMainStore((state) => state.starRadius());
   const showStars = useMainStore((state) => state.getShowStars());
   const updateStarCount = useMainStore((state) => state.updateStarCount);
+  const updateCoverPosition = useMainStore(
+    (state) => state.updateCoverPosition,
+  );
+  const updateCoverDir = useMainStore((state) => state.updateCoverDir);
 
   const handleSubmit = (values: CoverValues, rating: number) => {
     updateCoversText(
@@ -90,10 +91,10 @@ const CoverMemo: React.FC<CoverImageProps> = ({
   const canOpenPopover = !editLines && !erase;
 
   const starOffset = getStarOffset(dir, starDir, offSet, offSetTop, starRadius);
-
   return (
     <>
-      <CoverDraggable
+      <CommonDraggable
+        updatePosition={updateCoverPosition}
         id={id}
         x={x}
         y={y}
@@ -105,21 +106,24 @@ const CoverMemo: React.FC<CoverImageProps> = ({
           x: windowSize.width - 3.5 * toobarIconSize,
           y: windowSize.height - 3.5 * toobarIconSize,
         }}>
-        <CoverDrawLine id={id} />
+        <CommonDrawLine id={id} />
 
         <Group
           onclick={canOpenPopover ? () => setOpen(true) : undefined}
           onDblTap={canOpenPopover ? () => setOpen(true) : undefined}>
           <CoverLoadImage id={id} link={link} renderTime={renderTime} />
 
-          <CoverLabelDraggable
+          <CommonLabelDraggable
+            updateDir={updateCoverDir}
             id={id}
             x={x}
             y={y}
+            dir={dir}
             offset={offSet}
             offSetTop={offSetTop}>
             {showTitle && title && (
-              <CoverLabel
+              <CommonLabel
+                dir={dir}
                 coverLabel={LabelType.TITLE}
                 text={title}
                 id={id}
@@ -127,21 +131,22 @@ const CoverMemo: React.FC<CoverImageProps> = ({
               />
             )}
             {showSubtitle && subtitle && (
-              <CoverLabel
+              <CommonLabel
+                dir={dir}
                 coverLabel={LabelType.SUBTITLE}
                 text={subtitle}
                 id={id}
                 offset={offSet}
               />
             )}
-          </CoverLabelDraggable>
+          </CommonLabelDraggable>
           {showStars && (
             <CoverStarDraggable id={id} x={x} y={y} offset={0} offSetTop={0}>
               <CoverStar id={id} offset={starOffset} />
             </CoverStarDraggable>
           )}
         </Group>
-      </CoverDraggable>
+      </CommonDraggable>
       {open && (
         <Html>
           <CoverPopover
