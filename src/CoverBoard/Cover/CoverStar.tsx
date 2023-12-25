@@ -15,7 +15,6 @@ export const CoverStar: React.FC<CoverStarProps> = ({ id, offset = 0 }) => {
   const color = useMainStore((state) => state.getCoverColor());
   const backColor = useMainStore((state) => state.getBackColor());
   const updateStarCount = useMainStore((state) => state.updateStarCount);
-  const erase = useUtilsStore((state) => state.erase);
   const editLines = useUtilsStore((state) => state.editLines);
 
   const handleClick = (evt, index) => {
@@ -34,7 +33,7 @@ export const CoverStar: React.FC<CoverStarProps> = ({ id, offset = 0 }) => {
 
   const totalWidth = 4 * starRadius * 3;
 
-  if (erase || editLines) return null;
+  if (editLines) return null;
 
   return (
     <Group opacity={starCount ? 1 : 0.3} y={coverSizeHeight + offset}>

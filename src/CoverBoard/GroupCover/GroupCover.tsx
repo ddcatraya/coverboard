@@ -48,7 +48,6 @@ const GroupCoverMemo: React.FC<CoverImageProps> = ({
   const [open, setOpen] = useState(false);
   const updateGroupsText = useMainStore((state) => state.updateGroupsText);
   const editLines = useUtilsStore((state) => state.editLines);
-  const erase = useUtilsStore((state) => state.erase);
   const updateGroupScale = useMainStore((state) => state.updateGroupScale);
   const updateGroupPosition = useMainStore(
     (state) => state.updateGroupPosition,
@@ -66,7 +65,7 @@ const GroupCoverMemo: React.FC<CoverImageProps> = ({
     updateGroupScale(id, scale);
   };
 
-  const canOpenPopover = !editLines && !erase;
+  const canOpenPopover = !editLines;
 
   const offset1 =
     dir === subDir && subtitle && dir === PosTypes.TOP

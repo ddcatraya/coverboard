@@ -11,7 +11,6 @@ export const TitleLabel: React.FC = () => {
   const title = useMainStore((state) => state.configs.title);
   const showMainTitle = useMainStore((state) => state.configs.showMainTitle);
   const saveId = useMainStore((state) => state.saveId);
-  const erase = useUtilsStore((state) => state.erase);
   const editLines = useUtilsStore((state) => state.editLines);
   const color = useMainStore((state) => state.getColor());
 
@@ -29,9 +28,7 @@ export const TitleLabel: React.FC = () => {
   };
 
   const titleMode = useMemo(() => {
-    if (erase) {
-      return Modes.ERASE;
-    } else if (editLines) {
+    if (editLines) {
       return Modes.ARROW;
     } else if (!showMainTitle) {
       return '';
@@ -39,13 +36,13 @@ export const TitleLabel: React.FC = () => {
       return buildTitle(saveId);
     }
     return title;
-  }, [editLines, erase, saveId, showMainTitle, title]);
+  }, [editLines, saveId, showMainTitle, title]);
 
   return (
     <TextLabel
       color={color}
       title="title"
-      listening={!erase && !editLines}
+      listening={!editLines}
       open={open}
       setOpen={setOpen}
       onReset={handleReset}

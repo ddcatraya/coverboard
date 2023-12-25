@@ -24,7 +24,6 @@ export const DrawLineCircle: React.FC<LineProps> = ({
 }) => {
   const circleRadius = useMainStore((state) => state.circleRadius());
   const color = useMainStore((state) => state.getArrowColor());
-  const erase = useUtilsStore((state) => state.erase);
   const [open, setOpen] = useState(false);
 
   const updateLineText = useMainStore((state) => state.updateLineText);
@@ -53,10 +52,8 @@ export const DrawLineCircle: React.FC<LineProps> = ({
           }
 
           const container = evt.target.getStage()?.container();
-          if (container && !erase) {
+          if (container) {
             container.style.cursor = 'pointer';
-          } else if (container && erase) {
-            container.style.cursor = 'not-allowed';
           }
         }}
         onMouseLeave={(evt: KonvaEventObject<MouseEvent>) => {

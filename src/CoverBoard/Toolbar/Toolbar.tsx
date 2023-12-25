@@ -35,17 +35,13 @@ const ToolbarActionIcon: React.FC = () => {
     [actionsLength, undoAction],
   );
 
-  return <ToolbarIcon config={actionConfig} index={7} />;
+  return <ToolbarIcon config={actionConfig} index={6} />;
 };
 
 export const ToolbarMemo: React.FC<ToolbarProps> = ({
   takeScreenshot,
   showTooltips,
 }) => {
-  const [erase, setErase] = useUtilsStore(
-    (state) => [state.erase, state.setErase],
-    shallow,
-  );
   const [editLines, setEditLines] = useUtilsStore(
     (state) => [state.editLines, state.setEditLines],
     shallow,
@@ -141,26 +137,14 @@ export const ToolbarMemo: React.FC<ToolbarProps> = ({
       enabled: true,
     },
     {
-      id: ToolConfigIDs.ERASE,
-      tooltip: `Erase mode (elements: ${
-        linesLength + coversLength + groupsLength
-      })`,
-      color: colorMap[Colors.RED],
-      emoji: '🗑️',
-      value: erase,
-      valueModifier: setErase,
-      badge: linesLength + coversLength + groupsLength,
-      enabled: true,
-    },
-    {
       id: ToolConfigIDs.SCREENSHOT,
       tooltip: `Take screenshot`,
       color: colorMap[Colors.ORANGE],
       emoji: '📷',
-      value: editLines || erase || !showTooltips,
+      value: editLines || !showTooltips,
       valueModifier: takeScreenshot,
       badge: 0,
-      enabled: showTooltips && !editLines && !erase,
+      enabled: showTooltips && !editLines,
     },
   ];
 

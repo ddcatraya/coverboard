@@ -4,7 +4,7 @@ import { Vector2d } from 'konva/lib/types';
 import React from 'react';
 import { useMemo, useState } from 'react';
 import { Arrow, Group } from 'react-konva';
-import { useMainStore, useUtilsStore } from 'store';
+import { useMainStore } from 'store';
 import { Covers, GroupCovers } from 'types';
 import { shallow } from 'zustand/shallow';
 
@@ -28,10 +28,8 @@ export const BoundaryArrowMemo: React.FC<BoundaryArrowProps> = ({
   scaleX = 1,
   scaleY = 1,
   updatePosition,
-  removeCascade,
   color,
 }) => {
-  const erase = useUtilsStore((state) => state.erase);
   const coverSizeWidth =
     useMainStore((state) => state.coverSizeWidth()) * scaleX;
   const coverSizeHeight =
@@ -80,10 +78,6 @@ export const BoundaryArrowMemo: React.FC<BoundaryArrowProps> = ({
   ]);
 
   const handleBringIntoView = () => {
-    if (erase) {
-      removeCascade(id);
-      return;
-    }
     let newPos: Vector2d = { x, y };
     if (newPos.x > dragLimits.width) {
       newPos.x = dragLimits.width - coverSizeWidth;

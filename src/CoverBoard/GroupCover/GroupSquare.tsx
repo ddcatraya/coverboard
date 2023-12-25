@@ -18,7 +18,6 @@ export const GroupSquare: React.FC<CoverImageProps> = ({ id, isSelected }) => {
   const color = useMainStore((state) => state.getGroupColor());
   const backColor = useMainStore((state) => state.getBackColor());
   const editLines = useUtilsStore((state) => state.editLines);
-  const erase = useUtilsStore((state) => state.erase);
   const scale = useMainStore((state) => state.getScale(id));
 
   const boxRef = useRef<null | { width: number; height: number }>(null);
@@ -30,7 +29,7 @@ export const GroupSquare: React.FC<CoverImageProps> = ({ id, isSelected }) => {
   const coverSizeWidthScaled = coverSizeWidth * scale.scaleX;
   const coverSizeHeightScaled = coverSizeHeight * scale.scaleY;
 
-  const canDelete = !editLines && erase;
+  const canDelete = !editLines;
   const removeCoverAndRelatedLines = useMainStore(
     (state) => state.removeGroupAndRelatedLines,
   );
@@ -86,7 +85,7 @@ export const GroupSquare: React.FC<CoverImageProps> = ({ id, isSelected }) => {
         ref={rectRef}
         onTransformEnd={handleTransform}
       />
-      {isSelected && !erase && (
+      {isSelected && (
         <Transformer
           ref={trRef}
           centeredScaling

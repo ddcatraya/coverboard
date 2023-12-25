@@ -13,7 +13,6 @@ interface ToolbarIconProps {
 }
 
 export const ToolbarIcon: React.FC<ToolbarIconProps> = ({ config, index }) => {
-  const setErase = useUtilsStore((state) => state.setErase);
   const setPoints = useUtilsStore((state) => state.setPoints);
   const setEditLines = useUtilsStore((state) => state.setEditLines);
   const toobarIconSize = useMainStore((state) => state.toobarIconSize());
@@ -31,12 +30,6 @@ export const ToolbarIcon: React.FC<ToolbarIconProps> = ({ config, index }) => {
   const handleClick = () => {
     setPoints(null);
     clearHash();
-
-    if (config.id !== ToolConfigIDs.ERASE) {
-      setErase(false);
-    } else if (config.id === ToolConfigIDs.ERASE) {
-      setHash(ToolConfigIDs.ERASE);
-    }
 
     if (config.id !== ToolConfigIDs.ARROW) {
       setEditLines(false);

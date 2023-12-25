@@ -30,7 +30,6 @@ export const CommonLabel: React.FC<CommonLabelProps> = ({
 }) => {
   const updateCoverLabel = useMainStore((state) => state.updateCoverLabel);
   const resetCoverLabel = useMainStore((state) => state.resetCoverLabel);
-  const erase = useUtilsStore((state) => state.erase);
   const editLines = useUtilsStore((state) => state.editLines);
 
   const coverSizeWidth =
@@ -43,7 +42,7 @@ export const CommonLabel: React.FC<CommonLabelProps> = ({
     resetCoverLabel(id, coverLabel);
   };
 
-  if (erase || editLines) return null;
+  if (editLines) return null;
 
   return (
     <TextLabel

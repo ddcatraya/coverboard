@@ -21,7 +21,6 @@ export const DrawLineLabelDraggable: React.FC<DraggableGroupProps> = ({
   setUpdate,
   children,
 }) => {
-  const erase = useUtilsStore((state) => state.erase);
   const editLines = useUtilsStore((state) => state.editLines);
   const coverSizeWidth = useMainStore((state) => state.coverSizeWidth());
   const fontSize = useMainStore((state) => state.fontSize());
@@ -34,10 +33,8 @@ export const DrawLineLabelDraggable: React.FC<DraggableGroupProps> = ({
     e.currentTarget.opacity(0.5);
     const container = e.target.getStage()?.container();
 
-    if (container && !erase) {
+    if (container) {
       container.style.cursor = 'grab';
-    } else if (container && erase) {
-      container.style.cursor = 'not-allowed';
     }
   };
 
@@ -46,10 +43,8 @@ export const DrawLineLabelDraggable: React.FC<DraggableGroupProps> = ({
     e.cancelBubble = true;
     const container = e.target.getStage()?.container();
 
-    if (container && !erase) {
+    if (container) {
       container.style.cursor = 'grab';
-    } else if (container && erase) {
-      container.style.cursor = 'not-allowed';
     }
 
     const { x, y } = getClientPosition(e);
@@ -103,9 +98,9 @@ export const DrawLineLabelDraggable: React.FC<DraggableGroupProps> = ({
       onMouseMove={(evt: KonvaEventObject<MouseEvent>) => {
         const container = evt.target.getStage()?.container();
 
-        if (container && !erase && !editLines) {
+        if (container && !editLines) {
           container.style.cursor = 'grab';
-        } else if (container && erase) {
+        } else if (container) {
           container.style.cursor = 'not-allowed';
         }
       }}

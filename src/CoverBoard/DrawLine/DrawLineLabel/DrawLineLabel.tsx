@@ -27,7 +27,6 @@ export const DrawLineLabel: React.FC<LineProps> = ({
   const updateLineDir = useMainStore((state) => state.updateLineDir);
   const updateLineText = useMainStore((state) => state.updateLineText);
   const removeLine = useMainStore((state) => state.removeLine);
-  const erase = useUtilsStore((state) => state.erase);
   const editLines = useUtilsStore((state) => state.editLines);
 
   const [textEdit, setTextEdit] = useState(isSelected);
@@ -45,11 +44,6 @@ export const DrawLineLabel: React.FC<LineProps> = ({
   };
 
   const handleOpen = () => {
-    if (erase) {
-      removeLine(id);
-      return;
-    }
-
     setTextEdit(true);
   };
 
@@ -64,28 +58,26 @@ export const DrawLineLabel: React.FC<LineProps> = ({
 
   return (
     <>
-      {!erase && (
-        <DrawLineLabelDraggable
-          dir={dir}
-          lineParams={lineParams}
-          setUpdate={handleUpdateDir}>
-          <TextLabel
-            color={color}
-            open={textEdit}
-            setOpen={setTextEdit}
-            label={getLabel()}
-            onReset={handleReset}
-            setLabel={handleUpdateLabel}
-            pos={{
-              x: -coverSizeWidth,
-              y: fontSize * 1.5,
-              width: coverSizeWidth * 2,
-              align: getAlign(dir),
-            }}
-            wrap="word"
-          />
-        </DrawLineLabelDraggable>
-      )}
+      <DrawLineLabelDraggable
+        dir={dir}
+        lineParams={lineParams}
+        setUpdate={handleUpdateDir}>
+        <TextLabel
+          color={color}
+          open={textEdit}
+          setOpen={setTextEdit}
+          label={getLabel()}
+          onReset={handleReset}
+          setLabel={handleUpdateLabel}
+          pos={{
+            x: -coverSizeWidth,
+            y: fontSize * 1.5,
+            width: coverSizeWidth * 2,
+            align: getAlign(dir),
+          }}
+          wrap="word"
+        />
+      </DrawLineLabelDraggable>
       <DrawLineCircle
         id={id}
         dir={dir}

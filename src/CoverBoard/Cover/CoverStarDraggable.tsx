@@ -22,7 +22,6 @@ export const CoverStarDraggable = ({
 }: DraggableGroupProps) => {
   const dir = useMainStore((state) => state.getStarDirById(id));
   const updateCoverStarDir = useMainStore((state) => state.updateCoverStarDir);
-  const erase = useUtilsStore((state) => state.erase);
   const dragLimits = useMainStore((state) => state.dragLimits(), shallow);
   const coverSizeWidth = useMainStore((state) => state.coverSizeWidth());
   const coverSizeHeight = useMainStore((state) => state.coverSizeHeight());
@@ -34,10 +33,8 @@ export const CoverStarDraggable = ({
     // e.currentTarget.opacity(0.5);
     const container = e.target.getStage()?.container();
 
-    if (container && !erase) {
+    if (container) {
       container.style.cursor = 'grab';
-    } else if (container && erase) {
-      container.style.cursor = 'not-allowed';
     }
   };
 
@@ -46,10 +43,8 @@ export const CoverStarDraggable = ({
     e.cancelBubble = true;
     const container = e.target.getStage()?.container();
 
-    if (container && !erase) {
+    if (container) {
       container.style.cursor = 'grab';
-    } else if (container && erase) {
-      container.style.cursor = 'not-allowed';
     }
 
     const { x: xAbs, y: yAbs } = getClientPosition(e);
@@ -106,10 +101,8 @@ export const CoverStarDraggable = ({
       onMouseMove={(evt: KonvaEventObject<MouseEvent>) => {
         const container = evt.target.getStage()?.container();
         evt.currentTarget.opacity(0.5);
-        if (container && !erase) {
+        if (container) {
           container.style.cursor = 'grab';
-        } else if (container && erase) {
-          container.style.cursor = 'not-allowed';
         }
       }}
       onMouseLeave={(evt: KonvaEventObject<MouseEvent>) => {

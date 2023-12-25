@@ -3,7 +3,7 @@ import { KonvaEventObject } from 'konva/lib/Node';
 import { Vector2d } from 'konva/lib/types';
 import { Covers, GroupCovers } from 'types';
 import { useState } from 'react';
-import { useMainStore, useUtilsStore } from 'store';
+import { useMainStore } from 'store';
 import { shallow } from 'zustand/shallow';
 
 interface CommonDraggableProps {
@@ -34,7 +34,6 @@ export const CommonDraggable: React.FC<CommonDraggableProps> = ({
   const covers = useMainStore((state) => state.covers);
   const groups = useMainStore((state) => state.groups);
   const color = useMainStore((state) => state.getColor());
-  const erase = useUtilsStore((state) => state.erase);
 
   const dragLimits = useMainStore((state) => state.dragLimits(), shallow);
   const [hintLines, setHintLines] = useState<
@@ -61,10 +60,8 @@ export const CommonDraggable: React.FC<CommonDraggableProps> = ({
     e.currentTarget.opacity(0.5);
     const container = e.target.getStage()?.container();
 
-    if (container && !erase) {
+    if (container) {
       container.style.cursor = 'grab';
-    } else if (container && erase) {
-      container.style.cursor = 'not-allowed';
     }
   };
 
@@ -99,10 +96,8 @@ export const CommonDraggable: React.FC<CommonDraggableProps> = ({
     e.currentTarget.opacity(1);
     const container = e.target.getStage()?.container();
 
-    if (container && !erase) {
+    if (container) {
       container.style.cursor = 'pointer';
-    } else if (container && erase) {
-      container.style.cursor = 'not-allowed';
     }
 
     updatePosition(id, {
@@ -137,10 +132,8 @@ export const CommonDraggable: React.FC<CommonDraggableProps> = ({
         dragBoundFunc={handleDragBound}
         onMouseMove={(evt: KonvaEventObject<MouseEvent>) => {
           const container = evt.target.getStage()?.container();
-          if (container && !erase) {
+          if (container) {
             container.style.cursor = 'grab';
-          } else if (container && erase) {
-            container.style.cursor = 'not-allowed';
           }
         }}
         onMouseLeave={(evt: KonvaEventObject<MouseEvent>) => {

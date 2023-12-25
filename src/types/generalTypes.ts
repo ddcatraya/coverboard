@@ -17,7 +17,6 @@ export const NAME_SPACE = 'coverboard';
 export const DEFAULT_KEY = 'default';
 
 export enum Modes {
-  ERASE = '<Erase mode>',
   ARROW = '<Create arrow mode>',
 }
 

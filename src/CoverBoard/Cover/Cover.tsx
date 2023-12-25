@@ -51,7 +51,6 @@ const CoverMemo: React.FC<CoverImageProps> = ({
   const resetCoverLabel = useMainStore((state) => state.resetCoverLabel);
   const updateCoversText = useMainStore((state) => state.updateCoversText);
   const editLines = useUtilsStore((state) => state.editLines);
-  const erase = useUtilsStore((state) => state.erase);
   const showStars = useMainStore((state) => state.getShowStars());
   const updateStarCount = useMainStore((state) => state.updateStarCount);
   const updateCoverPosition = useMainStore(
@@ -77,7 +76,7 @@ const CoverMemo: React.FC<CoverImageProps> = ({
     updateStarCount(id, rating);
   };
 
-  const canOpenPopover = !editLines && !erase;
+  const canOpenPopover = !editLines;
 
   let titleOffset = 0;
   let subtitleOffset = 0;

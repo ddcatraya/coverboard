@@ -23,13 +23,12 @@ export const CoverLoadImage: React.FC<CoverImageProps> = ({
   const color = useMainStore((state) => state.getColor());
   const backColor = useMainStore((state) => state.getBackColor());
   const editLines = useUtilsStore((state) => state.editLines);
-  const erase = useUtilsStore((state) => state.erase);
 
   const coverSizeWidth = useMainStore((state) => state.coverSizeWidth());
   const coverSizeHeight = useMainStore((state) => state.coverSizeHeight());
   const fontSize = useMainStore((state) => state.fontSize());
 
-  const canDelete = !editLines && erase;
+  const canDelete = !editLines;
 
   const [shouldRender, setShouldRender] = useState(false);
   const [hasRetries, setHasRetries] = useState(false);

@@ -18,7 +18,6 @@ export const CommonDrawLine: React.FC<CommonDrawLineProps> = ({
   scaleY = 1,
   selected = false,
 }) => {
-  const erase = useUtilsStore((state) => state.erase);
   const points = useUtilsStore((state) => state.points);
   const setPoints = useUtilsStore((state) => state.setPoints);
   const editLines = useUtilsStore((state) => state.editLines);
@@ -77,7 +76,7 @@ export const CommonDrawLine: React.FC<CommonDrawLineProps> = ({
   if (!editLines && !selected) return null;
 
   return (
-    <Group listening={!erase}>
+    <Group>
       {posArray.map((pos) => (
         <Rect
           key={pos.dir}
