@@ -149,7 +149,7 @@ export const ToolbarMemo: React.FC<ToolbarProps> = ({
       emoji: '🗑️',
       value: erase,
       valueModifier: setErase,
-      badge: linesLength + coversLength,
+      badge: linesLength + coversLength + groupsLength,
       enabled: true,
     },
     {
