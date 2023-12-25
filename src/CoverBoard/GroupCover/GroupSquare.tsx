@@ -83,7 +83,7 @@ export const GroupSquare: React.FC<CoverImageProps> = ({ id, isSelected }) => {
         ref={rectRef}
         onTransformEnd={handleTransform}
       />
-      {isSelected && (
+      {isSelected && !erase && (
         <Transformer
           ref={trRef}
           centeredScaling
