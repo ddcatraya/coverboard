@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useState } from 'react';
+import React, { useState } from 'react';
 
 import { LineParams, Lines, PosTypes } from 'types';
 import { DrawLineCircle, DrawLineLabelDraggable } from '.';
@@ -10,9 +10,15 @@ interface LineProps {
   id: Lines['id'];
   dir: Lines['dir'];
   lineParams: LineParams;
+  isSelected: boolean;
 }
 
-export const DrawLineLabel: React.FC<LineProps> = ({ id, dir, lineParams }) => {
+export const DrawLineLabel: React.FC<LineProps> = ({
+  id,
+  dir,
+  lineParams,
+  isSelected,
+}) => {
   const text = useMainStore((state) => state.getLineTextById(id));
   const coverSizeWidth = useMainStore((state) => state.coverSizeWidth());
   const fontSize = useMainStore((state) => state.fontSize());
@@ -24,7 +30,7 @@ export const DrawLineLabel: React.FC<LineProps> = ({ id, dir, lineParams }) => {
   const erase = useUtilsStore((state) => state.erase);
   const editLines = useUtilsStore((state) => state.editLines);
 
-  const [textEdit, setTextEdit] = useState(false);
+  const [textEdit, setTextEdit] = useState(isSelected);
 
   const handleUpdateLabel = (text: string) => {
     updateLineText(id, text);
@@ -39,8 +45,6 @@ export const DrawLineLabel: React.FC<LineProps> = ({ id, dir, lineParams }) => {
   };
 
   const handleOpen = () => {
-    console.log('herere');
-    document.addEventListener('keydown', deleteFn);
     if (erase) {
       removeLine(id);
       return;
@@ -57,19 +61,6 @@ export const DrawLineLabel: React.FC<LineProps> = ({ id, dir, lineParams }) => {
     }
     return '';
   };
-
-  const deleteFn = useCallback(
-    (e) => {
-      if (e.key === 'Delete') {
-        removeLine(id);
-      }
-    },
-    [id, removeLine],
-  );
-
-  useEffect(() => {
-    return () => document.removeEventListener('keydown', deleteFn);
-  }, [deleteFn]);
 
   return (
     <>
@@ -95,7 +86,13 @@ export const DrawLineLabel: React.FC<LineProps> = ({ id, dir, lineParams }) => {
           />
         </DrawLineLabelDraggable>
       )}
-      <DrawLineCircle id={id} dir={dir} text={text} handleOpen={handleOpen} />
+      <DrawLineCircle
+        id={id}
+        dir={dir}
+        text={text}
+        handleOpen={handleOpen}
+        isSelected={isSelected}
+      />
     </>
   );
 };

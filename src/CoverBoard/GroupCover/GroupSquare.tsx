@@ -43,15 +43,6 @@ export const GroupSquare: React.FC<CoverImageProps> = ({ id, isSelected }) => {
       trRef.current.nodes([rectRef.current]);
 
       trRef.current?.getLayer()?.batchDraw();
-
-      const deleteFn = (e) => {
-        if (e.key === 'Delete') {
-          removeCoverAndRelatedLines(id);
-        }
-      };
-      document.addEventListener('keydown', deleteFn);
-
-      return () => document.removeEventListener('keydown', deleteFn);
     }
   }, [id, isSelected, removeCoverAndRelatedLines]);
 

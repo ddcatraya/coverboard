@@ -9,12 +9,14 @@ interface CommonDrawLineProps {
   id: Covers['id'];
   scaleX?: number;
   scaleY?: number;
+  selected?: boolean;
 }
 
 export const CommonDrawLine: React.FC<CommonDrawLineProps> = ({
   id,
   scaleX = 1,
   scaleY = 1,
+  selected = false,
 }) => {
   const erase = useUtilsStore((state) => state.erase);
   const points = useUtilsStore((state) => state.points);
@@ -72,7 +74,7 @@ export const CommonDrawLine: React.FC<CommonDrawLineProps> = ({
     },
   ];
 
-  if (!editLines) return null;
+  if (!editLines && !selected) return null;
 
   return (
     <Group listening={!erase}>

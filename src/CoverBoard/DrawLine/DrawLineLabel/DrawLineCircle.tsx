@@ -12,6 +12,7 @@ interface LineProps {
   text: Lines['text'];
   dir: Lines['dir'];
   handleOpen: () => void;
+  isSelected: boolean;
 }
 
 export const DrawLineCircle: React.FC<LineProps> = ({
@@ -19,6 +20,7 @@ export const DrawLineCircle: React.FC<LineProps> = ({
   text,
   dir,
   handleOpen,
+  isSelected,
 }) => {
   const circleRadius = useMainStore((state) => state.circleRadius());
   const color = useMainStore((state) => state.getArrowColor());
@@ -42,11 +44,13 @@ export const DrawLineCircle: React.FC<LineProps> = ({
       onDblclick={() => setOpen(true)}
       onDblTap={() => setOpen(true)}>
       <Circle
-        radius={circleRadius}
+        radius={isSelected ? circleRadius * 1.3 : circleRadius}
         fill={color}
         onMouseMove={(evt: KonvaEventObject<MouseEvent>) => {
-          evt.currentTarget.scaleX(1.3);
-          evt.currentTarget.scaleY(1.3);
+          if (!isSelected) {
+            evt.currentTarget.scaleX(1.3);
+            evt.currentTarget.scaleY(1.3);
+          }
 
           const container = evt.target.getStage()?.container();
           if (container && !erase) {
@@ -56,8 +60,10 @@ export const DrawLineCircle: React.FC<LineProps> = ({
           }
         }}
         onMouseLeave={(evt: KonvaEventObject<MouseEvent>) => {
-          evt.currentTarget.scaleX(1);
-          evt.currentTarget.scaleY(1);
+          if (!isSelected) {
+            evt.currentTarget.scaleX(1);
+            evt.currentTarget.scaleY(1);
+          }
 
           const container = evt.target.getStage()?.container();
 

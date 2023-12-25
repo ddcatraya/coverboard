@@ -24,6 +24,7 @@ interface CoverImageProps {
   starDir: PosTypes;
   link: Covers['link'];
   renderTime: number;
+  isSelected: boolean;
 }
 
 const CoverMemo: React.FC<CoverImageProps> = ({
@@ -37,6 +38,7 @@ const CoverMemo: React.FC<CoverImageProps> = ({
   starDir,
   link,
   renderTime,
+  isSelected,
 }) => {
   const color = useMainStore((state) => state.getCoverColor());
   const showTitle = useMainStore((state) => state.configs.showTitle);
@@ -139,7 +141,7 @@ const CoverMemo: React.FC<CoverImageProps> = ({
           x: windowSize.width - 3.5 * toobarIconSize,
           y: windowSize.height - 3.5 * toobarIconSize,
         }}>
-        <CommonDrawLine id={id} />
+        <CommonDrawLine id={id} selected={isSelected} />
 
         <Group
           onDblclick={canOpenPopover ? () => setOpen(true) : undefined}

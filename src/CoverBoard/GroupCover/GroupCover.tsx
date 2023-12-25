@@ -91,7 +91,12 @@ const GroupCoverMemo: React.FC<CoverImageProps> = ({
           x: windowSize.width - 3.5 * toobarIconSize,
           y: windowSize.height - 3.5 * toobarIconSize,
         }}>
-        <CommonDrawLine id={id} scaleX={scaleX} scaleY={scaleY} />
+        <CommonDrawLine
+          id={id}
+          scaleX={scaleX}
+          scaleY={scaleY}
+          selected={isSelected}
+        />
 
         <Group
           onDblclick={canOpenPopover ? () => setOpen(true) : undefined}

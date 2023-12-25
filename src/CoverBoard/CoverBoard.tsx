@@ -1,4 +1,10 @@
-import React, { RefObject, useCallback, useRef, useState } from 'react';
+import React, {
+  RefObject,
+  useCallback,
+  useEffect,
+  useRef,
+  useState,
+} from 'react';
 import { Stage, Layer, Group, Rect, Text } from 'react-konva';
 
 import { Cover, DrawLine, Toolbar, TitleLabel, BoundaryArrow, Logo } from './';
@@ -9,45 +15,91 @@ import { shallow } from 'zustand/shallow';
 import Konva from 'konva';
 import { GroupCover } from './GroupCover';
 
-const Covers: React.FC = () => {
+type SelectedElement = { id: string; elem: 'cover' | 'group' | 'arrow' } | null;
+
+const Covers: React.FC<SelectedProps> = ({ selected, setSelected }) => {
   const covers = useMainStore((state) => state.covers);
+  const removeCoverAndRelatedLines = useMainStore(
+    (state) => state.removeCoverAndRelatedLines,
+  );
+
+  const handlesSelect = (evt, coverId: string) => {
+    evt.cancelBubble = true;
+    setSelected({ id: coverId, elem: 'cover' });
+  };
+
+  useEffect(() => {
+    if (!selected?.id || selected?.elem !== 'cover') return;
+
+    const deleteFn = (e) => {
+      if (e.key === 'Delete') {
+        removeCoverAndRelatedLines(selected.id);
+      }
+    };
+    document.addEventListener('keydown', deleteFn);
+
+    return () => document.removeEventListener('keydown', deleteFn);
+  }, [removeCoverAndRelatedLines, selected]);
 
   return (
     <>
       {covers.map((cover, index) => (
-        <Cover
-          id={cover.id}
-          title={cover.title.text}
-          subtitle={cover.subtitle.text}
-          x={cover.x}
-          y={cover.y}
-          titleDir={cover.title.dir}
-          subTitleDir={cover.subtitle.dir}
-          starDir={cover.star.dir}
-          link={cover.link}
+        <Group
           key={cover.id}
-          renderTime={400 * index}
-        />
+          onClick={(evt) => handlesSelect(evt, cover.id)}
+          onTouchStart={(evt) => handlesSelect(evt, cover.id)}>
+          <Cover
+            id={cover.id}
+            title={cover.title.text}
+            subtitle={cover.subtitle.text}
+            x={cover.x}
+            y={cover.y}
+            titleDir={cover.title.dir}
+            subTitleDir={cover.subtitle.dir}
+            starDir={cover.star.dir}
+            link={cover.link}
+            key={cover.id}
+            renderTime={400 * index}
+            isSelected={
+              !!selected &&
+              selected.id === cover.id &&
+              selected.elem === 'cover'
+            }
+          />
+        </Group>
       ))}
     </>
   );
 };
 
-interface GroupCoverProps {
-  selectedId: string | null;
-  setSelectedId: React.Dispatch<React.SetStateAction<string | null>>;
+interface SelectedProps {
+  selected: SelectedElement;
+  setSelected: React.Dispatch<React.SetStateAction<SelectedElement>>;
 }
 
-const GroupCovers: React.FC<GroupCoverProps> = ({
-  selectedId,
-  setSelectedId,
-}) => {
+const GroupCovers: React.FC<SelectedProps> = ({ selected, setSelected }) => {
   const groups = useMainStore((state) => state.groups);
+  const removeGroupAndRelatedLines = useMainStore(
+    (state) => state.removeGroupAndRelatedLines,
+  );
 
   const handlesSelect = (evt, coverId: string) => {
     evt.cancelBubble = true;
-    setSelectedId(coverId);
+    setSelected({ id: coverId, elem: 'group' });
   };
+
+  useEffect(() => {
+    if (!selected?.id || selected?.elem !== 'group') return;
+
+    const deleteFn = (e) => {
+      if (e.key === 'Delete') {
+        removeGroupAndRelatedLines(selected.id);
+      }
+    };
+    document.addEventListener('keydown', deleteFn);
+
+    return () => document.removeEventListener('keydown', deleteFn);
+  }, [removeGroupAndRelatedLines, selected]);
 
   return (
     <>
@@ -66,7 +118,11 @@ const GroupCovers: React.FC<GroupCoverProps> = ({
             subDir={group.subtitle.dir}
             scaleX={group.scaleX}
             scaleY={group.scaleY}
-            isSelected={group.id === selectedId}
+            isSelected={
+              !!selected &&
+              group.id === selected.id &&
+              selected.elem === 'group'
+            }
           />
         </Group>
       ))}
@@ -74,21 +130,48 @@ const GroupCovers: React.FC<GroupCoverProps> = ({
   );
 };
 
-const DrawLines: React.FC = () => {
+const DrawLines: React.FC<SelectedProps> = ({ selected, setSelected }) => {
   const lines = useMainStore((state) => state.lines);
+  const removeLine = useMainStore((state) => state.removeLine);
+
+  const handlesSelect = (evt, coverId: string) => {
+    evt.cancelBubble = true;
+    setSelected({ id: coverId, elem: 'arrow' });
+  };
+
+  useEffect(() => {
+    if (!selected?.id || selected?.elem !== 'arrow') return;
+
+    const deleteFn = (e) => {
+      if (e.key === 'Delete') {
+        removeLine(selected.id);
+      }
+    };
+    document.addEventListener('keydown', deleteFn);
+
+    return () => document.removeEventListener('keydown', deleteFn);
+  }, [removeLine, selected]);
 
   return (
     <>
       {lines.map((line) => (
-        <DrawLine
-          id={line.id}
-          dir={line.dir}
-          originId={line.origin.id}
-          originDir={line.origin.dir}
-          targetId={line.target.id}
-          targetDir={line.target.dir}
+        <Group
           key={line.id}
-        />
+          onClick={(evt) => handlesSelect(evt, line.id)}
+          onTouchStart={(evt) => handlesSelect(evt, line.id)}>
+          <DrawLine
+            id={line.id}
+            dir={line.dir}
+            originId={line.origin.id}
+            originDir={line.origin.dir}
+            targetId={line.target.id}
+            targetDir={line.target.dir}
+            key={line.id}
+            isSelected={
+              !!selected && line.id === selected.id && selected.elem === 'arrow'
+            }
+          />
+        </Group>
       ))}
     </>
   );
@@ -208,7 +291,7 @@ export const CoverBoard: React.FC = () => {
   const [screenshotUrl, setScreenshotUrl] = useState('');
   const [showLogo, setShowLogo] = useState(true);
 
-  const [selectedId, setSelectedId] = useState<string | null>(null);
+  const [selected, setSelected] = useState<SelectedElement>(null);
 
   const takeScreenshot = useCallback(() => {
     const stage = stageRef.current;
@@ -240,7 +323,7 @@ export const CoverBoard: React.FC = () => {
     // deselect when clicked on empty area
     const clickedOnEmpty = e.target === e.target.getStage();
     if (clickedOnEmpty) {
-      setSelectedId(null);
+      setSelected(null);
     }
   };
 
@@ -264,12 +347,9 @@ export const CoverBoard: React.FC = () => {
           )}
           <Group name="board" x={dragLimits.x} y={dragLimits.y}>
             <TitleLabel />
-            <GroupCovers
-              selectedId={selectedId}
-              setSelectedId={setSelectedId}
-            />
-            <Covers />
-            <DrawLines />
+            <GroupCovers selected={selected} setSelected={setSelected} />
+            <Covers selected={selected} setSelected={setSelected} />
+            <DrawLines selected={selected} setSelected={setSelected} />
             <BoundaryArrows />
             <BoundaryGroupArrows />
             <CountLabel />
