@@ -31,6 +31,9 @@ export const GroupSquare: React.FC<CoverImageProps> = ({ id, isSelected }) => {
   const coverSizeHeightScaled = coverSizeHeight * scale.scaleY;
 
   const canDelete = !editLines && erase;
+  const removeCoverAndRelatedLines = useMainStore(
+    (state) => state.removeGroupAndRelatedLines,
+  );
 
   const rectRef = useRef<Konva.Rect>(null);
   const trRef = useRef<Konva.Transformer>(null);
@@ -40,8 +43,17 @@ export const GroupSquare: React.FC<CoverImageProps> = ({ id, isSelected }) => {
       trRef.current.nodes([rectRef.current]);
 
       trRef.current?.getLayer()?.batchDraw();
+
+      const deleteFn = (e) => {
+        if (e.key === 'Delete') {
+          removeCoverAndRelatedLines(id);
+        }
+      };
+      document.addEventListener('keydown', deleteFn);
+
+      return () => document.removeEventListener('keydown', deleteFn);
     }
-  }, [isSelected]);
+  }, [id, isSelected, removeCoverAndRelatedLines]);
 
   const handleTransform = () => {
     if (rectRef.current && boxRef.current) {
