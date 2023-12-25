@@ -8,7 +8,7 @@ import {
   RadioGroup,
 } from '@mui/material';
 
-import { ToolConfigIDs, CoverValues, Media, MediaValues } from 'types';
+import { ToolConfigIDs, CoverLabelValues, Media, MediaValues } from 'types';
 import { CommonDialog } from 'components';
 import { flushSync } from 'react-dom';
 import { useMainStore } from 'store';
@@ -17,7 +17,7 @@ import { shallow } from 'zustand/shallow';
 interface PopupProps {
   open: boolean;
   onClose: () => void;
-  onSubmit: (inputArray: Array<CoverValues>) => void;
+  onSubmit: (inputArray: Array<CoverLabelValues>) => void;
 }
 
 const initialState = () => [
@@ -33,7 +33,7 @@ export const ToolbarSearchPopover: React.FC<PopupProps> = ({
   onClose,
   onSubmit,
 }) => {
-  const [inputs, setInputs] = useState<Array<CoverValues>>(initialState());
+  const [inputs, setInputs] = useState<Array<CoverLabelValues>>(initialState());
   const [loading, setLoading] = useState(false);
   const [media, setMedia] = useMainStore(
     (state) => [state.configs.media, state.setMedia],

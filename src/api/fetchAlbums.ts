@@ -1,13 +1,13 @@
 import axios from 'axios';
 
-import { CoverValues, SearchResults } from 'types';
+import { CoverLabelValues, SearchResults } from 'types';
 
 const isFulfilled = <T>(
   p: PromiseSettledResult<T>,
 ): p is PromiseFulfilledResult<T> => p.status === 'fulfilled';
 
 export const getLastFMAlbums = async (
-  bandArray: Array<CoverValues>,
+  bandArray: Array<CoverLabelValues>,
 ): Promise<Array<SearchResults>> => {
   const albums = await Promise.allSettled(
     bandArray.map((band) => {

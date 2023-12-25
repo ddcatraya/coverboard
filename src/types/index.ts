@@ -6,7 +6,12 @@ export type { Point, Lines, LineParams } from './lineTypes';
 export type { TooltipValues, ToolConfig } from './toolbarTypes';
 export * from './toolbarTypes';
 
-export type { CoverValues, Covers, GroupCovers } from './coverTypes';
+export type {
+  CoverValues,
+  Covers,
+  CoverLabelValues,
+  GroupCovers,
+} from './coverTypes';
 export * from './coverTypes';
 
 export type {

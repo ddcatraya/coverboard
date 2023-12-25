@@ -1,5 +1,5 @@
 import axios from 'axios';
-import { CoverValues, SearchResults } from 'types';
+import { CoverLabelValues, SearchResults } from 'types';
 
 const GOOGLE_URL = 'https://www.googleapis.com';
 
@@ -9,7 +9,7 @@ const isFulfilled = <T>(
 
 // Function to get the poster image of a movie
 export const getBookCovers = async (
-  bookTitles: Array<CoverValues>,
+  bookTitles: Array<CoverLabelValues>,
 ): Promise<Array<SearchResults>> => {
   const posters = await Promise.allSettled(
     bookTitles.map((bookTitle) => {

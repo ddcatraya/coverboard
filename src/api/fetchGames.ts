@@ -1,5 +1,5 @@
 import axios from 'axios';
-import { CoverValues, SearchResults } from 'types';
+import { CoverLabelValues, SearchResults } from 'types';
 
 const isFulfilled = <T>(
   p: PromiseSettledResult<T>,
@@ -7,7 +7,7 @@ const isFulfilled = <T>(
 
 // Function to get the poster image of a movie
 export const getGames = async (
-  movieTitles: Array<CoverValues>,
+  movieTitles: Array<CoverLabelValues>,
 ): Promise<Array<SearchResults>> => {
   const posters = await Promise.allSettled(
     movieTitles.map((game) => {

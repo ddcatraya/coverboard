@@ -8,7 +8,7 @@ import {
   getTvShowPosters,
 } from 'api';
 import { ToolbarSearchPopover } from '.';
-import { CoverValues, Media, PosTypes } from 'types';
+import { CoverLabelValues, Media, PosTypes } from 'types';
 import { v4 as uuidv4 } from 'uuid';
 import { useMainStore, useToastStore, useToolbarStore } from 'store';
 import { shallow } from 'zustand/shallow';
@@ -34,7 +34,7 @@ export const ToolbarSearch: React.FC = () => {
     shallow,
   );
 
-  const handleSearch = async (inputArray: Array<CoverValues>) => {
+  const handleSearch = async (inputArray: Array<CoverLabelValues>) => {
     try {
       const ApiToCall = ApiToCallMap[media];
       const results = (await ApiToCall(inputArray)) ?? [];

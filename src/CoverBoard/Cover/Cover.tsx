@@ -61,9 +61,17 @@ const CoverMemo: React.FC<CoverImageProps> = ({
   const updateCoverSubtitleDir = useMainStore(
     (state) => state.updateCoverSubtitleDir,
   );
+  const updateCoverStarDir = useMainStore((state) => state.updateCoverStarDir);
 
-  const handleSubmit = (values: CoverValues, rating: number) => {
+  const handleSubmit = (
+    values: CoverValues,
+    rating: number,
+    currentStarDir: PosTypes,
+  ) => {
     updateCoversText(id, values.title.trim(), values.subtitle.trim());
+    updateCoverTitleDir(id, values.subTitleDir);
+    updateCoverSubtitleDir(id, values.subTitleDir);
+    updateCoverStarDir(id, currentStarDir);
     updateStarCount(id, rating);
   };
 
@@ -194,8 +202,10 @@ const CoverMemo: React.FC<CoverImageProps> = ({
               resetCoverLabel(id, 'subtitle');
             }}
             values={{
-              title: title,
-              subtitle: subtitle,
+              title,
+              subtitle,
+              titleDir,
+              subTitleDir,
             }}
           />
         </Html>

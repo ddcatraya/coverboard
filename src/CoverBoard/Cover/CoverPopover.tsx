@@ -6,15 +6,22 @@ import {
   Grid,
   Slider,
   Typography,
+  FormControlLabel,
+  Radio,
+  RadioGroup,
 } from '@mui/material';
-import { CoverValues, Covers, Media } from 'types';
+import { CoverValues, Covers, Media, PosTypes } from 'types';
 import { CommonDialog } from 'components';
 import { useMainStore } from 'store';
 
 interface PopupProps {
   open: boolean;
   onClose: () => void;
-  onSubmit: (values: CoverValues, rating: number) => void;
+  onSubmit: (
+    values: CoverValues,
+    rating: number,
+    currentStarDir: PosTypes,
+  ) => void;
   onReset: () => void;
   values: CoverValues;
   title?: string;
@@ -103,8 +110,10 @@ export const CoverPopover: React.FC<PopupProps> = ({
   id,
 }) => {
   const starCount = useMainStore((state) => state.getStarCount(id));
-  const [text, setText] = useState<CoverValues>(values);
+  const starDir = useMainStore((state) => state.getStarDirById(id));
+  const [text, setText] = useState<PopupProps['values']>(values);
   const [rating, setRating] = useState(starCount);
+  const [currentStarDir, setStarDir] = useState(starDir);
   const titleLabel = useMainStore((state) => state.titleLabel().label);
   const subTitleLabel = useMainStore((state) => state.subTitleLabel().label);
   const media = useMainStore((state) => state.configs.media);
@@ -124,6 +133,20 @@ export const CoverPopover: React.FC<PopupProps> = ({
     }));
   };
 
+  const handleChange = (
+    event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>,
+    label: 'titleDir' | 'subTitleDir' | 'starDir',
+  ) => {
+    if (label === 'starDir') {
+      setStarDir(event.target.value as PosTypes);
+      return;
+    }
+    setText((currentText) => ({
+      ...currentText,
+      [label]: event.target.value,
+    }));
+  };
+
   const handleNumberChange = (_: Event, value: number | number[]) => {
     if (Array.isArray(value)) return;
     setRating(value);
@@ -131,7 +154,7 @@ export const CoverPopover: React.FC<PopupProps> = ({
 
   const handleSubmit = (evt: React.SyntheticEvent<HTMLFormElement>) => {
     evt.preventDefault();
-    onSubmit(text, rating);
+    onSubmit(text, rating, currentStarDir);
     onClose();
   };
 
@@ -153,8 +176,34 @@ export const CoverPopover: React.FC<PopupProps> = ({
               fullWidth
               value={text.title}
               onChange={(evt) => handTextChange(evt, 'title')}
-              style={{ marginBottom: '20px' }}
             />
+            <RadioGroup
+              row
+              aria-label="position"
+              name="position"
+              value={text.titleDir}
+              onChange={(evt) => handleChange(evt, 'titleDir')}>
+              <FormControlLabel
+                value={PosTypes.BOTTOM}
+                control={<Radio />}
+                label={PosTypes.BOTTOM}
+              />
+              <FormControlLabel
+                value={PosTypes.TOP}
+                control={<Radio />}
+                label={PosTypes.TOP}
+              />
+              <FormControlLabel
+                value={PosTypes.LEFT}
+                control={<Radio />}
+                label={PosTypes.LEFT}
+              />
+              <FormControlLabel
+                value={PosTypes.RIGHT}
+                control={<Radio />}
+                label={PosTypes.RIGHT}
+              />
+            </RadioGroup>
           </Grid>
           <Grid item xs={12}>
             <TextField
@@ -162,8 +211,34 @@ export const CoverPopover: React.FC<PopupProps> = ({
               fullWidth
               value={text.subtitle}
               onChange={(evt) => handTextChange(evt, 'subtitle')}
-              style={{ marginBottom: '20px' }}
             />
+            <RadioGroup
+              row
+              aria-label="position"
+              name="position"
+              value={text.subTitleDir}
+              onChange={(evt) => handleChange(evt, 'subTitleDir')}>
+              <FormControlLabel
+                value={PosTypes.BOTTOM}
+                control={<Radio />}
+                label={PosTypes.BOTTOM}
+              />
+              <FormControlLabel
+                value={PosTypes.TOP}
+                control={<Radio />}
+                label={PosTypes.TOP}
+              />
+              <FormControlLabel
+                value={PosTypes.LEFT}
+                control={<Radio />}
+                label={PosTypes.LEFT}
+              />
+              <FormControlLabel
+                value={PosTypes.RIGHT}
+                control={<Radio />}
+                label={PosTypes.RIGHT}
+              />
+            </RadioGroup>
           </Grid>
           <Grid item xs={12}>
             <Typography gutterBottom>Rating:</Typography>
@@ -176,6 +251,33 @@ export const CoverPopover: React.FC<PopupProps> = ({
               value={rating}
               onChange={(evt, value) => handleNumberChange(evt, value)}
             />
+            <RadioGroup
+              row
+              aria-label="position"
+              name="position"
+              value={currentStarDir}
+              onChange={(evt) => handleChange(evt, 'starDir')}>
+              <FormControlLabel
+                value={PosTypes.BOTTOM}
+                control={<Radio />}
+                label={PosTypes.BOTTOM}
+              />
+              <FormControlLabel
+                value={PosTypes.TOP}
+                control={<Radio />}
+                label={PosTypes.TOP}
+              />
+              <FormControlLabel
+                value={PosTypes.LEFT}
+                control={<Radio />}
+                label={PosTypes.LEFT}
+              />
+              <FormControlLabel
+                value={PosTypes.RIGHT}
+                control={<Radio />}
+                label={PosTypes.RIGHT}
+              />
+            </RadioGroup>
           </Grid>
           <Grid item xs={12}>
             {buttons.map((button) => (

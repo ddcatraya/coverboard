@@ -11,9 +11,16 @@ interface GroupCoverParamsText {
   dir: PosTypes;
 }
 
+export interface CoverLabelValues {
+  title: string;
+  subtitle: string;
+}
+
 export interface CoverValues {
   title: string;
   subtitle: string;
+  titleDir: PosTypes;
+  subTitleDir: PosTypes;
 }
 
 export interface Covers {
