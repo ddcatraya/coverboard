@@ -61,12 +61,13 @@ export const ToolbarSearch: React.FC = () => {
             [LabelType.TITLE]: {
               search: filteredResult[LabelType.TITLE],
               text: filteredResult[LabelType.TITLE],
+              dir: labelDir ?? PosTypes.BOTTOM,
             },
             [LabelType.SUBTITLE]: {
               search: filteredResult[LabelType.SUBTITLE],
               text: filteredResult[LabelType.SUBTITLE],
+              dir: labelDir ?? PosTypes.BOTTOM,
             },
-            dir: labelDir ?? PosTypes.BOTTOM,
             starDir: starsDir ?? PosTypes.BOTTOM,
             starCount: 0,
           })),

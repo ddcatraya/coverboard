@@ -12,7 +12,6 @@ export const CoverStar: React.FC<CoverStarProps> = ({ id, offset = 0 }) => {
   const starCount = useMainStore((state) => state.getStarCount(id));
   const coverSizeWidth = useMainStore((state) => state.coverSizeWidth());
   const coverSizeHeight = useMainStore((state) => state.coverSizeHeight());
-  const fontSize = useMainStore((state) => state.fontSize());
   const color = useMainStore((state) => state.getCoverColor());
   const backColor = useMainStore((state) => state.getBackColor());
   const updateStarCount = useMainStore((state) => state.updateStarCount);
@@ -38,12 +37,11 @@ export const CoverStar: React.FC<CoverStarProps> = ({ id, offset = 0 }) => {
   if (erase || editLines) return null;
 
   return (
-    <Group opacity={starCount ? 1 : 0.3}>
+    <Group opacity={starCount ? 1 : 0.3} y={coverSizeHeight + offset}>
       {[...Array(5)].map((_, index) => (
         <Group
           key={index}
           x={coverSizeWidth / 2 + index * starRadius * 3 - totalWidth / 2}
-          y={coverSizeHeight + fontSize / 2 + offset}
           onClick={(evt) => handleClick(evt, index + 1)}
           onTap={(evt) => handleClick(evt, index + 1)}>
           <Rect

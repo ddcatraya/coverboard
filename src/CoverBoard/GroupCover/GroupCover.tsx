@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 
-import { GroupCovers, LabelType } from 'types';
+import { GroupCovers, LabelType, PosTypes } from 'types';
 
 import { useMainStore, useUtilsStore } from 'store';
 import { shallow } from 'zustand/shallow';
@@ -67,6 +67,9 @@ const GroupCoverMemo: React.FC<CoverImageProps> = ({
 
   const canOpenPopover = !editLines && !erase;
 
+  const offset1 = dir === subDir && dir === PosTypes.TOP ? -fontSize * 1.5 : 0;
+  const offset2 = dir === subDir && title ? offset1 + fontSize * 1.5 : 0;
+
   return (
     <>
       <CommonDraggable
@@ -95,9 +98,7 @@ const GroupCoverMemo: React.FC<CoverImageProps> = ({
             y={y}
             dir={dir}
             scaleX={scaleX}
-            scaleY={scaleY}
-            offset={0}
-            offSetTop={dir === subDir ? 0 : fontSize * 1.5}>
+            scaleY={scaleY}>
             <CommonLabel
               color={color}
               dir={dir}
@@ -107,6 +108,7 @@ const GroupCoverMemo: React.FC<CoverImageProps> = ({
               fontStyle="bold"
               scaleX={scaleX}
               scaleY={scaleY}
+              offset={offset1}
             />
           </CommonLabelDraggable>
 
@@ -117,9 +119,7 @@ const GroupCoverMemo: React.FC<CoverImageProps> = ({
             y={y}
             dir={subDir}
             scaleX={scaleX}
-            scaleY={scaleY}
-            offset={0}
-            offSetTop={0}>
+            scaleY={scaleY}>
             <CommonLabel
               color={color}
               dir={subDir}
@@ -129,7 +129,7 @@ const GroupCoverMemo: React.FC<CoverImageProps> = ({
               fontStyle="bold"
               scaleX={scaleX}
               scaleY={scaleY}
-              offset={dir === subDir ? fontSize * 1.5 : 0}
+              offset={offset2}
             />
           </CommonLabelDraggable>
         </Group>

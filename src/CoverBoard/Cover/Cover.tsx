@@ -19,28 +19,12 @@ interface CoverImageProps {
   subtitle: string;
   x: Covers['x'];
   y: Covers['y'];
-  dir: Covers['dir'];
+  titleDir: PosTypes;
+  subTitleDir: PosTypes;
   starDir: Covers['starDir'];
   link: Covers['link'];
   renderTime: number;
 }
-
-const getStarOffset = (
-  dir: Covers['dir'],
-  starDir: Covers['starDir'],
-  offSet: number,
-  offSetTop: number,
-  circleRadius: number,
-) => {
-  if (dir !== starDir) {
-    return 0;
-  } else if (dir === PosTypes.TOP && starDir === PosTypes.TOP) {
-    return -offSet - circleRadius * 3.5;
-  } else if (starDir === PosTypes.LEFT || starDir === PosTypes.RIGHT) {
-    return offSet + offSetTop + circleRadius * 2.5;
-  }
-  return offSet + circleRadius * 3;
-};
 
 const CoverMemo: React.FC<CoverImageProps> = ({
   id,
@@ -48,7 +32,8 @@ const CoverMemo: React.FC<CoverImageProps> = ({
   subtitle,
   x,
   y,
-  dir,
+  titleDir,
+  subTitleDir,
   starDir,
   link,
   renderTime,
@@ -65,13 +50,17 @@ const CoverMemo: React.FC<CoverImageProps> = ({
   const updateCoversText = useMainStore((state) => state.updateCoversText);
   const editLines = useUtilsStore((state) => state.editLines);
   const erase = useUtilsStore((state) => state.erase);
-  const starRadius = useMainStore((state) => state.starRadius());
   const showStars = useMainStore((state) => state.getShowStars());
   const updateStarCount = useMainStore((state) => state.updateStarCount);
   const updateCoverPosition = useMainStore(
     (state) => state.updateCoverPosition,
   );
-  const updateCoverDir = useMainStore((state) => state.updateCoverDir);
+  const updateCoverTitleDir = useMainStore(
+    (state) => state.updateCoverTitleDir,
+  );
+  const updateCoverSubtitleDir = useMainStore(
+    (state) => state.updateCoverSubtitleDir,
+  );
 
   const handleSubmit = (values: CoverValues, rating: number) => {
     updateCoversText(
@@ -82,16 +71,55 @@ const CoverMemo: React.FC<CoverImageProps> = ({
     updateStarCount(id, rating);
   };
 
-  const offSet =
-    showTitle && title && showSubtitle && subtitle ? 1.5 * fontSize : 0;
-
-  const offSetTop = !(showTitle && title && showSubtitle && subtitle)
-    ? 1.5 * fontSize
-    : 0;
-
   const canOpenPopover = !editLines && !erase;
 
-  const starOffset = getStarOffset(dir, starDir, offSet, offSetTop, starRadius);
+  let titleOffset = 0;
+  let subtitleOffset = 0;
+  let starOffset = 0;
+
+  if (
+    title &&
+    showTitle &&
+    subtitle &&
+    showSubtitle &&
+    titleDir === subTitleDir &&
+    showStars &&
+    starDir === titleDir
+  ) {
+    titleOffset = titleDir === PosTypes.TOP ? -fontSize * 1.5 * 2 : -fontSize;
+    titleOffset = titleDir === PosTypes.BOTTOM ? 0 : titleOffset;
+    subtitleOffset = titleOffset + fontSize * 1.5;
+    starOffset = subtitleOffset + fontSize * 1.5;
+  } else if (
+    title &&
+    showTitle &&
+    subtitle &&
+    showSubtitle &&
+    titleDir === subTitleDir &&
+    (!showStars || starDir !== titleDir)
+  ) {
+    titleOffset = titleDir === PosTypes.TOP ? -fontSize * 1.5 : 0;
+    subtitleOffset = titleOffset + fontSize * 1.5;
+  } else if (
+    title &&
+    showTitle &&
+    showStars &&
+    starDir === titleDir &&
+    (!subtitle || !showSubtitle || titleDir !== subTitleDir)
+  ) {
+    titleOffset = starDir === PosTypes.TOP ? -fontSize * 1.5 : 0;
+    starOffset = titleOffset + fontSize * 1.5;
+  } else if (
+    subtitle &&
+    showSubtitle &&
+    showStars &&
+    starDir === subTitleDir &&
+    (!title || !showTitle || titleDir !== subTitleDir)
+  ) {
+    subtitleOffset = starDir === PosTypes.TOP ? -fontSize * 1.5 : 0;
+    starOffset = subtitleOffset + fontSize * 1.5;
+  }
+
   return (
     <>
       <CommonDraggable
@@ -114,37 +142,45 @@ const CoverMemo: React.FC<CoverImageProps> = ({
           onDblTap={canOpenPopover ? () => setOpen(true) : undefined}>
           <CoverLoadImage id={id} link={link} renderTime={renderTime} />
 
-          <CommonLabelDraggable
-            updateDir={updateCoverDir}
-            id={id}
-            x={x}
-            y={y}
-            dir={dir}
-            offset={offSet}
-            offSetTop={offSetTop}>
-            {showTitle && title && (
+          {showTitle && title && (
+            <CommonLabelDraggable
+              updateDir={updateCoverTitleDir}
+              id={id}
+              x={x}
+              y={y}
+              dir={titleDir}>
               <CommonLabel
-                dir={dir}
+                dir={titleDir}
                 coverLabel={LabelType.TITLE}
                 text={title}
                 id={id}
                 fontStyle="bold"
+                offset={titleOffset}
                 color={color}
               />
-            )}
-            {showSubtitle && subtitle && (
+            </CommonLabelDraggable>
+          )}
+
+          {showSubtitle && subtitle && (
+            <CommonLabelDraggable
+              updateDir={updateCoverSubtitleDir}
+              id={id}
+              x={x}
+              y={y}
+              dir={subTitleDir}>
               <CommonLabel
-                dir={dir}
+                dir={subTitleDir}
                 coverLabel={LabelType.SUBTITLE}
                 text={subtitle}
                 id={id}
-                offset={offSet}
+                offset={subtitleOffset}
                 color={color}
               />
-            )}
-          </CommonLabelDraggable>
+            </CommonLabelDraggable>
+          )}
+
           {showStars && (
-            <CoverStarDraggable id={id} x={x} y={y} offset={0} offSetTop={0}>
+            <CoverStarDraggable id={id} x={x} y={y}>
               <CoverStar id={id} offset={starOffset} />
             </CoverStarDraggable>
           )}

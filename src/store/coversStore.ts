@@ -3,7 +3,6 @@ import { StateCreator } from 'zustand';
 
 export interface UseCoverParams {
   covers: Array<Covers>;
-  updateCoverDir: (coverId: string, dir: PosTypes) => void;
   updateCoverStarDir: (coverId: string, dir: PosTypes) => void;
   updateStarCount: (coverId: string, count: number) => void;
   updateAllCoversDir: (dir: PosTypes) => void;
@@ -21,7 +20,9 @@ export interface UseCoverParams {
   ) => void;
   addCovers: (filteredResults: Array<Covers>) => void;
   getStarCount: (id: string) => Covers['starCount'];
-  getStarDirById: (id: string) => Covers['dir'];
+  getStarDirById: (id: string) => Covers['starDir'];
+  updateCoverTitleDir: (coverId: string, dir: PosTypes) => void;
+  updateCoverSubtitleDir: (coverId: string, dir: PosTypes) => void;
 }
 
 export const createCoversSlice: StateCreator<
@@ -39,7 +40,14 @@ export const createCoversSlice: StateCreator<
     set(({ covers }) => ({
       covers: covers.map((star) => ({
         ...star,
-        dir,
+        title: {
+          ...star.title,
+          dir,
+        },
+        subtitle: {
+          ...star.subtitle,
+          dir,
+        },
       })),
     }));
   },
@@ -51,13 +59,31 @@ export const createCoversSlice: StateCreator<
       })),
     }));
   },
-  updateCoverDir(coverId, dir) {
+  updateCoverTitleDir(coverId, dir) {
     set(({ covers }) => ({
       covers: covers.map((star) =>
         star.id === coverId
           ? {
               ...star,
-              dir,
+              title: {
+                ...star.title,
+                dir,
+              },
+            }
+          : star,
+      ),
+    }));
+  },
+  updateCoverSubtitleDir(coverId, dir) {
+    set(({ covers }) => ({
+      covers: covers.map((star) =>
+        star.id === coverId
+          ? {
+              ...star,
+              subtitle: {
+                ...star.subtitle,
+                dir,
+              },
             }
           : star,
       ),

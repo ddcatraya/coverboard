@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 
-import { Covers, GroupCovers, LabelType } from 'types';
+import { Covers, GroupCovers, LabelType, PosTypes } from 'types';
 import { TextLabel } from 'components';
 import { getAlign } from 'utils';
 import { useMainStore, useUtilsStore } from 'store';
@@ -13,7 +13,7 @@ interface CommonLabelProps {
   fontStyle?: 'bold';
   scaleX?: GroupCovers['scaleX'];
   scaleY?: GroupCovers['scaleY'];
-  dir: Covers['dir'] | GroupCovers['dir'];
+  dir: PosTypes;
   color: string;
 }
 
@@ -33,7 +33,6 @@ export const CommonLabel: React.FC<CommonLabelProps> = ({
   const erase = useUtilsStore((state) => state.erase);
   const editLines = useUtilsStore((state) => state.editLines);
 
-  const fontSize = useMainStore((state) => state.fontSize());
   const coverSizeWidth =
     useMainStore((state) => state.coverSizeWidth()) * scaleX;
   const coverSizeHeight =
@@ -62,7 +61,7 @@ export const CommonLabel: React.FC<CommonLabelProps> = ({
       }}
       pos={{
         x: -coverSizeWidth,
-        y: coverSizeHeight + fontSize / 2 + offset,
+        y: coverSizeHeight + offset,
         width: coverSizeWidth * 3,
         align: getAlign(dir),
       }}

@@ -166,6 +166,15 @@ export const schema = (parsedData: LocalStorageData) =>
               required_error: 'covers:text is required',
             })
             .trim(),
+          dir: z.nativeEnum(PosTypes, {
+            errorMap: (_, _ctx) => {
+              return {
+                message: `covers:dir must be ${Object.values(PosTypes).join(
+                  ' | ',
+                )}`,
+              };
+            },
+          }),
         }),
         [LabelType.SUBTITLE]: z.object({
           search: z.string({
@@ -178,15 +187,15 @@ export const schema = (parsedData: LocalStorageData) =>
               required_error: 'covers:text is required',
             })
             .trim(),
-        }),
-        dir: z.nativeEnum(PosTypes, {
-          errorMap: (_, _ctx) => {
-            return {
-              message: `covers:dir must be ${Object.values(PosTypes).join(
-                ' | ',
-              )}`,
-            };
-          },
+          dir: z.nativeEnum(PosTypes, {
+            errorMap: (_, _ctx) => {
+              return {
+                message: `covers:dir must be ${Object.values(PosTypes).join(
+                  ' | ',
+                )}`,
+              };
+            },
+          }),
         }),
         starDir: z.nativeEnum(PosTypes, {
           errorMap: (_, _ctx) => {

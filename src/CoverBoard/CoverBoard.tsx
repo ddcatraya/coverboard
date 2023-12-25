@@ -22,7 +22,8 @@ const Covers: React.FC = () => {
           subtitle={star[LabelType.SUBTITLE].text}
           x={star.x}
           y={star.y}
-          dir={star.dir}
+          titleDir={star[LabelType.TITLE].dir}
+          subTitleDir={star[LabelType.SUBTITLE].dir}
           starDir={star.starDir}
           link={star.link}
           key={star.id}

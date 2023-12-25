@@ -3,6 +3,7 @@ import { PosTypes } from './generalTypes';
 interface CoverImageParamsText {
   search: string;
   text: string;
+  dir: PosTypes;
 }
 
 export enum LabelType {
@@ -22,7 +23,6 @@ export interface Covers {
   y: number;
   [LabelType.TITLE]: CoverImageParamsText;
   [LabelType.SUBTITLE]: CoverImageParamsText;
-  dir: PosTypes;
   starDir: PosTypes;
   starCount: number;
 }

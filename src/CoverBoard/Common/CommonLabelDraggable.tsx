@@ -12,9 +12,7 @@ interface CommonLabelDraggableProps {
   id: Covers['id'] | GroupCovers['id'];
   x: Covers['x'] | GroupCovers['x'];
   y: Covers['y'] | GroupCovers['y'];
-  dir: Covers['dir'] | GroupCovers['dir'];
-  offset: number;
-  offSetTop: number;
+  dir: PosTypes;
   scaleX?: GroupCovers['scaleX'];
   scaleY?: GroupCovers['scaleY'];
   updateDir: (coverId: string, dir: PosTypes) => void;
@@ -26,8 +24,6 @@ export const CommonLabelDraggable = ({
   y,
   dir,
   children,
-  offset,
-  offSetTop,
   scaleX = 1,
   scaleY = 1,
   updateDir,
@@ -90,20 +86,20 @@ export const CommonLabelDraggable = ({
     } else if (dir === PosTypes.TOP) {
       return {
         x: 0,
-        y: -coverSizeHeight - 2 * 2 * fontSize + offSetTop,
+        y: -coverSizeHeight - 2 * fontSize,
       };
     } else if (dir === PosTypes.RIGHT) {
       return {
         x: 2 * coverSizeWidth + fontSize,
-        y: -coverSizeHeight / 2 - fontSize - offset / 2,
+        y: -coverSizeHeight / 2 - fontSize,
       };
     } else {
       return {
         x: -2 * coverSizeWidth - fontSize,
-        y: -coverSizeHeight / 2 - fontSize - offset / 2,
+        y: -coverSizeHeight / 2 - fontSize,
       };
     }
-  }, [coverSizeHeight, coverSizeWidth, dir, fontSize, offSetTop, offset]);
+  }, [coverSizeHeight, coverSizeWidth, dir, fontSize]);
 
   return (
     <Group
