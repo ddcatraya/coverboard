@@ -11,6 +11,7 @@ export type {
   Covers,
   CoverLabelValues,
   GroupCovers,
+  GroupCoverValues,
 } from './coverTypes';
 export * from './coverTypes';
 

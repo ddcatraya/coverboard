@@ -125,7 +125,7 @@ export const CoverPopover: React.FC<PopupProps> = ({
 
   const handTextChange = (
     event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>,
-    label: 'title' | 'subtitle',
+    label: 'title' | 'subtitle' | 'titleDir' | 'subTitleDir',
   ) => {
     setText((currentText) => ({
       ...currentText,
@@ -133,18 +133,10 @@ export const CoverPopover: React.FC<PopupProps> = ({
     }));
   };
 
-  const handleChange = (
+  const handleStarChange = (
     event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>,
-    label: 'titleDir' | 'subTitleDir' | 'starDir',
   ) => {
-    if (label === 'starDir') {
-      setStarDir(event.target.value as PosTypes);
-      return;
-    }
-    setText((currentText) => ({
-      ...currentText,
-      [label]: event.target.value,
-    }));
+    setStarDir(event.target.value as PosTypes);
   };
 
   const handleNumberChange = (_: Event, value: number | number[]) => {
@@ -182,7 +174,7 @@ export const CoverPopover: React.FC<PopupProps> = ({
               aria-label="position"
               name="position"
               value={text.titleDir}
-              onChange={(evt) => handleChange(evt, 'titleDir')}>
+              onChange={(evt) => handTextChange(evt, 'titleDir')}>
               <FormControlLabel
                 value={PosTypes.BOTTOM}
                 control={<Radio />}
@@ -217,7 +209,7 @@ export const CoverPopover: React.FC<PopupProps> = ({
               aria-label="position"
               name="position"
               value={text.subTitleDir}
-              onChange={(evt) => handleChange(evt, 'subTitleDir')}>
+              onChange={(evt) => handTextChange(evt, 'subTitleDir')}>
               <FormControlLabel
                 value={PosTypes.BOTTOM}
                 control={<Radio />}
@@ -256,7 +248,7 @@ export const CoverPopover: React.FC<PopupProps> = ({
               aria-label="position"
               name="position"
               value={currentStarDir}
-              onChange={(evt) => handleChange(evt, 'starDir')}>
+              onChange={handleStarChange}>
               <FormControlLabel
                 value={PosTypes.BOTTOM}
                 control={<Radio />}

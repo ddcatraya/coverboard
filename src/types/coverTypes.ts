@@ -23,6 +23,13 @@ export interface CoverValues {
   subTitleDir: PosTypes;
 }
 
+export interface GroupCoverValues {
+  title: string;
+  subtitle: string;
+  titleDir: PosTypes;
+  subTitleDir: PosTypes;
+}
+
 export interface Covers {
   id: string;
   link: string;

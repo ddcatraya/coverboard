@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 
-import { GroupCovers, PosTypes } from 'types';
+import { GroupCoverValues, GroupCovers, PosTypes } from 'types';
 
 import { useMainStore, useUtilsStore } from 'store';
 import { shallow } from 'zustand/shallow';
@@ -57,11 +57,12 @@ const GroupCoverMemo: React.FC<CoverImageProps> = ({
   const updateGroupSubDir = useMainStore((state) => state.updateGroupSubDir);
 
   const handleSubmit = (
-    title: string,
-    subtitle: string,
+    text: GroupCoverValues,
     scale: { scaleX: number; scaleY: number },
   ) => {
-    updateGroupsText(id, title, subtitle);
+    updateGroupsText(id, text.title, text.subtitle);
+    updateGroupDir(id, text.titleDir);
+    updateGroupSubDir(id, text.subTitleDir);
     updateGroupScale(id, scale);
   };
 
@@ -146,8 +147,12 @@ const GroupCoverMemo: React.FC<CoverImageProps> = ({
             open={open}
             onClose={() => setOpen(false)}
             onSubmit={handleSubmit}
-            title={title}
-            subtitle={subtitle}
+            values={{
+              title,
+              subtitle,
+              titleDir: dir,
+              subTitleDir: subDir,
+            }}
           />
         </Html>
       )}

@@ -1,6 +1,15 @@
 import React, { useState } from 'react';
-import { TextField, Button, Grid, Slider, Typography } from '@mui/material';
-import { GroupCovers } from 'types';
+import {
+  TextField,
+  Button,
+  Grid,
+  Slider,
+  Typography,
+  FormControlLabel,
+  Radio,
+  RadioGroup,
+} from '@mui/material';
+import { GroupCoverValues, GroupCovers, PosTypes } from 'types';
 import { CommonDialog } from 'components';
 import { useMainStore } from 'store';
 
@@ -8,12 +17,10 @@ interface PopupProps {
   open: boolean;
   onClose: () => void;
   onSubmit: (
-    title: string,
-    subtext: string,
+    text: GroupCoverValues,
     currentScale: { scaleX: number; scaleY: number },
   ) => void;
-  title: string;
-  subtitle: string;
+  values: GroupCoverValues;
   id: GroupCovers['id'];
 }
 
@@ -21,25 +28,21 @@ export const GroupCoverPopover: React.FC<PopupProps> = ({
   open,
   onClose,
   onSubmit,
-  title,
-  subtitle,
+  values,
   id,
 }) => {
   const scale = useMainStore((state) => state.getScale(id));
-  const [text, setText] = useState(title);
-  const [subtext, setSubtext] = useState(subtitle);
+  const [text, setText] = useState<PopupProps['values']>(values);
   const [currentScale, setCurrentScale] = useState(scale);
 
   const handTextChange = (
     event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>,
+    label: 'title' | 'subtitle' | 'titleDir' | 'subTitleDir',
   ) => {
-    setText(event.target.value);
-  };
-
-  const handSubTextChange = (
-    event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>,
-  ) => {
-    setSubtext(event.target.value);
+    setText((currentText) => ({
+      ...currentText,
+      [label]: event.target.value,
+    }));
   };
 
   const handleNumberChange = (
@@ -57,7 +60,7 @@ export const GroupCoverPopover: React.FC<PopupProps> = ({
 
   const handleSubmit = (evt: React.SyntheticEvent<HTMLFormElement>) => {
     evt.preventDefault();
-    onSubmit(text, subtext, currentScale);
+    onSubmit(text, currentScale);
     onClose();
   };
 
@@ -77,19 +80,71 @@ export const GroupCoverPopover: React.FC<PopupProps> = ({
             <TextField
               label="group title"
               fullWidth
-              value={text}
-              onChange={handTextChange}
-              style={{ marginBottom: '20px' }}
+              value={text.title}
+              onChange={(evt) => handTextChange(evt, 'title')}
             />
+            <RadioGroup
+              row
+              aria-label="position"
+              name="position"
+              value={text.titleDir}
+              onChange={(evt) => handTextChange(evt, 'titleDir')}>
+              <FormControlLabel
+                value={PosTypes.BOTTOM}
+                control={<Radio />}
+                label={PosTypes.BOTTOM}
+              />
+              <FormControlLabel
+                value={PosTypes.TOP}
+                control={<Radio />}
+                label={PosTypes.TOP}
+              />
+              <FormControlLabel
+                value={PosTypes.LEFT}
+                control={<Radio />}
+                label={PosTypes.LEFT}
+              />
+              <FormControlLabel
+                value={PosTypes.RIGHT}
+                control={<Radio />}
+                label={PosTypes.RIGHT}
+              />
+            </RadioGroup>
           </Grid>
           <Grid item xs={12}>
             <TextField
               label="group description"
               fullWidth
-              value={subtext}
-              onChange={handSubTextChange}
-              style={{ marginBottom: '20px' }}
+              value={text.subtitle}
+              onChange={(evt) => handTextChange(evt, 'subtitle')}
             />
+            <RadioGroup
+              row
+              aria-label="position"
+              name="position"
+              value={text.subTitleDir}
+              onChange={(evt) => handTextChange(evt, 'subTitleDir')}>
+              <FormControlLabel
+                value={PosTypes.BOTTOM}
+                control={<Radio />}
+                label={PosTypes.BOTTOM}
+              />
+              <FormControlLabel
+                value={PosTypes.TOP}
+                control={<Radio />}
+                label={PosTypes.TOP}
+              />
+              <FormControlLabel
+                value={PosTypes.LEFT}
+                control={<Radio />}
+                label={PosTypes.LEFT}
+              />
+              <FormControlLabel
+                value={PosTypes.RIGHT}
+                control={<Radio />}
+                label={PosTypes.RIGHT}
+              />
+            </RadioGroup>
           </Grid>
           <Grid item xs={12}>
             <Typography gutterBottom>ScaleX:</Typography>
