@@ -285,14 +285,14 @@ export const useMainStore = createWithEqualityFn<MainStoreUnion>()(
           if (coversDetect.length > 0) {
             coversDetect.forEach((cover) => {
               set(({ covers }) => ({
-                covers: covers.map((star) => {
-                  return cover.id === star.id
+                covers: covers.map((currentCover) => {
+                  return cover.id === currentCover.id
                     ? {
-                        ...star,
-                        x: star.x - (prev.x - x),
-                        y: star.y - (prev.y - y),
+                        ...currentCover,
+                        x: currentCover.x - (prev.x - x),
+                        y: currentCover.y - (prev.y - y),
                       }
-                    : star;
+                    : currentCover;
                 }),
               }));
             });

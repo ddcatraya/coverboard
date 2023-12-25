@@ -51,19 +51,19 @@ const GroupCovers: React.FC<GroupCoverProps> = ({
 
   return (
     <>
-      {groups.map((star) => (
-        <Group key={star.id} onClick={(evt) => handlesSelect(evt, star.id)}>
+      {groups.map((group) => (
+        <Group key={group.id} onClick={(evt) => handlesSelect(evt, group.id)}>
           <GroupCover
-            id={star.id}
-            title={star.title.text}
-            subtitle={star.subtitle.text}
-            x={star.x}
-            y={star.y}
-            dir={star.title.dir}
-            subDir={star.subtitle.dir}
-            scaleX={star.scaleX}
-            scaleY={star.scaleY}
-            isSelected={star.id === selectedId}
+            id={group.id}
+            title={group.title.text}
+            subtitle={group.subtitle.text}
+            x={group.x}
+            y={group.y}
+            dir={group.title.dir}
+            subDir={group.subtitle.dir}
+            scaleX={group.scaleX}
+            scaleY={group.scaleY}
+            isSelected={group.id === selectedId}
           />
         </Group>
       ))}
@@ -111,30 +111,30 @@ const BoundaryArrows: React.FC = () => {
 
   return (
     <>
-      {offLimitCovers.map((star) => (
+      {offLimitCovers.map((cover) => (
         <BoundaryArrow
           color={coverColor}
           updatePosition={updateCoverPosition}
           removeCascade={removeCoverAndRelatedLines}
-          id={star.id}
-          x={star.x}
-          y={star.y}
-          title={star.subtitle.text}
-          key={star.id}
+          id={cover.id}
+          x={cover.x}
+          y={cover.y}
+          title={cover.subtitle.text}
+          key={cover.id}
         />
       ))}
-      {offLimitGroups.map((star) => (
+      {offLimitGroups.map((group) => (
         <BoundaryArrow
           color={groupColor}
           updatePosition={updateGroupPosition}
           removeCascade={removeGroupAndRelatedLines}
-          id={star.id}
-          x={star.x}
-          y={star.y}
-          scaleX={star.scaleX}
-          scaleY={star.scaleY}
-          title={star.title.text}
-          key={star.id}
+          id={group.id}
+          x={group.x}
+          y={group.y}
+          scaleX={group.scaleX}
+          scaleY={group.scaleY}
+          title={group.title.text}
+          key={group.id}
         />
       ))}
     </>

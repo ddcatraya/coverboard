@@ -74,11 +74,11 @@ export const CommonDraggable: React.FC<CommonDraggableProps> = ({
     const targetX = Math.round(e.target.x());
 
     const foundY =
-      covers.find((star) => star.id !== id && star.y === targetY) ||
-      groups.find((star) => star.id !== id && star.y === targetY);
+      covers.find((cover) => cover.id !== id && cover.y === targetY) ||
+      groups.find((group) => group.id !== id && group.y === targetY);
     const foundX =
-      covers.find((star) => star.id !== id && star.x === targetX) ||
-      groups.find((star) => star.id !== id && star.x === targetX);
+      covers.find((cover) => cover.id !== id && cover.x === targetX) ||
+      groups.find((group) => group.id !== id && group.x === targetX);
 
     if (
       (typeof hintLines[0] === 'undefined' && foundY) ||

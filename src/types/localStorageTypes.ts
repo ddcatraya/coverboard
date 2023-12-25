@@ -323,8 +323,8 @@ export const schema = (parsedData: LocalStorageData) =>
             }, 'lines:origin:id has invalid format')
             .refine((id) => {
               return (
-                parsedData.covers.find((star) => star.id === id) ||
-                parsedData.groups.find((star) => star.id === id)
+                parsedData.covers.find((cover) => cover.id === id) ||
+                parsedData.groups.find((group) => group.id === id)
               );
             }, 'lines:origin:id does not exist'),
           dir: z.nativeEnum(PosTypes, {
@@ -348,8 +348,8 @@ export const schema = (parsedData: LocalStorageData) =>
             }, 'lines:target:id has invalid format')
             .refine((id) => {
               return (
-                parsedData.covers.find((star) => star.id === id) ||
-                parsedData.groups.find((star) => star.id === id)
+                parsedData.covers.find((cover) => cover.id === id) ||
+                parsedData.groups.find((group) => group.id === id)
               );
             }, 'lines:target:id does not exist'),
           dir: z.nativeEnum(PosTypes, {

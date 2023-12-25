@@ -33,9 +33,9 @@ export const createCoversSlice: StateCreator<
 > = (set, get) => ({
   covers: [],
   getStarDirById: (id: string) =>
-    get().covers.find((star) => star.id === id)?.star.dir ?? PosTypes.TOP,
+    get().covers.find((cover) => cover.id === id)?.star.dir ?? PosTypes.TOP,
   getStarCount: (id: string) =>
-    get().covers.find((star) => star.id === id)?.star.count ?? 0,
+    get().covers.find((cover) => cover.id === id)?.star.count ?? 0,
   updateAllCoversDir(dir) {
     set(({ covers }) => ({
       covers: covers.map((star) => ({
@@ -61,31 +61,31 @@ export const createCoversSlice: StateCreator<
   },
   updateCoverTitleDir(coverId, dir) {
     set(({ covers }) => ({
-      covers: covers.map((star) =>
-        star.id === coverId
+      covers: covers.map((cover) =>
+        cover.id === coverId
           ? {
-              ...star,
+              ...cover,
               title: {
-                ...star.title,
+                ...cover.title,
                 dir,
               },
             }
-          : star,
+          : cover,
       ),
     }));
   },
   updateCoverSubtitleDir(coverId, dir) {
     set(({ covers }) => ({
-      covers: covers.map((star) =>
-        star.id === coverId
+      covers: covers.map((cover) =>
+        cover.id === coverId
           ? {
-              ...star,
+              ...cover,
               subtitle: {
-                ...star.subtitle,
+                ...cover.subtitle,
                 dir,
               },
             }
-          : star,
+          : cover,
       ),
     }));
   },
@@ -121,51 +121,51 @@ export const createCoversSlice: StateCreator<
   },
   resetCoverLabel(coverId, coverLabel) {
     set(({ covers }) => ({
-      covers: covers.map((star) =>
-        star.id === coverId
+      covers: covers.map((cover) =>
+        cover.id === coverId
           ? {
-              ...star,
+              ...cover,
               [coverLabel]: {
-                ...star[coverLabel],
-                text: star[coverLabel].search,
+                ...cover[coverLabel],
+                text: cover[coverLabel].search,
               },
               dir: PosTypes.BOTTOM,
             }
-          : star,
+          : cover,
       ),
     }));
   },
   updateCoverLabel(coverId, coverLabel, text) {
     set(({ covers }) => ({
-      covers: covers.map((star) => {
-        return coverId === star.id
+      covers: covers.map((cover) => {
+        return coverId === cover.id
           ? {
-              ...star,
+              ...cover,
               [coverLabel]: {
-                ...star[coverLabel],
+                ...cover[coverLabel],
                 text,
               },
             }
-          : star;
+          : cover;
       }),
     }));
   },
   updateCoversText(coverId, titleText, subTitleText) {
     set(({ covers }) => ({
-      covers: covers.map((star) =>
-        coverId === star.id
+      covers: covers.map((cover) =>
+        coverId === cover.id
           ? {
-              ...star,
+              ...cover,
               title: {
-                ...star.title,
+                ...cover.title,
                 text: titleText,
               },
               subtitle: {
-                ...star.subtitle,
+                ...cover.subtitle,
                 text: subTitleText,
               },
             }
-          : star,
+          : cover,
       ),
     }));
   },

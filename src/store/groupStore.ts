@@ -25,55 +25,55 @@ export const createGroupsSlice: StateCreator<
 > = (set, get) => ({
   groups: [],
   getScale: (id: string) => ({
-    scaleX: get().groups.find((star) => star.id === id)?.scaleX ?? 1,
-    scaleY: get().groups.find((star) => star.id === id)?.scaleY ?? 1,
+    scaleX: get().groups.find((group) => group.id === id)?.scaleX ?? 1,
+    scaleY: get().groups.find((group) => group.id === id)?.scaleY ?? 1,
   }),
   updateGroupDir(coverId, dir) {
     set(({ groups }) => ({
-      groups: groups.map((star) =>
-        star.id === coverId
+      groups: groups.map((group) =>
+        group.id === coverId
           ? {
-              ...star,
+              ...group,
               title: {
-                ...star.title,
+                ...group.title,
                 dir,
               },
             }
-          : star,
+          : group,
       ),
     }));
   },
   updateGroupSubDir(coverId, dir) {
     set(({ groups }) => ({
-      groups: groups.map((star) =>
-        star.id === coverId
+      groups: groups.map((group) =>
+        group.id === coverId
           ? {
-              ...star,
+              ...group,
               subtitle: {
-                ...star.subtitle,
+                ...group.subtitle,
                 dir,
               },
             }
-          : star,
+          : group,
       ),
     }));
   },
   updateGroupsText(coverId, titleText, subtitleText) {
     set(({ groups }) => ({
-      groups: groups.map((star) =>
-        coverId === star.id
+      groups: groups.map((group) =>
+        coverId === group.id
           ? {
-              ...star,
+              ...group,
               title: {
-                ...star.title,
+                ...group.title,
                 text: titleText,
               },
               subtitle: {
-                ...star.subtitle,
+                ...group.subtitle,
                 text: subtitleText,
               },
             }
-          : star,
+          : group,
       ),
     }));
   },
