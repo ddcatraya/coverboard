@@ -15,7 +15,7 @@ export const GroupSquare: React.FC<CoverImageProps> = ({ id, isSelected }) => {
   const removeGroupAndRelatedLines = useMainStore(
     (state) => state.removeGroupAndRelatedLines,
   );
-  const color = useMainStore((state) => state.getColor());
+  const color = useMainStore((state) => state.getGroupColor());
   const backColor = useMainStore((state) => state.getBackColor());
   const editLines = useUtilsStore((state) => state.editLines);
   const erase = useUtilsStore((state) => state.erase);

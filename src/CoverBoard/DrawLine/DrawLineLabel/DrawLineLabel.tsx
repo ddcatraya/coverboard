@@ -16,7 +16,7 @@ export const DrawLineLabel: React.FC<LineProps> = ({ id, dir, lineParams }) => {
   const text = useMainStore((state) => state.getLineTextById(id));
   const coverSizeWidth = useMainStore((state) => state.coverSizeWidth());
   const fontSize = useMainStore((state) => state.fontSize());
-
+  const color = useMainStore((state) => state.getArrowColor());
   const resetLine = useMainStore((state) => state.resetLine);
   const updateLineDir = useMainStore((state) => state.updateLineDir);
   const updateLineText = useMainStore((state) => state.updateLineText);
@@ -64,6 +64,7 @@ export const DrawLineLabel: React.FC<LineProps> = ({ id, dir, lineParams }) => {
           lineParams={lineParams}
           setUpdate={handleUpdateDir}>
           <TextLabel
+            color={color}
             open={textEdit}
             setOpen={setTextEdit}
             label={getLabel()}
@@ -76,7 +77,6 @@ export const DrawLineLabel: React.FC<LineProps> = ({ id, dir, lineParams }) => {
               align: getAlign(dir),
             }}
             wrap="word"
-            type="arrow"
           />
         </DrawLineLabelDraggable>
       )}

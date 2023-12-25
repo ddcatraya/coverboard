@@ -63,6 +63,24 @@ export const schema = (parsedData: LocalStorageData) =>
             };
           },
         }),
+        coverColor: z.nativeEnum(Colors, {
+          errorMap: (_, _ctx) => {
+            return {
+              message: `configs:coverColor must be ${Object.values(Colors).join(
+                ' | ',
+              )}`,
+            };
+          },
+        }),
+        groupColor: z.nativeEnum(Colors, {
+          errorMap: (_, _ctx) => {
+            return {
+              message: `configs:groupColor must be ${Object.values(Colors).join(
+                ' | ',
+              )}`,
+            };
+          },
+        }),
         backColor: z.nativeEnum(BackColors, {
           errorMap: (_, _ctx) => {
             return {

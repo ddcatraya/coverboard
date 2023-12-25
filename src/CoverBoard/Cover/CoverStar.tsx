@@ -13,7 +13,7 @@ export const CoverStar: React.FC<CoverStarProps> = ({ id, offset = 0 }) => {
   const coverSizeWidth = useMainStore((state) => state.coverSizeWidth());
   const coverSizeHeight = useMainStore((state) => state.coverSizeHeight());
   const fontSize = useMainStore((state) => state.fontSize());
-  const color = useMainStore((state) => state.getColor());
+  const color = useMainStore((state) => state.getCoverColor());
   const backColor = useMainStore((state) => state.getBackColor());
   const updateStarCount = useMainStore((state) => state.updateStarCount);
   const erase = useUtilsStore((state) => state.erase);

@@ -10,12 +10,16 @@ import {
   Radio,
   RadioGroup,
   TextField,
+  Select,
+  MenuItem,
+  InputLabel,
 } from '@mui/material';
 import {
   backColorMap,
   BackColors,
   colorMap,
   Colors,
+  ColorSettings,
   PosTypes,
   ToolbarConfigParams,
   ToolbarConfigValues,
@@ -121,73 +125,78 @@ export const ToolbarConfigPopover: React.FC<ToolbarConfigPopoverProps> = ({
             />
           </Grid>
           <Grid item xs={12}>
-            <Typography gutterBottom>Main font color:</Typography>
-            {Object.values(Colors).map((color) => (
-              <Button
-                title={color}
-                key={color}
-                value={color}
-                onClick={(evt) =>
-                  handleButtonChange(evt, ToolbarConfigValues.COLOR)
-                }
-                style={{
-                  backgroundColor: colorMap[color],
-                  height: '30px',
-                  width: '30px',
-                  margin: '5px 5px',
-                  border:
-                    color === param[ToolbarConfigValues.COLOR]
-                      ? '2px solid black'
-                      : undefined,
-                }}
-              />
+            {ColorSettings.map((colorSetting) => (
+              <FormControl sx={{ m: 1, minWidth: 120 }} key={colorSetting.name}>
+                <InputLabel variant="outlined" htmlFor={colorSetting.name}>
+                  {colorSetting.label}
+                </InputLabel>
+                <Select
+                  labelId={colorSetting.name}
+                  id={colorSetting.name}
+                  label={colorSetting.label}
+                  value={param[colorSetting.name]}
+                  onChange={(evt) =>
+                    handleButtonChange(evt as any, colorSetting.name)
+                  }>
+                  {Object.values(Colors).map((clr) => (
+                    <MenuItem value={clr}>
+                      <Button
+                        style={{
+                          backgroundColor: colorMap[clr],
+                          color: 'white',
+                          fontSize: '10px',
+                          fontWeight: 'bold',
+                          height: '30px',
+                          width: '25x',
+                          margin: '0px 10px',
+                          border:
+                            clr === param[colorSetting.name]
+                              ? '1px solid black'
+                              : undefined,
+                        }}>
+                        {clr}
+                      </Button>
+                    </MenuItem>
+                  ))}
+                </Select>
+              </FormControl>
             ))}
-          </Grid>
-          <Grid item xs={12}>
-            <Typography gutterBottom>Arrows color:</Typography>
-            {Object.values(Colors).map((arrowColor) => (
-              <Button
-                title={arrowColor}
-                key={arrowColor}
-                value={arrowColor}
-                onClick={(evt) =>
-                  handleButtonChange(evt, ToolbarConfigValues.ARROW_COLOR)
-                }
-                style={{
-                  backgroundColor: colorMap[arrowColor],
-                  height: '30px',
-                  width: '30px',
-                  margin: '5px 5px',
-                  border:
-                    arrowColor === param[ToolbarConfigValues.ARROW_COLOR]
-                      ? '2px solid black'
-                      : undefined,
-                }}
-              />
-            ))}
-          </Grid>
-          <Grid item xs={12}>
-            <Typography gutterBottom>Background color:</Typography>
-            {Object.values(BackColors).map((color) => (
-              <Button
-                title={color}
-                key={color}
-                value={color}
-                onClick={(evt) =>
-                  handleButtonChange(evt, ToolbarConfigValues.BACK_COLOR)
-                }
-                style={{
-                  backgroundColor: backColorMap[color],
-                  height: '30px',
-                  width: '30px',
-                  margin: '5px 5px',
-                  border:
-                    color === param[ToolbarConfigValues.BACK_COLOR]
-                      ? '2px solid red'
-                      : undefined,
-                }}
-              />
-            ))}
+            <FormControl sx={{ m: 1, minWidth: 120 }}>
+              <InputLabel
+                variant="outlined"
+                htmlFor={ToolbarConfigValues.BACK_COLOR}>
+                Back Color
+              </InputLabel>
+              <Select
+                labelId={ToolbarConfigValues.BACK_COLOR}
+                id={ToolbarConfigValues.BACK_COLOR}
+                value={param[ToolbarConfigValues.BACK_COLOR]}
+                label="Back Color"
+                onChange={(evt) =>
+                  handleButtonChange(evt as any, ToolbarConfigValues.BACK_COLOR)
+                }>
+                {Object.values(BackColors).map((clr) => (
+                  <MenuItem value={clr}>
+                    <Button
+                      style={{
+                        backgroundColor: backColorMap[clr],
+                        height: '30px',
+                        width: '25x',
+                        color: 'white',
+                        fontSize: '10px',
+                        fontWeight: 'bold',
+                        margin: '0px 10px',
+                        border:
+                          clr === param[ToolbarConfigValues.BACK_COLOR]
+                            ? '1px solid black'
+                            : undefined,
+                      }}>
+                      {clr}
+                    </Button>
+                  </MenuItem>
+                ))}
+              </Select>
+            </FormControl>
           </Grid>
           <Grid item xs={12}>
             <FormControlLabel

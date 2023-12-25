@@ -36,6 +36,7 @@ const GroupCoverMemo: React.FC<CoverImageProps> = ({
   scaleY,
   isSelected,
 }) => {
+  const color = useMainStore((state) => state.getGroupColor());
   const showTitle = useMainStore((state) => state.configs.showTitle);
   const dragLimits = useMainStore((state) => state.dragLimits(), shallow);
   const fontSize = useMainStore((state) => state.fontSize());
@@ -94,17 +95,16 @@ const GroupCoverMemo: React.FC<CoverImageProps> = ({
             scaleY={scaleY}
             offset={offSet}
             offSetTop={0}>
-            {showTitle && title && (
-              <CommonLabel
-                dir={dir}
-                coverLabel={LabelType.TITLE}
-                text={title}
-                id={id}
-                fontStyle="bold"
-                scaleX={scaleX}
-                scaleY={scaleY}
-              />
-            )}
+            <CommonLabel
+              color={color}
+              dir={dir}
+              coverLabel={LabelType.TITLE}
+              text={title}
+              id={id}
+              fontStyle="bold"
+              scaleX={scaleX}
+              scaleY={scaleY}
+            />
           </CommonLabelDraggable>
         </Group>
       </CommonDraggable>

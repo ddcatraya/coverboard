@@ -21,6 +21,8 @@ export const initialConfigValues = (): ToolbarConfigParams => ({
   title: '',
   color: Colors.YELLOW,
   arrowColor: Colors.YELLOW,
+  coverColor: Colors.YELLOW,
+  groupColor: Colors.YELLOW,
   backColor: BackColors.DARK,
   showTitle: true,
   showSubtitle: true,
@@ -50,6 +52,8 @@ export interface UseConfigsParams {
   getColor: () => string;
   getArrowColor: () => string;
   getBackColor: () => string;
+  getGroupColor: () => string;
+  getCoverColor: () => string;
   getShowStars: () => boolean;
   windowSize: {
     width: number;
@@ -80,6 +84,8 @@ export const createConfigsSlice: StateCreator<
   subTitleLabel: () => MediaMap[get().configs.media][LabelType.SUBTITLE],
   getColor: () => colorMap[get().configs.color],
   getArrowColor: () => colorMap[get().configs.arrowColor],
+  getCoverColor: () => colorMap[get().configs.coverColor],
+  getGroupColor: () => colorMap[get().configs.groupColor],
   getBackColor: () => backColorMap[get().configs.backColor],
   windowSize: {
     width: window.innerWidth,

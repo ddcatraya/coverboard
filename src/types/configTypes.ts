@@ -42,6 +42,8 @@ export enum ToolbarConfigValues {
   COLOR = 'color',
   ARROW_COLOR = 'arrowColor',
   BACK_COLOR = 'backColor',
+  COVER_COLOR = 'coverColor',
+  GROUP_COLOR = 'groupColor',
   SHOW_MAIN_TITLE = 'showMainTitle',
   SHOW_TITLE = 'showTitle',
   SHOW_SUBTITLE = 'showSubtitle',
@@ -49,6 +51,25 @@ export enum ToolbarConfigValues {
   STARS_DIR = 'starsDir',
   SHOW_STARS = 'showStars',
 }
+
+export const ColorSettings = [
+  {
+    name: ToolbarConfigValues.COLOR,
+    label: 'Main Color',
+  },
+  {
+    name: ToolbarConfigValues.COVER_COLOR,
+    label: 'Cover Color',
+  },
+  {
+    name: ToolbarConfigValues.GROUP_COLOR,
+    label: 'Group Color',
+  },
+  {
+    name: ToolbarConfigValues.ARROW_COLOR,
+    label: 'Arrow Color',
+  },
+];
 
 export enum Media {
   MUSIC = 'music',
@@ -160,6 +181,8 @@ export interface ToolbarConfigParams {
   [ToolbarConfigValues.SIZE]: number;
   [ToolbarConfigValues.COLOR]: Colors;
   [ToolbarConfigValues.ARROW_COLOR]: Colors;
+  [ToolbarConfigValues.GROUP_COLOR]: Colors;
+  [ToolbarConfigValues.COVER_COLOR]: Colors;
   [ToolbarConfigValues.BACK_COLOR]: BackColors;
   [ToolbarConfigValues.SHOW_MAIN_TITLE]: boolean;
   [ToolbarConfigValues.SHOW_TITLE]: boolean;

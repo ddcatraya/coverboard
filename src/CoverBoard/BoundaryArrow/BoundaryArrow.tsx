@@ -17,6 +17,7 @@ interface BoundaryArrowProps {
   scaleY?: GroupCovers['y'];
   updatePosition: (coverId: string, { x, y }: Vector2d) => void;
   removeCascade: (id: string) => void;
+  color: string;
 }
 
 export const BoundaryArrowMemo: React.FC<BoundaryArrowProps> = ({
@@ -28,9 +29,8 @@ export const BoundaryArrowMemo: React.FC<BoundaryArrowProps> = ({
   scaleY = 1,
   updatePosition,
   removeCascade,
+  color,
 }) => {
-  const color = useMainStore((state) => state.getArrowColor());
-
   const erase = useUtilsStore((state) => state.erase);
   const coverSizeWidth =
     useMainStore((state) => state.coverSizeWidth()) * scaleX;

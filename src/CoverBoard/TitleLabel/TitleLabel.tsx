@@ -13,6 +13,7 @@ export const TitleLabel: React.FC = () => {
   const saveId = useMainStore((state) => state.saveId);
   const erase = useUtilsStore((state) => state.erase);
   const editLines = useUtilsStore((state) => state.editLines);
+  const color = useMainStore((state) => state.getColor());
 
   const toobarIconSize = useMainStore((state) => state.toobarIconSize());
   const dragLimits = useMainStore((state) => state.dragLimits(), shallow);
@@ -42,6 +43,7 @@ export const TitleLabel: React.FC = () => {
 
   return (
     <TextLabel
+      color={color}
       title="title"
       listening={!erase && !editLines}
       open={open}

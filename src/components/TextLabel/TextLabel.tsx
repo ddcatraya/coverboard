@@ -25,8 +25,8 @@ interface TitleTexProps {
   title?: string;
   editable?: boolean;
   wrap?: 'word' | 'char' | 'none';
-  type?: 'title' | 'label' | 'arrow';
   fontStyle?: 'bold';
+  color: string;
 }
 
 export const TextLabel: React.FC<TitleTexProps> = ({
@@ -42,13 +42,10 @@ export const TextLabel: React.FC<TitleTexProps> = ({
   editable = true,
   wrap = 'none',
   title,
-  type,
+  color,
   fontStyle,
 }) => {
   const fontSize = useMainStore((state) => state.fontSize());
-  const color = useMainStore((state) =>
-    type === 'arrow' ? state.getArrowColor() : state.getColor(),
-  );
   const backColor = useMainStore((state) => state.getBackColor());
   const saveId = useMainStore((state) => state.saveId);
   const textRef: RefObject<Konva.Text> = useRef(null);

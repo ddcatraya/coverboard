@@ -14,6 +14,7 @@ interface CommonLabelProps {
   scaleX?: GroupCovers['scaleX'];
   scaleY?: GroupCovers['scaleY'];
   dir: Covers['dir'] | GroupCovers['dir'];
+  color: string;
 }
 
 export const CommonLabel: React.FC<CommonLabelProps> = ({
@@ -25,6 +26,7 @@ export const CommonLabel: React.FC<CommonLabelProps> = ({
   scaleX = 1,
   scaleY = 1,
   dir,
+  color,
 }) => {
   const updateCoverLabel = useMainStore((state) => state.updateCoverLabel);
   const resetCoverLabel = useMainStore((state) => state.resetCoverLabel);
@@ -47,6 +49,7 @@ export const CommonLabel: React.FC<CommonLabelProps> = ({
   return (
     <TextLabel
       title={coverLabel}
+      color={color}
       fontStyle={fontStyle}
       hasReset
       open={open}

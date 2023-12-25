@@ -53,6 +53,7 @@ const CoverMemo: React.FC<CoverImageProps> = ({
   link,
   renderTime,
 }) => {
+  const color = useMainStore((state) => state.getCoverColor());
   const showTitle = useMainStore((state) => state.configs.showTitle);
   const showSubtitle = useMainStore((state) => state.configs.showSubtitle);
   const dragLimits = useMainStore((state) => state.dragLimits(), shallow);
@@ -128,6 +129,7 @@ const CoverMemo: React.FC<CoverImageProps> = ({
                 text={title}
                 id={id}
                 fontStyle="bold"
+                color={color}
               />
             )}
             {showSubtitle && subtitle && (
@@ -137,6 +139,7 @@ const CoverMemo: React.FC<CoverImageProps> = ({
                 text={subtitle}
                 id={id}
                 offset={offSet}
+                color={color}
               />
             )}
           </CommonLabelDraggable>

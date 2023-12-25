@@ -104,11 +104,14 @@ const BoundaryArrows: React.FC = () => {
   const removeGroupAndRelatedLines = useMainStore(
     (state) => state.removeGroupAndRelatedLines,
   );
+  const coverColor = useMainStore((state) => state.getCoverColor());
+  const groupColor = useMainStore((state) => state.getGroupColor());
 
   return (
     <>
       {offLimitCovers.map((star) => (
         <BoundaryArrow
+          color={coverColor}
           updatePosition={updateCoverPosition}
           removeCascade={removeCoverAndRelatedLines}
           id={star.id}
@@ -120,6 +123,7 @@ const BoundaryArrows: React.FC = () => {
       ))}
       {offLimitGroups.map((star) => (
         <BoundaryArrow
+          color={groupColor}
           updatePosition={updateGroupPosition}
           removeCascade={removeGroupAndRelatedLines}
           id={star.id}
