@@ -13,14 +13,14 @@ export const DrawLineCircle: React.FC<LineProps> = ({ isSelected }) => {
   const color = useMainStore((state) => state.getArrowColor());
 
   return (
-    <Group width={circleRadius * 2} height={circleRadius * 2}>
+    <Group width={circleRadius * 3} height={circleRadius * 3}>
       <Circle
-        radius={isSelected ? circleRadius * 1.3 : circleRadius}
+        radius={isSelected ? circleRadius * 1.4 : circleRadius}
         fill={color}
         onMouseMove={(evt: KonvaEventObject<MouseEvent>) => {
           if (!isSelected) {
-            evt.currentTarget.scaleX(1.3);
-            evt.currentTarget.scaleY(1.3);
+            evt.currentTarget.scaleX(1.4);
+            evt.currentTarget.scaleY(1.4);
           }
 
           const container = evt.target.getStage()?.container();
