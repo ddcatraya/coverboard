@@ -115,7 +115,7 @@ export const ToolbarMemo: React.FC<ToolbarProps> = ({
     {
       id: ToolConfigIDs.GROUP,
       tooltip: `Create Group`,
-      color: 'gray',
+      color: colorMap[Colors.YELLOW],
       emoji: '📁',
       value: false,
       valueModifier: createGroup,
