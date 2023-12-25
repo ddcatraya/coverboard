@@ -52,7 +52,10 @@ const GroupCovers: React.FC<GroupCoverProps> = ({
   return (
     <>
       {groups.map((group) => (
-        <Group key={group.id} onClick={(evt) => handlesSelect(evt, group.id)}>
+        <Group
+          key={group.id}
+          onClick={(evt) => handlesSelect(evt, group.id)}
+          onTap={(evt) => handlesSelect(evt, group.id)}>
           <GroupCover
             id={group.id}
             title={group.title.text}
