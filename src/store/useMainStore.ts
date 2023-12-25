@@ -274,28 +274,30 @@ export const useMainStore = createWithEqualityFn<MainStoreUnion>()(
             get().removeLinesWithCoverTogether(groupId, colGroup.id);
           }
 
-          const coversDetect = get().covers.filter(
-            (cover) =>
-              cover.x > prev.x &&
-              cover.x < prev.x + get().coverSizeWidth() * group.scaleX &&
-              cover.y > prev.y &&
-              cover.y < prev.y + get().coverSizeHeight() * group.scaleY,
-          );
+          if (group.x !== 0 || group.y !== 0) {
+            const coversDetect = get().covers.filter(
+              (cover) =>
+                cover.x > prev.x &&
+                cover.x < prev.x + get().coverSizeWidth() * group.scaleX &&
+                cover.y > prev.y &&
+                cover.y < prev.y + get().coverSizeHeight() * group.scaleY,
+            );
 
-          if (coversDetect.length > 0) {
-            coversDetect.forEach((cover) => {
-              set(({ covers }) => ({
-                covers: covers.map((currentCover) => {
-                  return cover.id === currentCover.id
-                    ? {
-                        ...currentCover,
-                        x: currentCover.x - (prev.x - x),
-                        y: currentCover.y - (prev.y - y),
-                      }
-                    : currentCover;
-                }),
-              }));
-            });
+            if (coversDetect.length > 0) {
+              coversDetect.forEach((cover) => {
+                set(({ covers }) => ({
+                  covers: covers.map((currentCover) => {
+                    return cover.id === currentCover.id
+                      ? {
+                          ...currentCover,
+                          x: currentCover.x - (prev.x - x),
+                          y: currentCover.y - (prev.y - y),
+                        }
+                      : currentCover;
+                  }),
+                }));
+              });
+            }
           }
         }
         saveLocalStorage();

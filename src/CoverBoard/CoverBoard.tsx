@@ -96,21 +96,13 @@ const DrawLines: React.FC = () => {
 
 const BoundaryArrows: React.FC = () => {
   const offLimitCovers = useMainStore((state) => state.offLimitCovers());
-  const offLimitGroups = useMainStore((state) => state.offLimitGroups());
   const updateCoverPosition = useMainStore(
     (state) => state.updateCoverPosition,
-  );
-  const updateGroupPosition = useMainStore(
-    (state) => state.updateGroupPosition,
   );
   const removeCoverAndRelatedLines = useMainStore(
     (state) => state.removeCoverAndRelatedLines,
   );
-  const removeGroupAndRelatedLines = useMainStore(
-    (state) => state.removeGroupAndRelatedLines,
-  );
   const coverColor = useMainStore((state) => state.getCoverColor());
-  const groupColor = useMainStore((state) => state.getGroupColor());
 
   return (
     <>
@@ -126,6 +118,22 @@ const BoundaryArrows: React.FC = () => {
           key={cover.id}
         />
       ))}
+    </>
+  );
+};
+
+const BoundaryGroupArrows: React.FC = () => {
+  const offLimitGroups = useMainStore((state) => state.offLimitGroups());
+  const updateGroupPosition = useMainStore(
+    (state) => state.updateGroupPosition,
+  );
+  const removeGroupAndRelatedLines = useMainStore(
+    (state) => state.removeGroupAndRelatedLines,
+  );
+  const groupColor = useMainStore((state) => state.getGroupColor());
+
+  return (
+    <>
       {offLimitGroups.map((group) => (
         <BoundaryArrow
           color={groupColor}
@@ -255,6 +263,7 @@ export const CoverBoard: React.FC = () => {
             />
           )}
           <Group name="board" x={dragLimits.x} y={dragLimits.y}>
+            <TitleLabel />
             <GroupCovers
               selectedId={selectedId}
               setSelectedId={setSelectedId}
@@ -262,7 +271,7 @@ export const CoverBoard: React.FC = () => {
             <Covers />
             <DrawLines />
             <BoundaryArrows />
-            <TitleLabel />
+            <BoundaryGroupArrows />
             <CountLabel />
             <GroupCountLabel />
 

@@ -165,7 +165,7 @@ export const MediaMap = {
       required: false,
       hidden: false,
     },
-    heightRatio: 0.9,
+    heightRatio: 0.7,
   },
 };
 
