@@ -38,6 +38,10 @@ export const GroupSquare: React.FC<CoverImageProps> = ({ id, isSelected }) => {
   const rectRef = useRef<Konva.Rect>(null);
   const trRef = useRef<Konva.Transformer>(null);
 
+  const removeLinesIfCoverInsideGroup = useMainStore(
+    (state) => state.removeLinesIfCoverInsideGroup,
+  );
+
   React.useEffect(() => {
     if (trRef.current && rectRef.current && isSelected) {
       trRef.current.nodes([rectRef.current]);
@@ -62,6 +66,7 @@ export const GroupSquare: React.FC<CoverImageProps> = ({ id, isSelected }) => {
         x: (coverSizeWidth * scaleX - coverSizeWidthScaled) / 2,
         y: (coverSizeHeight * scaleY - coverSizeHeightScaled) / 2,
       });
+      removeLinesIfCoverInsideGroup(id);
 
       boxRef.current = null;
     }
@@ -102,8 +107,8 @@ export const GroupSquare: React.FC<CoverImageProps> = ({ id, isSelected }) => {
               return oldBox;
             }
             if (
-              Math.abs(newBox.width) > coverSizeWidth * 10 ||
-              Math.abs(newBox.height) > coverSizeHeight * 10
+              Math.abs(newBox.width) > coverSizeWidth * 10.5 ||
+              Math.abs(newBox.height) > coverSizeHeight * 10.5
             ) {
               return oldBox;
             }

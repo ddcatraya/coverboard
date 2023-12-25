@@ -38,6 +38,7 @@ interface CoverContextData {
   offLimitCovers: () => Covers[];
   offLimitGroups: () => GroupCovers[];
   removeCoverAndRelatedLines: (id: string) => void;
+  removeLinesIfCoverInsideGroup: (id: string) => void;
   removeGroupAndRelatedLines: (id: string) => void;
   getIdType: (id: string) => 'cover' | 'group';
 }
@@ -209,11 +210,28 @@ export const useMainStore = createWithEqualityFn<MainStoreUnion>()(
           return [];
         });
       },
-      removeCoverAndRelatedLines(id: string) {
+      removeCoverAndRelatedLines(id) {
         saveLastAction();
         get().removeCover(id);
         get().removeLinesWithCover(id);
         saveLocalStorage();
+      },
+      removeLinesIfCoverInsideGroup(groupId) {
+        const group = get().groups.find((group) => group.id === groupId);
+
+        if (group) {
+          const colGroup = get().covers.find(
+            (cover) =>
+              cover.x > group.x &&
+              cover.x < group.x + get().coverSizeWidth() * group.scaleX &&
+              cover.y > group.y &&
+              cover.y < group.y + get().coverSizeHeight() * group.scaleY,
+          );
+
+          if (colGroup) {
+            get().removeLinesWithCoverTogether(groupId, colGroup.id);
+          }
+        }
       },
       removeGroupAndRelatedLines(id: string) {
         saveLastAction();
