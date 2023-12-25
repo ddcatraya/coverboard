@@ -46,6 +46,13 @@ export const CoverStar: React.FC<CoverStarProps> = ({ id, offset = 0 }) => {
           y={coverSizeHeight + fontSize / 2 + offset}
           onClick={(evt) => handleClick(evt, index + 1)}
           onTap={(evt) => handleClick(evt, index + 1)}>
+          <Rect
+            x={-1.5 * starRadius}
+            y={-1.5 * starRadius}
+            width={3.5 * starRadius}
+            height={starRadius * 3.5}
+            fill={backColor}
+          />
           <Star
             numPoints={5}
             innerRadius={starRadius / 1.7}

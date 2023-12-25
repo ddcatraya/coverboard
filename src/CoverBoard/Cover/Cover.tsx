@@ -109,7 +109,7 @@ const CoverMemo: React.FC<CoverImageProps> = ({
         <CommonDrawLine id={id} />
 
         <Group
-          onclick={canOpenPopover ? () => setOpen(true) : undefined}
+          onDblclick={canOpenPopover ? () => setOpen(true) : undefined}
           onDblTap={canOpenPopover ? () => setOpen(true) : undefined}>
           <CoverLoadImage id={id} link={link} renderTime={renderTime} />
 
