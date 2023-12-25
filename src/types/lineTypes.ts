@@ -5,6 +5,11 @@ export interface Point {
   dir: PosTypes;
 }
 
+export interface LineValues {
+  text: string;
+  dir: PosTypes;
+}
+
 export interface Lines {
   id: string;
   origin: Point;

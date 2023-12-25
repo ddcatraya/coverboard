@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 
 import { LineParams, Lines, PosTypes } from 'types';
 import { DrawLineCircle, DrawLineLabelDraggable } from '.';
@@ -38,7 +38,9 @@ export const DrawLineLabel: React.FC<LineProps> = ({ id, dir, lineParams }) => {
     resetLine(id);
   };
 
-  const handleOpen = (id: Lines['id']) => {
+  const handleOpen = () => {
+    console.log('herere');
+    document.addEventListener('keydown', deleteFn);
     if (erase) {
       removeLine(id);
       return;
@@ -55,6 +57,19 @@ export const DrawLineLabel: React.FC<LineProps> = ({ id, dir, lineParams }) => {
     }
     return '';
   };
+
+  const deleteFn = useCallback(
+    (e) => {
+      if (e.key === 'Delete') {
+        removeLine(id);
+      }
+    },
+    [id, removeLine],
+  );
+
+  useEffect(() => {
+    return () => document.removeEventListener('keydown', deleteFn);
+  }, [deleteFn]);
 
   return (
     <>
@@ -80,7 +95,7 @@ export const DrawLineLabel: React.FC<LineProps> = ({ id, dir, lineParams }) => {
           />
         </DrawLineLabelDraggable>
       )}
-      <DrawLineCircle id={id} handleOpen={handleOpen} />
+      <DrawLineCircle id={id} dir={dir} text={text} handleOpen={handleOpen} />
     </>
   );
 };

@@ -1,7 +1,7 @@
 export type { DragLimits } from './generalTypes';
 export * from './generalTypes';
 
-export type { Point, Lines, LineParams } from './lineTypes';
+export type { Point, Lines, LineValues, LineParams } from './lineTypes';
 
 export type { TooltipValues, ToolConfig } from './toolbarTypes';
 export * from './toolbarTypes';
