@@ -230,28 +230,6 @@ export const useMainStore = createWithEqualityFn<MainStoreUnion>()(
         get().removeLinesWithCover(id);
         saveLocalStorage();
       },
-      moveAllCoversInsideGroup(groupId, { x, y }) {
-        const group = get().groups.find((group) => group.id === groupId);
-
-        if (group) {
-          const coversDetect = get().covers.filter(
-            (cover) =>
-              cover.x > x &&
-              cover.x < x + get().coverSizeWidth() * group.scaleX &&
-              cover.y > y &&
-              cover.y < y + get().coverSizeHeight() * group.scaleY,
-          );
-
-          if (coversDetect.length > 0) {
-            coversDetect.forEach((cover) => {
-              get().updateCoverPositionRelative(cover.id, {
-                x: x - group.x,
-                y: y - group.y,
-              });
-            });
-          }
-        }
-      },
       updateGroupPosition(groupId, { x, y }) {
         saveLastAction();
         const group = get().groups.find((group) => group.id === groupId);
@@ -323,6 +301,29 @@ export const useMainStore = createWithEqualityFn<MainStoreUnion>()(
           get().removeLinesIfGroupInsideCover(coverId);
         }
         saveLocalStorage();
+      },
+
+      moveAllCoversInsideGroup(groupId, { x, y }) {
+        const group = get().groups.find((group) => group.id === groupId);
+
+        if (group) {
+          const coversDetect = get().covers.filter(
+            (cover) =>
+              cover.x > x &&
+              cover.x < x + get().coverSizeWidth() * group.scaleX &&
+              cover.y > y &&
+              cover.y < y + get().coverSizeHeight() * group.scaleY,
+          );
+
+          if (coversDetect.length > 0) {
+            coversDetect.forEach((cover) => {
+              get().updateCoverPositionRelative(cover.id, {
+                x: x - group.x,
+                y: y - group.y,
+              });
+            });
+          }
+        }
       },
       removeLinesIfCoverInsideGroup(groupId) {
         const group = get().groups.find((group) => group.id === groupId);
