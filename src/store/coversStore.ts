@@ -23,6 +23,7 @@ export interface UseCoverParams {
     subTitleText: string,
   ) => void;
   addCovers: (filteredResults: Array<Covers>) => void;
+  updateCoverPositionRelative: (coverId: string, { x, y }: Vector2d) => void;
   updateCoverPosition: (coverId: string, { x, y }: Vector2d) => void;
   updateAllCoverPosition: (arrayPos: Array<Vector2d>) => void;
   getDirById: (id: string) => Covers['dir'];
@@ -177,6 +178,15 @@ export const createCoversSlice: StateCreator<
     set(({ covers }) => ({
       covers: covers.map((star) => {
         return coverId === star.id ? { ...star, x, y } : star;
+      }),
+    }));
+  },
+  updateCoverPositionRelative(coverId, { x, y }) {
+    set(({ covers }) => ({
+      covers: covers.map((star) => {
+        return coverId === star.id
+          ? { ...star, x: star.x - x, y: star.y - y }
+          : star;
       }),
     }));
   },

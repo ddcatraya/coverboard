@@ -132,37 +132,6 @@ export const CoverDraggable: React.FC<DraggableGroupProps> = ({
       }
     }
 
-    if (getIdType === 'group') {
-      const coversDetect = covers.filter(
-        (cover) =>
-          cover.x > x &&
-          cover.x < x + coverSizeWidth * scaleX &&
-          cover.y > y &&
-          cover.y < y + coverSizeHeight * scaleY,
-      );
-
-      if (coversDetect.length > 0) {
-        coversDetect.forEach((cover) => {
-          updateCoverPosition(cover.id, {
-            x: e.target.x() - x + cover.x,
-            y: e.target.y() - y + cover.y,
-          });
-        });
-      }
-
-      const colGroup = covers.find(
-        (cover) =>
-          cover.x > e.target.x() &&
-          cover.x < e.target.x() + coverSizeWidth * scaleX &&
-          cover.y > e.target.y() &&
-          cover.y < e.target.y() + coverSizeHeight * scaleY,
-      );
-
-      if (colGroup) {
-        removeLinesWithCoverTogether(id, colGroup.id);
-      }
-    }
-
     updatePosition(id, {
       x: Math.round(e.target.x()),
       y: Math.round(e.target.y()),

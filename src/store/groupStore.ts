@@ -13,7 +13,6 @@ export interface UseGrouspParams {
   removeGroup: (coverId: string) => void;
   updateGroupsText: (coverId: string, titleText: string) => void;
   addGroups: (filteredResults: Array<GroupCovers>) => void;
-  updateGroupPosition: (coverId: string, { x, y }: Vector2d) => void;
   updateGroupPositionRelative: (coverId: string, { x, y }: Vector2d) => void;
   updateGroupScale: (coverId: string, scale: Scale) => void;
   updateAllGroupPosition: (arrayPos: Array<Vector2d>) => void;
@@ -126,13 +125,6 @@ export const createGroupsSlice: StateCreator<
   addGroups(filteredResults) {
     set(({ groups }) => ({
       groups: [...groups, ...filteredResults],
-    }));
-  },
-  updateGroupPosition(coverId, { x, y }) {
-    set(({ groups }) => ({
-      groups: groups.map((star) => {
-        return coverId === star.id ? { ...star, x, y } : star;
-      }),
     }));
   },
   updateGroupPositionRelative(coverId, { x, y }) {

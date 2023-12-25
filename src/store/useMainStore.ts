@@ -17,6 +17,7 @@ import {
 import { UseCoverParams, createCoversSlice } from './coversStore';
 import { UseLinesParams, createLinesSlice } from './linesStore';
 import { UseGrouspParams, createGroupsSlice } from './groupStore';
+import { Vector2d } from 'konva/lib/types';
 
 const MAX_UNDO = 10;
 
@@ -41,6 +42,8 @@ interface CoverContextData {
   removeLinesIfCoverInsideGroup: (id: string) => void;
   removeGroupAndRelatedLines: (id: string) => void;
   getIdType: (id: string) => 'cover' | 'group';
+  updateGroupPosition: (coverId: string, { x, y }: Vector2d) => void;
+  moveAllCoversInsideGroup: (coverId: string, { x, y }: Vector2d) => void;
 }
 
 type MainStoreUnion = UseCoverParams &
@@ -238,6 +241,49 @@ export const useMainStore = createWithEqualityFn<MainStoreUnion>()(
         get().removeGroup(id);
         get().removeLinesWithCover(id);
         saveLocalStorage();
+      },
+      moveAllCoversInsideGroup(groupId, { x, y }) {
+        const group = get().groups.find((group) => group.id === groupId);
+
+        if (group) {
+          const coversDetect = get().covers.filter(
+            (cover) =>
+              cover.x > x &&
+              cover.x < x + get().coverSizeWidth() * group.scaleX &&
+              cover.y > y &&
+              cover.y < y + get().coverSizeHeight() * group.scaleY,
+          );
+
+          if (coversDetect.length > 0) {
+            coversDetect.forEach((cover) => {
+              get().updateCoverPositionRelative(cover.id, {
+                x: x - group.x,
+                y: y - group.y,
+              });
+            });
+
+            console.log(group.x, x, group.x - x);
+          }
+        }
+      },
+      updateGroupPosition(groupId, { x, y }) {
+        const group = get().groups.find((group) => group.id === groupId);
+
+        if (group) {
+          const prev = {
+            x: group.x,
+            y: group.y,
+          };
+
+          set(({ groups }) => ({
+            groups: groups.map((star) => {
+              return groupId === star.id ? { ...star, x, y } : star;
+            }),
+          }));
+
+          get().removeLinesIfCoverInsideGroup(groupId);
+          get().moveAllCoversInsideGroup(groupId, prev);
+        }
       },
       getIdType(id: string) {
         const isCover = get().covers.find((cover) => cover.id === id);
