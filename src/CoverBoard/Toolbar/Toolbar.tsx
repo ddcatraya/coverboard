@@ -142,7 +142,9 @@ export const ToolbarMemo: React.FC<ToolbarProps> = ({
     },
     {
       id: ToolConfigIDs.ERASE,
-      tooltip: `Erase mode (elements: ${linesLength + coversLength})`,
+      tooltip: `Erase mode (elements: ${
+        linesLength + coversLength + groupsLength
+      })`,
       color: colorMap[Colors.RED],
       emoji: '🗑️',
       value: erase,
