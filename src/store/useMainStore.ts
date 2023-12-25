@@ -255,11 +255,12 @@ export const useMainStore = createWithEqualityFn<MainStoreUnion>()(
             y: group.y,
           };
 
-          set(({ groups }) => ({
-            groups: groups.map((star) => {
-              return groupId === star.id ? { ...star, x, y } : star;
-            }),
-          }));
+          const filteredGroups = get().groups.filter(
+            (cov) => cov.id !== groupId,
+          );
+          filteredGroups.push({ ...group, x, y });
+
+          set({ groups: filteredGroups });
 
           const colGroup = get().covers.find(
             (cover) =>
@@ -359,11 +360,12 @@ export const useMainStore = createWithEqualityFn<MainStoreUnion>()(
         const cover = get().covers.find((cover) => cover.id === coverId);
 
         if (cover) {
-          set(({ covers }) => ({
-            covers: covers.map((star) => {
-              return coverId === star.id ? { ...star, x, y } : star;
-            }),
-          }));
+          const filteredCovers = get().covers.filter(
+            (cov) => cov.id !== coverId,
+          );
+          filteredCovers.push({ ...cover, x, y });
+
+          set({ covers: filteredCovers });
 
           const colGroup = get().groups.find(
             (group) =>

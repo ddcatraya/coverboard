@@ -156,6 +156,27 @@ const CountLabel: React.FC = () => {
   );
 };
 
+const GroupCountLabel: React.FC = () => {
+  const pos0 = useMainStore(
+    (state) => state.groups.filter((cov) => cov.x === 0 && cov.y === 0).length,
+  );
+  const coverSizeWidth = useMainStore((state) => state.coverSizeWidth()) * 4;
+  const coverSizeHeight = useMainStore((state) => state.coverSizeHeight()) * 4;
+  const fontSize = useMainStore((state) => state.fontSize());
+
+  return (
+    <Text
+      x={coverSizeWidth + fontSize / 2}
+      y={coverSizeHeight - fontSize * 2}
+      align="center"
+      text={pos0 > 1 ? 'x' + String(pos0) : ''}
+      fontSize={fontSize * 2}
+      fill="white"
+      listening={false}
+    />
+  );
+};
+
 export const CoverBoard: React.FC = () => {
   const color = useMainStore((state) => state.getColor());
   const backColor = useMainStore((state) => state.getBackColor());
@@ -234,6 +255,7 @@ export const CoverBoard: React.FC = () => {
             <BoundaryArrows />
             <TitleLabel />
             <CountLabel />
+            <GroupCountLabel />
 
             <Rect
               name="arenaBorder"
