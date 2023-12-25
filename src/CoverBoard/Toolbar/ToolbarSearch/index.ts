@@ -1,2 +1,2 @@
-export { ToolbarSearch } from './ToolbarSearch';
-export { ToolbarSearchPopover } from './ToolbarSearchPopover';
+export * from './ToolbarSearch';
+export * from './ToolbarSearchPopover';

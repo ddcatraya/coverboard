@@ -1,3 +1,3 @@
-export { DrawLineCircle } from './DrawLineCircle';
-export { DrawLineLabel } from './DrawLineLabel';
-export { DrawLineLabelDraggable } from './DrawLineLabelDraggable';
+export * from './DrawLineCircle';
+export * from './DrawLineLabel';
+export * from './DrawLineLabelDraggable';

@@ -1,3 +1,3 @@
-export { GroupCover } from './GroupCover';
-export { GroupSquare } from './GroupSquare';
-export { GroupCoverPopover } from './GroupCoverPopover';
+export * from './GroupCover';
+export * from './GroupSquare';
+export * from './GroupCoverPopover';

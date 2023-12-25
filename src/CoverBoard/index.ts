@@ -1,7 +1,7 @@
-export { Cover } from './Cover';
-export { DrawLine } from './DrawLine';
-export { Toolbar } from './Toolbar';
-export { TitleLabel } from './TitleLabel';
-export { CoverBoard } from './CoverBoard';
-export { BoundaryArrow } from './BoundaryArrow';
-export { Logo } from './Logo';
+export * from './Cover';
+export * from './DrawLine';
+export * from './Toolbar';
+export * from './TitleLabel';
+export * from './CoverBoard';
+export * from './BoundaryArrow';
+export * from './Logo';

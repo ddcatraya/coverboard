@@ -1,6 +1,6 @@
-export { Cover } from './Cover';
-export { CoverPopover } from './CoverPopover';
-export { CoverStarDraggable } from './CoverStarDraggable';
-export { CoverImage } from './CoverImage';
-export { CoverLoadImage } from './CoverLoadImage';
-export { CoverStar } from './CoverStar';
+export * from './Cover';
+export * from './CoverPopover';
+export * from './CoverStarDraggable';
+export * from './CoverImage';
+export * from './CoverLoadImage';
+export * from './CoverStar';
