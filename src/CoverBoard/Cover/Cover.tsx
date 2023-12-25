@@ -1,16 +1,13 @@
 import React, { useState } from 'react';
 
 import { Covers, CoverValues, LabelType, PosTypes } from 'types';
+import { CoverPopover, CoverLoadImage, CoverStar, CoverStarDraggable } from '.';
 import {
-  CoverDrawLine,
-  CoverLabel,
-  CoverLabelDraggable,
-  CoverDraggable,
-  CoverPopover,
-  CoverLoadImage,
-  CoverStar,
-  CoverStarDraggable,
-} from '.';
+  CommonDraggable,
+  CommonDrawLine,
+  CommonLabelDraggable,
+  CommonLabel,
+} from 'CoverBoard/Common';
 import { useMainStore, useUtilsStore } from 'store';
 import { shallow } from 'zustand/shallow';
 import { Html } from 'react-konva-utils';
@@ -97,7 +94,7 @@ const CoverMemo: React.FC<CoverImageProps> = ({
 
   return (
     <>
-      <CoverDraggable
+      <CommonDraggable
         updatePosition={updateCoverPosition}
         id={id}
         x={x}
@@ -110,14 +107,14 @@ const CoverMemo: React.FC<CoverImageProps> = ({
           x: windowSize.width - 3.5 * toobarIconSize,
           y: windowSize.height - 3.5 * toobarIconSize,
         }}>
-        <CoverDrawLine id={id} />
+        <CommonDrawLine id={id} />
 
         <Group
           onclick={canOpenPopover ? () => setOpen(true) : undefined}
           onDblTap={canOpenPopover ? () => setOpen(true) : undefined}>
           <CoverLoadImage id={id} link={link} renderTime={renderTime} />
 
-          <CoverLabelDraggable
+          <CommonLabelDraggable
             updateDir={updateCoverDir}
             id={id}
             x={x}
@@ -125,7 +122,7 @@ const CoverMemo: React.FC<CoverImageProps> = ({
             offset={offSet}
             offSetTop={offSetTop}>
             {showTitle && title && (
-              <CoverLabel
+              <CommonLabel
                 coverLabel={LabelType.TITLE}
                 text={title}
                 id={id}
@@ -133,21 +130,21 @@ const CoverMemo: React.FC<CoverImageProps> = ({
               />
             )}
             {showSubtitle && subtitle && (
-              <CoverLabel
+              <CommonLabel
                 coverLabel={LabelType.SUBTITLE}
                 text={subtitle}
                 id={id}
                 offset={offSet}
               />
             )}
-          </CoverLabelDraggable>
+          </CommonLabelDraggable>
           {showStars && (
             <CoverStarDraggable id={id} x={x} y={y} offset={0} offSetTop={0}>
               <CoverStar id={id} offset={starOffset} />
             </CoverStarDraggable>
           )}
         </Group>
-      </CoverDraggable>
+      </CommonDraggable>
       {open && (
         <Html>
           <CoverPopover

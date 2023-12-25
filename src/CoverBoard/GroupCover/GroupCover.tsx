@@ -6,11 +6,11 @@ import { useMainStore, useUtilsStore } from 'store';
 import { shallow } from 'zustand/shallow';
 import { Group } from 'react-konva';
 import {
-  CoverDraggable,
-  CoverDrawLine,
-  CoverLabelDraggable,
-  CoverLabel,
-} from 'CoverBoard/Cover';
+  CommonDraggable,
+  CommonDrawLine,
+  CommonLabelDraggable,
+  CommonLabel,
+} from 'CoverBoard/Common';
 import { GroupSquare } from './GroupSquare';
 import { GroupCoverPopover } from '.';
 import { Html } from 'react-konva-utils';
@@ -65,13 +65,11 @@ const GroupCoverMemo: React.FC<CoverImageProps> = ({
 
   return (
     <>
-      <CoverDraggable
+      <CommonDraggable
         updatePosition={updateGroupPosition}
         id={id}
         x={x}
         y={y}
-        scaleX={scaleX}
-        scaleY={scaleY}
         min={{
           x: dragLimits.x,
           y: dragLimits.y,
@@ -80,13 +78,13 @@ const GroupCoverMemo: React.FC<CoverImageProps> = ({
           x: windowSize.width - 3.5 * toobarIconSize,
           y: windowSize.height - 3.5 * toobarIconSize,
         }}>
-        <CoverDrawLine id={id} scaleX={scaleX} scaleY={scaleY} />
+        <CommonDrawLine id={id} scaleX={scaleX} scaleY={scaleY} />
 
         <Group
           onDblclick={canOpenPopover ? () => setOpen(true) : undefined}
           onDblTap={canOpenPopover ? () => setOpen(true) : undefined}>
           <GroupSquare id={id} isSelected={isSelected} />
-          <CoverLabelDraggable
+          <CommonLabelDraggable
             updateDir={updateGroupDir}
             id={id}
             x={x}
@@ -96,7 +94,7 @@ const GroupCoverMemo: React.FC<CoverImageProps> = ({
             offset={offSet}
             offSetTop={0}>
             {showTitle && title && (
-              <CoverLabel
+              <CommonLabel
                 coverLabel={LabelType.TITLE}
                 text={title}
                 id={id}
@@ -105,9 +103,9 @@ const GroupCoverMemo: React.FC<CoverImageProps> = ({
                 scaleY={scaleY}
               />
             )}
-          </CoverLabelDraggable>
+          </CommonLabelDraggable>
         </Group>
-      </CoverDraggable>
+      </CommonDraggable>
       {open && (
         <Html>
           <GroupCoverPopover

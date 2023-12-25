@@ -6,7 +6,7 @@ import { useState } from 'react';
 import { useMainStore, useUtilsStore } from 'store';
 import { shallow } from 'zustand/shallow';
 
-interface DraggableGroupProps {
+interface CommonDraggableProps {
   children: React.ReactNode;
   id: Covers['id'] | GroupCovers['id'];
   x: Covers['x'] | GroupCovers['x'];
@@ -19,19 +19,15 @@ interface DraggableGroupProps {
     x: number;
     y: number;
   };
-  scaleX?: GroupCovers['x'];
-  scaleY?: GroupCovers['x'];
   updatePosition: (coverId: string, { x, y }: Vector2d) => void;
 }
 
-export const CoverDraggable: React.FC<DraggableGroupProps> = ({
+export const CommonDraggable: React.FC<CommonDraggableProps> = ({
   id,
   x,
   y,
   min,
   max,
-  scaleX = 1,
-  scaleY = 1,
   children,
   updatePosition,
 }) => {

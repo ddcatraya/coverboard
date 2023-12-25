@@ -7,7 +7,7 @@ import { getClientPosition } from 'utils';
 import { useMainStore, useUtilsStore } from 'store';
 import { shallow } from 'zustand/shallow';
 
-interface DraggableGroupProps {
+interface CommonLabelDraggableProps {
   children: React.ReactNode;
   id: Covers['id'] | GroupCovers['id'];
   x: Covers['x'] | GroupCovers['x'];
@@ -19,7 +19,7 @@ interface DraggableGroupProps {
   updateDir: (coverId: string, dir: PosTypes) => void;
 }
 
-export const CoverLabelDraggable = ({
+export const CommonLabelDraggable = ({
   id,
   x,
   y,
@@ -29,7 +29,7 @@ export const CoverLabelDraggable = ({
   scaleX = 1,
   scaleY = 1,
   updateDir,
-}: DraggableGroupProps) => {
+}: CommonLabelDraggableProps) => {
   const dir = useMainStore((state) => state.getDirById(id));
   const erase = useUtilsStore((state) => state.erase);
   const dragLimits = useMainStore((state) => state.dragLimits(), shallow);
