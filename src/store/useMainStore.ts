@@ -43,9 +43,12 @@ interface CoverContextData {
   removeLinesIfGroupInsideCover: (id: string) => void;
   removeGroupAndRelatedLines: (id: string) => void;
   updateGroupPosition: (coverId: string, { x, y }: Vector2d) => void;
-  updateGroupPositionRelative: (coverId: string, { x, y }: Vector2d) => void;
   updateCoverPosition: (coverId: string, { x, y }: Vector2d) => void;
   moveAllCoversInsideGroup: (coverId: string, { x, y }: Vector2d) => void;
+  updateGroupScale: (
+    coverId: string,
+    scale: { scaleX: number; scaleY: number },
+  ) => void;
 }
 
 type MainStoreUnion = UseCoverParams &
@@ -270,17 +273,40 @@ export const useMainStore = createWithEqualityFn<MainStoreUnion>()(
         }
         saveLocalStorage();
       },
-      updateGroupPositionRelative(groupId, { x, y }) {
+      updateGroupScale(groupId, scale) {
         saveLastAction();
-        set(({ groups }) => ({
-          groups: groups.map((star) => {
-            return groupId === star.id
-              ? { ...star, x: star.x - x, y: star.y - y }
-              : star;
-          }),
-        }));
+        const group = get().groups.find((group) => group.id === groupId);
 
-        get().removeLinesIfCoverInsideGroup(groupId);
+        if (group) {
+          const prevScale = {
+            scaleX: group.scaleX,
+            scaleY: group.scaleY,
+          };
+
+          set(({ groups }) => ({
+            groups: groups.map((star) => {
+              return groupId === star.id
+                ? {
+                    ...star,
+                    scaleX: scale.scaleX,
+                    scaleY: scale.scaleY,
+                  }
+                : star;
+            }),
+          }));
+
+          get().updateGroupPositionRelative(groupId, {
+            x:
+              (get().coverSizeWidth() * scale.scaleX -
+                get().coverSizeWidth() * prevScale.scaleX) /
+              2,
+            y:
+              (get().coverSizeHeight() * scale.scaleY -
+                get().coverSizeHeight() * prevScale.scaleY) /
+              2,
+          });
+          get().removeLinesIfCoverInsideGroup(groupId);
+        }
         saveLocalStorage();
       },
       updateCoverPosition(coverId, { x, y }) {

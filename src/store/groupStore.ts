@@ -2,7 +2,6 @@ import { Vector2d } from 'konva/lib/types';
 import { GroupCovers, PosTypes } from 'types';
 import { StateCreator } from 'zustand';
 
-type Scale = { scaleX: number; scaleY: number };
 export interface UseGrouspParams {
   groups: Array<GroupCovers>;
   updateGroupDir: (coverId: string, dir: PosTypes) => void;
@@ -13,8 +12,7 @@ export interface UseGrouspParams {
   removeGroup: (coverId: string) => void;
   updateGroupsText: (coverId: string, titleText: string) => void;
   addGroups: (filteredResults: Array<GroupCovers>) => void;
-  updateGroupScale: (coverId: string, scale: Scale) => void;
-  updateAllGroupPosition: (arrayPos: Array<Vector2d>) => void;
+  updateGroupPositionRelative: (coverId: string, { x, y }: Vector2d) => void;
   getDirById: (id: string) => GroupCovers['dir'];
   getScale: (id: string) => {
     scaleX: GroupCovers['scaleX'];
@@ -91,19 +89,6 @@ export const createGroupsSlice: StateCreator<
       }),
     }));
   },
-  updateGroupScale(coverId, scale) {
-    set(({ groups }) => ({
-      groups: groups.map((star) => {
-        return coverId === star.id
-          ? {
-              ...star,
-              scaleX: scale.scaleX,
-              scaleY: scale.scaleY,
-            }
-          : star;
-      }),
-    }));
-  },
   removeGroup(coverId) {
     set(({ groups }) => ({
       groups: groups.filter((c) => c.id !== coverId),
@@ -126,10 +111,12 @@ export const createGroupsSlice: StateCreator<
       groups: [...groups, ...filteredResults],
     }));
   },
-  updateAllGroupPosition(posArray) {
+  updateGroupPositionRelative(groupId, { x, y }) {
     set(({ groups }) => ({
-      groups: groups.map((star, index) => {
-        return { ...star, x: posArray[index].x, y: posArray[index].y };
+      groups: groups.map((star) => {
+        return groupId === star.id
+          ? { ...star, x: star.x - x, y: star.y - y }
+          : star;
       }),
     }));
   },

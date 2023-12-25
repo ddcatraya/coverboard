@@ -24,9 +24,6 @@ export const GroupSquare: React.FC<CoverImageProps> = ({ id, isSelected }) => {
   const boxRef = useRef<null | { width: number; height: number }>(null);
 
   const updateGroupScale = useMainStore((state) => state.updateGroupScale);
-  const updateGroupPositionRelative = useMainStore(
-    (state) => state.updateGroupPositionRelative,
-  );
 
   const coverSizeWidth = useMainStore((state) => state.coverSizeWidth());
   const coverSizeHeight = useMainStore((state) => state.coverSizeHeight());
@@ -58,10 +55,6 @@ export const GroupSquare: React.FC<CoverImageProps> = ({ id, isSelected }) => {
       rectRef.current.scaleX(1);
       rectRef.current.scaleY(1);
       updateGroupScale(id, { scaleX, scaleY });
-      updateGroupPositionRelative(id, {
-        x: (coverSizeWidth * scaleX - coverSizeWidthScaled) / 2,
-        y: (coverSizeHeight * scaleY - coverSizeHeightScaled) / 2,
-      });
 
       boxRef.current = null;
     }
