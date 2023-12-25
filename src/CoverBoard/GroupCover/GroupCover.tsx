@@ -17,12 +17,12 @@ import { Html } from 'react-konva-utils';
 
 interface CoverImageProps {
   id: GroupCovers['id'];
-  title: GroupCovers['title'];
-  subtitle: GroupCovers['subtitle'];
+  title: string;
+  subtitle: string;
   x: GroupCovers['x'];
   y: GroupCovers['y'];
-  dir: GroupCovers['dir'];
-  subDir: GroupCovers['subDir'];
+  dir: PosTypes;
+  subDir: PosTypes;
   scaleX: GroupCovers['scaleX'];
   scaleY: GroupCovers['scaleY'];
   isSelected: boolean;

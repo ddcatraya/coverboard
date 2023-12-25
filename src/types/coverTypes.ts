@@ -6,6 +6,11 @@ interface CoverImageParamsText {
   dir: PosTypes;
 }
 
+interface GroupCoverParamsText {
+  text: string;
+  dir: PosTypes;
+}
+
 export enum LabelType {
   TITLE = 'title',
   SUBTITLE = 'subtitle',
@@ -31,10 +36,8 @@ export interface GroupCovers {
   id: string;
   x: number;
   y: number;
-  title: string;
-  subtitle: string;
-  dir: PosTypes;
-  subDir: PosTypes;
+  title: GroupCoverParamsText;
+  subtitle: GroupCoverParamsText;
   scaleX: number;
   scaleY: number;
 }

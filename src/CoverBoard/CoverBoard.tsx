@@ -56,12 +56,12 @@ const GroupCovers: React.FC<GroupCoverProps> = ({
         <Group key={star.id} onClick={(evt) => handlesSelect(evt, star.id)}>
           <GroupCover
             id={star.id}
-            title={star.title}
-            subtitle={star.subtitle}
+            title={star.title.text}
+            subtitle={star.subtitle.text}
             x={star.x}
             y={star.y}
-            dir={star.dir}
-            subDir={star.subDir}
+            dir={star.title.dir}
+            subDir={star.subtitle.dir}
             scaleX={star.scaleX}
             scaleY={star.scaleY}
             isSelected={star.id === selectedId}
@@ -134,7 +134,7 @@ const BoundaryArrows: React.FC = () => {
           y={star.y}
           scaleX={star.scaleX}
           scaleY={star.scaleY}
-          title={star.title}
+          title={star.title.text}
           key={star.id}
         />
       ))}

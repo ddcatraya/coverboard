@@ -34,19 +34,25 @@ export const createGroupsSlice: StateCreator<
         star.id === coverId
           ? {
               ...star,
-              dir,
+              title: {
+                ...star.title,
+                dir,
+              },
             }
           : star,
       ),
     }));
   },
-  updateGroupSubDir(coverId, subDir) {
+  updateGroupSubDir(coverId, dir) {
     set(({ groups }) => ({
       groups: groups.map((star) =>
         star.id === coverId
           ? {
               ...star,
-              subDir,
+              subtitle: {
+                ...star.subtitle,
+                dir,
+              },
             }
           : star,
       ),
@@ -58,8 +64,14 @@ export const createGroupsSlice: StateCreator<
         coverId === star.id
           ? {
               ...star,
-              title: titleText,
-              subtitle: subtitleText,
+              title: {
+                ...star.title,
+                text: titleText,
+              },
+              subtitle: {
+                ...star.subtitle,
+                text: subtitleText,
+              },
             }
           : star,
       ),

@@ -76,12 +76,10 @@ export const ToolbarMemo: React.FC<ToolbarProps> = ({
         id: uuidv4(),
         x: 0,
         y: 0,
-        title: 'Group',
-        dir: labelDir ?? PosTypes.BOTTOM,
-        subDir: labelDir ?? PosTypes.BOTTOM,
+        title: { text: 'Group', dir: labelDir ?? PosTypes.BOTTOM },
+        subtitle: { text: '', dir: labelDir ?? PosTypes.BOTTOM },
         scaleX: 4,
         scaleY: 4,
-        subtitle: '',
       },
     ]);
   };

@@ -253,37 +253,37 @@ export const schema = (parsedData: LocalStorageData) =>
             required_error: 'covers:y is required',
           })
           .min(0, 'covers:y position must be positive number'),
-        title: z.string({
-          invalid_type_error: 'covers:search must be a string',
-          required_error: 'covers:search is required',
+        title: z.object({
+          text: z.string({
+            invalid_type_error: 'covers:title:text must be a string',
+            required_error: 'covers:title:text is required',
+          }),
+          dir: z.nativeEnum(PosTypes, {
+            errorMap: (_, _ctx) => {
+              return {
+                message: `covers:title:dir must be ${Object.values(
+                  PosTypes,
+                ).join(' | ')}`,
+              };
+            },
+          }),
         }),
-        subtitle: z.string({
-          invalid_type_error: 'covers:subtitle must be a string',
-          required_error: 'covers:subtitle is required',
-        }),
-        dir: z.nativeEnum(PosTypes, {
-          errorMap: (_, _ctx) => {
-            return {
-              message: `covers:dir must be ${Object.values(PosTypes).join(
-                ' | ',
-              )}`,
-            };
-          },
-        }),
-        subDir: z.nativeEnum(PosTypes, {
-          errorMap: (_, _ctx) => {
-            return {
-              message: `covers:dir must be ${Object.values(PosTypes).join(
-                ' | ',
-              )}`,
-            };
-          },
+        subtitle: z.object({
+          text: z.string({
+            invalid_type_error: 'covers:subtitle:text must be a string',
+            required_error: 'covers:subtitle:text is required',
+          }),
+          dir: z.nativeEnum(PosTypes, {
+            errorMap: (_, _ctx) => {
+              return {
+                message: `covers:subtitle:dir must be ${Object.values(
+                  PosTypes,
+                ).join(' | ')}`,
+              };
+            },
+          }),
         }),
       }),
-      {
-        invalid_type_error: 'covers must be an array of objects',
-        required_error: 'covers is required',
-      },
     ),
     lines: z.array(
       z.object({
