@@ -99,7 +99,6 @@ export const createGroupsSlice: StateCreator<
     }));
   },
   updateGroupLabel(coverId, groupLabel, text) {
-    console.log(coverId, groupLabel, text);
     set(({ groups }) => ({
       groups: groups.map((group) => {
         return coverId === group.id

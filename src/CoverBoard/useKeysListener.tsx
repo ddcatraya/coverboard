@@ -1,80 +1,76 @@
 import { useEffect } from 'react';
 import { useMainStore, useToolbarStore, useUtilsStore } from 'store';
-import { shallow } from 'zustand/shallow';
 
-interface UseKeysListener {
-  createGroup: () => void;
-  takeScreenshot: () => void;
-}
-
-export const useKeysListener = ({
-  createGroup,
-  takeScreenshot,
-}: UseKeysListener) => {
+export const useKeysListener = () => {
   const undoAction = useMainStore((state) => state.undoAction);
 
-  const [openConfig, setOpenConfig] = useToolbarStore(
-    (state) => [state.openConfig, state.setOpenConfig],
-    shallow,
-  );
-  const [openSearch, setOpenSearch] = useToolbarStore(
-    (state) => [state.openSearch, state.setOpenSearch],
-    shallow,
-  );
-  const [openShare, setOpenShare] = useToolbarStore(
-    (state) => [state.openShare, state.setOpenShare],
-    shallow,
-  );
-  const openPopup = openConfig || openSearch || openShare;
+  const openPopup = useToolbarStore((state) => state.isPopupOpen());
 
   const selected = useUtilsStore((state) => state.selected);
+  const setSelected = useUtilsStore((state) => state.setSelected);
   const editLines = useUtilsStore((state) => state.points);
+  const hasMode = useUtilsStore((state) => state.hasMode());
+  const editTitle = useUtilsStore((state) => state.editTitle);
+
+  const covers = useMainStore((state) => state.covers);
+  const groups = useMainStore((state) => state.groups);
 
   useEffect(() => {
-    const keyFn = (e) => {
+    const keyFn = (e: KeyboardEvent) => {
       if ((e.ctrlKey || e.metaKey) && e.key === 'z') {
         undoAction();
         e.preventDefault();
-      }
-
-      if (!selected && !editLines && !openPopup) {
-        if (e.key === 'a') {
-          e.preventDefault();
-          setOpenSearch(true);
-        } else if (e.key === 'o') {
-          e.preventDefault();
-          setOpenConfig(true);
-        } else if (e.key === 's') {
-          e.preventDefault();
-          setOpenShare(true);
-        } else if (e.key === 'b') {
-          e.preventDefault();
-          createGroup();
-        } else if (e.key === 'c') {
-          e.preventDefault();
-          takeScreenshot();
-        } else if (e.key === 'u') {
-          e.preventDefault();
-          undoAction();
+      } else if (e.key === 'q' && !hasMode && !openPopup) {
+        if (covers[0]) {
+          setSelected({ id: covers[0].id, elem: 'cover' });
+        } else if (groups[0]) {
+          setSelected({ id: groups[0].id, elem: 'group' });
         }
-        console.log(e.key);
+
+        e.preventDefault();
+      } else if (
+        e.key === 'q' &&
+        selected &&
+        !editLines &&
+        !editTitle &&
+        !openPopup
+      ) {
+        if (selected.elem === 'cover') {
+          const currentIndex = covers.findIndex(
+            (cov) => cov.id === selected.id,
+          );
+
+          if (currentIndex > -1 && covers[currentIndex + 1]) {
+            setSelected({ id: covers[currentIndex + 1].id, elem: 'cover' });
+          } else if (groups.length > 0) {
+            setSelected({ id: groups[0].id, elem: 'group' });
+          }
+        } else if (selected.elem === 'group') {
+          const currentIndex = groups.findIndex(
+            (cov) => cov.id === selected.id,
+          );
+
+          if (currentIndex > -1 && groups[currentIndex + 1]) {
+            setSelected({ id: groups[currentIndex + 1].id, elem: 'group' });
+          } else {
+            setSelected(null);
+          }
+        }
+        e.preventDefault();
       }
     };
     document.addEventListener('keydown', keyFn);
 
     return () => document.removeEventListener('keydown', keyFn);
   }, [
-    undoAction,
-    setOpenShare,
-    setOpenSearch,
-    setOpenConfig,
-    selected,
+    covers,
     editLines,
-    openSearch,
-    openConfig,
-    openShare,
+    editTitle,
+    groups,
+    hasMode,
     openPopup,
-    createGroup,
-    takeScreenshot,
+    selected,
+    setSelected,
+    undoAction,
   ]);
 };

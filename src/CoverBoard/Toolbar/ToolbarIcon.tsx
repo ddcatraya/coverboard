@@ -18,10 +18,6 @@ export const ToolbarIcon: React.FC<ToolbarIconProps> = ({ config, index }) => {
   const getCurrentY = useMainStore((state) => state.getCurrentY);
   const setTooltip = useToolbarStore((state) => state.setTooltip);
 
-  const selected = useUtilsStore((state) => state.selected);
-  const editLines = useUtilsStore((state) => state.points);
-  const isPopupOpen = useToolbarStore((state) => state.isPopupOpen());
-
   const handleMouseMove = (evt: KonvaEventObject<MouseEvent>, tip: string) => {
     setTooltip({
       text: tip,
@@ -91,7 +87,7 @@ export const ToolbarIcon: React.FC<ToolbarIconProps> = ({ config, index }) => {
         text={!!config.badge ? String(config.badge) : ''}
         fontSize={toobarIconSize / 3}
       />
-      {!selected && !editLines && !isPopupOpen && (
+      {false && (
         <Text
           x={1}
           y={toobarIconSize - toobarIconSize / 3.5}

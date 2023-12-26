@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 
 import { GroupCoverValues, GroupCovers, PosTypes } from 'types';
 
@@ -79,6 +79,23 @@ const GroupCoverMemo: React.FC<CoverImageProps> = ({
       ? -fontSize
       : 0;
   const offset2 = dir === subDir && title ? offset1 + fontSize * 1.5 : 0;
+
+  const selected = useUtilsStore((state) => state.selected);
+  const isSelected = !!selected && selected.id === id;
+
+  useEffect(() => {
+    if (!isSelected) return;
+
+    const keyFn = (e) => {
+      if (e.key === 'Enter') {
+        setOpen(true);
+        e.preventDefault();
+      }
+    };
+    document.addEventListener('keydown', keyFn);
+
+    return () => document.removeEventListener('keydown', keyFn);
+  }, [isSelected]);
 
   return (
     <>

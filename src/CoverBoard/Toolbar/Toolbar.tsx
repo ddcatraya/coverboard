@@ -148,7 +148,7 @@ export const ToolbarMemo: React.FC<ToolbarProps> = ({
     },
   ];
 
-  useKeysListener({ createGroup, takeScreenshot });
+  useKeysListener();
 
   return (
     <>

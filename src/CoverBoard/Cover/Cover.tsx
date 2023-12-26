@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 
 import { Covers, CoverValues, PosTypes } from 'types';
 import { CoverPopover, CoverLoadImage, CoverStar, CoverStarDraggable } from '.';
@@ -125,6 +125,23 @@ const CoverMemo: React.FC<CoverImageProps> = ({
     subtitleOffset = starDir === PosTypes.TOP ? -fontSize * 1.5 : 0;
     starOffset = subtitleOffset + fontSize * 1.5;
   }
+
+  const selected = useUtilsStore((state) => state.selected);
+  const isSelected = !!selected && selected.id === id;
+
+  useEffect(() => {
+    if (!isSelected) return;
+
+    const keyFn = (e) => {
+      if (e.key === 'Enter') {
+        setOpen(true);
+        e.preventDefault();
+      }
+    };
+    document.addEventListener('keydown', keyFn);
+
+    return () => document.removeEventListener('keydown', keyFn);
+  }, [isSelected]);
 
   return (
     <>
