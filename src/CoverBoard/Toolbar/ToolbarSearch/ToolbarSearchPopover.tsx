@@ -170,9 +170,10 @@ export const ToolbarSearchPopover: React.FC<PopupProps> = ({
                   <p>Change Url after /coverboard</p>
                 </>
               }>
-              <Typography gutterBottom style={{ marginBottom: '10px' }}>
+              <Button
+                style={{ marginBottom: '10px', textTransform: 'capitalize' }}>
                 {MediaMap[media].emoji} {media} (change ℹ️ )
-              </Typography>
+              </Button>
             </Tooltip>
           )}
         </Grid>
