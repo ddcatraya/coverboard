@@ -19,7 +19,8 @@ interface CommonDraggableProps {
     x: number;
     y: number;
   };
-  updatePosition: (coverId: string, { x, y }: Vector2d) => void;
+  updatePosition: (id: string, { x, y }: Vector2d) => void;
+  onDelete: (id: string) => void;
 }
 
 export const CommonDraggable: React.FC<CommonDraggableProps> = ({
@@ -30,6 +31,7 @@ export const CommonDraggable: React.FC<CommonDraggableProps> = ({
   max,
   children,
   updatePosition,
+  onDelete,
 }) => {
   const covers = useMainStore((state) => state.covers);
   const groups = useMainStore((state) => state.groups);
@@ -98,6 +100,11 @@ export const CommonDraggable: React.FC<CommonDraggableProps> = ({
 
     if (container) {
       container.style.cursor = 'pointer';
+    }
+
+    if (Math.round(e.target.x()) < dragLimits.x) {
+      onDelete(id);
+      return;
     }
 
     updatePosition(id, {

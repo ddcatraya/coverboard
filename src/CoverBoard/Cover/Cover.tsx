@@ -60,6 +60,9 @@ const CoverMemo: React.FC<CoverImageProps> = ({
     (state) => state.updateCoverSubtitleDir,
   );
   const updateCoverStarDir = useMainStore((state) => state.updateCoverStarDir);
+  const removeCoverAndRelatedLines = useMainStore(
+    (state) => state.removeCoverAndRelatedLines,
+  );
 
   const handleSubmit = (
     values: CoverValues,
@@ -124,11 +127,12 @@ const CoverMemo: React.FC<CoverImageProps> = ({
     <>
       <CommonDraggable
         updatePosition={updateCoverPosition}
+        onDelete={removeCoverAndRelatedLines}
         id={id}
         x={x}
         y={y}
         min={{
-          x: dragLimits.x,
+          x: 0,
           y: dragLimits.y,
         }}
         max={{

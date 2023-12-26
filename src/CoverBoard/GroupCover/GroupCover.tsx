@@ -53,6 +53,10 @@ const GroupCoverMemo: React.FC<CoverImageProps> = ({
   const updateGroupDir = useMainStore((state) => state.updateGroupDir);
   const updateGroupSubDir = useMainStore((state) => state.updateGroupSubDir);
 
+  const removeGroupAndRelatedLines = useMainStore(
+    (state) => state.removeGroupAndRelatedLines,
+  );
+
   const handleSubmit = (
     text: GroupCoverValues,
     scale: { scaleX: number; scaleY: number },
@@ -77,11 +81,12 @@ const GroupCoverMemo: React.FC<CoverImageProps> = ({
     <>
       <CommonDraggable
         updatePosition={updateGroupPosition}
+        onDelete={removeGroupAndRelatedLines}
         id={id}
         x={x}
         y={y}
         min={{
-          x: dragLimits.x,
+          x: 0,
           y: dragLimits.y,
         }}
         max={{
