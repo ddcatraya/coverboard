@@ -2,14 +2,12 @@ import React from 'react';
 import { Circle, Group } from 'react-konva';
 import { KonvaEventObject } from 'konva/lib/Node';
 
-import { useMainStore } from 'store';
+import { useMainStore, useUtilsStore } from 'store';
 
-interface LineProps {
-  isSelected: boolean;
-}
-
-export const DrawLineCircle: React.FC<LineProps> = ({ isSelected }) => {
+export const DrawLineCircle: React.FC<{ id: string }> = ({ id }) => {
   const circleRadius = useMainStore((state) => state.circleRadius());
+  const selected = useUtilsStore((state) => state.selected);
+  const isSelected = !!selected && selected.id === id;
   const color = useMainStore((state) => state.getArrowColor());
 
   return (

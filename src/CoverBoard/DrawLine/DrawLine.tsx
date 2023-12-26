@@ -12,7 +12,6 @@ interface LineProps {
   originDir: Lines['origin']['dir'];
   targetId: Lines['target']['id'];
   targetDir: Lines['target']['dir'];
-  isSelected: boolean;
 }
 
 const convertPosToXY = (
@@ -52,7 +51,6 @@ export const DrawLineMemo: React.FC<LineProps> = ({
   originDir,
   targetId,
   targetDir,
-  isSelected,
 }) => {
   const originSquareCover = useMainStore((state) =>
     state.covers.find((cov) => cov.id === originId),
@@ -146,12 +144,7 @@ export const DrawLineMemo: React.FC<LineProps> = ({
     <Group>
       <DrawLineArrow lineParams={lineParams} />
       <Group x={lineParams.midX} y={lineParams.midY}>
-        <DrawLineLabel
-          id={id}
-          dir={dir}
-          lineParams={lineParams}
-          isSelected={isSelected}
-        />
+        <DrawLineLabel id={id} dir={dir} lineParams={lineParams} />
       </Group>
     </Group>
   );

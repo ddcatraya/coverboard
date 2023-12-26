@@ -12,15 +12,9 @@ interface LineProps {
   id: Lines['id'];
   dir: Lines['dir'];
   lineParams: LineParams;
-  isSelected: boolean;
 }
 
-export const DrawLineLabel: React.FC<LineProps> = ({
-  id,
-  dir,
-  lineParams,
-  isSelected,
-}) => {
+export const DrawLineLabel: React.FC<LineProps> = ({ id, dir, lineParams }) => {
   const text = useMainStore((state) => state.getLineTextById(id));
   const coverSizeWidth = useMainStore((state) => state.coverSizeWidth());
   const fontSize = useMainStore((state) => state.fontSize());
@@ -73,7 +67,7 @@ export const DrawLineLabel: React.FC<LineProps> = ({
             wrap="word"
           />
         </DrawLineLabelDraggable>
-        <DrawLineCircle isSelected={isSelected} />
+        <DrawLineCircle id={id} />
       </Group>
 
       {open && (

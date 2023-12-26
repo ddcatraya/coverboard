@@ -10,44 +10,27 @@ import { Stage, Layer, Group, Rect, Text } from 'react-konva';
 import { Cover, DrawLine, Toolbar, TitleLabel, BoundaryArrow, Logo } from './';
 import { flushSync } from 'react-dom';
 import { formatDate } from 'utils';
-import { useMainStore } from 'store';
+import { useMainStore, useUtilsStore } from 'store';
 import { shallow } from 'zustand/shallow';
 import Konva from 'konva';
 import { GroupCover } from './GroupCover';
 
-type SelectedElement = { id: string; elem: 'cover' | 'group' | 'arrow' } | null;
-
-const Covers: React.FC<SelectedProps> = ({ selected, setSelected }) => {
+const Covers: React.FC = () => {
   const covers = useMainStore((state) => state.covers);
-  const removeCoverAndRelatedLines = useMainStore(
-    (state) => state.removeCoverAndRelatedLines,
-  );
+  const setSelected = useUtilsStore((state) => state.setSelected);
 
-  const handlesSelect = (evt, coverId: string) => {
+  const handleSelect = (evt, coverId: string) => {
     evt.cancelBubble = true;
     setSelected({ id: coverId, elem: 'cover' });
   };
-
-  useEffect(() => {
-    if (!selected?.id || selected?.elem !== 'cover') return;
-
-    const deleteFn = (e) => {
-      if (e.key === 'Delete') {
-        removeCoverAndRelatedLines(selected.id);
-      }
-    };
-    document.addEventListener('keydown', deleteFn);
-
-    return () => document.removeEventListener('keydown', deleteFn);
-  }, [removeCoverAndRelatedLines, selected]);
 
   return (
     <>
       {covers.map((cover, index) => (
         <Group
           key={cover.id}
-          onClick={(evt) => handlesSelect(evt, cover.id)}
-          onTouchStart={(evt) => handlesSelect(evt, cover.id)}>
+          onClick={(evt) => handleSelect(evt, cover.id)}
+          onTouchStart={(evt) => handleSelect(evt, cover.id)}>
           <Cover
             id={cover.id}
             title={cover.title.text}
@@ -60,11 +43,6 @@ const Covers: React.FC<SelectedProps> = ({ selected, setSelected }) => {
             link={cover.link}
             key={cover.id}
             renderTime={400 * index}
-            isSelected={
-              !!selected &&
-              selected.id === cover.id &&
-              selected.elem === 'cover'
-            }
           />
         </Group>
       ))}
@@ -72,34 +50,14 @@ const Covers: React.FC<SelectedProps> = ({ selected, setSelected }) => {
   );
 };
 
-interface SelectedProps {
-  selected: SelectedElement;
-  setSelected: React.Dispatch<React.SetStateAction<SelectedElement>>;
-}
-
-const GroupCovers: React.FC<SelectedProps> = ({ selected, setSelected }) => {
+const GroupCovers: React.FC = () => {
   const groups = useMainStore((state) => state.groups);
-  const removeGroupAndRelatedLines = useMainStore(
-    (state) => state.removeGroupAndRelatedLines,
-  );
+  const setSelected = useUtilsStore((state) => state.setSelected);
 
   const handlesSelect = (evt, coverId: string) => {
     evt.cancelBubble = true;
     setSelected({ id: coverId, elem: 'group' });
   };
-
-  useEffect(() => {
-    if (!selected?.id || selected?.elem !== 'group') return;
-
-    const deleteFn = (e) => {
-      if (e.key === 'Delete') {
-        removeGroupAndRelatedLines(selected.id);
-      }
-    };
-    document.addEventListener('keydown', deleteFn);
-
-    return () => document.removeEventListener('keydown', deleteFn);
-  }, [removeGroupAndRelatedLines, selected]);
 
   return (
     <>
@@ -118,11 +76,6 @@ const GroupCovers: React.FC<SelectedProps> = ({ selected, setSelected }) => {
             subDir={group.subtitle.dir}
             scaleX={group.scaleX}
             scaleY={group.scaleY}
-            isSelected={
-              !!selected &&
-              group.id === selected.id &&
-              selected.elem === 'group'
-            }
           />
         </Group>
       ))}
@@ -130,27 +83,14 @@ const GroupCovers: React.FC<SelectedProps> = ({ selected, setSelected }) => {
   );
 };
 
-const DrawLines: React.FC<SelectedProps> = ({ selected, setSelected }) => {
+const DrawLines: React.FC = () => {
   const lines = useMainStore((state) => state.lines);
-  const removeLine = useMainStore((state) => state.removeLine);
+  const setSelected = useUtilsStore((state) => state.setSelected);
 
   const handlesSelect = (evt, coverId: string) => {
     evt.cancelBubble = true;
     setSelected({ id: coverId, elem: 'arrow' });
   };
-
-  useEffect(() => {
-    if (!selected?.id || selected?.elem !== 'arrow') return;
-
-    const deleteFn = (e) => {
-      if (e.key === 'Delete') {
-        removeLine(selected.id);
-      }
-    };
-    document.addEventListener('keydown', deleteFn);
-
-    return () => document.removeEventListener('keydown', deleteFn);
-  }, [removeLine, selected]);
 
   return (
     <>
@@ -167,9 +107,6 @@ const DrawLines: React.FC<SelectedProps> = ({ selected, setSelected }) => {
             targetId={line.target.id}
             targetDir={line.target.dir}
             key={line.id}
-            isSelected={
-              !!selected && line.id === selected.id && selected.elem === 'arrow'
-            }
           />
         </Group>
       ))}
@@ -277,6 +214,57 @@ const GroupCountLabel: React.FC = () => {
   );
 };
 
+const useDeleteListener = () => {
+  const [selected, setSelected] = useUtilsStore((state) => [
+    state.selected,
+    state.setSelected,
+  ]);
+
+  const removeCoverAndRelatedLines = useMainStore(
+    (state) => state.removeCoverAndRelatedLines,
+  );
+  const removeGroupAndRelatedLines = useMainStore(
+    (state) => state.removeGroupAndRelatedLines,
+  );
+  const removeLine = useMainStore((state) => state.removeLine);
+
+  const checkDeselect = useCallback(
+    (e) => {
+      const clickedOnEmpty = e.target === e.target.getStage();
+      if (clickedOnEmpty) {
+        setSelected(null);
+      }
+    },
+    [setSelected],
+  );
+
+  useEffect(() => {
+    if (!selected) return;
+
+    const deleteFn = (e) => {
+      if (e.key === 'Delete') {
+        if (selected.elem === 'group') {
+          removeGroupAndRelatedLines(selected.id);
+        } else if (selected.elem === 'cover') {
+          removeCoverAndRelatedLines(selected.id);
+        } else if (selected.elem === 'arrow') {
+          removeLine(selected.id);
+        }
+      }
+    };
+    document.addEventListener('keydown', deleteFn);
+
+    return () => document.removeEventListener('keydown', deleteFn);
+  }, [
+    removeCoverAndRelatedLines,
+    removeGroupAndRelatedLines,
+    removeLine,
+    selected,
+  ]);
+
+  return { checkDeselect };
+};
+
 export const CoverBoard: React.FC = () => {
   const color = useMainStore((state) => state.getColor());
   const backColor = useMainStore((state) => state.getBackColor());
@@ -291,7 +279,7 @@ export const CoverBoard: React.FC = () => {
   const [screenshotUrl, setScreenshotUrl] = useState('');
   const [showLogo, setShowLogo] = useState(true);
 
-  const [selected, setSelected] = useState<SelectedElement>(null);
+  const { checkDeselect } = useDeleteListener();
 
   const takeScreenshot = useCallback(() => {
     const stage = stageRef.current;
@@ -319,14 +307,6 @@ export const CoverBoard: React.FC = () => {
     }
   }, [dragLimits, saveId]);
 
-  const checkDeselect = (e) => {
-    // deselect when clicked on empty area
-    const clickedOnEmpty = e.target === e.target.getStage();
-    if (clickedOnEmpty) {
-      setSelected(null);
-    }
-  };
-
   return (
     <>
       <Stage
@@ -347,9 +327,9 @@ export const CoverBoard: React.FC = () => {
           )}
           <Group name="board" x={dragLimits.x} y={dragLimits.y}>
             <TitleLabel />
-            <GroupCovers selected={selected} setSelected={setSelected} />
-            <Covers selected={selected} setSelected={setSelected} />
-            <DrawLines selected={selected} setSelected={setSelected} />
+            <GroupCovers />
+            <Covers />
+            <DrawLines />
             <BoundaryArrows />
             <BoundaryGroupArrows />
             <CountLabel />

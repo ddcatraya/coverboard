@@ -25,7 +25,6 @@ interface CoverImageProps {
   subDir: PosTypes;
   scaleX: GroupCovers['scaleX'];
   scaleY: GroupCovers['scaleY'];
-  isSelected: boolean;
 }
 
 const GroupCoverMemo: React.FC<CoverImageProps> = ({
@@ -38,7 +37,6 @@ const GroupCoverMemo: React.FC<CoverImageProps> = ({
   subDir,
   scaleX,
   scaleY,
-  isSelected,
 }) => {
   const color = useMainStore((state) => state.getGroupColor());
   const dragLimits = useMainStore((state) => state.dragLimits(), shallow);
@@ -90,17 +88,12 @@ const GroupCoverMemo: React.FC<CoverImageProps> = ({
           x: windowSize.width - 3.5 * toobarIconSize,
           y: windowSize.height - 3.5 * toobarIconSize,
         }}>
-        <CommonDrawLine
-          id={id}
-          scaleX={scaleX}
-          scaleY={scaleY}
-          selected={isSelected}
-        />
+        <CommonDrawLine id={id} scaleX={scaleX} scaleY={scaleY} />
 
         <Group
           onDblclick={canOpenPopover ? () => setOpen(true) : undefined}
           onDblTap={canOpenPopover ? () => setOpen(true) : undefined}>
-          <GroupSquare id={id} isSelected={isSelected} />
+          <GroupSquare id={id} />
           <CommonLabelDraggable
             updateDir={updateGroupDir}
             id={id}

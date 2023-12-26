@@ -10,15 +10,14 @@ interface CommonDrawLineProps {
   id: Covers['id'];
   scaleX?: number;
   scaleY?: number;
-  selected?: boolean;
 }
 
 export const CommonDrawLine: React.FC<CommonDrawLineProps> = ({
   id,
   scaleX = 1,
   scaleY = 1,
-  selected = false,
 }) => {
+  const selected = useUtilsStore((state) => state.selected);
   const points = useUtilsStore((state) => state.points);
   const setPoints = useUtilsStore((state) => state.setPoints);
   const createLine = useMainStore((state) => state.createLine);
@@ -80,7 +79,7 @@ export const CommonDrawLine: React.FC<CommonDrawLineProps> = ({
     },
   ];
 
-  if (!editLines && !selected) return null;
+  if ((!editLines && !selected) || selected?.id !== id) return null;
 
   return (
     <Group>

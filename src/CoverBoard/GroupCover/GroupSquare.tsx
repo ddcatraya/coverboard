@@ -2,15 +2,15 @@ import React, { useRef } from 'react';
 import { Rect, Transformer } from 'react-konva';
 
 import { GroupCovers } from 'types';
-import { useMainStore } from 'store';
+import { useMainStore, useUtilsStore } from 'store';
 import Konva from 'konva';
 
 interface CoverImageProps {
   id: GroupCovers['id'];
-  isSelected: boolean;
 }
 
-export const GroupSquare: React.FC<CoverImageProps> = ({ id, isSelected }) => {
+export const GroupSquare: React.FC<CoverImageProps> = ({ id }) => {
+  const selected = useUtilsStore((state) => state.selected);
   const color = useMainStore((state) => state.getGroupColor());
   const backColor = useMainStore((state) => state.getBackColor());
   const scale = useMainStore((state) => state.getScale(id));
@@ -32,12 +32,12 @@ export const GroupSquare: React.FC<CoverImageProps> = ({ id, isSelected }) => {
   const trRef = useRef<Konva.Transformer>(null);
 
   React.useEffect(() => {
-    if (trRef.current && rectRef.current && isSelected) {
+    if (trRef.current && rectRef.current && selected && selected.id === id) {
       trRef.current.nodes([rectRef.current]);
 
       trRef.current?.getLayer()?.batchDraw();
     }
-  }, [id, isSelected, removeCoverAndRelatedLines]);
+  }, [id, selected, removeCoverAndRelatedLines]);
 
   const handleTransform = () => {
     if (rectRef.current && boxRef.current) {
@@ -69,7 +69,7 @@ export const GroupSquare: React.FC<CoverImageProps> = ({ id, isSelected }) => {
         ref={rectRef}
         onTransformEnd={handleTransform}
       />
-      {isSelected && (
+      {selected && selected.id === id && (
         <Transformer
           ref={trRef}
           centeredScaling
