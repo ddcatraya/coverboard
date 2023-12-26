@@ -15,7 +15,7 @@ export const CoverStar: React.FC<CoverStarProps> = ({ id, offset = 0 }) => {
   const color = useMainStore((state) => state.getCoverColor());
   const backColor = useMainStore((state) => state.getBackColor());
   const updateStarCount = useMainStore((state) => state.updateStarCount);
-  const editLines = useUtilsStore((state) => state.editLines);
+  const editLines = useUtilsStore((state) => state.points);
 
   const handleClick = (evt, index) => {
     evt.cancelBubble = true;

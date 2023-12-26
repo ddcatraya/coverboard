@@ -21,7 +21,7 @@ export const DrawLineLabel: React.FC<LineProps> = ({ id, dir, lineParams }) => {
   const color = useMainStore((state) => state.getArrowColor());
   const updateLineDir = useMainStore((state) => state.updateLineDir);
   const updateLineText = useMainStore((state) => state.updateLineText);
-  const editLines = useUtilsStore((state) => state.editLines);
+  const editLines = useUtilsStore((state) => state.points);
 
   const [open, setOpen] = useState(false);
 

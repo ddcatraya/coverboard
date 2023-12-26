@@ -45,7 +45,7 @@ const GroupCoverMemo: React.FC<CoverImageProps> = ({
   const windowSize = useMainStore((state) => state.windowSize);
   const [open, setOpen] = useState(false);
   const updateGroupsText = useMainStore((state) => state.updateGroupsText);
-  const editLines = useUtilsStore((state) => state.editLines);
+  const editLines = useUtilsStore((state) => state.points);
   const updateGroupScale = useMainStore((state) => state.updateGroupScale);
   const updateGroupPosition = useMainStore(
     (state) => state.updateGroupPosition,

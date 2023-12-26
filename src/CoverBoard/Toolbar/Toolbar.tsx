@@ -42,7 +42,7 @@ export const ToolbarMemo: React.FC<ToolbarProps> = ({
   takeScreenshot,
   showTooltips,
 }) => {
-  const editLines = useUtilsStore((state) => state.editLines);
+  const editLines = useUtilsStore((state) => state.points);
   const [openConfig, setOpenConfig] = useToolbarStore(
     (state) => [state.openConfig, state.setOpenConfig],
     shallow,
@@ -127,7 +127,7 @@ export const ToolbarMemo: React.FC<ToolbarProps> = ({
       tooltip: `Take screenshot`,
       color: colorMap[Colors.ORANGE],
       emoji: '📷',
-      value: editLines || !showTooltips,
+      value: !!editLines || !showTooltips,
       valueModifier: takeScreenshot,
       badge: 0,
       enabled: showTooltips && !editLines,
