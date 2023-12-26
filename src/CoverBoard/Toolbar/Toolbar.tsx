@@ -125,7 +125,9 @@ export const ToolbarMemo: React.FC<ToolbarProps> = ({
     },
     {
       id: ToolConfigIDs.SCREENSHOT,
-      tooltip: `Take screenshot`,
+      tooltip: `Take screenshot (elems: ${
+        groupsLength + coversLength + linesLength
+      })`,
       color: colorMap[Colors.ORANGE],
       emoji: '📷',
       value: !!editLines || !showTooltips,
