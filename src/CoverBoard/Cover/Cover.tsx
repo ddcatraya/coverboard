@@ -8,7 +8,7 @@ import {
   CommonLabelDraggable,
   CommonLabel,
 } from 'CoverBoard/Common';
-import { useMainStore } from 'store';
+import { useMainStore, useUtilsStore } from 'store';
 import { shallow } from 'zustand/shallow';
 import { Html } from 'react-konva-utils';
 import { Group } from 'react-konva';
@@ -51,6 +51,7 @@ const CoverMemo: React.FC<CoverImageProps> = ({
   const updateCoverLabel = useMainStore((state) => state.updateCoverLabel);
   const showStars = useMainStore((state) => state.getShowStars());
   const updateStarCount = useMainStore((state) => state.updateStarCount);
+  const setSelected = useUtilsStore((state) => state.setSelected);
   const updateCoverPosition = useMainStore(
     (state) => state.updateCoverPosition,
   );
@@ -75,6 +76,7 @@ const CoverMemo: React.FC<CoverImageProps> = ({
     updateCoverSubtitleDir(id, values.subTitleDir);
     updateCoverStarDir(id, currentStarDir);
     updateStarCount(id, rating);
+    setSelected(null);
   };
 
   let titleOffset = 0;
