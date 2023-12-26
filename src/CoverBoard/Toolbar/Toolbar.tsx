@@ -11,6 +11,7 @@ import { useUtilsStore, useMainStore, useToolbarStore } from 'store';
 import React, { useMemo } from 'react';
 import { shallow } from 'zustand/shallow';
 import { v4 as uuidv4 } from 'uuid';
+import { useKeysListener } from 'CoverBoard';
 
 interface ToolbarProps {
   takeScreenshot: () => void;
@@ -31,6 +32,7 @@ const ToolbarActionIcon: React.FC = () => {
       valueModifier: undoAction,
       badge: actionsLength,
       enabled: true,
+      shortcut: 'U',
     }),
     [actionsLength, undoAction],
   );
@@ -96,36 +98,40 @@ export const ToolbarMemo: React.FC<ToolbarProps> = ({
       valueModifier: setOpenSearch,
       badge: coversLength,
       enabled: true,
+      shortcut: 'A',
     },
     {
       id: ToolConfigIDs.CONFIG,
-      tooltip: `Settings (scale: ${configSize})`,
+      tooltip: `Options (scale: ${configSize})`,
       color: colorMap[Colors.PURPLE],
       emoji: '⚙️',
       value: openConfig,
       valueModifier: setOpenConfig,
       badge: configSize === 1 ? 0 : configSize,
       enabled: true,
+      shortcut: 'O',
     },
     {
       id: ToolConfigIDs.SHARE,
-      tooltip: `Share options (saves: ${savesNumber})`,
+      tooltip: `Share and save (saves: ${savesNumber})`,
       color: colorMap[Colors.BLUE],
       emoji: '🔗',
       value: openShare,
       valueModifier: setOpenShare,
       badge: savesNumber === 1 ? 0 : savesNumber,
       enabled: true,
+      shortcut: 'S',
     },
     {
       id: ToolConfigIDs.GROUP,
-      tooltip: `Create Group`,
+      tooltip: `Create box`,
       color: colorMap[Colors.YELLOW],
       emoji: '📁',
       value: false,
       valueModifier: createGroup,
       badge: groupsLength,
       enabled: true,
+      shortcut: 'B',
     },
     {
       id: ToolConfigIDs.SCREENSHOT,
@@ -138,8 +144,11 @@ export const ToolbarMemo: React.FC<ToolbarProps> = ({
       valueModifier: takeScreenshot,
       badge: groupsLength + coversLength + linesLength,
       enabled: showTooltips && !editLines && !selected,
+      shortcut: 'C',
     },
   ];
+
+  useKeysListener({ createGroup, takeScreenshot });
 
   return (
     <>

@@ -97,7 +97,7 @@ export const ToolbarConfigPopover: React.FC<ToolbarConfigPopoverProps> = ({
     <CommonDialog
       open={open}
       onClose={onClose}
-      title="Settings"
+      title="Options"
       hash={ToolConfigIDs.CONFIG}>
       <form onSubmit={handleSubmit}>
         <Grid container spacing={2}>

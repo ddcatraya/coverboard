@@ -22,4 +22,5 @@ export interface ToolConfig {
   valueModifier: (arg: boolean) => void;
   badge: number | null;
   enabled: boolean;
+  shortcut: string;
 }

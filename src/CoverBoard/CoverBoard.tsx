@@ -13,7 +13,6 @@ import {
   GroupCountLabel,
   Logo,
   useDeleteListener,
-  useKeysListener,
 } from './';
 import { flushSync } from 'react-dom';
 import { formatDate } from 'utils';
@@ -36,7 +35,6 @@ export const CoverBoard: React.FC = () => {
   const [showLogo, setShowLogo] = useState(true);
 
   const { checkDeselect } = useDeleteListener();
-  useKeysListener();
 
   const takeScreenshot = useCallback(() => {
     const stage = stageRef.current;

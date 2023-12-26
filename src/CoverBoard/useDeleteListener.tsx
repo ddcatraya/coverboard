@@ -30,7 +30,7 @@ export const useDeleteListener = () => {
   useEffect(() => {
     if (!selected) return;
 
-    const deleteFn = (e) => {
+    const deleteFn = (e: KeyboardEvent) => {
       if (e.key === 'Delete') {
         if (selected.elem === 'group') {
           removeGroupAndRelatedLines(selected.id);

@@ -127,7 +127,7 @@ export const ToolbarSharePopover: React.FC<SaveProps> = ({
     <CommonDialog
       onClose={onClose}
       open={open}
-      title="Share options"
+      title="Share and save"
       hash={ToolConfigIDs.SHARE}>
       <Grid container spacing={2}>
         <Grid item xs={12}>
