@@ -7,6 +7,8 @@ import {
   Typography,
   TextField,
   Divider,
+  useMediaQuery,
+  useTheme,
 } from '@mui/material';
 import { Close as CloseIcon } from '@mui/icons-material';
 
@@ -65,6 +67,8 @@ export const ToolbarSharePopover: React.FC<SaveProps> = ({
   const [jsonData, setJsonData] = useState(JSON.stringify(instance, null, 4));
   const [storage, setStorage] = useState(window.localStorage);
   const [newSave, setNewSave] = useState('');
+  const theme = useTheme();
+  const matches = useMediaQuery(theme.breakpoints.down('sm'));
 
   const handleCopyText = () => {
     try {
@@ -205,7 +209,7 @@ export const ToolbarSharePopover: React.FC<SaveProps> = ({
                   style={{
                     marginRight: '4px',
                     marginBottom: '8px',
-                    width: '32%',
+                    width: matches ? '48%' : '32%',
                     display: 'flex',
                     justifyContent: 'space-between',
                   }}
