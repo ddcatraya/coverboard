@@ -7,3 +7,4 @@ export * from './CoverBoard';
 export * from './BoundaryArrow';
 export * from './Logo';
 export * from './useDeleteListener';
+export * from './useKeysListener';
