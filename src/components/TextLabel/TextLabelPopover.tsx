@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 import { TextField } from '@mui/material';
 
 interface PopupProps {
@@ -21,13 +21,9 @@ interface PopupProps {
 }
 
 export const TextLabelPopover: React.FC<PopupProps> = ({
-  open,
   onClose,
   onSubmit,
-  onReset,
   defaultText,
-  title = 'label',
-  hasReset = false,
   fontSize,
   fill,
   fillBack,
@@ -39,11 +35,23 @@ export const TextLabelPopover: React.FC<PopupProps> = ({
     setText(event.target.value);
   };
 
-  const submitText = () => {
+  const submitText = useCallback(() => {
     onSubmit(text.trim());
     setText('');
     onClose();
-  };
+  }, [onClose, onSubmit, text]);
+
+  useEffect(() => {
+    const keyFn = (e) => {
+      if (e.key === 'Enter') {
+        submitText();
+        e.preventDefault();
+      }
+    };
+    document.addEventListener('keydown', keyFn);
+
+    return () => document.removeEventListener('keydown', keyFn);
+  }, [submitText]);
 
   return (
     <div
@@ -81,39 +89,3 @@ export const TextLabelPopover: React.FC<PopupProps> = ({
     </div>
   );
 };
-
-/* 
-<Dialog open={open} onClose={onClose}>
-      <form
-        onSubmit={handleSubmit}
-        style={{
-          padding: '20px',
-          borderRadius: '5px',
-        }}>
-        <TextField
-          label={`Edit ${title}`}
-          value={text}
-          onChange={handTextChange}
-          fullWidth
-          style={{ marginBottom: '20px' }}
-        />
-        <Button
-          variant="contained"
-          color="primary"
-          type="submit"
-          style={{ marginRight: '20px', marginBottom: '20px' }}>
-          Submit
-        </Button>
-        {hasReset && (
-          <Button
-            variant="contained"
-            color="primary"
-            type="button"
-            onClick={onReset}
-            style={{ marginBottom: '20px' }}>
-            Reset
-          </Button>
-        )}
-      </form>
-    </Dialog>
-    */

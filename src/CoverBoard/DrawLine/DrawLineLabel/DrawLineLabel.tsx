@@ -23,6 +23,10 @@ export const DrawLineLabel: React.FC<LineProps> = ({ id, dir, lineParams }) => {
   const updateLineText = useMainStore((state) => state.updateLineText);
   const editLines = useUtilsStore((state) => state.points);
 
+  const selected = useUtilsStore((state) => state.selected);
+  const setSelected = useUtilsStore((state) => state.setSelected);
+  const isSelected = !!selected && selected.id === id;
+
   const [open, setOpen] = useState(false);
 
   const handleUpdateDir = (dir: PosTypes) => {
@@ -53,11 +57,11 @@ export const DrawLineLabel: React.FC<LineProps> = ({ id, dir, lineParams }) => {
           <TextLabel
             label={getLabel()}
             color={color}
-            open={open}
-            editable={false}
-            setOpen={() => void 0}
+            open={isSelected}
+            editable={true}
+            setOpen={() => setSelected(null)}
             onReset={() => void 0}
-            setLabel={() => void 0}
+            setLabel={(text) => updateLineText(id, text)}
             pos={{
               x: -coverSizeWidth,
               y: fontSize * 1.5,
