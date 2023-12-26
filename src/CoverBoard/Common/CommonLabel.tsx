@@ -15,6 +15,11 @@ interface CommonLabelProps {
   scaleY?: GroupCovers['scaleY'];
   dir: PosTypes;
   color: string;
+  updateLabel: (
+    coverId: string,
+    coverLabel: 'title' | 'subtitle',
+    label: string,
+  ) => void;
 }
 
 export const CommonLabel: React.FC<CommonLabelProps> = ({
@@ -27,22 +32,17 @@ export const CommonLabel: React.FC<CommonLabelProps> = ({
   scaleY = 1,
   dir,
   color,
+  updateLabel,
 }) => {
-  const updateCoverLabel = useMainStore((state) => state.updateCoverLabel);
-  const resetCoverLabel = useMainStore((state) => state.resetCoverLabel);
   const editLines = useUtilsStore((state) => state.points);
+  const selected = useUtilsStore((state) => state.selected);
+  const isSelected = !!selected && selected.id === id;
 
-  const coverSizeWidth =
-    useMainStore((state) => state.coverSizeWidth()) * scaleX;
-  const coverSizeHeight =
-    useMainStore((state) => state.coverSizeHeight()) * scaleY;
+  const coverSizeWidth = useMainStore((state) => state.coverSizeWidth());
+  const coverSizeHeight = useMainStore((state) => state.coverSizeHeight());
   const [open, setOpen] = useState(false);
 
-  const handleReset = () => {
-    resetCoverLabel(id, coverLabel);
-  };
-
-  if (editLines) return null;
+  if (editLines || isSelected) return null;
 
   return (
     <TextLabel
@@ -54,14 +54,14 @@ export const CommonLabel: React.FC<CommonLabelProps> = ({
       setOpen={setOpen}
       editable={false}
       label={text}
-      onReset={handleReset}
+      onReset={() => void 0}
       setLabel={(label) => {
-        updateCoverLabel(id, coverLabel, label);
+        updateLabel(id, coverLabel, label);
       }}
       pos={{
-        x: -coverSizeWidth,
-        y: coverSizeHeight + offset,
-        width: coverSizeWidth * 3,
+        x: -coverSizeWidth * scaleX,
+        y: coverSizeHeight * scaleY + offset,
+        width: coverSizeWidth * scaleX * 3,
         align: getAlign(dir),
       }}
     />

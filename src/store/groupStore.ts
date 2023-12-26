@@ -16,6 +16,11 @@ export interface UseGrouspParams {
     scaleX: GroupCovers['scaleX'];
     scaleY: GroupCovers['scaleY'];
   };
+  updateGroupLabel: (
+    coverId: string,
+    coverLabel: 'title' | 'subtitle',
+    label: string,
+  ) => void;
 }
 
 export const createGroupsSlice: StateCreator<
@@ -91,6 +96,22 @@ export const createGroupsSlice: StateCreator<
             }
           : group,
       ),
+    }));
+  },
+  updateGroupLabel(coverId, groupLabel, text) {
+    console.log(coverId, groupLabel, text);
+    set(({ groups }) => ({
+      groups: groups.map((group) => {
+        return coverId === group.id
+          ? {
+              ...group,
+              [groupLabel]: {
+                ...group[groupLabel],
+                text,
+              },
+            }
+          : group;
+      }),
     }));
   },
   addGroups(filteredResults) {

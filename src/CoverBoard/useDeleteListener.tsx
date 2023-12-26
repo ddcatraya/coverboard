@@ -6,6 +6,7 @@ export const useDeleteListener = () => {
     state.selected,
     state.setSelected,
   ]);
+  const setPoints = useUtilsStore((state) => state.setPoints);
 
   const removeCoverAndRelatedLines = useMainStore(
     (state) => state.removeCoverAndRelatedLines,
@@ -20,9 +21,10 @@ export const useDeleteListener = () => {
       const clickedOnEmpty = e.target === e.target.getStage();
       if (clickedOnEmpty) {
         setSelected(null);
+        setPoints(null);
       }
     },
-    [setSelected],
+    [setPoints, setSelected],
   );
 
   useEffect(() => {

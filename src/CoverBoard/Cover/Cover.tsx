@@ -48,6 +48,7 @@ const CoverMemo: React.FC<CoverImageProps> = ({
   const [open, setOpen] = useState(false);
   const resetCoverLabel = useMainStore((state) => state.resetCoverLabel);
   const updateCoversText = useMainStore((state) => state.updateCoversText);
+  const updateCoverLabel = useMainStore((state) => state.updateCoverLabel);
   const showStars = useMainStore((state) => state.getShowStars());
   const updateStarCount = useMainStore((state) => state.updateStarCount);
   const updateCoverPosition = useMainStore(
@@ -152,6 +153,7 @@ const CoverMemo: React.FC<CoverImageProps> = ({
               y={y}
               dir={titleDir}>
               <CommonLabel
+                updateLabel={updateCoverLabel}
                 dir={titleDir}
                 coverLabel="title"
                 text={title}
@@ -171,6 +173,7 @@ const CoverMemo: React.FC<CoverImageProps> = ({
               y={y}
               dir={subTitleDir}>
               <CommonLabel
+                updateLabel={updateCoverLabel}
                 dir={subTitleDir}
                 coverLabel="subtitle"
                 text={subtitle}

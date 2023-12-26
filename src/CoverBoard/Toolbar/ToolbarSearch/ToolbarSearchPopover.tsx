@@ -7,7 +7,6 @@ import {
   Radio,
   RadioGroup,
   Tooltip,
-  Typography,
 } from '@mui/material';
 
 import {

@@ -32,8 +32,10 @@ export const CoverStar: React.FC<CoverStarProps> = ({ id, offset = 0 }) => {
   };
 
   const totalWidth = 4 * starRadius * 3;
+  const selected = useUtilsStore((state) => state.selected);
+  const isSelected = !!selected && selected.id === id;
 
-  if (editLines) return null;
+  if (editLines || isSelected) return null;
 
   return (
     <Group opacity={starCount ? 1 : 0.3} y={coverSizeHeight + offset}>

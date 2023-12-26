@@ -47,6 +47,7 @@ const GroupCoverMemo: React.FC<CoverImageProps> = ({
   const updateGroupsText = useMainStore((state) => state.updateGroupsText);
   const editLines = useUtilsStore((state) => state.points);
   const updateGroupScale = useMainStore((state) => state.updateGroupScale);
+  const updateGroupLabel = useMainStore((state) => state.updateGroupLabel);
   const updateGroupPosition = useMainStore(
     (state) => state.updateGroupPosition,
   );
@@ -111,6 +112,7 @@ const GroupCoverMemo: React.FC<CoverImageProps> = ({
               color={color}
               dir={dir}
               coverLabel="title"
+              updateLabel={updateGroupLabel}
               text={title}
               id={id}
               fontStyle="bold"
@@ -132,6 +134,7 @@ const GroupCoverMemo: React.FC<CoverImageProps> = ({
               color={color}
               dir={subDir}
               coverLabel="subtitle"
+              updateLabel={updateGroupLabel}
               text={subtitle}
               id={id}
               fontStyle="bold"
