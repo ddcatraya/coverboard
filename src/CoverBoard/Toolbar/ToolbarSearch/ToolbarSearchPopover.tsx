@@ -6,9 +6,17 @@ import {
   FormControlLabel,
   Radio,
   RadioGroup,
+  Tooltip,
+  Typography,
 } from '@mui/material';
 
-import { ToolConfigIDs, CoverLabelValues, Media, MediaValues } from 'types';
+import {
+  ToolConfigIDs,
+  CoverLabelValues,
+  Media,
+  MediaValues,
+  MediaMap,
+} from 'types';
 import { CommonDialog } from 'components';
 import { flushSync } from 'react-dom';
 import { useMainStore } from 'store';
@@ -111,47 +119,62 @@ export const ToolbarSearchPopover: React.FC<PopupProps> = ({
       hash={ToolConfigIDs.SEARCH}>
       <form onSubmit={handleSubmit}>
         <Grid item sm={6} xs={12}>
-          <label>
-            Pick the media <small>(only if empty screen)</small>:
-          </label>
-          <RadioGroup
-            row
-            aria-label="media"
-            name="media"
-            value={media}
-            style={{ marginBottom: '20px' }}
-            onChange={handleMediaChange}>
-            <FormControlLabel
-              disabled={!!coversLength}
-              value={Media.MUSIC}
-              control={<Radio />}
-              label={Media.MUSIC}
-            />
-            <FormControlLabel
-              disabled={!!coversLength}
-              value={Media.MOVIE}
-              control={<Radio />}
-              label={Media.MOVIE}
-            />
-            <FormControlLabel
-              disabled={!!coversLength}
-              value={Media.TVSHOW}
-              control={<Radio />}
-              label={Media.TVSHOW}
-            />
-            <FormControlLabel
-              disabled={!!coversLength}
-              value={Media.BOOK}
-              control={<Radio />}
-              label={Media.BOOK}
-            />
-            <FormControlLabel
-              disabled={!!coversLength}
-              value={Media.GAME}
-              control={<Radio />}
-              label={Media.GAME}
-            />
-          </RadioGroup>
+          {!coversLength ? (
+            <>
+              <label>Pick the media:</label>
+              <RadioGroup
+                row
+                aria-label="media"
+                name="media"
+                value={media}
+                style={{ marginBottom: '20px' }}
+                onChange={handleMediaChange}>
+                <FormControlLabel
+                  disabled={!!coversLength}
+                  value={Media.MUSIC}
+                  control={<Radio />}
+                  label={Media.MUSIC}
+                />
+                <FormControlLabel
+                  disabled={!!coversLength}
+                  value={Media.MOVIE}
+                  control={<Radio />}
+                  label={Media.MOVIE}
+                />
+                <FormControlLabel
+                  disabled={!!coversLength}
+                  value={Media.TVSHOW}
+                  control={<Radio />}
+                  label={Media.TVSHOW}
+                />
+                <FormControlLabel
+                  disabled={!!coversLength}
+                  value={Media.BOOK}
+                  control={<Radio />}
+                  label={Media.BOOK}
+                />
+                <FormControlLabel
+                  disabled={!!coversLength}
+                  value={Media.GAME}
+                  control={<Radio />}
+                  label={Media.GAME}
+                />
+              </RadioGroup>
+            </>
+          ) : (
+            <Tooltip
+              title={
+                <>
+                  <p>Clear board</p>
+                  <p>Add new page in Share button</p>
+                  <p>Change Url after /coverboard</p>
+                </>
+              }>
+              <Typography gutterBottom style={{ marginBottom: '10px' }}>
+                {MediaMap[media].emoji} {media} (change ℹ️ )
+              </Typography>
+            </Tooltip>
+          )}
         </Grid>
         {inputs.map((input, index) => (
           <Grid
