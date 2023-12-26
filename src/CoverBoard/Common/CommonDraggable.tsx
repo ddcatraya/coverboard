@@ -102,7 +102,7 @@ export const CommonDraggable: React.FC<CommonDraggableProps> = ({
       container.style.cursor = 'pointer';
     }
 
-    if (Math.round(e.target.x()) < dragLimits.x) {
+    if (Math.round(e.target.x()) < -dragLimits.x / 2) {
       onDelete(id);
       return;
     }
