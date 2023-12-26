@@ -58,6 +58,7 @@ export const ToolbarMemo: React.FC<ToolbarProps> = ({
 
   const coversLength = useMainStore((state) => state.covers.length);
   const groupsLength = useMainStore((state) => state.groups.length);
+  const linesLength = useMainStore((state) => state.lines.length);
   const coverSizeWidth = useMainStore((state) => state.coverSizeWidth());
   const addGroups = useMainStore((state) => state.addGroups);
   const groupDir = useMainStore((state) => state.configs.groupDir);
@@ -70,8 +71,8 @@ export const ToolbarMemo: React.FC<ToolbarProps> = ({
         y: 0,
         title: { text: 'Group', dir: groupDir ?? PosTypes.TOP },
         subtitle: { text: '', dir: groupDir ?? PosTypes.TOP },
-        scaleX: 4,
-        scaleY: 4,
+        scaleX: 3,
+        scaleY: 3,
       },
     ]);
   };
@@ -129,7 +130,7 @@ export const ToolbarMemo: React.FC<ToolbarProps> = ({
       emoji: '📷',
       value: !!editLines || !showTooltips,
       valueModifier: takeScreenshot,
-      badge: 0,
+      badge: groupsLength + coversLength + linesLength,
       enabled: showTooltips && !editLines,
     },
   ];
