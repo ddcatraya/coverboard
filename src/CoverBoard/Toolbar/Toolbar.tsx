@@ -55,7 +55,9 @@ export const ToolbarMemo: React.FC<ToolbarProps> = ({
     (state) => [state.openShare, state.setOpenShare],
     shallow,
   );
+  const setSelected = useUtilsStore((state) => state.setSelected);
 
+  const selected = useUtilsStore((state) => state.selected);
   const coversLength = useMainStore((state) => state.covers.length);
   const groupsLength = useMainStore((state) => state.groups.length);
   const linesLength = useMainStore((state) => state.lines.length);
@@ -64,9 +66,10 @@ export const ToolbarMemo: React.FC<ToolbarProps> = ({
   const groupDir = useMainStore((state) => state.configs.groupDir);
 
   const createGroup = () => {
+    const id = uuidv4();
     addGroups([
       {
-        id: uuidv4(),
+        id,
         x: 0,
         y: 0,
         title: { text: 'Group', dir: groupDir ?? PosTypes.TOP },
@@ -75,6 +78,7 @@ export const ToolbarMemo: React.FC<ToolbarProps> = ({
         scaleY: 3,
       },
     ]);
+    setSelected({ id, elem: 'group' });
   };
 
   const savesNumber = Object.keys(window.localStorage).filter((key) =>
@@ -130,10 +134,10 @@ export const ToolbarMemo: React.FC<ToolbarProps> = ({
       })`,
       color: colorMap[Colors.ORANGE],
       emoji: '📷',
-      value: !!editLines || !showTooltips,
+      value: !!editLines || !showTooltips || !!selected,
       valueModifier: takeScreenshot,
       badge: groupsLength + coversLength + linesLength,
-      enabled: showTooltips && !editLines,
+      enabled: showTooltips && !editLines && !selected,
     },
   ];
 

@@ -4,6 +4,7 @@ import useMediaQuery from '@mui/material/useMediaQuery';
 import { useTheme } from '@mui/material/styles';
 import { useEffect } from 'react';
 import { clearHash, setHash } from 'utils';
+import { useUtilsStore } from 'store';
 
 interface CommonDialogProps {
   open: boolean;
@@ -22,14 +23,16 @@ export const CommonDialog: React.FC<CommonDialogProps> = ({
 }) => {
   const theme = useTheme();
   const fullScreen = useMediaQuery(theme.breakpoints.down('sm')); // Detect small sc
+  const setSelected = useUtilsStore((state) => state.setSelected);
 
   useEffect(() => {
     if (!hash) return;
 
     setHash(hash);
+    setSelected(null);
 
     return clearHash;
-  }, [hash]);
+  }, [hash, setSelected]);
 
   return (
     <Dialog
