@@ -152,7 +152,7 @@ const CoverMemo: React.FC<CoverImageProps> = ({
         x={x}
         y={y}
         min={{
-          x: 0,
+          x: dragLimits.x,
           y: dragLimits.y,
         }}
         max={{

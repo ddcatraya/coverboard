@@ -118,13 +118,13 @@ export const ToolbarMemo: React.FC<ToolbarProps> = ({
       emoji: '🔗',
       value: openShare,
       valueModifier: setOpenShare,
-      badge: savesNumber === 1 ? 1 : savesNumber,
+      badge: savesNumber === 1 ? 0 : savesNumber,
       enabled: true,
       shortcut: 'S',
     },
     {
       id: ToolConfigIDs.GROUP,
-      tooltip: `Create group`,
+      tooltip: `Create group (groups: ${groupsLength})`,
       color: colorMap[Colors.YELLOW],
       emoji: '📁',
       value: false,
@@ -135,7 +135,7 @@ export const ToolbarMemo: React.FC<ToolbarProps> = ({
     },
     {
       id: ToolConfigIDs.SCREENSHOT,
-      tooltip: `Take screenshot (elems: ${
+      tooltip: `Download board (elems: ${
         groupsLength + coversLength + linesLength
       })`,
       color: colorMap[Colors.ORANGE],

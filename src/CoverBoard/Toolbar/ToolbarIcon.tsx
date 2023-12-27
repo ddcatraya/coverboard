@@ -71,7 +71,8 @@ export const ToolbarIcon: React.FC<ToolbarIconProps> = ({ config, index }) => {
         opacity={config.value ? MIN_OPACITY : 1}
       />
       <Text
-        y={toobarIconSize / 4}
+        x={1}
+        y={toobarIconSize / 3.5}
         width={toobarIconSize}
         height={toobarIconSize}
         align="center"
@@ -81,25 +82,27 @@ export const ToolbarIcon: React.FC<ToolbarIconProps> = ({ config, index }) => {
         opacity={config.value ? MIN_OPACITY : 1}
       />
       <Text
-        x={toobarIconSize / 2}
-        y={toobarIconSize - toobarIconSize / 3.5}
+        x={toobarIconSize / 2 - 1}
+        y={toobarIconSize - toobarIconSize / 4 - 1}
         width={toobarIconSize / 2}
         height={toobarIconSize / 2}
         align="right"
-        fill="black"
-        text={!!config.badge ? String(config.badge) : '0'}
-        fontSize={toobarIconSize / 3}
+        fontStyle="bold"
+        fill={config.color === 'yellow' ? 'gray' : 'white'}
+        text={!!config.badge ? String(config.badge) : ''}
+        fontSize={toobarIconSize / 4}
       />
       {!hasMode && !isPopupOpen && (
         <Text
           x={1}
-          y={toobarIconSize - toobarIconSize / 3.5}
+          y={1}
           width={toobarIconSize / 2}
           height={toobarIconSize / 2}
           align="left"
-          fill="black"
+          fontStyle="bold"
+          fill={config.color === 'yellow' ? 'gray' : 'white'}
           text={config.shortcut}
-          fontSize={toobarIconSize / 3}
+          fontSize={toobarIconSize / 4}
         />
       )}
     </Group>
