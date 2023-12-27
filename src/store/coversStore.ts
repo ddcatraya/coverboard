@@ -7,6 +7,7 @@ export interface UseCoverParams {
   updateStarCount: (coverId: string, count: number) => void;
   updateAllCoversDir: (dir: PosTypes) => void;
   updateAllStarsDir: (dir: PosTypes) => void;
+  refreshCovers: (coverId: string) => void;
   resetCoverLabel: (coverId: string, coverLabel: 'title' | 'subtitle') => void;
   updateCoverLabel: (
     coverId: string,
@@ -173,5 +174,17 @@ export const createCoversSlice: StateCreator<
     set(({ covers }) => ({
       covers: [...covers, ...filteredResults],
     }));
+  },
+  refreshCovers(coverId) {
+    const foundCover = get().covers.find((cov) => cov.id !== coverId);
+
+    if (foundCover) {
+      const filteredGroups = get().covers.filter(
+        (cov) => cov.id !== foundCover.id,
+      );
+      filteredGroups.push(foundCover);
+
+      set({ covers: filteredGroups });
+    }
   },
 });

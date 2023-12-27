@@ -46,12 +46,15 @@ export const TextLabelPopover: React.FC<PopupProps> = ({
       if (e.key === 'Enter') {
         submitText();
         e.preventDefault();
+      } else if (e.key === 'Escape') {
+        onClose();
+        e.preventDefault();
       }
     };
     document.addEventListener('keydown', keyFn);
 
     return () => document.removeEventListener('keydown', keyFn);
-  }, [submitText]);
+  }, [onClose, submitText]);
 
   return (
     <div

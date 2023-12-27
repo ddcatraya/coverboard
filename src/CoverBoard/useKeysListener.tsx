@@ -18,58 +18,77 @@ export const useKeysListener = ({
   const setOpenSearch = useToolbarStore((state) => state.setOpenSearch);
   const setOpenShare = useToolbarStore((state) => state.setOpenShare);
 
+  const points = useUtilsStore((state) => state.points);
   const selected = useUtilsStore((state) => state.selected);
   const setSelected = useUtilsStore((state) => state.setSelected);
-  const editLines = useUtilsStore((state) => state.points);
   const hasMode = useUtilsStore((state) => state.hasMode());
   const editTitle = useUtilsStore((state) => state.editTitle);
   const setEditTitle = useUtilsStore((state) => state.setEditTitle);
 
   const covers = useMainStore((state) => state.covers);
   const groups = useMainStore((state) => state.groups);
+  const lines = useMainStore((state) => state.lines);
 
   useEffect(() => {
     const keyFn = (e: KeyboardEvent) => {
       if ((e.ctrlKey || e.metaKey) && e.key === 'z') {
         undoAction();
         e.preventDefault();
-      } else if (e.key === 'q' && !hasMode && !openPopup) {
-        if (covers[0]) {
-          setSelected({ id: covers[0].id, elem: 'cover' });
-        } else if (groups[0]) {
-          setSelected({ id: groups[0].id, elem: 'group' });
-        }
+      }
 
+      /* if (e.key === 'n' && !hasMode && !openPopup) {
+
+
+      } */
+
+      if (e.key === 'n' && !editTitle && !openPopup && !points && selected) {
         e.preventDefault();
-      } else if (
-        e.key === 'q' &&
-        selected &&
-        !editLines &&
-        !editTitle &&
-        !openPopup
-      ) {
         if (selected.elem === 'cover') {
           const currentIndex = covers.findIndex(
             (cov) => cov.id === selected.id,
           );
-
           if (currentIndex > -1 && covers[currentIndex + 1]) {
             setSelected({ id: covers[currentIndex + 1].id, elem: 'cover' });
-          } else if (groups.length > 0) {
-            setSelected({ id: groups[0].id, elem: 'group' });
+          } else {
+            setSelected({ id: covers[0].id, elem: 'cover' });
           }
         } else if (selected.elem === 'group') {
           const currentIndex = groups.findIndex(
             (cov) => cov.id === selected.id,
           );
-
           if (currentIndex > -1 && groups[currentIndex + 1]) {
             setSelected({ id: groups[currentIndex + 1].id, elem: 'group' });
           } else {
-            setSelected(null);
+            setSelected({ id: groups[0].id, elem: 'group' });
           }
         }
+      } else if (
+        e.key === 'p' &&
+        !editTitle &&
+        !openPopup &&
+        !points &&
+        selected
+      ) {
         e.preventDefault();
+        if (selected.elem === 'cover') {
+          const currentIndex = covers.findIndex(
+            (cov) => cov.id === selected.id,
+          );
+          if (currentIndex > -1 && covers[currentIndex - 1]) {
+            setSelected({ id: covers[currentIndex - 1].id, elem: 'cover' });
+          } else {
+            setSelected({ id: covers[covers.length - 1].id, elem: 'cover' });
+          }
+        } else if (selected.elem === 'group') {
+          const currentIndex = groups.findIndex(
+            (cov) => cov.id === selected.id,
+          );
+          if (currentIndex > -1 && groups[currentIndex - 1]) {
+            setSelected({ id: groups[currentIndex - 1].id, elem: 'group' });
+          } else {
+            setSelected({ id: groups[covers.length - 1].id, elem: 'group' });
+          }
+        }
       }
 
       if (!hasMode && !openPopup) {
@@ -96,10 +115,10 @@ export const useKeysListener = ({
   }, [
     covers,
     createGroup,
-    editLines,
     editTitle,
     groups,
     hasMode,
+    lines,
     openPopup,
     selected,
     setEditTitle,

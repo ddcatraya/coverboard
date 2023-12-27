@@ -5,10 +5,12 @@ import { Cover } from './Cover';
 export const Covers: React.FC = () => {
   const covers = useMainStore((state) => state.covers);
   const setSelected = useUtilsStore((state) => state.setSelected);
+  const refreshCovers = useMainStore((state) => state.refreshCovers);
 
   const handleSelect = (evt, coverId: string) => {
     evt.cancelBubble = true;
     setSelected({ id: coverId, elem: 'cover' });
+    refreshCovers(coverId);
   };
 
   return (

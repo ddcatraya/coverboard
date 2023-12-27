@@ -5,10 +5,12 @@ import { GroupCover } from './GroupCover';
 export const GroupCovers: React.FC = () => {
   const groups = useMainStore((state) => state.groups);
   const setSelected = useUtilsStore((state) => state.setSelected);
+  const refreshGroups = useMainStore((state) => state.refreshGroups);
 
-  const handlesSelect = (evt, coverId: string) => {
+  const handlesSelect = (evt, groupId: string) => {
     evt.cancelBubble = true;
-    setSelected({ id: coverId, elem: 'group' });
+    setSelected({ id: groupId, elem: 'group' });
+    refreshGroups(groupId);
   };
 
   return (
