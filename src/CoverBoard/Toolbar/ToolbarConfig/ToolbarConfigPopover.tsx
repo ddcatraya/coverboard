@@ -13,6 +13,7 @@ import {
   Select,
   MenuItem,
   InputLabel,
+  Tooltip,
 } from '@mui/material';
 import {
   backColorMap,
@@ -354,6 +355,36 @@ export const ToolbarConfigPopover: React.FC<ToolbarConfigPopoverProps> = ({
               style={{ marginRight: '20px', marginBottom: '20px' }}>
               Close
             </Button>
+
+            <Tooltip
+              title={
+                <>
+                  <h3>Toolbar (no selections)</h3>
+                  <p>A - open Search and add</p>
+                  <p>O - open Options</p>
+                  <p>S - open Share and save</p>
+                  <p>G - create group</p>
+                  <p>C - download image of board</p>
+                  <p>U or CTRL+Z - undo</p>
+                  <h3>Misc.</h3>
+                  <p>E - edit title</p>
+                  <p>N - next cover and group</p>
+                  <p>P - prev cover or group</p>
+                  <h3>When elem selected</h3>
+                  <p>Delete - delete elem</p>
+                  <p>Enter - open config popover</p>
+                  <p>Esc - exit selection</p>
+                  <p>ArrowKeys - select arrow direction</p>
+                </>
+              }>
+              <Button
+                variant="contained"
+                color="secondary"
+                type="button"
+                style={{ marginRight: '20px', marginBottom: '20px' }}>
+                Keyboard Shortcuts
+              </Button>
+            </Tooltip>
           </Grid>
         </Grid>
       </form>
