@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useCallback, useEffect } from 'react';
 import { Group, Rect } from 'react-konva';
 
 import { Covers, PosTypes } from 'types';
@@ -30,16 +30,19 @@ export const CommonDrawLine: React.FC<CommonDrawLineProps> = ({
 
   const square = 40 + coverSizeWidth / 20;
 
-  const handleDrawLine = (id: string, dir: PosTypes) => {
-    if (!points) {
-      setPoints({ id, dir });
-    } else if (points.id !== id) {
-      createLine(id, points, dir);
-      setPoints(null);
-    } else if (points.id === id) {
-      setPoints(null);
-    }
-  };
+  const handleDrawLine = useCallback(
+    (id: string, dir: PosTypes) => {
+      if (!points) {
+        setPoints({ id, dir });
+      } else if (points.id !== id) {
+        createLine(id, points, dir);
+        setPoints(null);
+      } else if (points.id === id) {
+        setPoints(null);
+      }
+    },
+    [createLine, points, setPoints],
+  );
 
   const posArray = [
     {
@@ -71,6 +74,32 @@ export const CommonDrawLine: React.FC<CommonDrawLineProps> = ({
       height: square,
     },
   ];
+
+  useEffect(() => {
+    if (!isSelected) return;
+
+    const keyFn = (e) => {
+      if (e.key === 'ArrowRight') {
+        handleDrawLine(id, PosTypes.RIGHT);
+        e.preventDefault();
+      } else if (e.key === 'ArrowLeft') {
+        handleDrawLine(id, PosTypes.LEFT);
+        e.preventDefault();
+      } else if (e.key === 'ArrowUp') {
+        handleDrawLine(id, PosTypes.TOP);
+        e.preventDefault();
+      } else if (e.key === 'ArrowDown') {
+        handleDrawLine(id, PosTypes.BOTTOM);
+        e.preventDefault();
+      } else if (e.key === 'Escape') {
+        setPoints(null);
+        e.preventDefault();
+      }
+    };
+    document.addEventListener('keydown', keyFn);
+
+    return () => document.removeEventListener('keydown', keyFn);
+  }, [handleDrawLine, id, isSelected, selected, setPoints]);
 
   if (!points && !isSelected) return null;
 

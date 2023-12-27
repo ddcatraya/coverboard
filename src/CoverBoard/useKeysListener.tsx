@@ -40,13 +40,7 @@ export const useKeysListener = ({
         } else if (groups.length > 0) {
           setSelected({ id: groups[0].id, elem: 'group' });
         }
-      } else if (
-        e.key === 'n' &&
-        !editTitle &&
-        !openPopup &&
-        !points &&
-        selected
-      ) {
+      } else if (e.key === 'n' && !editTitle && !openPopup && selected) {
         e.preventDefault();
         if (selected.elem === 'cover') {
           const currentIndex = covers.findIndex(
@@ -71,13 +65,7 @@ export const useKeysListener = ({
             setSelected({ id: groups[0].id, elem: 'group' });
           }
         }
-      } else if (
-        e.key === 'p' &&
-        !editTitle &&
-        !openPopup &&
-        !points &&
-        selected
-      ) {
+      } else if (e.key === 'p' && !editTitle && !openPopup && selected) {
         e.preventDefault();
         if (selected.elem === 'cover') {
           const currentIndex = covers.findIndex(
@@ -98,13 +86,7 @@ export const useKeysListener = ({
             setSelected({ id: groups[covers.length - 1].id, elem: 'group' });
           }
         }
-      } else if (
-        e.key === 'Escape' &&
-        !editTitle &&
-        !openPopup &&
-        !points &&
-        selected
-      ) {
+      } else if (e.key === 'Escape' && !editTitle && !openPopup && selected) {
         setSelected(null);
         e.preventDefault();
       } else if (!hasMode && !openPopup) {
