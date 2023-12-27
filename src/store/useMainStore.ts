@@ -233,6 +233,26 @@ export const useMainStore = createWithEqualityFn<MainStoreUnion>()(
       removeGroupAndRelatedLines(groupId: string) {
         saveLastAction();
 
+        const group = get().groups.find((group) => group.id === groupId);
+
+        if (group) {
+          if (group.x !== 0 || group.y !== 0) {
+            const coversDetect = get().covers.filter(
+              (cover) =>
+                cover.x > group.x &&
+                cover.x < group.x + get().coverSizeWidth() * group.scaleX &&
+                cover.y > group.y &&
+                cover.y < group.y + get().coverSizeHeight() * group.scaleY,
+            );
+
+            if (coversDetect.length > 0) {
+              coversDetect.forEach((cover) => {
+                get().removeCoverAndRelatedLines(cover.id);
+              });
+            }
+          }
+        }
+
         set(({ groups }) => ({
           groups: groups.filter((c) => c.id !== groupId),
         }));
