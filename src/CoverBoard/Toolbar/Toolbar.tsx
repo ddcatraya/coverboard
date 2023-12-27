@@ -8,7 +8,7 @@ import {
 import { colorMap, Colors, PosTypes, ToolConfig, ToolConfigIDs } from 'types';
 import { haxPrefix } from 'utils';
 import { useUtilsStore, useMainStore, useToolbarStore } from 'store';
-import React, { useMemo } from 'react';
+import React, { useCallback, useMemo } from 'react';
 import { shallow } from 'zustand/shallow';
 import { v4 as uuidv4 } from 'uuid';
 import { useKeysListener } from 'CoverBoard';
@@ -67,7 +67,7 @@ export const ToolbarMemo: React.FC<ToolbarProps> = ({
   const addGroups = useMainStore((state) => state.addGroups);
   const groupDir = useMainStore((state) => state.configs.groupDir);
 
-  const createGroup = () => {
+  const createGroup = useCallback(() => {
     const id = uuidv4();
     addGroups([
       {
@@ -81,7 +81,7 @@ export const ToolbarMemo: React.FC<ToolbarProps> = ({
       },
     ]);
     setSelected({ id, elem: 'group' });
-  };
+  }, [addGroups, groupDir, setSelected]);
 
   const savesNumber = Object.keys(window.localStorage).filter((key) =>
     haxPrefix(key),
@@ -124,14 +124,14 @@ export const ToolbarMemo: React.FC<ToolbarProps> = ({
     },
     {
       id: ToolConfigIDs.GROUP,
-      tooltip: `Create box`,
+      tooltip: `Create group`,
       color: colorMap[Colors.YELLOW],
       emoji: '📁',
       value: false,
       valueModifier: createGroup,
       badge: groupsLength,
       enabled: true,
-      shortcut: 'B',
+      shortcut: 'G',
     },
     {
       id: ToolConfigIDs.SCREENSHOT,
@@ -148,7 +148,7 @@ export const ToolbarMemo: React.FC<ToolbarProps> = ({
     },
   ];
 
-  useKeysListener();
+  useKeysListener({ createGroup, takeScreenshot });
 
   return (
     <>

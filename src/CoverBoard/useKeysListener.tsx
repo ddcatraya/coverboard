@@ -1,16 +1,29 @@
 import { useEffect } from 'react';
 import { useMainStore, useToolbarStore, useUtilsStore } from 'store';
 
-export const useKeysListener = () => {
+interface UseEventListener {
+  createGroup: () => void;
+  takeScreenshot: () => void;
+}
+
+export const useKeysListener = ({
+  createGroup,
+  takeScreenshot,
+}: UseEventListener) => {
   const undoAction = useMainStore((state) => state.undoAction);
 
   const openPopup = useToolbarStore((state) => state.isPopupOpen());
+
+  const setOpenConfig = useToolbarStore((state) => state.setOpenConfig);
+  const setOpenSearch = useToolbarStore((state) => state.setOpenSearch);
+  const setOpenShare = useToolbarStore((state) => state.setOpenShare);
 
   const selected = useUtilsStore((state) => state.selected);
   const setSelected = useUtilsStore((state) => state.setSelected);
   const editLines = useUtilsStore((state) => state.points);
   const hasMode = useUtilsStore((state) => state.hasMode());
   const editTitle = useUtilsStore((state) => state.editTitle);
+  const setEditTitle = useUtilsStore((state) => state.setEditTitle);
 
   const covers = useMainStore((state) => state.covers);
   const groups = useMainStore((state) => state.groups);
@@ -58,19 +71,43 @@ export const useKeysListener = () => {
         }
         e.preventDefault();
       }
-    };
-    document.addEventListener('keydown', keyFn);
 
-    return () => document.removeEventListener('keydown', keyFn);
+      if (!hasMode && !openPopup) {
+        if (e.key === 'a') {
+          setOpenSearch(true);
+        } else if (e.key === 'o') {
+          setOpenConfig(true);
+        } else if (e.key === 's') {
+          setOpenShare(true);
+        } else if (e.key === 'g') {
+          createGroup();
+        } else if (e.key === 'c') {
+          takeScreenshot();
+        } else if (e.key === 'u') {
+          undoAction();
+        } else if (e.key === 'e') {
+          setEditTitle(true);
+        }
+      }
+    };
+    window.addEventListener('keydown', keyFn);
+
+    return () => window.removeEventListener('keydown', keyFn);
   }, [
     covers,
+    createGroup,
     editLines,
     editTitle,
     groups,
     hasMode,
     openPopup,
     selected,
+    setEditTitle,
+    setOpenConfig,
+    setOpenSearch,
+    setOpenShare,
     setSelected,
+    takeScreenshot,
     undoAction,
   ]);
 };

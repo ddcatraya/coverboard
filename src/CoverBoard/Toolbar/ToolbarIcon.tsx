@@ -18,6 +18,9 @@ export const ToolbarIcon: React.FC<ToolbarIconProps> = ({ config, index }) => {
   const getCurrentY = useMainStore((state) => state.getCurrentY);
   const setTooltip = useToolbarStore((state) => state.setTooltip);
 
+  const hasMode = useUtilsStore((state) => state.hasMode());
+  const isPopupOpen = useToolbarStore((state) => state.isPopupOpen());
+
   const handleMouseMove = (evt: KonvaEventObject<MouseEvent>, tip: string) => {
     setTooltip({
       text: tip,
@@ -87,7 +90,7 @@ export const ToolbarIcon: React.FC<ToolbarIconProps> = ({ config, index }) => {
         text={!!config.badge ? String(config.badge) : ''}
         fontSize={toobarIconSize / 3}
       />
-      {false && (
+      {!hasMode && !isPopupOpen && (
         <Text
           x={1}
           y={toobarIconSize - toobarIconSize / 3.5}
