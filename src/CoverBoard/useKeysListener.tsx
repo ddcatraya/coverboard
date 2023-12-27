@@ -34,14 +34,19 @@ export const useKeysListener = ({
       if ((e.ctrlKey || e.metaKey) && e.key === 'z') {
         undoAction();
         e.preventDefault();
-      }
-
-      /* if (e.key === 'n' && !hasMode && !openPopup) {
-
-
-      } */
-
-      if (e.key === 'n' && !editTitle && !openPopup && !points && selected) {
+      } else if (e.key === 'n' && !openPopup && !hasMode) {
+        if (covers.length > 0) {
+          setSelected({ id: covers[0].id, elem: 'cover' });
+        } else if (groups.length > 0) {
+          setSelected({ id: groups[0].id, elem: 'group' });
+        }
+      } else if (
+        e.key === 'n' &&
+        !editTitle &&
+        !openPopup &&
+        !points &&
+        selected
+      ) {
         e.preventDefault();
         if (selected.elem === 'cover') {
           const currentIndex = covers.findIndex(
@@ -49,6 +54,8 @@ export const useKeysListener = ({
           );
           if (currentIndex > -1 && covers[currentIndex + 1]) {
             setSelected({ id: covers[currentIndex + 1].id, elem: 'cover' });
+          } else if (groups.length > 0) {
+            setSelected({ id: groups[0].id, elem: 'group' });
           } else {
             setSelected({ id: covers[0].id, elem: 'cover' });
           }
@@ -58,6 +65,8 @@ export const useKeysListener = ({
           );
           if (currentIndex > -1 && groups[currentIndex + 1]) {
             setSelected({ id: groups[currentIndex + 1].id, elem: 'group' });
+          } else if (covers.length > 0) {
+            setSelected({ id: covers[0].id, elem: 'cover' });
           } else {
             setSelected({ id: groups[0].id, elem: 'group' });
           }
@@ -89,9 +98,16 @@ export const useKeysListener = ({
             setSelected({ id: groups[covers.length - 1].id, elem: 'group' });
           }
         }
-      }
-
-      if (!hasMode && !openPopup) {
+      } else if (
+        e.key === 'Escape' &&
+        !editTitle &&
+        !openPopup &&
+        !points &&
+        selected
+      ) {
+        setSelected(null);
+        e.preventDefault();
+      } else if (!hasMode && !openPopup) {
         if (e.key === 'a') {
           setOpenSearch(true);
         } else if (e.key === 'o') {
@@ -120,6 +136,7 @@ export const useKeysListener = ({
     hasMode,
     lines,
     openPopup,
+    points,
     selected,
     setEditTitle,
     setOpenConfig,

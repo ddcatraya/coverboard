@@ -118,7 +118,7 @@ export const ToolbarMemo: React.FC<ToolbarProps> = ({
       emoji: '🔗',
       value: openShare,
       valueModifier: setOpenShare,
-      badge: savesNumber === 1 ? 0 : savesNumber,
+      badge: savesNumber === 1 ? 1 : savesNumber,
       enabled: true,
       shortcut: 'S',
     },

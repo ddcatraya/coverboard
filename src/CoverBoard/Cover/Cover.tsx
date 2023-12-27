@@ -136,9 +136,6 @@ const CoverMemo: React.FC<CoverImageProps> = ({
       if (e.key === 'Enter') {
         setOpen(true);
         e.preventDefault();
-      } else if (e.key === 'Escape') {
-        setSelected(null);
-        e.preventDefault();
       }
     };
     document.addEventListener('keydown', keyFn);
