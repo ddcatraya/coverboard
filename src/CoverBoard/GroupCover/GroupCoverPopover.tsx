@@ -78,6 +78,7 @@ export const GroupCoverPopover: React.FC<PopupProps> = ({
         <Grid container spacing={2}>
           <Grid item xs={12}>
             <TextField
+              autoFocus
               label="group title"
               fullWidth
               value={text.title}

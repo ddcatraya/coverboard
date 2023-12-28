@@ -187,6 +187,7 @@ export const ToolbarSearchPopover: React.FC<PopupProps> = ({
             }}>
             <Grid item sm={6} xs={12}>
               <TextField
+                autoFocus={index === 0}
                 fullWidth
                 label={`${titleLabel.label}${titleLabel.required ? '*' : ''}`}
                 value={input.title}

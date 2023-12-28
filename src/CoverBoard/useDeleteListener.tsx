@@ -39,6 +39,7 @@ export const useDeleteListener = () => {
         } else if (selected.elem === 'arrow') {
           removeLine(selected.id);
         }
+        e.preventDefault();
       }
     };
     document.addEventListener('keydown', deleteFn);

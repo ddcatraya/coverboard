@@ -84,7 +84,7 @@ const GroupCoverMemo: React.FC<CoverImageProps> = ({
   const isSelected = !!selected && selected.id === id;
 
   useEffect(() => {
-    if (!isSelected) return;
+    if (!isSelected || open) return;
 
     const keyFn = (e) => {
       if (e.key === 'Enter') {
@@ -95,7 +95,7 @@ const GroupCoverMemo: React.FC<CoverImageProps> = ({
     document.addEventListener('keydown', keyFn);
 
     return () => document.removeEventListener('keydown', keyFn);
-  }, [isSelected, setSelected]);
+  }, [isSelected, open, setSelected]);
 
   return (
     <>

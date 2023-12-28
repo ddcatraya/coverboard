@@ -104,6 +104,7 @@ export const ToolbarConfigPopover: React.FC<ToolbarConfigPopoverProps> = ({
         <Grid container spacing={2}>
           <Grid item xs={12}>
             <TextField
+              autoFocus
               fullWidth
               label="Title"
               value={param[ToolbarConfigValues.TITLE]}

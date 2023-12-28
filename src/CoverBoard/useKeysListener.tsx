@@ -37,8 +37,10 @@ export const useKeysListener = ({
       } else if (e.key === 'n' && !openPopup && !hasMode) {
         if (covers.length > 0) {
           setSelected({ id: covers[0].id, elem: 'cover' });
+          e.preventDefault();
         } else if (groups.length > 0) {
           setSelected({ id: groups[0].id, elem: 'group' });
+          e.preventDefault();
         }
       } else if (e.key === 'n' && !editTitle && !openPopup && selected) {
         e.preventDefault();
@@ -48,10 +50,13 @@ export const useKeysListener = ({
           );
           if (currentIndex > -1 && covers[currentIndex + 1]) {
             setSelected({ id: covers[currentIndex + 1].id, elem: 'cover' });
+            e.preventDefault();
           } else if (groups.length > 0) {
             setSelected({ id: groups[0].id, elem: 'group' });
+            e.preventDefault();
           } else {
             setSelected({ id: covers[0].id, elem: 'cover' });
+            e.preventDefault();
           }
         } else if (selected.elem === 'group') {
           const currentIndex = groups.findIndex(
@@ -59,22 +64,26 @@ export const useKeysListener = ({
           );
           if (currentIndex > -1 && groups[currentIndex + 1]) {
             setSelected({ id: groups[currentIndex + 1].id, elem: 'group' });
+            e.preventDefault();
           } else if (covers.length > 0) {
             setSelected({ id: covers[0].id, elem: 'cover' });
+            e.preventDefault();
           } else {
             setSelected({ id: groups[0].id, elem: 'group' });
+            e.preventDefault();
           }
         }
       } else if (e.key === 'p' && !editTitle && !openPopup && selected) {
-        e.preventDefault();
         if (selected.elem === 'cover') {
           const currentIndex = covers.findIndex(
             (cov) => cov.id === selected.id,
           );
           if (currentIndex > -1 && covers[currentIndex - 1]) {
             setSelected({ id: covers[currentIndex - 1].id, elem: 'cover' });
+            e.preventDefault();
           } else {
             setSelected({ id: covers[covers.length - 1].id, elem: 'cover' });
+            e.preventDefault();
           }
         } else if (selected.elem === 'group') {
           const currentIndex = groups.findIndex(
@@ -82,8 +91,10 @@ export const useKeysListener = ({
           );
           if (currentIndex > -1 && groups[currentIndex - 1]) {
             setSelected({ id: groups[currentIndex - 1].id, elem: 'group' });
+            e.preventDefault();
           } else {
             setSelected({ id: groups[covers.length - 1].id, elem: 'group' });
+            e.preventDefault();
           }
         }
       } else if (e.key === 'Escape' && !editTitle && !openPopup && selected) {
@@ -92,18 +103,25 @@ export const useKeysListener = ({
       } else if (!hasMode && !openPopup) {
         if (e.key === 'a') {
           setOpenSearch(true);
+          e.preventDefault();
         } else if (e.key === 'o') {
           setOpenConfig(true);
+          e.preventDefault();
         } else if (e.key === 's') {
           setOpenShare(true);
+          e.preventDefault();
         } else if (e.key === 'g') {
           createGroup();
+          e.preventDefault();
         } else if (e.key === 'c') {
           takeScreenshot();
+          e.preventDefault();
         } else if (e.key === 'u') {
           undoAction();
+          e.preventDefault();
         } else if (e.key === 'e') {
           setEditTitle(true);
+          e.preventDefault();
         }
       }
     };

@@ -230,6 +230,7 @@ export const ToolbarSharePopover: React.FC<SaveProps> = ({
                 onChange={(evt) => setNewSave(evt.target.value.trim())}
                 size="small"
                 value={newSave}
+                autoFocus
                 style={{ marginRight: '10px' }}
               />
               <Button

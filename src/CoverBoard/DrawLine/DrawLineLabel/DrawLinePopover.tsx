@@ -56,6 +56,7 @@ export const DrawLinePopover: React.FC<PopupProps> = ({
         <Grid container spacing={2}>
           <Grid item xs={12}>
             <TextField
+              autoFocus
               label="line label"
               fullWidth
               value={text.text}
