@@ -36,10 +36,10 @@ export const useKeysListener = ({
         e.preventDefault();
       } else if (e.key === 'n' && !openPopup && !hasMode) {
         if (covers.length > 0) {
-          setSelected({ id: covers[0].id, elem: 'cover' });
+          setSelected({ id: covers[covers.length - 1].id, elem: 'cover' });
           e.preventDefault();
         } else if (groups.length > 0) {
-          setSelected({ id: groups[0].id, elem: 'group' });
+          setSelected({ id: groups[groups.length - 1].id, elem: 'group' });
           e.preventDefault();
         }
       } else if (e.key === 'n' && !editTitle && !openPopup && selected) {
@@ -48,38 +48,11 @@ export const useKeysListener = ({
           const currentIndex = covers.findIndex(
             (cov) => cov.id === selected.id,
           );
-          if (currentIndex > -1 && covers[currentIndex + 1]) {
-            setSelected({ id: covers[currentIndex + 1].id, elem: 'cover' });
-            e.preventDefault();
-          } else if (groups.length > 0) {
-            setSelected({ id: groups[0].id, elem: 'group' });
-            e.preventDefault();
-          } else {
-            setSelected({ id: covers[0].id, elem: 'cover' });
-            e.preventDefault();
-          }
-        } else if (selected.elem === 'group') {
-          const currentIndex = groups.findIndex(
-            (cov) => cov.id === selected.id,
-          );
-          if (currentIndex > -1 && groups[currentIndex + 1]) {
-            setSelected({ id: groups[currentIndex + 1].id, elem: 'group' });
-            e.preventDefault();
-          } else if (covers.length > 0) {
-            setSelected({ id: covers[0].id, elem: 'cover' });
-            e.preventDefault();
-          } else {
-            setSelected({ id: groups[0].id, elem: 'group' });
-            e.preventDefault();
-          }
-        }
-      } else if (e.key === 'p' && !editTitle && !openPopup && selected) {
-        if (selected.elem === 'cover') {
-          const currentIndex = covers.findIndex(
-            (cov) => cov.id === selected.id,
-          );
           if (currentIndex > -1 && covers[currentIndex - 1]) {
             setSelected({ id: covers[currentIndex - 1].id, elem: 'cover' });
+            e.preventDefault();
+          } else if (groups.length > 0) {
+            setSelected({ id: groups[groups.length - 1].id, elem: 'group' });
             e.preventDefault();
           } else {
             setSelected({ id: covers[covers.length - 1].id, elem: 'cover' });
@@ -92,8 +65,35 @@ export const useKeysListener = ({
           if (currentIndex > -1 && groups[currentIndex - 1]) {
             setSelected({ id: groups[currentIndex - 1].id, elem: 'group' });
             e.preventDefault();
+          } else if (covers.length > 0) {
+            setSelected({ id: covers[covers.length - 1].id, elem: 'cover' });
+            e.preventDefault();
           } else {
-            setSelected({ id: groups[covers.length - 1].id, elem: 'group' });
+            setSelected({ id: groups[groups.length - 1].id, elem: 'group' });
+            e.preventDefault();
+          }
+        }
+      } else if (e.key === 'p' && !editTitle && !openPopup && selected) {
+        if (selected.elem === 'cover') {
+          const currentIndex = covers.findIndex(
+            (cov) => cov.id === selected.id,
+          );
+          if (currentIndex > -1 && covers[currentIndex + 1]) {
+            setSelected({ id: covers[currentIndex + 1].id, elem: 'cover' });
+            e.preventDefault();
+          } else {
+            setSelected({ id: covers[0].id, elem: 'cover' });
+            e.preventDefault();
+          }
+        } else if (selected.elem === 'group') {
+          const currentIndex = groups.findIndex(
+            (cov) => cov.id === selected.id,
+          );
+          if (currentIndex > -1 && groups[currentIndex + 1]) {
+            setSelected({ id: groups[currentIndex + 1].id, elem: 'group' });
+            e.preventDefault();
+          } else {
+            setSelected({ id: groups[0].id, elem: 'group' });
             e.preventDefault();
           }
         }
