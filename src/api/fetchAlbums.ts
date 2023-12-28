@@ -1,6 +1,7 @@
 import axios from 'axios';
 
 import { CoverLabelValues, SearchResults } from 'types';
+import { BASE_URL } from './base';
 
 const isFulfilled = <T>(
   p: PromiseSettledResult<T>,
@@ -11,7 +12,7 @@ export const getLastFMAlbums = async (
 ): Promise<Array<SearchResults>> => {
   const albums = await Promise.allSettled(
     bandArray.map((band) => {
-      return axios.get('https://albumcoverboard.vercel.app/api/get-album', {
+      return axios.get(`${BASE_URL}/api/get-album`, {
         params: {
           artist: band.title.trim(),
           album: band.subtitle.trim(),

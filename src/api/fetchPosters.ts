@@ -1,5 +1,6 @@
 import axios from 'axios';
 import { CoverLabelValues, SearchResults } from 'types';
+import { BASE_URL } from './base';
 
 const isFulfilled = <T>(
   p: PromiseSettledResult<T>,
@@ -11,7 +12,7 @@ export const getMoviePosters = async (
 ): Promise<Array<SearchResults>> => {
   const posters = await Promise.allSettled(
     movieTitles.map((movie) => {
-      return axios.get(`https://albumcoverboard.vercel.app/api/get-movie`, {
+      return axios.get(`${BASE_URL}/api/get-movie`, {
         params: {
           query: movie.title,
           ...(movie.subtitle && { year: movie.subtitle }),
@@ -43,7 +44,7 @@ export const getTvShowPosters = async (
 ): Promise<Array<SearchResults>> => {
   const posters = await Promise.allSettled(
     movieTitles.map((movie) => {
-      return axios.get(`https://albumcoverboard.vercel.app/api/get-tv`, {
+      return axios.get(`${BASE_URL}/api/get-tv`, {
         params: {
           query: movie.title,
           ...(movie.subtitle && { year: movie.subtitle }),
