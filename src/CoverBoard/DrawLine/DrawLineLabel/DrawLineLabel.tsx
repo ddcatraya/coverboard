@@ -6,7 +6,6 @@ import { TextLabel } from 'components';
 import { getAlign } from 'utils';
 import { useMainStore, useUtilsStore } from 'store';
 import { Html } from 'react-konva-utils';
-import { Group } from 'react-konva';
 
 interface LineProps {
   id: Lines['id'];

@@ -1,4 +1,3 @@
-import { Group } from 'react-konva';
 import { useMainStore } from 'store';
 import { Cover } from './Cover';
 
