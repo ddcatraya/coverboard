@@ -32,8 +32,9 @@ export const CoverStar: React.FC<CoverStarProps> = ({ id, offset = 0 }) => {
   };
 
   const totalWidth = 4 * starRadius * 3;
-  const selected = useUtilsStore((state) => state.selected);
-  const isSelected = !!selected && selected.id === id;
+  const isSelected = useUtilsStore((state) =>
+    state.isSelected({ id, elem: 'cover' }),
+  );
 
   if (editLines || isSelected) return null;
 

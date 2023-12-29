@@ -6,8 +6,9 @@ import { useMainStore, useUtilsStore } from 'store';
 
 export const DrawLineCircle: React.FC<{ id: string }> = ({ id }) => {
   const circleRadius = useMainStore((state) => state.circleRadius());
-  const selected = useUtilsStore((state) => state.selected);
-  const isSelected = !!selected && selected.id === id;
+  const isSelected = useUtilsStore((state) =>
+    state.isSelected({ id, elem: 'arrow' }),
+  );
   const color = useMainStore((state) => state.getArrowColor());
 
   return (

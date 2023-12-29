@@ -126,8 +126,9 @@ const CoverMemo: React.FC<CoverImageProps> = ({
     starOffset = subtitleOffset + fontSize * 1.5;
   }
 
-  const selected = useUtilsStore((state) => state.selected);
-  const isSelected = !!selected && selected.id === id;
+  const isSelected = useUtilsStore((state) =>
+    state.isSelected({ id, elem: 'cover' }),
+  );
 
   useEffect(() => {
     if (!isSelected || open) return;
@@ -159,7 +160,7 @@ const CoverMemo: React.FC<CoverImageProps> = ({
           x: windowSize.width - 3.5 * toobarIconSize,
           y: windowSize.height - 3.5 * toobarIconSize,
         }}>
-        <CommonDrawLine id={id} />
+        <CommonDrawLine id={id} type="cover" />
 
         <Group onDblclick={() => setOpen(true)} onDblTap={() => setOpen(true)}>
           <CoverLoadImage link={link} renderTime={renderTime} />

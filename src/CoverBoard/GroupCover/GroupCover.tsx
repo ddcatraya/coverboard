@@ -80,8 +80,9 @@ const GroupCoverMemo: React.FC<CoverImageProps> = ({
       : 0;
   const offset2 = dir === subDir && title ? offset1 + fontSize * 1.5 : 0;
 
-  const selected = useUtilsStore((state) => state.selected);
-  const isSelected = !!selected && selected.id === id;
+  const isSelected = useUtilsStore((state) =>
+    state.isSelected({ id, elem: 'group' }),
+  );
 
   useEffect(() => {
     if (!isSelected || open) return;
@@ -113,7 +114,7 @@ const GroupCoverMemo: React.FC<CoverImageProps> = ({
           x: windowSize.width - 3.5 * toobarIconSize,
           y: windowSize.height - 3.5 * toobarIconSize,
         }}>
-        <CommonDrawLine id={id} scaleX={scaleX} scaleY={scaleY} />
+        <CommonDrawLine id={id} scaleX={scaleX} scaleY={scaleY} type="group" />
 
         <Group
           onDblclick={canOpenPopover ? () => setOpen(true) : undefined}

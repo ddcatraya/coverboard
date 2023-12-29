@@ -9,7 +9,7 @@ export const Covers: React.FC = () => {
 
   const handleSelect = (evt, coverId: string) => {
     evt.cancelBubble = true;
-    setSelected({ id: coverId, elem: 'cover' });
+    setSelected({ id: coverId, elem: 'cover', open: false });
     refreshCovers(coverId);
   };
 

@@ -9,7 +9,7 @@ export const GroupCovers: React.FC = () => {
 
   const handlesSelect = (evt, groupId: string) => {
     evt.cancelBubble = true;
-    setSelected({ id: groupId, elem: 'group' });
+    setSelected({ id: groupId, elem: 'group', open: false });
     refreshGroups(groupId);
   };
 

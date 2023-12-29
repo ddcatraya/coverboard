@@ -23,9 +23,10 @@ export const DrawLineLabel: React.FC<LineProps> = ({ id, dir, lineParams }) => {
   const updateLineText = useMainStore((state) => state.updateLineText);
   const editLines = useUtilsStore((state) => state.points);
 
-  const selected = useUtilsStore((state) => state.selected);
   const setSelected = useUtilsStore((state) => state.setSelected);
-  const isSelected = !!selected && selected.id === id;
+  const isSelected = useUtilsStore((state) =>
+    state.isSelected({ id, elem: 'arrow' }),
+  );
 
   const [open, setOpen] = useState(false);
 

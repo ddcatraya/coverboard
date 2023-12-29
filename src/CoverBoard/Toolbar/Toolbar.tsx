@@ -80,7 +80,7 @@ export const ToolbarMemo: React.FC<ToolbarProps> = ({
         scaleY: 3,
       },
     ]);
-    setSelected({ id, elem: 'group' });
+    setSelected({ id, elem: 'group', open: false });
   }, [addGroups, groupDir, setSelected]);
 
   const savesNumber = Object.keys(window.localStorage).filter((key) =>

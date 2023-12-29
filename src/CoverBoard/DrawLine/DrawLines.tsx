@@ -8,7 +8,7 @@ export const DrawLines: React.FC = () => {
 
   const handlesSelect = (evt, coverId: string) => {
     evt.cancelBubble = true;
-    setSelected({ id: coverId, elem: 'arrow' });
+    setSelected({ id: coverId, elem: 'arrow', open: false });
   };
 
   return (

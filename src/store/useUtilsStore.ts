@@ -1,7 +1,16 @@
 import { Point } from 'types';
 import { createWithEqualityFn } from 'zustand/traditional';
 
-type SelectedElement = { id: string; elem: 'cover' | 'group' | 'arrow' } | null;
+type SelectedBaseElement = {
+  id: string;
+  elem: 'cover' | 'group' | 'arrow';
+};
+
+type SelectedElement = {
+  id: string;
+  elem: 'cover' | 'group' | 'arrow';
+  open: boolean;
+} | null;
 
 interface UseUtilParams {
   editTitle: boolean;
@@ -11,6 +20,8 @@ interface UseUtilParams {
   setPoints: (value: Point | null) => void;
   setEditTitle: (value: boolean) => void;
   hasMode: () => boolean;
+  isSelected: (value: SelectedBaseElement) => boolean;
+  isContextModalOpen: (value: SelectedBaseElement) => boolean;
 }
 
 export const useUtilsStore = createWithEqualityFn<UseUtilParams>()(
@@ -19,6 +30,12 @@ export const useUtilsStore = createWithEqualityFn<UseUtilParams>()(
       editTitle: false,
       selected: null,
       points: null,
+      isSelected: ({ id, elem }) =>
+        !!get().selected &&
+        get().selected?.id === id &&
+        get().selected?.elem === elem,
+      isContextModalOpen: (sel) =>
+        get().isSelected(sel) && !!get().selected?.open,
       setSelected: (value) => set({ selected: value }),
       setPoints: (value) => set({ points: value }),
       setEditTitle: (value) => set({ editTitle: value }),

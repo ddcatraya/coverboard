@@ -9,18 +9,21 @@ interface CommonDrawLineProps {
   id: Covers['id'];
   scaleX?: number;
   scaleY?: number;
+  type: 'group' | 'cover';
 }
 
 export const CommonDrawLine: React.FC<CommonDrawLineProps> = ({
   id,
   scaleX = 1,
   scaleY = 1,
+  type,
 }) => {
-  const selected = useUtilsStore((state) => state.selected);
   const points = useUtilsStore((state) => state.points);
   const setPoints = useUtilsStore((state) => state.setPoints);
   const createLine = useMainStore((state) => state.createLine);
-  const isSelected = !!selected && selected.id === id;
+  const isSelected = useUtilsStore((state) =>
+    state.isSelected({ id, elem: type }),
+  );
 
   const coverSizeWidth =
     useMainStore((state) => state.coverSizeWidth()) * scaleX;
@@ -99,7 +102,7 @@ export const CommonDrawLine: React.FC<CommonDrawLineProps> = ({
     document.addEventListener('keydown', keyFn);
 
     return () => document.removeEventListener('keydown', keyFn);
-  }, [handleDrawLine, id, isSelected, selected, setPoints]);
+  }, [handleDrawLine, id, isSelected, setPoints]);
 
   if (!points && !isSelected) return null;
 
