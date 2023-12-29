@@ -1,16 +1,10 @@
-import { Point } from 'types';
+import { Elem, Point, SelectedElement } from 'types';
 import { createWithEqualityFn } from 'zustand/traditional';
 
 type SelectedBaseElement = {
   id: string;
-  elem: 'cover' | 'group' | 'arrow';
+  elem: Elem;
 };
-
-type SelectedElement = {
-  id: string;
-  elem: 'cover' | 'group' | 'arrow';
-  open: boolean;
-} | null;
 
 interface UseUtilParams {
   editTitle: boolean;

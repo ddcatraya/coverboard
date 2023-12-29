@@ -1,6 +1,7 @@
 import { Group } from 'react-konva';
 import { useMainStore, useUtilsStore } from 'store';
 import { Cover } from './Cover';
+import { Elem } from 'types';
 
 export const Covers: React.FC = () => {
   const covers = useMainStore((state) => state.covers);
@@ -9,7 +10,7 @@ export const Covers: React.FC = () => {
 
   const handleSelect = (evt, coverId: string) => {
     evt.cancelBubble = true;
-    setSelected({ id: coverId, elem: 'cover', open: false });
+    setSelected({ id: coverId, elem: Elem.COVER, open: false });
     refreshCovers(coverId);
   };
 

@@ -12,6 +12,7 @@ export type {
   CoverLabelValues,
   GroupCovers,
   GroupCoverValues,
+  SelectedElement,
 } from './coverTypes';
 export * from './coverTypes';
 

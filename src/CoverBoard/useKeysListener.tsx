@@ -1,5 +1,6 @@
 import { useEffect } from 'react';
 import { useMainStore, useToolbarStore, useUtilsStore } from 'store';
+import { Elem } from 'types';
 
 interface UseEventListener {
   createGroup: () => void;
@@ -46,14 +47,14 @@ export const useKeysListener = ({
         if (covers.length > 0) {
           setSelected({
             id: covers[covers.length - 1].id,
-            elem: 'cover',
+            elem: Elem.COVER,
             open: false,
           });
           e.preventDefault();
         } else if (groups.length > 0) {
           setSelected({
             id: groups[groups.length - 1].id,
-            elem: 'group',
+            elem: Elem.GROUP,
             open: false,
           });
           e.preventDefault();
@@ -61,95 +62,95 @@ export const useKeysListener = ({
       } else if (!editTitle && !openPopup && selected) {
         if (e.key === 'n') {
           e.preventDefault();
-          if (selected.elem === 'cover') {
+          if (selected.elem === Elem.COVER) {
             const currentIndex = covers.findIndex(
               (cov) => cov.id === selected.id,
             );
             if (currentIndex > -1 && covers[currentIndex - 1]) {
               setSelected({
                 id: covers[currentIndex - 1].id,
-                elem: 'cover',
+                elem: Elem.COVER,
                 open: false,
               });
               e.preventDefault();
             } else if (groups.length > 0) {
               setSelected({
                 id: groups[groups.length - 1].id,
-                elem: 'group',
+                elem: Elem.GROUP,
                 open: false,
               });
               e.preventDefault();
             } else {
               setSelected({
                 id: covers[covers.length - 1].id,
-                elem: 'cover',
+                elem: Elem.COVER,
                 open: false,
               });
               e.preventDefault();
             }
-          } else if (selected.elem === 'group') {
+          } else if (selected.elem === Elem.GROUP) {
             const currentIndex = groups.findIndex(
               (cov) => cov.id === selected.id,
             );
             if (currentIndex > -1 && groups[currentIndex - 1]) {
               setSelected({
                 id: groups[currentIndex - 1].id,
-                elem: 'group',
+                elem: Elem.GROUP,
                 open: false,
               });
               e.preventDefault();
             } else if (covers.length > 0) {
               setSelected({
                 id: covers[covers.length - 1].id,
-                elem: 'cover',
+                elem: Elem.COVER,
                 open: false,
               });
               e.preventDefault();
             } else {
               setSelected({
                 id: groups[groups.length - 1].id,
-                elem: 'group',
+                elem: Elem.GROUP,
                 open: false,
               });
               e.preventDefault();
             }
           }
         } else if (e.key === 'p') {
-          if (selected.elem === 'cover') {
+          if (selected.elem === Elem.COVER) {
             const currentIndex = covers.findIndex(
               (cov) => cov.id === selected.id,
             );
             if (currentIndex > -1 && covers[currentIndex + 1]) {
               setSelected({
                 id: covers[currentIndex + 1].id,
-                elem: 'cover',
+                elem: Elem.COVER,
                 open: false,
               });
               e.preventDefault();
             } else {
-              setSelected({ id: covers[0].id, elem: 'cover', open: false });
+              setSelected({ id: covers[0].id, elem: Elem.COVER, open: false });
               e.preventDefault();
             }
-          } else if (selected.elem === 'group') {
+          } else if (selected.elem === Elem.GROUP) {
             const currentIndex = groups.findIndex(
               (cov) => cov.id === selected.id,
             );
             if (currentIndex > -1 && groups[currentIndex + 1]) {
               setSelected({
                 id: groups[currentIndex + 1].id,
-                elem: 'group',
+                elem: Elem.GROUP,
                 open: false,
               });
               e.preventDefault();
             } else {
-              setSelected({ id: groups[0].id, elem: 'group', open: false });
+              setSelected({ id: groups[0].id, elem: Elem.GROUP, open: false });
               e.preventDefault();
             }
           }
         } else if (e.key === 'Delete') {
-          if (selected.elem === 'group') {
+          if (selected.elem === Elem.GROUP) {
             removeGroupAndRelatedLines(selected.id);
-          } else if (selected.elem === 'cover') {
+          } else if (selected.elem === Elem.COVER) {
             removeCoverAndRelatedLines(selected.id);
           } else if (selected.elem === 'arrow') {
             removeLine(selected.id);

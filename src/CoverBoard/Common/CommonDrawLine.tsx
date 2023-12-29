@@ -1,7 +1,7 @@
 import React, { useCallback, useEffect } from 'react';
 import { Group, Rect } from 'react-konva';
 
-import { Covers, PosTypes } from 'types';
+import { Covers, Elem, PosTypes } from 'types';
 import { KonvaEventObject } from 'konva/lib/Node';
 import { useUtilsStore, useMainStore } from 'store';
 
@@ -9,7 +9,7 @@ interface CommonDrawLineProps {
   id: Covers['id'];
   scaleX?: number;
   scaleY?: number;
-  type: 'group' | 'cover';
+  type: Elem;
 }
 
 export const CommonDrawLine: React.FC<CommonDrawLineProps> = ({

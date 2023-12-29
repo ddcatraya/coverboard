@@ -1,6 +1,7 @@
 import { Group } from 'react-konva';
 import { useMainStore, useUtilsStore } from 'store';
 import { DrawLine } from './DrawLine';
+import { Elem } from 'types';
 
 export const DrawLines: React.FC = () => {
   const lines = useMainStore((state) => state.lines);
@@ -8,7 +9,7 @@ export const DrawLines: React.FC = () => {
 
   const handlesSelect = (evt, coverId: string) => {
     evt.cancelBubble = true;
-    setSelected({ id: coverId, elem: 'arrow', open: false });
+    setSelected({ id: coverId, elem: Elem.ARROW, open: false });
   };
 
   return (

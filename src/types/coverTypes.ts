@@ -1,5 +1,17 @@
 import { PosTypes } from './generalTypes';
 
+export enum Elem {
+  COVER = 'cover',
+  GROUP = 'group',
+  ARROW = 'arrow',
+}
+
+export type SelectedElement = {
+  id: string;
+  elem: Elem;
+  open: boolean;
+} | null;
+
 interface CoverImageParamsText {
   search: string;
   text: string;

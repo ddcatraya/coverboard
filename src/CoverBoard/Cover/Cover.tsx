@@ -1,6 +1,6 @@
 import React from 'react';
 
-import { Covers, CoverValues, PosTypes } from 'types';
+import { Covers, CoverValues, Elem, PosTypes } from 'types';
 import { CoverPopover, CoverLoadImage, CoverStar, CoverStarDraggable } from '.';
 import {
   CommonDraggable,
@@ -126,7 +126,7 @@ const CoverMemo: React.FC<CoverImageProps> = ({
   }
 
   const isSelectedModalOpen = useUtilsStore((state) =>
-    state.isSelectedModalOpen({ id, elem: 'cover' }),
+    state.isSelectedModalOpen({ id, elem: Elem.COVER }),
   );
 
   return (
@@ -145,11 +145,11 @@ const CoverMemo: React.FC<CoverImageProps> = ({
           x: windowSize.width - 3.5 * toobarIconSize,
           y: windowSize.height - 3.5 * toobarIconSize,
         }}>
-        <CommonDrawLine id={id} type="cover" />
+        <CommonDrawLine id={id} type={Elem.COVER} />
 
         <Group
-          onDblclick={() => setSelected({ id, elem: 'cover', open: true })}
-          onDblTap={() => setSelected({ id, elem: 'cover', open: true })}>
+          onDblclick={() => setSelected({ id, elem: Elem.COVER, open: true })}
+          onDblTap={() => setSelected({ id, elem: Elem.COVER, open: true })}>
           <CoverLoadImage link={link} renderTime={renderTime} />
 
           {showTitle && title && (
@@ -203,7 +203,7 @@ const CoverMemo: React.FC<CoverImageProps> = ({
           <CoverPopover
             id={id}
             open={isSelectedModalOpen}
-            onClose={() => setSelected({ id, elem: 'cover', open: false })}
+            onClose={() => setSelected({ id, elem: Elem.COVER, open: false })}
             onSubmit={handleSubmit}
             onReset={() => {
               resetCoverLabel(id, 'title');

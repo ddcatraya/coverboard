@@ -1,6 +1,6 @@
 import React from 'react';
 
-import { GroupCoverValues, GroupCovers, PosTypes } from 'types';
+import { Elem, GroupCoverValues, GroupCovers, PosTypes } from 'types';
 
 import { useMainStore, useUtilsStore } from 'store';
 import { shallow } from 'zustand/shallow';
@@ -80,7 +80,7 @@ const GroupCoverMemo: React.FC<CoverImageProps> = ({
   const offset2 = dir === subDir && title ? offset1 + fontSize * 1.5 : 0;
 
   const isSelectedModalOpen = useUtilsStore((state) =>
-    state.isSelectedModalOpen({ id, elem: 'group' }),
+    state.isSelectedModalOpen({ id, elem: Elem.GROUP }),
   );
 
   return (
@@ -99,17 +99,22 @@ const GroupCoverMemo: React.FC<CoverImageProps> = ({
           x: windowSize.width - 3.5 * toobarIconSize,
           y: windowSize.height - 3.5 * toobarIconSize,
         }}>
-        <CommonDrawLine id={id} scaleX={scaleX} scaleY={scaleY} type="group" />
+        <CommonDrawLine
+          id={id}
+          scaleX={scaleX}
+          scaleY={scaleY}
+          type={Elem.GROUP}
+        />
 
         <Group
           onDblclick={
             canOpenPopover
-              ? () => setSelected({ id, elem: 'group', open: true })
+              ? () => setSelected({ id, elem: Elem.GROUP, open: true })
               : undefined
           }
           onDblTap={
             canOpenPopover
-              ? () => setSelected({ id, elem: 'group', open: true })
+              ? () => setSelected({ id, elem: Elem.GROUP, open: true })
               : undefined
           }>
           <GroupSquare id={id} />
@@ -163,7 +168,7 @@ const GroupCoverMemo: React.FC<CoverImageProps> = ({
           <GroupCoverPopover
             id={id}
             open={isSelectedModalOpen}
-            onClose={() => setSelected({ id, elem: 'group', open: false })}
+            onClose={() => setSelected({ id, elem: Elem.GROUP, open: false })}
             onSubmit={handleSubmit}
             values={{
               title,

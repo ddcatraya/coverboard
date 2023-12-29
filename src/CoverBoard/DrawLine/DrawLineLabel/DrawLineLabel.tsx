@@ -1,6 +1,6 @@
 import React from 'react';
 
-import { LineParams, LineValues, Lines, PosTypes } from 'types';
+import { Elem, LineParams, LineValues, Lines, PosTypes } from 'types';
 import { DrawLineCircle, DrawLineLabelDraggable, DrawLinePopover } from '.';
 import { TextLabel } from 'components';
 import { getAlign } from 'utils';
@@ -25,10 +25,10 @@ export const DrawLineLabel: React.FC<LineProps> = ({ id, dir, lineParams }) => {
 
   const setSelected = useUtilsStore((state) => state.setSelected);
   const isSelected = useUtilsStore((state) =>
-    state.isSelected({ id, elem: 'arrow' }),
+    state.isSelected({ id, elem: Elem.ARROW }),
   );
   const isSelectedModalOpen = useUtilsStore((state) =>
-    state.isSelectedModalOpen({ id, elem: 'group' }),
+    state.isSelectedModalOpen({ id, elem: Elem.ARROW }),
   );
 
   const handleUpdateDir = (dir: PosTypes) => {
@@ -52,8 +52,8 @@ export const DrawLineLabel: React.FC<LineProps> = ({ id, dir, lineParams }) => {
   return (
     <>
       <Group
-        onDblClick={() => setSelected({ id, elem: 'arrow', open: true })}
-        onDblTap={() => setSelected({ id, elem: 'arrow', open: true })}>
+        onDblClick={() => setSelected({ id, elem: Elem.ARROW, open: true })}
+        onDblTap={() => setSelected({ id, elem: Elem.ARROW, open: true })}>
         <DrawLineLabelDraggable
           dir={dir}
           lineParams={lineParams}
@@ -83,7 +83,7 @@ export const DrawLineLabel: React.FC<LineProps> = ({ id, dir, lineParams }) => {
           <DrawLinePopover
             id={id}
             open={isSelectedModalOpen}
-            onClose={() => setSelected({ id, elem: 'arrow', open: false })}
+            onClose={() => setSelected({ id, elem: Elem.ARROW, open: false })}
             onSubmit={handleSubmit}
             values={{
               text,
