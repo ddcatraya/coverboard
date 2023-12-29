@@ -10,10 +10,15 @@ export const DrawLineCircle: React.FC<{ id: string }> = ({ id }) => {
   const isSelected = useUtilsStore((state) =>
     state.isSelected({ id, elem: Elem.ARROW }),
   );
+  const setSelected = useUtilsStore((state) => state.setSelected);
   const color = useMainStore((state) => state.getArrowColor());
 
   return (
-    <Group width={circleRadius * 3} height={circleRadius * 3}>
+    <Group
+      width={circleRadius * 3}
+      height={circleRadius * 3}
+      onDblClick={() => setSelected({ id, elem: Elem.ARROW, open: true })}
+      onDblTap={() => setSelected({ id, elem: Elem.ARROW, open: true })}>
       <Circle
         radius={isSelected ? circleRadius * 1.4 : circleRadius}
         fill={color}

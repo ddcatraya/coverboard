@@ -21,6 +21,9 @@ export const useKeysListener = ({
 
   const points = useUtilsStore((state) => state.points);
   const selected = useUtilsStore((state) => state.selected);
+  const isContextModalOpen = useUtilsStore((state) =>
+    state.isContextModalOpen(),
+  );
   const setSelected = useUtilsStore((state) => state.setSelected);
   const hasMode = useUtilsStore((state) => state.hasMode());
   const editTitle = useUtilsStore((state) => state.editTitle);
@@ -59,9 +62,45 @@ export const useKeysListener = ({
           });
           e.preventDefault();
         }
-      } else if (!editTitle && !openPopup && selected) {
-        if (e.key === 'n') {
+      }
+
+      if (
+        !editTitle &&
+        !openPopup &&
+        !isContextModalOpen &&
+        selected?.elem !== Elem.ARROW
+      ) {
+        if (e.key === 'a') {
+          setOpenSearch(true);
           e.preventDefault();
+        } else if (e.key === 'o') {
+          setOpenConfig(true);
+          e.preventDefault();
+        } else if (e.key === 's') {
+          setOpenShare(true);
+          e.preventDefault();
+        } else if (e.key === 'g') {
+          createGroup();
+          e.preventDefault();
+        } else if (e.key === 'c') {
+          takeScreenshot();
+          e.preventDefault();
+        } else if (e.key === 'u') {
+          undoAction();
+          e.preventDefault();
+        } else if (e.key === 'e') {
+          setEditTitle(true);
+          e.preventDefault();
+        }
+      }
+
+      if (
+        !editTitle &&
+        !openPopup &&
+        selected &&
+        selected?.elem !== Elem.ARROW
+      ) {
+        if (e.key === 'n') {
           if (selected.elem === Elem.COVER) {
             const currentIndex = covers.findIndex(
               (cov) => cov.id === selected.id,
@@ -163,29 +202,6 @@ export const useKeysListener = ({
           setSelected({ id: selected.id, elem: selected.elem, open: true });
           e.preventDefault();
         }
-      } else if (!hasMode && !openPopup) {
-        if (e.key === 'a') {
-          setOpenSearch(true);
-          e.preventDefault();
-        } else if (e.key === 'o') {
-          setOpenConfig(true);
-          e.preventDefault();
-        } else if (e.key === 's') {
-          setOpenShare(true);
-          e.preventDefault();
-        } else if (e.key === 'g') {
-          createGroup();
-          e.preventDefault();
-        } else if (e.key === 'c') {
-          takeScreenshot();
-          e.preventDefault();
-        } else if (e.key === 'u') {
-          undoAction();
-          e.preventDefault();
-        } else if (e.key === 'e') {
-          setEditTitle(true);
-          e.preventDefault();
-        }
       }
     };
     window.addEventListener('keydown', keyFn);
@@ -197,6 +213,7 @@ export const useKeysListener = ({
     editTitle,
     groups,
     hasMode,
+    isContextModalOpen,
     lines,
     openPopup,
     points,

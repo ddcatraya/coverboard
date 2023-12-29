@@ -31,10 +31,6 @@ export const DrawLineLabel: React.FC<LineProps> = ({ id, dir, lineParams }) => {
     state.isSelectedModalOpen({ id, elem: Elem.ARROW }),
   );
 
-  const handleUpdateDir = (dir: PosTypes) => {
-    updateLineDir(id, dir);
-  };
-
   const getLabel = () => {
     if (text) {
       return text;
@@ -44,6 +40,10 @@ export const DrawLineLabel: React.FC<LineProps> = ({ id, dir, lineParams }) => {
     return '';
   };
 
+  const handleUpdateDir = (dir: PosTypes) => {
+    updateLineDir(id, dir);
+  };
+
   const handleSubmit = (values: LineValues) => {
     updateLineText(id, values.text);
     updateLineDir(id, values.dir);
@@ -51,9 +51,7 @@ export const DrawLineLabel: React.FC<LineProps> = ({ id, dir, lineParams }) => {
 
   return (
     <>
-      <Group
-        onDblClick={() => setSelected({ id, elem: Elem.ARROW, open: true })}
-        onDblTap={() => setSelected({ id, elem: Elem.ARROW, open: true })}>
+      <Group>
         <DrawLineLabelDraggable
           dir={dir}
           lineParams={lineParams}
@@ -63,7 +61,7 @@ export const DrawLineLabel: React.FC<LineProps> = ({ id, dir, lineParams }) => {
             color={color}
             open={isSelected}
             editable={true}
-            setOpen={() => setSelected(null)}
+            setOpen={() => void 0}
             onReset={() => void 0}
             setLabel={(text) => updateLineText(id, text)}
             pos={{
