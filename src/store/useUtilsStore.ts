@@ -21,7 +21,8 @@ interface UseUtilParams {
   setEditTitle: (value: boolean) => void;
   hasMode: () => boolean;
   isSelected: (value: SelectedBaseElement) => boolean;
-  isContextModalOpen: (value: SelectedBaseElement) => boolean;
+  isSelectedModalOpen: (value: SelectedBaseElement) => boolean;
+  isContextModalOpen: () => boolean;
 }
 
 export const useUtilsStore = createWithEqualityFn<UseUtilParams>()(
@@ -34,8 +35,9 @@ export const useUtilsStore = createWithEqualityFn<UseUtilParams>()(
         !!get().selected &&
         get().selected?.id === id &&
         get().selected?.elem === elem,
-      isContextModalOpen: (sel) =>
+      isSelectedModalOpen: (sel) =>
         get().isSelected(sel) && !!get().selected?.open,
+      isContextModalOpen: () => !!get().selected?.open,
       setSelected: (value) => set({ selected: value }),
       setPoints: (value) => set({ points: value }),
       setEditTitle: (value) => set({ editTitle: value }),

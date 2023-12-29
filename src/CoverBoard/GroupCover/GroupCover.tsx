@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React from 'react';
 
 import { GroupCoverValues, GroupCovers, PosTypes } from 'types';
 
@@ -43,7 +43,6 @@ const GroupCoverMemo: React.FC<CoverImageProps> = ({
   const fontSize = useMainStore((state) => state.fontSize());
   const toobarIconSize = useMainStore((state) => state.toobarIconSize());
   const windowSize = useMainStore((state) => state.windowSize);
-  const [open, setOpen] = useState(false);
   const updateGroupsText = useMainStore((state) => state.updateGroupsText);
   const editLines = useUtilsStore((state) => state.points);
   const setSelected = useUtilsStore((state) => state.setSelected);
@@ -80,23 +79,9 @@ const GroupCoverMemo: React.FC<CoverImageProps> = ({
       : 0;
   const offset2 = dir === subDir && title ? offset1 + fontSize * 1.5 : 0;
 
-  const isSelected = useUtilsStore((state) =>
-    state.isSelected({ id, elem: 'group' }),
+  const isSelectedModalOpen = useUtilsStore((state) =>
+    state.isSelectedModalOpen({ id, elem: 'group' }),
   );
-
-  useEffect(() => {
-    if (!isSelected || open) return;
-
-    const keyFn = (e) => {
-      if (e.key === 'Enter') {
-        setOpen(true);
-        e.preventDefault();
-      }
-    };
-    document.addEventListener('keydown', keyFn);
-
-    return () => document.removeEventListener('keydown', keyFn);
-  }, [isSelected, open, setSelected]);
 
   return (
     <>
@@ -117,8 +102,16 @@ const GroupCoverMemo: React.FC<CoverImageProps> = ({
         <CommonDrawLine id={id} scaleX={scaleX} scaleY={scaleY} type="group" />
 
         <Group
-          onDblclick={canOpenPopover ? () => setOpen(true) : undefined}
-          onDblTap={canOpenPopover ? () => setOpen(true) : undefined}>
+          onDblclick={
+            canOpenPopover
+              ? () => setSelected({ id, elem: 'group', open: true })
+              : undefined
+          }
+          onDblTap={
+            canOpenPopover
+              ? () => setSelected({ id, elem: 'group', open: true })
+              : undefined
+          }>
           <GroupSquare id={id} />
           <CommonLabelDraggable
             updateDir={updateGroupDir}
@@ -165,12 +158,12 @@ const GroupCoverMemo: React.FC<CoverImageProps> = ({
           </CommonLabelDraggable>
         </Group>
       </CommonDraggable>
-      {open && (
+      {isSelectedModalOpen && (
         <Html>
           <GroupCoverPopover
             id={id}
-            open={open}
-            onClose={() => setOpen(false)}
+            open={isSelectedModalOpen}
+            onClose={() => setSelected({ id, elem: 'group', open: false })}
             onSubmit={handleSubmit}
             values={{
               title,

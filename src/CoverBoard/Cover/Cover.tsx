@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React from 'react';
 
 import { Covers, CoverValues, PosTypes } from 'types';
 import { CoverPopover, CoverLoadImage, CoverStar, CoverStarDraggable } from '.';
@@ -45,7 +45,6 @@ const CoverMemo: React.FC<CoverImageProps> = ({
   const fontSize = useMainStore((state) => state.fontSize());
   const toobarIconSize = useMainStore((state) => state.toobarIconSize());
   const windowSize = useMainStore((state) => state.windowSize);
-  const [open, setOpen] = useState(false);
   const resetCoverLabel = useMainStore((state) => state.resetCoverLabel);
   const updateCoversText = useMainStore((state) => state.updateCoversText);
   const updateCoverLabel = useMainStore((state) => state.updateCoverLabel);
@@ -126,23 +125,9 @@ const CoverMemo: React.FC<CoverImageProps> = ({
     starOffset = subtitleOffset + fontSize * 1.5;
   }
 
-  const isSelected = useUtilsStore((state) =>
-    state.isSelected({ id, elem: 'cover' }),
+  const isSelectedModalOpen = useUtilsStore((state) =>
+    state.isSelectedModalOpen({ id, elem: 'cover' }),
   );
-
-  useEffect(() => {
-    if (!isSelected || open) return;
-
-    const keyFn = (e) => {
-      if (e.key === 'Enter') {
-        setOpen(true);
-        e.preventDefault();
-      }
-    };
-    document.addEventListener('keydown', keyFn);
-
-    return () => document.removeEventListener('keydown', keyFn);
-  }, [isSelected, open, setSelected]);
 
   return (
     <>
@@ -162,7 +147,9 @@ const CoverMemo: React.FC<CoverImageProps> = ({
         }}>
         <CommonDrawLine id={id} type="cover" />
 
-        <Group onDblclick={() => setOpen(true)} onDblTap={() => setOpen(true)}>
+        <Group
+          onDblclick={() => setSelected({ id, elem: 'cover', open: true })}
+          onDblTap={() => setSelected({ id, elem: 'cover', open: true })}>
           <CoverLoadImage link={link} renderTime={renderTime} />
 
           {showTitle && title && (
@@ -211,12 +198,12 @@ const CoverMemo: React.FC<CoverImageProps> = ({
           )}
         </Group>
       </CommonDraggable>
-      {open && (
+      {isSelectedModalOpen && (
         <Html>
           <CoverPopover
             id={id}
-            open={open}
-            onClose={() => setOpen(false)}
+            open={isSelectedModalOpen}
+            onClose={() => setSelected({ id, elem: 'cover', open: false })}
             onSubmit={handleSubmit}
             onReset={() => {
               resetCoverLabel(id, 'title');

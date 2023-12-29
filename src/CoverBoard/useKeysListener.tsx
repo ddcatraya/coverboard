@@ -29,6 +29,14 @@ export const useKeysListener = ({
   const groups = useMainStore((state) => state.groups);
   const lines = useMainStore((state) => state.lines);
 
+  const removeCoverAndRelatedLines = useMainStore(
+    (state) => state.removeCoverAndRelatedLines,
+  );
+  const removeGroupAndRelatedLines = useMainStore(
+    (state) => state.removeGroupAndRelatedLines,
+  );
+  const removeLine = useMainStore((state) => state.removeLine);
+
   useEffect(() => {
     const keyFn = (e: KeyboardEvent) => {
       if ((e.ctrlKey || e.metaKey) && e.key === 'z') {
@@ -50,96 +58,110 @@ export const useKeysListener = ({
           });
           e.preventDefault();
         }
-      } else if (e.key === 'n' && !editTitle && !openPopup && selected) {
-        e.preventDefault();
-        if (selected.elem === 'cover') {
-          const currentIndex = covers.findIndex(
-            (cov) => cov.id === selected.id,
-          );
-          if (currentIndex > -1 && covers[currentIndex - 1]) {
-            setSelected({
-              id: covers[currentIndex - 1].id,
-              elem: 'cover',
-              open: false,
-            });
-            e.preventDefault();
-          } else if (groups.length > 0) {
-            setSelected({
-              id: groups[groups.length - 1].id,
-              elem: 'group',
-              open: false,
-            });
-            e.preventDefault();
-          } else {
-            setSelected({
-              id: covers[covers.length - 1].id,
-              elem: 'cover',
-              open: false,
-            });
-            e.preventDefault();
+      } else if (!editTitle && !openPopup && selected) {
+        if (e.key === 'n') {
+          e.preventDefault();
+          if (selected.elem === 'cover') {
+            const currentIndex = covers.findIndex(
+              (cov) => cov.id === selected.id,
+            );
+            if (currentIndex > -1 && covers[currentIndex - 1]) {
+              setSelected({
+                id: covers[currentIndex - 1].id,
+                elem: 'cover',
+                open: false,
+              });
+              e.preventDefault();
+            } else if (groups.length > 0) {
+              setSelected({
+                id: groups[groups.length - 1].id,
+                elem: 'group',
+                open: false,
+              });
+              e.preventDefault();
+            } else {
+              setSelected({
+                id: covers[covers.length - 1].id,
+                elem: 'cover',
+                open: false,
+              });
+              e.preventDefault();
+            }
+          } else if (selected.elem === 'group') {
+            const currentIndex = groups.findIndex(
+              (cov) => cov.id === selected.id,
+            );
+            if (currentIndex > -1 && groups[currentIndex - 1]) {
+              setSelected({
+                id: groups[currentIndex - 1].id,
+                elem: 'group',
+                open: false,
+              });
+              e.preventDefault();
+            } else if (covers.length > 0) {
+              setSelected({
+                id: covers[covers.length - 1].id,
+                elem: 'cover',
+                open: false,
+              });
+              e.preventDefault();
+            } else {
+              setSelected({
+                id: groups[groups.length - 1].id,
+                elem: 'group',
+                open: false,
+              });
+              e.preventDefault();
+            }
           }
-        } else if (selected.elem === 'group') {
-          const currentIndex = groups.findIndex(
-            (cov) => cov.id === selected.id,
-          );
-          if (currentIndex > -1 && groups[currentIndex - 1]) {
-            setSelected({
-              id: groups[currentIndex - 1].id,
-              elem: 'group',
-              open: false,
-            });
-            e.preventDefault();
-          } else if (covers.length > 0) {
-            setSelected({
-              id: covers[covers.length - 1].id,
-              elem: 'cover',
-              open: false,
-            });
-            e.preventDefault();
-          } else {
-            setSelected({
-              id: groups[groups.length - 1].id,
-              elem: 'group',
-              open: false,
-            });
-            e.preventDefault();
+        } else if (e.key === 'p') {
+          if (selected.elem === 'cover') {
+            const currentIndex = covers.findIndex(
+              (cov) => cov.id === selected.id,
+            );
+            if (currentIndex > -1 && covers[currentIndex + 1]) {
+              setSelected({
+                id: covers[currentIndex + 1].id,
+                elem: 'cover',
+                open: false,
+              });
+              e.preventDefault();
+            } else {
+              setSelected({ id: covers[0].id, elem: 'cover', open: false });
+              e.preventDefault();
+            }
+          } else if (selected.elem === 'group') {
+            const currentIndex = groups.findIndex(
+              (cov) => cov.id === selected.id,
+            );
+            if (currentIndex > -1 && groups[currentIndex + 1]) {
+              setSelected({
+                id: groups[currentIndex + 1].id,
+                elem: 'group',
+                open: false,
+              });
+              e.preventDefault();
+            } else {
+              setSelected({ id: groups[0].id, elem: 'group', open: false });
+              e.preventDefault();
+            }
           }
+        } else if (e.key === 'Delete') {
+          if (selected.elem === 'group') {
+            removeGroupAndRelatedLines(selected.id);
+          } else if (selected.elem === 'cover') {
+            removeCoverAndRelatedLines(selected.id);
+          } else if (selected.elem === 'arrow') {
+            removeLine(selected.id);
+          }
+          e.preventDefault();
+        } else if (e.key === 'Escape') {
+          setSelected(null);
+          e.preventDefault();
+        } else if (e.key === 'Enter') {
+          setSelected({ id: selected.id, elem: selected.elem, open: true });
+          e.preventDefault();
         }
-      } else if (e.key === 'p' && !editTitle && !openPopup && selected) {
-        if (selected.elem === 'cover') {
-          const currentIndex = covers.findIndex(
-            (cov) => cov.id === selected.id,
-          );
-          if (currentIndex > -1 && covers[currentIndex + 1]) {
-            setSelected({
-              id: covers[currentIndex + 1].id,
-              elem: 'cover',
-              open: false,
-            });
-            e.preventDefault();
-          } else {
-            setSelected({ id: covers[0].id, elem: 'cover', open: false });
-            e.preventDefault();
-          }
-        } else if (selected.elem === 'group') {
-          const currentIndex = groups.findIndex(
-            (cov) => cov.id === selected.id,
-          );
-          if (currentIndex > -1 && groups[currentIndex + 1]) {
-            setSelected({
-              id: groups[currentIndex + 1].id,
-              elem: 'group',
-              open: false,
-            });
-            e.preventDefault();
-          } else {
-            setSelected({ id: groups[0].id, elem: 'group', open: false });
-            e.preventDefault();
-          }
-        }
-      } else if (e.key === 'Escape' && !editTitle && !openPopup && selected) {
-        setSelected(null);
-        e.preventDefault();
       } else if (!hasMode && !openPopup) {
         if (e.key === 'a') {
           setOpenSearch(true);
@@ -177,6 +199,9 @@ export const useKeysListener = ({
     lines,
     openPopup,
     points,
+    removeCoverAndRelatedLines,
+    removeGroupAndRelatedLines,
+    removeLine,
     selected,
     setEditTitle,
     setOpenConfig,

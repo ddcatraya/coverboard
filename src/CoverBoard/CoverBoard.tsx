@@ -12,11 +12,10 @@ import {
   CoverCountLabel,
   GroupCountLabel,
   Logo,
-  useDeleteListener,
 } from './';
 import { flushSync } from 'react-dom';
 import { formatDate } from 'utils';
-import { useMainStore } from 'store';
+import { useMainStore, useUtilsStore } from 'store';
 import { shallow } from 'zustand/shallow';
 import Konva from 'konva';
 
@@ -34,7 +33,18 @@ export const CoverBoard: React.FC = () => {
   const [screenshotUrl, setScreenshotUrl] = useState('');
   const [showLogo, setShowLogo] = useState(true);
 
-  const { checkDeselect } = useDeleteListener();
+  const setSelected = useUtilsStore((state) => state.setSelected);
+  const setPoints = useUtilsStore((state) => state.setPoints);
+  const checkDeselect = useCallback(
+    (e) => {
+      const clickedOnEmpty = e.target === e.target.getStage();
+      if (clickedOnEmpty) {
+        setSelected(null);
+        setPoints(null);
+      }
+    },
+    [setPoints, setSelected],
+  );
 
   const takeScreenshot = useCallback(() => {
     const stage = stageRef.current;
