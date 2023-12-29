@@ -23,12 +23,7 @@ export const CoverImage: React.FC<CoverImageProps> = ({ link, onRetry }) => {
   return (
     <>
       {status === 'loaded' && image && (
-        <Image
-          listening={false}
-          image={image}
-          width={coverSizeWidth}
-          height={coverSizeHeight}
-        />
+        <Image image={image} width={coverSizeWidth} height={coverSizeHeight} />
       )}
       {status === 'loading' && (
         <Text

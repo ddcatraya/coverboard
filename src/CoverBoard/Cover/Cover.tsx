@@ -113,6 +113,13 @@ const CoverMemo: React.FC<CoverImageProps> = ({
     state.isSelectedModalOpen({ id, elem: Elem.COVER }),
   );
 
+  const refreshCovers = useMainStore((state) => state.refreshCovers);
+  const handleSelect = (evt) => {
+    evt.cancelBubble = true;
+    setSelected({ id, elem: Elem.COVER, open: false });
+    refreshCovers(id);
+  };
+
   return (
     <>
       <CommonDraggable
@@ -131,10 +138,14 @@ const CoverMemo: React.FC<CoverImageProps> = ({
         }}>
         <CommonDrawLine id={id} type={Elem.COVER} />
 
-        <Group
-          onDblclick={() => setSelected({ id, elem: Elem.COVER, open: true })}
-          onDblTap={() => setSelected({ id, elem: Elem.COVER, open: true })}>
-          <CoverLoadImage link={link} renderTime={renderTime} />
+        <Group>
+          <Group
+            onClick={handleSelect}
+            onTap={handleSelect}
+            onDblclick={() => setSelected({ id, elem: Elem.COVER, open: true })}
+            onDblTap={() => setSelected({ id, elem: Elem.COVER, open: true })}>
+            <CoverLoadImage link={link} renderTime={renderTime} />
+          </Group>
 
           {showTitle && title && (
             <CommonLabelDraggable

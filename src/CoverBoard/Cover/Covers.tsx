@@ -1,40 +1,26 @@
 import { Group } from 'react-konva';
-import { useMainStore, useUtilsStore } from 'store';
+import { useMainStore } from 'store';
 import { Cover } from './Cover';
-import { Elem } from 'types';
 
 export const Covers: React.FC = () => {
   const covers = useMainStore((state) => state.covers);
-  const setSelected = useUtilsStore((state) => state.setSelected);
-  const refreshCovers = useMainStore((state) => state.refreshCovers);
-
-  const handleSelect = (evt, coverId: string) => {
-    evt.cancelBubble = true;
-    setSelected({ id: coverId, elem: Elem.COVER, open: false });
-    refreshCovers(coverId);
-  };
 
   return (
     <>
       {covers.map((cover, index) => (
-        <Group
+        <Cover
           key={cover.id}
-          onClick={(evt) => handleSelect(evt, cover.id)}
-          onTouchStart={(evt) => handleSelect(evt, cover.id)}>
-          <Cover
-            id={cover.id}
-            title={cover.title.text}
-            subtitle={cover.subtitle.text}
-            x={cover.x}
-            y={cover.y}
-            titleDir={cover.title.dir}
-            subTitleDir={cover.subtitle.dir}
-            starDir={cover.star.dir}
-            link={cover.link}
-            key={cover.id}
-            renderTime={400 * index}
-          />
-        </Group>
+          id={cover.id}
+          title={cover.title.text}
+          subtitle={cover.subtitle.text}
+          x={cover.x}
+          y={cover.y}
+          titleDir={cover.title.dir}
+          subTitleDir={cover.subtitle.dir}
+          starDir={cover.star.dir}
+          link={cover.link}
+          renderTime={400 * index}
+        />
       ))}
     </>
   );

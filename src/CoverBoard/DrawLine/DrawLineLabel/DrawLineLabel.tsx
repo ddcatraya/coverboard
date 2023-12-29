@@ -45,31 +45,30 @@ export const DrawLineLabel: React.FC<LineProps> = ({ id, dir, lineParams }) => {
 
   return (
     <>
-      <Group>
-        <DrawLineLabelDraggable
-          dir={dir}
-          lineParams={lineParams}
-          setUpdate={handleUpdateDir}>
-          <TextLabel
-            label={getLabel()}
-            color={color}
-            open={isSelected}
-            editable={true}
-            setOpen={() => void 0}
-            onReset={() => void 0}
-            setLabel={(text) => updateLineText(id, text)}
-            pos={{
-              x: -coverSizeWidth,
-              y: fontSize * 1.5,
-              width: coverSizeWidth * 2,
-              align: getAlign(dir),
-            }}
-            wrap="word"
-          />
-        </DrawLineLabelDraggable>
-        <DrawLineCircle id={id} />
-      </Group>
-
+      <DrawLineLabelDraggable
+        dir={dir}
+        lineParams={lineParams}
+        setUpdate={handleUpdateDir}
+        listening={isSelected}>
+        <TextLabel
+          listening={isSelected}
+          label={getLabel()}
+          color={color}
+          open={isSelected}
+          editable={true}
+          setOpen={() => void 0}
+          onReset={() => void 0}
+          setLabel={(text) => updateLineText(id, text)}
+          pos={{
+            x: -coverSizeWidth,
+            y: fontSize * 1.5,
+            width: coverSizeWidth * 2,
+            align: getAlign(dir),
+          }}
+          wrap="word"
+        />
+      </DrawLineLabelDraggable>
+      <DrawLineCircle id={id} />
       {isSelectedModalOpen && (
         <Html>
           <DrawLinePopover

@@ -70,6 +70,13 @@ const GroupCoverMemo: React.FC<CoverImageProps> = ({
     state.isSelectedModalOpen({ id, elem: Elem.GROUP }),
   );
 
+  const refreshGroups = useMainStore((state) => state.refreshGroups);
+  const handlesSelect = (evt) => {
+    evt.cancelBubble = true;
+    setSelected({ id, elem: Elem.GROUP, open: false });
+    refreshGroups(id);
+  };
+
   return (
     <>
       <CommonDraggable
@@ -93,18 +100,22 @@ const GroupCoverMemo: React.FC<CoverImageProps> = ({
           type={Elem.GROUP}
         />
 
-        <Group
-          onDblclick={
-            canOpenPopover
-              ? () => setSelected({ id, elem: Elem.GROUP, open: true })
-              : undefined
-          }
-          onDblTap={
-            canOpenPopover
-              ? () => setSelected({ id, elem: Elem.GROUP, open: true })
-              : undefined
-          }>
-          <GroupSquare id={id} />
+        <>
+          <Group
+            onClick={handlesSelect}
+            onTouchStart={handlesSelect}
+            onDblclick={
+              canOpenPopover
+                ? () => setSelected({ id, elem: Elem.GROUP, open: true })
+                : undefined
+            }
+            onDblTap={
+              canOpenPopover
+                ? () => setSelected({ id, elem: Elem.GROUP, open: true })
+                : undefined
+            }>
+            <GroupSquare id={id} />
+          </Group>
           <CommonLabelDraggable
             updateDir={updateGroupDir}
             id={id}
@@ -148,7 +159,7 @@ const GroupCoverMemo: React.FC<CoverImageProps> = ({
               offset={offset2}
             />
           </CommonLabelDraggable>
-        </Group>
+        </>
       </CommonDraggable>
       {isSelectedModalOpen && (
         <Html>

@@ -12,6 +12,7 @@ interface DraggableGroupProps {
   dir: Lines['dir'];
   setUpdate: (dir: PosTypes) => void;
   lineParams: LineParams;
+  listening: boolean;
 }
 
 export const DrawLineLabelDraggable: React.FC<DraggableGroupProps> = ({
@@ -19,6 +20,7 @@ export const DrawLineLabelDraggable: React.FC<DraggableGroupProps> = ({
   lineParams,
   setUpdate,
   children,
+  listening,
 }) => {
   const coverSizeWidth = useMainStore((state) => state.coverSizeWidth());
   const fontSize = useMainStore((state) => state.fontSize());
@@ -96,7 +98,7 @@ export const DrawLineLabelDraggable: React.FC<DraggableGroupProps> = ({
       onMouseMove={(evt: KonvaEventObject<MouseEvent>) => {
         const container = evt.target.getStage()?.container();
 
-        if (container) {
+        if (container && listening) {
           container.style.cursor = 'grab';
         }
       }}
