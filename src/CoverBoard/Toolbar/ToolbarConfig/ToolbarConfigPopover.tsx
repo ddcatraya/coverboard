@@ -7,8 +7,6 @@ import {
   Slider,
   Typography,
   FormControl,
-  Radio,
-  RadioGroup,
   TextField,
   Select,
   MenuItem,
@@ -21,12 +19,11 @@ import {
   colorMap,
   Colors,
   ColorSettings,
-  PosTypes,
   ToolbarConfigParams,
   ToolbarConfigValues,
   ToolConfigIDs,
 } from 'types';
-import { CommonDialog } from 'components';
+import { CommonDialog, DirectionRadio } from 'components';
 import { useMainStore } from 'store';
 interface ToolbarConfigPopoverProps {
   open: boolean;
@@ -249,103 +246,34 @@ export const ToolbarConfigPopover: React.FC<ToolbarConfigPopoverProps> = ({
           <Grid item xs={12}>
             <FormControl>
               <label>Cover labels default position:</label>
-              <RadioGroup
-                row
-                aria-label="position"
-                name="position"
+              <DirectionRadio
                 value={param[ToolbarConfigValues.LABEL_DIR]}
                 onChange={(evt) =>
                   handleChange(evt, ToolbarConfigValues.LABEL_DIR)
-                }>
-                <FormControlLabel
-                  value={PosTypes.BOTTOM}
-                  control={<Radio />}
-                  label={PosTypes.BOTTOM}
-                />
-                <FormControlLabel
-                  value={PosTypes.TOP}
-                  control={<Radio />}
-                  label={PosTypes.TOP}
-                />
-                <FormControlLabel
-                  value={PosTypes.LEFT}
-                  control={<Radio />}
-                  label={PosTypes.LEFT}
-                />
-                <FormControlLabel
-                  value={PosTypes.RIGHT}
-                  control={<Radio />}
-                  label={PosTypes.RIGHT}
-                />
-              </RadioGroup>
+                }
+              />
             </FormControl>
           </Grid>
           <Grid item xs={12}>
             <FormControl>
               <label>Group labels default position:</label>
-              <RadioGroup
-                row
-                aria-label="position"
-                name="position"
+              <DirectionRadio
                 value={param[ToolbarConfigValues.GROUP_DIR]}
                 onChange={(evt) =>
                   handleChange(evt, ToolbarConfigValues.GROUP_DIR)
-                }>
-                <FormControlLabel
-                  value={PosTypes.BOTTOM}
-                  control={<Radio />}
-                  label={PosTypes.BOTTOM}
-                />
-                <FormControlLabel
-                  value={PosTypes.TOP}
-                  control={<Radio />}
-                  label={PosTypes.TOP}
-                />
-                <FormControlLabel
-                  value={PosTypes.LEFT}
-                  control={<Radio />}
-                  label={PosTypes.LEFT}
-                />
-                <FormControlLabel
-                  value={PosTypes.RIGHT}
-                  control={<Radio />}
-                  label={PosTypes.RIGHT}
-                />
-              </RadioGroup>
+                }
+              />
             </FormControl>
           </Grid>
           <Grid item xs={12}>
             <FormControl>
               <label>Rating stars default position:</label>
-              <RadioGroup
-                row
-                aria-label="stars position"
-                name="starPosition"
+              <DirectionRadio
                 value={param[ToolbarConfigValues.STARS_DIR]}
                 onChange={(evt) =>
                   handleChange(evt, ToolbarConfigValues.STARS_DIR)
-                }>
-                <FormControlLabel
-                  value={PosTypes.BOTTOM}
-                  control={<Radio />}
-                  label={PosTypes.BOTTOM}
-                />
-                <FormControlLabel
-                  value={PosTypes.TOP}
-                  control={<Radio />}
-                  label={PosTypes.TOP}
-                />
-                <FormControlLabel
-                  value={PosTypes.LEFT}
-                  control={<Radio />}
-                  label={PosTypes.LEFT}
-                />
-                <FormControlLabel
-                  value={PosTypes.RIGHT}
-                  control={<Radio />}
-                  label={PosTypes.RIGHT}
-                />
-              </RadioGroup>
+                }
+              />
             </FormControl>
           </Grid>
           <Grid item xs={12}>

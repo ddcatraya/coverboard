@@ -6,12 +6,9 @@ import {
   Grid,
   Slider,
   Typography,
-  FormControlLabel,
-  Radio,
-  RadioGroup,
 } from '@mui/material';
 import { CoverValues, Covers, Media, PosTypes } from 'types';
-import { CommonDialog } from 'components';
+import { CommonDialog, DirectionRadio } from 'components';
 import { useMainStore } from 'store';
 
 interface PopupProps {
@@ -170,33 +167,10 @@ export const CoverPopover: React.FC<PopupProps> = ({
               value={text.title}
               onChange={(evt) => handTextChange(evt, 'title')}
             />
-            <RadioGroup
-              row
-              aria-label="position"
-              name="position"
+            <DirectionRadio
               value={text.titleDir}
-              onChange={(evt) => handTextChange(evt, 'titleDir')}>
-              <FormControlLabel
-                value={PosTypes.BOTTOM}
-                control={<Radio />}
-                label={PosTypes.BOTTOM}
-              />
-              <FormControlLabel
-                value={PosTypes.TOP}
-                control={<Radio />}
-                label={PosTypes.TOP}
-              />
-              <FormControlLabel
-                value={PosTypes.LEFT}
-                control={<Radio />}
-                label={PosTypes.LEFT}
-              />
-              <FormControlLabel
-                value={PosTypes.RIGHT}
-                control={<Radio />}
-                label={PosTypes.RIGHT}
-              />
-            </RadioGroup>
+              onChange={(evt) => handTextChange(evt, 'titleDir')}
+            />
           </Grid>
           <Grid item xs={12}>
             <TextField
@@ -205,33 +179,10 @@ export const CoverPopover: React.FC<PopupProps> = ({
               value={text.subtitle}
               onChange={(evt) => handTextChange(evt, 'subtitle')}
             />
-            <RadioGroup
-              row
-              aria-label="position"
-              name="position"
+            <DirectionRadio
               value={text.subTitleDir}
-              onChange={(evt) => handTextChange(evt, 'subTitleDir')}>
-              <FormControlLabel
-                value={PosTypes.BOTTOM}
-                control={<Radio />}
-                label={PosTypes.BOTTOM}
-              />
-              <FormControlLabel
-                value={PosTypes.TOP}
-                control={<Radio />}
-                label={PosTypes.TOP}
-              />
-              <FormControlLabel
-                value={PosTypes.LEFT}
-                control={<Radio />}
-                label={PosTypes.LEFT}
-              />
-              <FormControlLabel
-                value={PosTypes.RIGHT}
-                control={<Radio />}
-                label={PosTypes.RIGHT}
-              />
-            </RadioGroup>
+              onChange={(evt) => handTextChange(evt, 'subTitleDir')}
+            />
           </Grid>
           <Grid item xs={12}>
             <Typography gutterBottom>Rating:</Typography>
@@ -244,33 +195,10 @@ export const CoverPopover: React.FC<PopupProps> = ({
               value={rating}
               onChange={(evt, value) => handleNumberChange(evt, value)}
             />
-            <RadioGroup
-              row
-              aria-label="position"
-              name="position"
+            <DirectionRadio
               value={currentStarDir}
-              onChange={handleStarChange}>
-              <FormControlLabel
-                value={PosTypes.BOTTOM}
-                control={<Radio />}
-                label={PosTypes.BOTTOM}
-              />
-              <FormControlLabel
-                value={PosTypes.TOP}
-                control={<Radio />}
-                label={PosTypes.TOP}
-              />
-              <FormControlLabel
-                value={PosTypes.LEFT}
-                control={<Radio />}
-                label={PosTypes.LEFT}
-              />
-              <FormControlLabel
-                value={PosTypes.RIGHT}
-                control={<Radio />}
-                label={PosTypes.RIGHT}
-              />
-            </RadioGroup>
+              onChange={handleStarChange}
+            />
           </Grid>
           <Grid item xs={12}>
             {buttons.map((button) => (
