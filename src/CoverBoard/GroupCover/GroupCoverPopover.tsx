@@ -80,6 +80,7 @@ export const GroupCoverPopover: React.FC<PopupProps> = ({
               onChange={(evt) => handTextChange(evt, 'title')}
             />
             <DirectionRadio
+              name="titleRadio"
               value={text.titleDir}
               onChange={(evt) => handTextChange(evt, 'titleDir')}
             />
@@ -92,6 +93,7 @@ export const GroupCoverPopover: React.FC<PopupProps> = ({
               onChange={(evt) => handTextChange(evt, 'subtitle')}
             />
             <DirectionRadio
+              name="subtitleRadio"
               value={text.subTitleDir}
               onChange={(evt) => handTextChange(evt, 'subTitleDir')}
             />

@@ -179,6 +179,7 @@ export const CoverPopover: React.FC<PopupProps> = ({ open, values, id }) => {
               onChange={(evt) => handTextChange(evt, 'title')}
             />
             <DirectionRadio
+              name="titleRadio"
               value={text.titleDir}
               onChange={(evt) => handTextChange(evt, 'titleDir')}
             />
@@ -191,6 +192,7 @@ export const CoverPopover: React.FC<PopupProps> = ({ open, values, id }) => {
               onChange={(evt) => handTextChange(evt, 'subtitle')}
             />
             <DirectionRadio
+              name="subtitleRadio"
               value={text.subTitleDir}
               onChange={(evt) => handTextChange(evt, 'subTitleDir')}
             />
@@ -207,6 +209,7 @@ export const CoverPopover: React.FC<PopupProps> = ({ open, values, id }) => {
               onChange={(evt, value) => handleNumberChange(evt, value)}
             />
             <DirectionRadio
+              name="starRadio"
               value={currentStarDir}
               onChange={handleStarChange}
             />

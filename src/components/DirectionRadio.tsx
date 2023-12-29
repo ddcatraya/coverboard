@@ -4,17 +4,19 @@ import { PosTypes } from 'types';
 interface DirectionRadioProps {
   value: PosTypes;
   onChange: (event: React.ChangeEvent<HTMLInputElement>, value: string) => void;
+  name: string;
 }
 
 export const DirectionRadio: React.FC<DirectionRadioProps> = ({
   value,
   onChange,
+  name,
 }) => {
   return (
     <RadioGroup
       row
       aria-label="position"
-      name="position"
+      name={name}
       value={value}
       onChange={onChange}>
       <FormControlLabel

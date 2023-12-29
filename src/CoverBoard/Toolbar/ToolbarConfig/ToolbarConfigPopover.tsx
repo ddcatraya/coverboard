@@ -247,6 +247,7 @@ export const ToolbarConfigPopover: React.FC<ToolbarConfigPopoverProps> = ({
             <FormControl>
               <label>Cover labels default position:</label>
               <DirectionRadio
+                name="labelRadio"
                 value={param[ToolbarConfigValues.LABEL_DIR]}
                 onChange={(evt) =>
                   handleChange(evt, ToolbarConfigValues.LABEL_DIR)
@@ -258,6 +259,7 @@ export const ToolbarConfigPopover: React.FC<ToolbarConfigPopoverProps> = ({
             <FormControl>
               <label>Group labels default position:</label>
               <DirectionRadio
+                name="groupRadio"
                 value={param[ToolbarConfigValues.GROUP_DIR]}
                 onChange={(evt) =>
                   handleChange(evt, ToolbarConfigValues.GROUP_DIR)
@@ -269,6 +271,7 @@ export const ToolbarConfigPopover: React.FC<ToolbarConfigPopoverProps> = ({
             <FormControl>
               <label>Rating stars default position:</label>
               <DirectionRadio
+                name="starRadio"
                 value={param[ToolbarConfigValues.STARS_DIR]}
                 onChange={(evt) =>
                   handleChange(evt, ToolbarConfigValues.STARS_DIR)
