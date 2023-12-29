@@ -1,6 +1,6 @@
 import React from 'react';
 
-import { Elem, GroupCoverValues, GroupCovers, PosTypes } from 'types';
+import { Elem, GroupCovers, PosTypes } from 'types';
 
 import { useMainStore, useUtilsStore } from 'store';
 import { shallow } from 'zustand/shallow';
@@ -155,7 +155,6 @@ const GroupCoverMemo: React.FC<CoverImageProps> = ({
           <GroupCoverPopover
             id={id}
             open={isSelectedModalOpen}
-            onClose={() => setSelected({ id, elem: Elem.GROUP, open: false })}
             values={{
               title,
               subtitle,

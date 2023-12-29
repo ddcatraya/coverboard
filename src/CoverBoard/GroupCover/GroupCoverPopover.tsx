@@ -1,19 +1,17 @@
 import React, { useState } from 'react';
 import { TextField, Button, Grid, Slider, Typography } from '@mui/material';
-import { GroupCoverValues, GroupCovers } from 'types';
+import { Elem, GroupCoverValues, GroupCovers } from 'types';
 import { CommonDialog, DirectionRadio } from 'components';
 import { useMainStore, useUtilsStore } from 'store';
 
 interface PopupProps {
   open: boolean;
-  onClose: () => void;
   values: GroupCoverValues;
   id: GroupCovers['id'];
 }
 
 export const GroupCoverPopover: React.FC<PopupProps> = ({
   open,
-  onClose,
   values,
   id,
 }) => {
@@ -54,7 +52,7 @@ export const GroupCoverPopover: React.FC<PopupProps> = ({
   );
   const handleDelete = () => {
     removeCoverAndRelatedLines(id);
-    onClose();
+    setSelected(null);
   };
 
   const handleSubmit = (evt: React.SyntheticEvent<HTMLFormElement>) => {
@@ -64,11 +62,13 @@ export const GroupCoverPopover: React.FC<PopupProps> = ({
     updateGroupSubDir(id, text.subTitleDir);
     updateGroupScale(id, scale);
     setSelected(null);
-    onClose();
   };
 
   return (
-    <CommonDialog open={open} onClose={onClose} title="Edit group">
+    <CommonDialog
+      open={open}
+      onClose={() => setSelected({ id, elem: Elem.GROUP, open: false })}
+      title="Edit group">
       <form onSubmit={handleSubmit}>
         <Grid container spacing={2}>
           <Grid item xs={12}>

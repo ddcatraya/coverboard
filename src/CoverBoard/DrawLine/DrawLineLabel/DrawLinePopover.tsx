@@ -7,26 +7,21 @@ import {
   Radio,
   RadioGroup,
 } from '@mui/material';
-import { LineValues, Lines, PosTypes } from 'types';
+import { Elem, LineValues, Lines, PosTypes } from 'types';
 import { CommonDialog } from 'components';
-import { useMainStore } from 'store';
+import { useMainStore, useUtilsStore } from 'store';
 
 interface PopupProps {
   open: boolean;
-  onClose: () => void;
   values: LineValues;
   id: Lines['id'];
 }
 
-export const DrawLinePopover: React.FC<PopupProps> = ({
-  open,
-  onClose,
-  values,
-  id,
-}) => {
+export const DrawLinePopover: React.FC<PopupProps> = ({ open, values, id }) => {
   const [text, setText] = useState<PopupProps['values']>(values);
   const updateLineDir = useMainStore((state) => state.updateLineDir);
   const updateLineText = useMainStore((state) => state.updateLineText);
+  const setSelected = useUtilsStore((state) => state.setSelected);
 
   const handTextChange = (
     event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>,
@@ -42,17 +37,20 @@ export const DrawLinePopover: React.FC<PopupProps> = ({
     evt.preventDefault();
     updateLineText(id, values.text);
     updateLineDir(id, values.dir);
-    onClose();
+    setSelected(null);
   };
 
   const removeLine = useMainStore((state) => state.removeLine);
   const handleDelete = () => {
     removeLine(id);
-    onClose();
+    setSelected(null);
   };
 
   return (
-    <CommonDialog open={open} onClose={onClose} title="Edit labels">
+    <CommonDialog
+      open={open}
+      onClose={() => setSelected({ id, elem: Elem.ARROW, open: false })}
+      title="Edit labels">
       <form onSubmit={handleSubmit}>
         <Grid container spacing={2}>
           <Grid item xs={12}>

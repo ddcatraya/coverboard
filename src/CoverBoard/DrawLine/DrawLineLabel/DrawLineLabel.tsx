@@ -1,6 +1,6 @@
 import React from 'react';
 
-import { Elem, LineParams, LineValues, Lines, PosTypes } from 'types';
+import { Elem, LineParams, Lines, PosTypes } from 'types';
 import { DrawLineCircle, DrawLineLabelDraggable, DrawLinePopover } from '.';
 import { TextLabel } from 'components';
 import { getAlign } from 'utils';
@@ -23,7 +23,6 @@ export const DrawLineLabel: React.FC<LineProps> = ({ id, dir, lineParams }) => {
   const updateLineText = useMainStore((state) => state.updateLineText);
   const editLines = useUtilsStore((state) => state.points);
 
-  const setSelected = useUtilsStore((state) => state.setSelected);
   const isSelected = useUtilsStore((state) =>
     state.isSelected({ id, elem: Elem.ARROW }),
   );
@@ -76,7 +75,6 @@ export const DrawLineLabel: React.FC<LineProps> = ({ id, dir, lineParams }) => {
           <DrawLinePopover
             id={id}
             open={isSelectedModalOpen}
-            onClose={() => setSelected({ id, elem: Elem.ARROW, open: false })}
             values={{
               text,
               dir,

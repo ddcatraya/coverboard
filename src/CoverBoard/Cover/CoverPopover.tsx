@@ -7,13 +7,12 @@ import {
   Slider,
   Typography,
 } from '@mui/material';
-import { CoverValues, Covers, Media, PosTypes } from 'types';
+import { CoverValues, Covers, Elem, Media, PosTypes } from 'types';
 import { CommonDialog, DirectionRadio } from 'components';
 import { useMainStore, useUtilsStore } from 'store';
 
 interface PopupProps {
   open: boolean;
-  onClose: () => void;
   values: CoverValues;
   title?: string;
   id: Covers['id'];
@@ -92,12 +91,7 @@ const getButtons = (media: Media, currentCover: Covers) => {
   return [];
 };
 
-export const CoverPopover: React.FC<PopupProps> = ({
-  open,
-  onClose,
-  values,
-  id,
-}) => {
+export const CoverPopover: React.FC<PopupProps> = ({ open, values, id }) => {
   const starCount = useMainStore((state) => state.getStarCount(id));
   const starDir = useMainStore((state) => state.getStarDirById(id));
   const [text, setText] = useState<PopupProps['values']>(values);
@@ -156,22 +150,24 @@ export const CoverPopover: React.FC<PopupProps> = ({
     updateCoverStarDir(id, currentStarDir);
     updateStarCount(id, rating);
     setSelected(null);
-    onClose();
   };
 
   const handleReset = () => {
     resetCoverLabel(id, 'title');
     resetCoverLabel(id, 'subtitle');
-    onClose();
+    setSelected(null);
   };
 
   const handleDelete = () => {
     removeCoverAndRelatedLines(id);
-    onClose();
+    setSelected(null);
   };
 
   return (
-    <CommonDialog open={open} onClose={onClose} title="Edit labels">
+    <CommonDialog
+      open={open}
+      onClose={() => setSelected({ id, elem: Elem.COVER, open: false })}
+      title="Edit labels">
       <form onSubmit={handleSubmit}>
         <Grid container spacing={2}>
           <Grid item xs={12}>

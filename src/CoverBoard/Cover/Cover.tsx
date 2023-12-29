@@ -187,7 +187,6 @@ const CoverMemo: React.FC<CoverImageProps> = ({
           <CoverPopover
             id={id}
             open={isSelectedModalOpen}
-            onClose={() => setSelected({ id, elem: Elem.COVER, open: false })}
             values={{
               title,
               subtitle,
