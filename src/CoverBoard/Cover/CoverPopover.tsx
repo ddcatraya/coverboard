@@ -9,17 +9,11 @@ import {
 } from '@mui/material';
 import { CoverValues, Covers, Media, PosTypes } from 'types';
 import { CommonDialog, DirectionRadio } from 'components';
-import { useMainStore } from 'store';
+import { useMainStore, useUtilsStore } from 'store';
 
 interface PopupProps {
   open: boolean;
   onClose: () => void;
-  onSubmit: (
-    values: CoverValues,
-    rating: number,
-    currentStarDir: PosTypes,
-  ) => void;
-  onReset: () => void;
   values: CoverValues;
   title?: string;
   id: Covers['id'];
@@ -101,8 +95,6 @@ const getButtons = (media: Media, currentCover: Covers) => {
 export const CoverPopover: React.FC<PopupProps> = ({
   open,
   onClose,
-  onSubmit,
-  onReset,
   values,
   id,
 }) => {
@@ -117,6 +109,20 @@ export const CoverPopover: React.FC<PopupProps> = ({
   const currentCover = useMainStore((state) =>
     state.covers.find((cov) => cov.id === id),
   )!;
+  const removeCoverAndRelatedLines = useMainStore(
+    (state) => state.removeCoverAndRelatedLines,
+  );
+  const resetCoverLabel = useMainStore((state) => state.resetCoverLabel);
+  const updateCoversText = useMainStore((state) => state.updateCoversText);
+  const updateStarCount = useMainStore((state) => state.updateStarCount);
+  const updateCoverStarDir = useMainStore((state) => state.updateCoverStarDir);
+  const updateCoverTitleDir = useMainStore(
+    (state) => state.updateCoverTitleDir,
+  );
+  const updateCoverSubtitleDir = useMainStore(
+    (state) => state.updateCoverSubtitleDir,
+  );
+  const setSelected = useUtilsStore((state) => state.setSelected);
 
   const buttons = currentCover ? getButtons(media, currentCover) : [];
 
@@ -143,13 +149,22 @@ export const CoverPopover: React.FC<PopupProps> = ({
 
   const handleSubmit = (evt: React.SyntheticEvent<HTMLFormElement>) => {
     evt.preventDefault();
-    onSubmit(text, rating, currentStarDir);
+
+    updateCoversText(id, text.title.trim(), text.subtitle.trim());
+    updateCoverTitleDir(id, text.subTitleDir);
+    updateCoverSubtitleDir(id, text.subTitleDir);
+    updateCoverStarDir(id, currentStarDir);
+    updateStarCount(id, rating);
+    setSelected(null);
     onClose();
   };
 
-  const removeCoverAndRelatedLines = useMainStore(
-    (state) => state.removeCoverAndRelatedLines,
-  );
+  const handleReset = () => {
+    resetCoverLabel(id, 'title');
+    resetCoverLabel(id, 'subtitle');
+    onClose();
+  };
+
   const handleDelete = () => {
     removeCoverAndRelatedLines(id);
     onClose();
@@ -226,10 +241,7 @@ export const CoverPopover: React.FC<PopupProps> = ({
               variant="outlined"
               color="primary"
               type="button"
-              onClick={() => {
-                onReset();
-                onClose();
-              }}
+              onClick={handleReset}
               style={{ marginRight: '20px', marginBottom: '20px' }}>
               Reset
             </Button>

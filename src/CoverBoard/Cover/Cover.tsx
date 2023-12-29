@@ -1,6 +1,6 @@
 import React from 'react';
 
-import { Covers, CoverValues, Elem, PosTypes } from 'types';
+import { Covers, Elem, PosTypes } from 'types';
 import { CoverPopover, CoverLoadImage, CoverStar, CoverStarDraggable } from '.';
 import {
   CommonDraggable,
@@ -45,11 +45,8 @@ const CoverMemo: React.FC<CoverImageProps> = ({
   const fontSize = useMainStore((state) => state.fontSize());
   const toobarIconSize = useMainStore((state) => state.toobarIconSize());
   const windowSize = useMainStore((state) => state.windowSize);
-  const resetCoverLabel = useMainStore((state) => state.resetCoverLabel);
-  const updateCoversText = useMainStore((state) => state.updateCoversText);
   const updateCoverLabel = useMainStore((state) => state.updateCoverLabel);
   const showStars = useMainStore((state) => state.getShowStars());
-  const updateStarCount = useMainStore((state) => state.updateStarCount);
   const setSelected = useUtilsStore((state) => state.setSelected);
   const updateCoverPosition = useMainStore(
     (state) => state.updateCoverPosition,
@@ -60,23 +57,10 @@ const CoverMemo: React.FC<CoverImageProps> = ({
   const updateCoverSubtitleDir = useMainStore(
     (state) => state.updateCoverSubtitleDir,
   );
-  const updateCoverStarDir = useMainStore((state) => state.updateCoverStarDir);
+
   const removeCoverAndRelatedLines = useMainStore(
     (state) => state.removeCoverAndRelatedLines,
   );
-
-  const handleSubmit = (
-    values: CoverValues,
-    rating: number,
-    currentStarDir: PosTypes,
-  ) => {
-    updateCoversText(id, values.title.trim(), values.subtitle.trim());
-    updateCoverTitleDir(id, values.subTitleDir);
-    updateCoverSubtitleDir(id, values.subTitleDir);
-    updateCoverStarDir(id, currentStarDir);
-    updateStarCount(id, rating);
-    setSelected(null);
-  };
 
   let titleOffset = 0;
   let subtitleOffset = 0;
@@ -204,11 +188,6 @@ const CoverMemo: React.FC<CoverImageProps> = ({
             id={id}
             open={isSelectedModalOpen}
             onClose={() => setSelected({ id, elem: Elem.COVER, open: false })}
-            onSubmit={handleSubmit}
-            onReset={() => {
-              resetCoverLabel(id, 'title');
-              resetCoverLabel(id, 'subtitle');
-            }}
             values={{
               title,
               subtitle,

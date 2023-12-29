@@ -43,10 +43,8 @@ const GroupCoverMemo: React.FC<CoverImageProps> = ({
   const fontSize = useMainStore((state) => state.fontSize());
   const toobarIconSize = useMainStore((state) => state.toobarIconSize());
   const windowSize = useMainStore((state) => state.windowSize);
-  const updateGroupsText = useMainStore((state) => state.updateGroupsText);
   const editLines = useUtilsStore((state) => state.points);
   const setSelected = useUtilsStore((state) => state.setSelected);
-  const updateGroupScale = useMainStore((state) => state.updateGroupScale);
   const updateGroupLabel = useMainStore((state) => state.updateGroupLabel);
   const updateGroupPosition = useMainStore(
     (state) => state.updateGroupPosition,
@@ -57,17 +55,6 @@ const GroupCoverMemo: React.FC<CoverImageProps> = ({
   const removeGroupAndRelatedLines = useMainStore(
     (state) => state.removeGroupAndRelatedLines,
   );
-
-  const handleSubmit = (
-    text: GroupCoverValues,
-    scale: { scaleX: number; scaleY: number },
-  ) => {
-    updateGroupsText(id, text.title, text.subtitle);
-    updateGroupDir(id, text.titleDir);
-    updateGroupSubDir(id, text.subTitleDir);
-    updateGroupScale(id, scale);
-    setSelected(null);
-  };
 
   const canOpenPopover = !editLines;
 
@@ -169,7 +156,6 @@ const GroupCoverMemo: React.FC<CoverImageProps> = ({
             id={id}
             open={isSelectedModalOpen}
             onClose={() => setSelected({ id, elem: Elem.GROUP, open: false })}
-            onSubmit={handleSubmit}
             values={{
               title,
               subtitle,

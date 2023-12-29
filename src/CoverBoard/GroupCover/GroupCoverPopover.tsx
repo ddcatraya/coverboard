@@ -2,15 +2,11 @@ import React, { useState } from 'react';
 import { TextField, Button, Grid, Slider, Typography } from '@mui/material';
 import { GroupCoverValues, GroupCovers } from 'types';
 import { CommonDialog, DirectionRadio } from 'components';
-import { useMainStore } from 'store';
+import { useMainStore, useUtilsStore } from 'store';
 
 interface PopupProps {
   open: boolean;
   onClose: () => void;
-  onSubmit: (
-    text: GroupCoverValues,
-    currentScale: { scaleX: number; scaleY: number },
-  ) => void;
   values: GroupCoverValues;
   id: GroupCovers['id'];
 }
@@ -18,13 +14,17 @@ interface PopupProps {
 export const GroupCoverPopover: React.FC<PopupProps> = ({
   open,
   onClose,
-  onSubmit,
   values,
   id,
 }) => {
   const scale = useMainStore((state) => state.getScale(id));
   const [text, setText] = useState<PopupProps['values']>(values);
   const [currentScale, setCurrentScale] = useState(scale);
+  const updateGroupsText = useMainStore((state) => state.updateGroupsText);
+  const updateGroupScale = useMainStore((state) => state.updateGroupScale);
+  const updateGroupDir = useMainStore((state) => state.updateGroupDir);
+  const updateGroupSubDir = useMainStore((state) => state.updateGroupSubDir);
+  const setSelected = useUtilsStore((state) => state.setSelected);
 
   const handTextChange = (
     event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>,
@@ -49,17 +49,21 @@ export const GroupCoverPopover: React.FC<PopupProps> = ({
     }));
   };
 
-  const handleSubmit = (evt: React.SyntheticEvent<HTMLFormElement>) => {
-    evt.preventDefault();
-    onSubmit(text, currentScale);
-    onClose();
-  };
-
   const removeCoverAndRelatedLines = useMainStore(
     (state) => state.removeGroupAndRelatedLines,
   );
   const handleDelete = () => {
     removeCoverAndRelatedLines(id);
+    onClose();
+  };
+
+  const handleSubmit = (evt: React.SyntheticEvent<HTMLFormElement>) => {
+    evt.preventDefault();
+    updateGroupsText(id, text.title, text.subtitle);
+    updateGroupDir(id, text.titleDir);
+    updateGroupSubDir(id, text.subTitleDir);
+    updateGroupScale(id, scale);
+    setSelected(null);
     onClose();
   };
 

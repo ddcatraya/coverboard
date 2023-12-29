@@ -44,11 +44,6 @@ export const DrawLineLabel: React.FC<LineProps> = ({ id, dir, lineParams }) => {
     updateLineDir(id, dir);
   };
 
-  const handleSubmit = (values: LineValues) => {
-    updateLineText(id, values.text);
-    updateLineDir(id, values.dir);
-  };
-
   return (
     <>
       <Group>
@@ -82,7 +77,6 @@ export const DrawLineLabel: React.FC<LineProps> = ({ id, dir, lineParams }) => {
             id={id}
             open={isSelectedModalOpen}
             onClose={() => setSelected({ id, elem: Elem.ARROW, open: false })}
-            onSubmit={handleSubmit}
             values={{
               text,
               dir,

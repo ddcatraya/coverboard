@@ -46,7 +46,12 @@ export const useKeysListener = ({
       if ((e.ctrlKey || e.metaKey) && e.key === 'z') {
         undoAction();
         e.preventDefault();
-      } else if (e.key === 'n' && !openPopup && !hasMode) {
+      } else if (
+        e.key === 'n' &&
+        !openPopup &&
+        !hasMode &&
+        !isContextModalOpen
+      ) {
         if (covers.length > 0) {
           setSelected({
             id: covers[covers.length - 1].id,
@@ -97,6 +102,7 @@ export const useKeysListener = ({
       if (
         !editTitle &&
         !openPopup &&
+        !isContextModalOpen &&
         selected &&
         selected?.elem !== Elem.ARROW
       ) {

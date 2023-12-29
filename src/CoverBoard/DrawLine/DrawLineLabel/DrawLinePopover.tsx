@@ -14,7 +14,6 @@ import { useMainStore } from 'store';
 interface PopupProps {
   open: boolean;
   onClose: () => void;
-  onSubmit: (values: LineValues) => void;
   values: LineValues;
   id: Lines['id'];
 }
@@ -22,11 +21,12 @@ interface PopupProps {
 export const DrawLinePopover: React.FC<PopupProps> = ({
   open,
   onClose,
-  onSubmit,
   values,
   id,
 }) => {
   const [text, setText] = useState<PopupProps['values']>(values);
+  const updateLineDir = useMainStore((state) => state.updateLineDir);
+  const updateLineText = useMainStore((state) => state.updateLineText);
 
   const handTextChange = (
     event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>,
@@ -40,7 +40,8 @@ export const DrawLinePopover: React.FC<PopupProps> = ({
 
   const handleSubmit = (evt: React.SyntheticEvent<HTMLFormElement>) => {
     evt.preventDefault();
-    onSubmit(text);
+    updateLineText(id, values.text);
+    updateLineDir(id, values.dir);
     onClose();
   };
 
