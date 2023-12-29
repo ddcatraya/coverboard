@@ -114,8 +114,7 @@ const CoverMemo: React.FC<CoverImageProps> = ({
   );
 
   const refreshCovers = useMainStore((state) => state.refreshCovers);
-  const handleSelect = (evt) => {
-    evt.cancelBubble = true;
+  const handleSelect = () => {
     setSelected({ id, elem: Elem.COVER, open: false });
     refreshCovers(id);
   };

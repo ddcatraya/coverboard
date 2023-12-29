@@ -71,8 +71,7 @@ const GroupCoverMemo: React.FC<CoverImageProps> = ({
   );
 
   const refreshGroups = useMainStore((state) => state.refreshGroups);
-  const handlesSelect = (evt) => {
-    evt.cancelBubble = true;
+  const handlesSelect = () => {
     setSelected({ id, elem: Elem.GROUP, open: false });
     refreshGroups(id);
   };
@@ -99,7 +98,6 @@ const GroupCoverMemo: React.FC<CoverImageProps> = ({
           scaleY={scaleY}
           type={Elem.GROUP}
         />
-
         <>
           <Group
             onClick={handlesSelect}

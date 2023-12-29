@@ -4,7 +4,7 @@ import { useMemo, useState } from 'react';
 import { Covers, GroupCovers, PosTypes } from 'types';
 import { v4 as uuidv4 } from 'uuid';
 import { getClientPosition } from 'utils';
-import { useMainStore, useUtilsStore } from 'store';
+import { useMainStore } from 'store';
 import { shallow } from 'zustand/shallow';
 
 interface CommonLabelDraggableProps {
@@ -38,7 +38,6 @@ export const CommonLabelDraggable = ({
 
   const handleDragStart = (e: KonvaEventObject<DragEvent>) => {
     e.cancelBubble = true;
-    // e.currentTarget.opacity(0.5);
     const container = e.target.getStage()?.container();
 
     if (container) {
@@ -47,7 +46,6 @@ export const CommonLabelDraggable = ({
   };
 
   const handleDragEnd = (e: KonvaEventObject<DragEvent | TouchEvent>) => {
-    // e.currentTarget.opacity(1);
     e.cancelBubble = true;
     const container = e.target.getStage()?.container();
 
