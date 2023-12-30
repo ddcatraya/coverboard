@@ -94,6 +94,25 @@ export const useKeysListener = ({
         }
       }
 
+      if (!editTitle && !openPopup && !isContextModalOpen && selected) {
+        if (e.key === 'Delete') {
+          if (isGroup(selected.id)) {
+            removeGroupAndRelatedLines(selected.id);
+          } else if (isCover(selected.id)) {
+            removeCoverAndRelatedLines(selected.id);
+          } else if (isLine(selected.id)) {
+            removeLine(selected.id);
+          }
+          e.preventDefault();
+        } else if (e.key === 'Escape') {
+          setSelected(null);
+          e.preventDefault();
+        } else if (e.key === 'Enter') {
+          setSelected({ id: selected.id, open: true });
+          e.preventDefault();
+        }
+      }
+
       if (!editTitle && !preventKeys && selected) {
         if (e.key === 'n') {
           if (isCover(selected.id)) {
@@ -173,21 +192,6 @@ export const useKeysListener = ({
               e.preventDefault();
             }
           }
-        } else if (e.key === 'Delete') {
-          if (isGroup(selected.id)) {
-            removeGroupAndRelatedLines(selected.id);
-          } else if (isCover(selected.id)) {
-            removeCoverAndRelatedLines(selected.id);
-          } else if (isLine(selected.id)) {
-            removeLine(selected.id);
-          }
-          e.preventDefault();
-        } else if (e.key === 'Escape') {
-          setSelected(null);
-          e.preventDefault();
-        } else if (e.key === 'Enter') {
-          setSelected({ id: selected.id, open: true });
-          e.preventDefault();
         }
       }
     };
