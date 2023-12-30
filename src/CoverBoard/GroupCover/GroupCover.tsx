@@ -17,8 +17,8 @@ import { Html } from 'react-konva-utils';
 
 interface CoverImageProps {
   id: GroupCovers['id'];
-  title: string;
-  subtitle: string;
+  title: string | null;
+  subtitle: string | null;
   x: GroupCovers['x'];
   y: GroupCovers['y'];
   dir: PosTypes;
@@ -66,6 +66,7 @@ const GroupCoverMemo: React.FC<CoverImageProps> = ({
   const offset2 = dir === subDir && title ? offset1 + fontSize * 1.5 : 0;
 
   const isSelected = useUtilsStore((state) => state.isSelected({ id }));
+
   const isSelectedModalOpen = useUtilsStore((state) =>
     state.isSelectedModalOpen({ id }),
   );
@@ -130,29 +131,31 @@ const GroupCoverMemo: React.FC<CoverImageProps> = ({
             />
           </CommonLabelDraggable>
 
-          <CommonLabelDraggable
-            updateDir={updateGroupSubDir}
-            id={id}
-            x={x}
-            y={y}
-            dir={subDir}
-            scaleX={scaleX}
-            scaleY={scaleY}>
-            <CommonLabel
-              color={color}
-              dir={subDir}
-              coverLabel="subtitle"
-              updateLabel={updateGroupLabel}
-              text={subtitle}
+          {subtitle && (
+            <CommonLabelDraggable
+              updateDir={updateGroupSubDir}
               id={id}
-              fontStyle="bold"
+              x={x}
+              y={y}
+              dir={subDir}
               scaleX={scaleX}
-              scaleY={scaleY}
-              x={getXPosition()}
-              y={coverSizeHeight * scaleY + offset2}
-              width={coverSizeWidth * 3}
-            />
-          </CommonLabelDraggable>
+              scaleY={scaleY}>
+              <CommonLabel
+                color={color}
+                dir={subDir}
+                coverLabel="subtitle"
+                updateLabel={updateGroupLabel}
+                text={subtitle}
+                id={id}
+                fontStyle="bold"
+                scaleX={scaleX}
+                scaleY={scaleY}
+                x={getXPosition()}
+                y={coverSizeHeight * scaleY + offset2}
+                width={coverSizeWidth * 3}
+              />
+            </CommonLabelDraggable>
+          )}
         </>
       </CommonDraggable>
       {isSelectedModalOpen && (
@@ -161,8 +164,8 @@ const GroupCoverMemo: React.FC<CoverImageProps> = ({
             id={id}
             open={isSelectedModalOpen}
             values={{
-              title,
-              subtitle,
+              title: title ?? '',
+              subtitle: subtitle ?? '',
               titleDir: dir,
               subTitleDir: subDir,
             }}

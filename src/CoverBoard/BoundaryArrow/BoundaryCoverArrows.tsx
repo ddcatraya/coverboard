@@ -22,7 +22,7 @@ export const BoundaryCoverArrows: React.FC = () => {
           id={cover.id}
           x={cover.x}
           y={cover.y}
-          title={cover.subtitle.text}
+          title={cover.subtitle.text ?? ''}
           key={cover.id}
         />
       ))}

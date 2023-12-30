@@ -1,7 +1,7 @@
 import { Rect, Text } from 'react-konva';
 import { Html } from 'react-konva-utils';
 import { CommonTextLabelPopover } from './';
-import { PosTypes, buildTitle } from 'types';
+import { PosTypes } from 'types';
 import { useMainStore } from 'store';
 import { RefObject, useEffect, useRef, useState } from 'react';
 import Konva from 'konva';
@@ -46,7 +46,6 @@ export const CommonTextLabel: React.FC<TitleTexProps> = ({
 }) => {
   const fontSize = useMainStore((state) => state.fontSize());
   const backColor = useMainStore((state) => state.getBackColor());
-  const saveId = useMainStore((state) => state.saveId);
   const textRef: RefObject<Konva.Text> = useRef(null);
   const [textWidth, setTextWidth] = useState(0);
   const align = getAlign(dir);
@@ -54,14 +53,6 @@ export const CommonTextLabel: React.FC<TitleTexProps> = ({
   const handleSubmit = (text: string) => {
     setOpen(false);
     setLabel(text);
-  };
-
-  const getDefaultLabel = () => {
-    if (label === buildTitle(saveId)) return '';
-
-    if (label === '<add text>') return '';
-
-    return label;
   };
 
   useEffect(() => {
@@ -78,6 +69,9 @@ export const CommonTextLabel: React.FC<TitleTexProps> = ({
     }
     return x + width / 2 - textWidth / 2;
   };
+
+  const removedLabel =
+    open && (label === '<add title>' || label === '<add text>') ? '' : label;
 
   return (
     <>
@@ -96,7 +90,7 @@ export const CommonTextLabel: React.FC<TitleTexProps> = ({
             ref={textRef}
             listening={false}
             align={align}
-            text={label}
+            text={removedLabel}
             fontStyle={fontStyle}
             x={x}
             y={y}
@@ -114,7 +108,7 @@ export const CommonTextLabel: React.FC<TitleTexProps> = ({
             open={open}
             onClose={() => setOpen(false)}
             onSubmit={handleSubmit}
-            defaultText={getDefaultLabel()}
+            defaultText={removedLabel}
             onReset={() => {
               onReset();
               setOpen(false);

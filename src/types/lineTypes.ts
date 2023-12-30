@@ -14,7 +14,7 @@ export interface Lines {
   id: string;
   origin: Point;
   target: Point;
-  text: string;
+  text: string | null;
   dir: PosTypes;
 }
 

@@ -174,7 +174,8 @@ export const schema = (parsedData: LocalStorageData) =>
               invalid_type_error: 'covers:text must be a string',
               required_error: 'covers:text is required',
             })
-            .trim(),
+            .trim()
+            .nullable(),
           dir: z.nativeEnum(PosTypes, {
             errorMap: (_, _ctx) => {
               return {
@@ -195,7 +196,8 @@ export const schema = (parsedData: LocalStorageData) =>
               invalid_type_error: 'covers:text must be a string',
               required_error: 'covers:text is required',
             })
-            .trim(),
+            .trim()
+            .nullable(),
           dir: z.nativeEnum(PosTypes, {
             errorMap: (_, _ctx) => {
               return {
@@ -265,10 +267,12 @@ export const schema = (parsedData: LocalStorageData) =>
           })
           .min(0, 'covers:y position must be positive number'),
         title: z.object({
-          text: z.string({
-            invalid_type_error: 'covers:title:text must be a string',
-            required_error: 'covers:title:text is required',
-          }),
+          text: z
+            .string({
+              invalid_type_error: 'covers:title:text must be a string',
+              required_error: 'covers:title:text is required',
+            })
+            .nullable(),
           dir: z.nativeEnum(PosTypes, {
             errorMap: (_, _ctx) => {
               return {
@@ -280,10 +284,12 @@ export const schema = (parsedData: LocalStorageData) =>
           }),
         }),
         subtitle: z.object({
-          text: z.string({
-            invalid_type_error: 'covers:subtitle:text must be a string',
-            required_error: 'covers:subtitle:text is required',
-          }),
+          text: z
+            .string({
+              invalid_type_error: 'covers:subtitle:text must be a string',
+              required_error: 'covers:subtitle:text is required',
+            })
+            .nullable(),
           dir: z.nativeEnum(PosTypes, {
             errorMap: (_, _ctx) => {
               return {
@@ -311,7 +317,8 @@ export const schema = (parsedData: LocalStorageData) =>
             invalid_type_error: 'lines:text must be a string',
             required_error: 'lines:text is required',
           })
-          .trim(),
+          .trim()
+          .nullable(),
         dir: z.nativeEnum(PosTypes, {
           errorMap: (_, _ctx) => {
             return {

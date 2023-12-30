@@ -15,8 +15,8 @@ import { Group } from 'react-konva';
 
 interface CoverImageProps {
   id: Covers['id'];
-  title: string;
-  subtitle: string;
+  title: string | null;
+  subtitle: string | null;
   x: Covers['x'];
   y: Covers['y'];
   titleDir: PosTypes;
@@ -201,8 +201,8 @@ const CoverMemo: React.FC<CoverImageProps> = ({
             id={id}
             open={isSelectedModalOpen}
             values={{
-              title,
-              subtitle,
+              title: title ?? '',
+              subtitle: subtitle ?? '',
               titleDir,
               subTitleDir,
             }}

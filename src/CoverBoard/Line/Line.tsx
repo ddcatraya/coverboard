@@ -12,6 +12,7 @@ interface LineProps {
   originDir: Lines['origin']['dir'];
   targetId: Lines['target']['id'];
   targetDir: Lines['target']['dir'];
+  text: Lines['text'];
 }
 
 const convertPosToXY = (
@@ -51,6 +52,7 @@ export const LineMemo: React.FC<LineProps> = ({
   originDir,
   targetId,
   targetDir,
+  text,
 }) => {
   const originSquareCover = useMainStore((state) =>
     state.covers.find((cov) => cov.id === originId),
@@ -144,7 +146,7 @@ export const LineMemo: React.FC<LineProps> = ({
     <Group>
       <LineArrow lineParams={lineParams} />
       <Group x={lineParams.midX} y={lineParams.midY}>
-        <LineLabel id={id} dir={dir} lineParams={lineParams} />
+        <LineLabel id={id} dir={dir} lineParams={lineParams} text={text} />
       </Group>
     </Group>
   );

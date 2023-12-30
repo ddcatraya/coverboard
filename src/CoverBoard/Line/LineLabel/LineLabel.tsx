@@ -10,16 +10,20 @@ interface LineProps {
   id: Lines['id'];
   dir: Lines['dir'];
   lineParams: LineParams;
+  text: Lines['text'];
 }
 
-export const LineLabel: React.FC<LineProps> = ({ id, dir, lineParams }) => {
-  const text = useMainStore((state) => state.getLineTextById(id));
+export const LineLabel: React.FC<LineProps> = ({
+  id,
+  dir,
+  lineParams,
+  text,
+}) => {
   const coverSizeWidth = useMainStore((state) => state.coverSizeWidth());
   const fontSize = useMainStore((state) => state.fontSize());
   const color = useMainStore((state) => state.getArrowColor());
   const updateLineDir = useMainStore((state) => state.updateLineDir);
   const updateLineText = useMainStore((state) => state.updateLineText);
-  const editLines = useUtilsStore((state) => state.points);
 
   const isSelectedModalOpen = useUtilsStore((state) =>
     state.isSelectedModalOpen({ id }),
@@ -37,7 +41,7 @@ export const LineLabel: React.FC<LineProps> = ({ id, dir, lineParams }) => {
   const getLabel = () => {
     if (text) {
       return text;
-    } else if (editLines) {
+    } else if (text === null) {
       return '<add text>';
     }
     return '';
@@ -75,7 +79,7 @@ export const LineLabel: React.FC<LineProps> = ({ id, dir, lineParams }) => {
             id={id}
             open={isSelectedModalOpen}
             values={{
-              text,
+              text: text ?? '',
               dir,
             }}
           />

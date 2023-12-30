@@ -17,6 +17,7 @@ export const Lines: React.FC = () => {
             targetId={line.target.id}
             targetDir={line.target.dir}
             key={line.id}
+            text={line.text}
           />
         </Group>
       ))}

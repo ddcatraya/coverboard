@@ -7,7 +7,7 @@ import { CommonTextLabel } from '.';
 interface CommonLabelProps {
   id: Covers['id'] | GroupCovers['id'];
   coverLabel: 'title' | 'subtitle';
-  text: string;
+  text: string | null;
   fontStyle?: 'bold';
   scaleX?: GroupCovers['scaleX'];
   scaleY?: GroupCovers['scaleY'];
@@ -47,6 +47,15 @@ export const CommonLabel: React.FC<CommonLabelProps> = ({
     open ? setEditingText({ id, text: coverLabel }) : setEditingText(null);
   };
 
+  const getTitleText = () => {
+    if (text) {
+      return text;
+    } else if (text === null) {
+      return '<add title>';
+    }
+    return '';
+  };
+
   if (editLines || isSelected) return null;
 
   return (
@@ -58,7 +67,7 @@ export const CommonLabel: React.FC<CommonLabelProps> = ({
       open={isCurrentTextSelected}
       setOpen={handleSetOpen}
       editable={true}
-      label={text}
+      label={getTitleText()}
       onReset={() => void 0}
       setLabel={(label) => {
         updateLabel(id, coverLabel, label);

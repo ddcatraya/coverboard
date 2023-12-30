@@ -23,7 +23,7 @@ export const BoundaryGroupArrows: React.FC = () => {
           y={group.y}
           scaleX={group.scaleX}
           scaleY={group.scaleY}
-          title={group.title.text}
+          title={group.title.text ?? ''}
           key={group.id}
         />
       ))}

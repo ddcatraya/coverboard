@@ -10,7 +10,6 @@ export interface UseLinesParams {
   removeLine: (linedId: string) => void;
   createLine: (id: string, points: Point, pos: PosTypes) => void;
   removeLinesWithCoverTogether: (coverId: string, coverId2: string) => void;
-  getLineTextById: (id: string) => Lines['text'];
   isLine: (lineId: string) => boolean;
 }
 
@@ -22,8 +21,6 @@ export const createLinesSlice: StateCreator<
 > = (set, get) => ({
   lines: [],
   isLine: (id) => !!get().lines.find((line) => line.id === id),
-  getLineTextById: (id: string) =>
-    get().lines.find((line) => line.id === id)?.text ?? '',
   createLine(id, points, dir) {
     set(({ lines }) => {
       const lineCopy = [...lines];
@@ -60,7 +57,7 @@ export const createLinesSlice: StateCreator<
         lines: [
           ...lineCopy,
           {
-            text: '',
+            text: null,
             dir: PosTypes.BOTTOM,
 
             origin: { ...points },

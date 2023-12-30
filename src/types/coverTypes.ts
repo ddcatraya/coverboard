@@ -12,12 +12,12 @@ export type SelectedElement = {
 
 interface CoverImageParamsText {
   search: string;
-  text: string;
+  text: string | null;
   dir: PosTypes;
 }
 
 interface GroupCoverParamsText {
-  text: string;
+  text: string | null;
   dir: PosTypes;
 }
 
