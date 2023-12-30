@@ -70,29 +70,27 @@ export const useKeysListener = ({
       }
 
       if (!editTitle && !preventKeys) {
-        if (!(selected && isLine(selected.id))) {
-          if (e.key === 'a') {
-            setOpenSearch(true);
-            e.preventDefault();
-          } else if (e.key === 'o') {
-            setOpenConfig(true);
-            e.preventDefault();
-          } else if (e.key === 's') {
-            setOpenShare(true);
-            e.preventDefault();
-          } else if (e.key === 'g') {
-            createGroup();
-            e.preventDefault();
-          } else if (e.key === 'c') {
-            takeScreenshot();
-            e.preventDefault();
-          } else if (e.key === 'u') {
-            undoAction();
-            e.preventDefault();
-          } else if (e.key === 'e') {
-            setEditTitle(true);
-            e.preventDefault();
-          }
+        if (e.key === 'a') {
+          setOpenSearch(true);
+          e.preventDefault();
+        } else if (e.key === 'o') {
+          setOpenConfig(true);
+          e.preventDefault();
+        } else if (e.key === 's') {
+          setOpenShare(true);
+          e.preventDefault();
+        } else if (e.key === 'g') {
+          createGroup();
+          e.preventDefault();
+        } else if (e.key === 'c') {
+          takeScreenshot();
+          e.preventDefault();
+        } else if (e.key === 'u') {
+          undoAction();
+          e.preventDefault();
+        } else if (e.key === 'e') {
+          setEditTitle(true);
+          e.preventDefault();
         }
       }
 

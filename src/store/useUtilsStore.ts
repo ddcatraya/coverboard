@@ -48,7 +48,10 @@ export const useUtilsStore = createWithEqualityFn<UseUtilParams>()(
       isContextModalOpen: () => !!get().selected?.open,
       setSelected: (value) => set({ selected: value }),
       setPoints: (value) => set({ points: value }),
-      setEditingText: (value) => set({ editingText: value }),
+      setEditingText: (value) => {
+        set({ selected: null });
+        set({ editingText: value });
+      },
       setEditTitle: (value) => set({ editTitle: value }),
       hasMode: () => get().editTitle || !!get().selected || !!get().points,
     };

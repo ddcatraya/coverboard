@@ -18,7 +18,6 @@ interface TitleTexProps {
   dir: PosTypes;
   labelSize?: number;
   onReset: () => void;
-  listening?: boolean;
   hasReset?: boolean;
   title?: string;
   editable?: boolean;
@@ -38,7 +37,6 @@ export const CommonTextLabel: React.FC<TitleTexProps> = ({
   setOpen,
   labelSize = 1,
   onReset,
-  listening = true,
   hasReset = false,
   editable = true,
   wrap = 'none',

@@ -26,6 +26,15 @@ export const LineLabel: React.FC<LineProps> = ({ id, dir, lineParams }) => {
     state.isSelectedModalOpen({ id }),
   );
 
+  const setEditingText = useUtilsStore((state) => state.setEditingText);
+  const isCurrentTextSelected = useUtilsStore((state) =>
+    state.isCurrentTextSelected({ id, text: 'linelabel' }),
+  );
+
+  const handleSetOpen = (open) => {
+    open ? setEditingText({ id, text: 'linelabel' }) : setEditingText(null);
+  };
+
   const getLabel = () => {
     if (text) {
       return text;
@@ -47,12 +56,11 @@ export const LineLabel: React.FC<LineProps> = ({ id, dir, lineParams }) => {
         setUpdate={handleUpdateDir}
         listening={isSelected}>
         <CommonTextLabel
-          listening={isSelected}
           label={getLabel()}
           color={color}
-          open={isSelected}
+          open={isCurrentTextSelected}
           editable={true}
-          setOpen={() => void 0}
+          setOpen={handleSetOpen}
           onReset={() => void 0}
           setLabel={(text) => updateLineText(id, text)}
           x={-coverSizeWidth}
