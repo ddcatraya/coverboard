@@ -20,7 +20,7 @@ interface PopupProps {
   fillBack: string;
 }
 
-export const TextLabelPopover: React.FC<PopupProps> = ({
+export const CommonTextLabelPopover: React.FC<PopupProps> = ({
   onClose,
   onSubmit,
   defaultText,

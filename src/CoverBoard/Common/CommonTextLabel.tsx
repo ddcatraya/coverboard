@@ -1,6 +1,6 @@
 import { Rect, Text } from 'react-konva';
 import { Html } from 'react-konva-utils';
-import { TextLabelPopover } from '.';
+import { CommonTextLabelPopover } from './';
 import { KonvaEventObject } from 'konva/lib/Node';
 import { buildTitle } from 'types';
 import { useMainStore } from 'store';
@@ -29,7 +29,7 @@ interface TitleTexProps {
   color: string;
 }
 
-export const TextLabel: React.FC<TitleTexProps> = ({
+export const CommonTextLabel: React.FC<TitleTexProps> = ({
   label,
   setLabel,
   pos,
@@ -127,7 +127,7 @@ export const TextLabel: React.FC<TitleTexProps> = ({
       )}
       {open && editable && (
         <Html>
-          <TextLabelPopover
+          <CommonTextLabelPopover
             open={open}
             onClose={() => setOpen(false)}
             onSubmit={handleSubmit}

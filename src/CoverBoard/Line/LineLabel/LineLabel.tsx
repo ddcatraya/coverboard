@@ -2,10 +2,10 @@ import React from 'react';
 
 import { Elem, LineParams, Lines, PosTypes } from 'types';
 import { LineCircle, LineLabelDraggable, LinePopover } from '.';
-import { TextLabel } from 'components';
 import { getAlign } from 'utils';
 import { useMainStore, useUtilsStore } from 'store';
 import { Html } from 'react-konva-utils';
+import { CommonTextLabel } from 'CoverBoard/Common';
 
 interface LineProps {
   id: Lines['id'];
@@ -49,7 +49,7 @@ export const LineLabel: React.FC<LineProps> = ({ id, dir, lineParams }) => {
         lineParams={lineParams}
         setUpdate={handleUpdateDir}
         listening={isSelected}>
-        <TextLabel
+        <CommonTextLabel
           listening={isSelected}
           label={getLabel()}
           color={color}

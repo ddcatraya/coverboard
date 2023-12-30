@@ -1,9 +1,9 @@
 import React, { useState } from 'react';
 
 import { Covers, GroupCovers, PosTypes } from 'types';
-import { TextLabel } from 'components';
 import { getAlign } from 'utils';
 import { useMainStore, useUtilsStore } from 'store';
+import { CommonTextLabel } from '.';
 
 interface CommonLabelProps {
   id: Covers['id'] | GroupCovers['id'];
@@ -45,7 +45,7 @@ export const CommonLabel: React.FC<CommonLabelProps> = ({
   if (editLines || isSelected) return null;
 
   return (
-    <TextLabel
+    <CommonTextLabel
       title={coverLabel}
       color={color}
       fontStyle={fontStyle}

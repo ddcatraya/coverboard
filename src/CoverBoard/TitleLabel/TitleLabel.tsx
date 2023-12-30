@@ -1,9 +1,9 @@
 import React, { useMemo } from 'react';
 
-import { TextLabel } from 'components';
 import { buildTitle } from 'types';
 import { useMainStore, useUtilsStore } from 'store';
 import { shallow } from 'zustand/shallow';
+import { CommonTextLabel } from 'CoverBoard/Common';
 
 export const TitleLabel: React.FC = () => {
   const updateTitle = useMainStore((state) => state.updateTitle);
@@ -39,7 +39,7 @@ export const TitleLabel: React.FC = () => {
   }, [saveId, showMainTitle, title]);
 
   return (
-    <TextLabel
+    <CommonTextLabel
       color={color}
       title="title"
       open={open}
