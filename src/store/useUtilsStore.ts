@@ -1,15 +1,6 @@
 import { Point, SelectedElement, SelectedText } from 'types';
 import { createWithEqualityFn } from 'zustand/traditional';
 
-type SelectedBaseElement = {
-  id: string;
-};
-
-type SelectedBaseText = {
-  id: string;
-  text: string;
-};
-
 interface UseUtilParams {
   editingText: SelectedText;
   editTitle: boolean;
@@ -20,10 +11,10 @@ interface UseUtilParams {
   setEditTitle: (value: boolean) => void;
   setEditingText: (value: SelectedText) => void;
   hasMode: () => boolean;
-  isSelected: (value: SelectedBaseElement) => boolean;
-  isSelectedModalOpen: (value: SelectedBaseElement) => boolean;
+  isSelected: (value: { id: string }) => boolean;
+  isSelectedModalOpen: (value: { id: string }) => boolean;
   isContextModalOpen: () => boolean;
-  isCurrentTextSelected: (value: SelectedBaseText) => boolean;
+  isCurrentTextSelected: (value: { id: string; text: string }) => boolean;
   isTextSelected: () => boolean;
 }
 
@@ -49,11 +40,20 @@ export const useUtilsStore = createWithEqualityFn<UseUtilParams>()(
       setSelected: (value) => set({ selected: value }),
       setPoints: (value) => set({ points: value }),
       setEditingText: (value) => {
+        set({ points: null });
         set({ selected: null });
         set({ editingText: value });
       },
-      setEditTitle: (value) => set({ editTitle: value }),
-      hasMode: () => get().editTitle || !!get().selected || !!get().points,
+      setEditTitle: (value) => {
+        set({ points: null });
+        set({ selected: null });
+        set({ editTitle: value });
+      },
+      hasMode: () =>
+        get().editTitle ||
+        !!get().editingText ||
+        !!get().selected ||
+        !!get().points,
     };
   },
   Object.is,
