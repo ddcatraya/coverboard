@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React from 'react';
 
 import { Covers, GroupCovers, PosTypes } from 'types';
 import { useUtilsStore } from 'store';

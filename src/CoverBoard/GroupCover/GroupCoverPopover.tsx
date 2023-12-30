@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { TextField, Button, Grid, Slider, Typography } from '@mui/material';
-import { Elem, GroupCoverValues, GroupCovers } from 'types';
+import { GroupCoverValues, GroupCovers } from 'types';
 import { CommonDialog, DirectionRadio } from 'components';
 import { useMainStore, useUtilsStore } from 'store';
 
@@ -67,7 +67,7 @@ export const GroupCoverPopover: React.FC<PopupProps> = ({
   return (
     <CommonDialog
       open={open}
-      onClose={() => setSelected({ id, elem: Elem.GROUP, open: false })}
+      onClose={() => setSelected({ id, open: false })}
       title="Edit group">
       <form onSubmit={handleSubmit}>
         <Grid container spacing={2}>

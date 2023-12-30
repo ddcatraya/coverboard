@@ -1,9 +1,8 @@
-import { Elem, Point, SelectedElement, SelectedText } from 'types';
+import { Point, SelectedElement, SelectedText } from 'types';
 import { createWithEqualityFn } from 'zustand/traditional';
 
 type SelectedBaseElement = {
   id: string;
-  elem: Elem;
 };
 
 type SelectedBaseText = {
@@ -43,10 +42,7 @@ export const useUtilsStore = createWithEqualityFn<UseUtilParams>()(
           get().editingText?.text === text
         );
       },
-      isSelected: ({ id, elem }) =>
-        !!get().selected &&
-        get().selected?.id === id &&
-        get().selected?.elem === elem,
+      isSelected: ({ id }) => !!get().selected && get().selected?.id === id,
       isSelectedModalOpen: (sel) =>
         get().isSelected(sel) && !!get().selected?.open,
       isContextModalOpen: () => !!get().selected?.open,

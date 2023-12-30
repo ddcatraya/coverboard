@@ -7,7 +7,7 @@ import {
   Radio,
   RadioGroup,
 } from '@mui/material';
-import { Elem, LineValues, Lines, PosTypes } from 'types';
+import { LineValues, Lines, PosTypes } from 'types';
 import { CommonDialog } from 'components';
 import { useMainStore, useUtilsStore } from 'store';
 
@@ -49,7 +49,7 @@ export const LinePopover: React.FC<PopupProps> = ({ open, values, id }) => {
   return (
     <CommonDialog
       open={open}
-      onClose={() => setSelected({ id, elem: Elem.ARROW, open: false })}
+      onClose={() => setSelected({ id, open: false })}
       title="Edit labels">
       <form onSubmit={handleSubmit}>
         <Grid container spacing={2}>

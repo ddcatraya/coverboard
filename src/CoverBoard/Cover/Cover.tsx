@@ -1,6 +1,6 @@
 import React from 'react';
 
-import { Covers, Elem, PosTypes } from 'types';
+import { Covers, PosTypes } from 'types';
 import { CoverPopover, CoverLoadImage, CoverStar, CoverStarDraggable } from '.';
 import {
   CommonDraggable,
@@ -112,12 +112,12 @@ const CoverMemo: React.FC<CoverImageProps> = ({
   }
 
   const isSelectedModalOpen = useUtilsStore((state) =>
-    state.isSelectedModalOpen({ id, elem: Elem.COVER }),
+    state.isSelectedModalOpen({ id }),
   );
 
   const refreshCovers = useMainStore((state) => state.refreshCovers);
   const handleSelect = () => {
-    setSelected({ id, elem: Elem.COVER, open: false });
+    setSelected({ id, open: false });
     refreshCovers(id);
   };
 
@@ -137,14 +137,14 @@ const CoverMemo: React.FC<CoverImageProps> = ({
           x: windowSize.width - 3.5 * toobarIconSize,
           y: windowSize.height - 3.5 * toobarIconSize,
         }}>
-        <CommonDrawLine id={id} type={Elem.COVER} />
+        <CommonDrawLine id={id} />
 
         <Group>
           <Group
             onClick={handleSelect}
             onTap={handleSelect}
-            onDblclick={() => setSelected({ id, elem: Elem.COVER, open: true })}
-            onDblTap={() => setSelected({ id, elem: Elem.COVER, open: true })}>
+            onDblclick={() => setSelected({ id, open: true })}
+            onDblTap={() => setSelected({ id, open: true })}>
             <CoverLoadImage link={link} renderTime={renderTime} />
           </Group>
 

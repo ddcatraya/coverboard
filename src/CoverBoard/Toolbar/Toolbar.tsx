@@ -5,14 +5,7 @@ import {
   ToolbarIcon,
   ToolbarTooltip,
 } from '.';
-import {
-  colorMap,
-  Colors,
-  Elem,
-  PosTypes,
-  ToolConfig,
-  ToolConfigIDs,
-} from 'types';
+import { colorMap, Colors, PosTypes, ToolConfig, ToolConfigIDs } from 'types';
 import { haxPrefix } from 'utils';
 import { useUtilsStore, useMainStore, useToolbarStore } from 'store';
 import React, { useCallback, useMemo } from 'react';
@@ -81,13 +74,13 @@ export const ToolbarMemo: React.FC<ToolbarProps> = ({
         id,
         x: 0,
         y: 0,
-        title: { text: Elem.GROUP, dir: groupDir ?? PosTypes.TOP },
+        title: { text: 'Group', dir: groupDir ?? PosTypes.TOP },
         subtitle: { text: '', dir: groupDir ?? PosTypes.TOP },
         scaleX: 3,
         scaleY: 3,
       },
     ]);
-    setSelected({ id, elem: Elem.GROUP, open: false });
+    setSelected({ id, open: false });
   }, [addGroups, groupDir, setSelected]);
 
   const savesNumber = Object.keys(window.localStorage).filter((key) =>

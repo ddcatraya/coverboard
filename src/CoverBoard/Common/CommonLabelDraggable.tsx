@@ -1,7 +1,6 @@
 import { Group } from 'react-konva';
-import Konva from 'konva';
 import { KonvaEventObject } from 'konva/lib/Node';
-import { useEffect, useMemo, useRef, useState } from 'react';
+import { useMemo, useState } from 'react';
 import { Covers, GroupCovers, PosTypes } from 'types';
 import { v4 as uuidv4 } from 'uuid';
 import { getClientPosition } from 'utils';

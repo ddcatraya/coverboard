@@ -1,14 +1,11 @@
 import { Rect, Text } from 'react-konva';
 import { Html } from 'react-konva-utils';
 import { CommonTextLabelPopover } from './';
-import { KonvaEventObject } from 'konva/lib/Node';
 import { PosTypes, buildTitle } from 'types';
 import { useMainStore } from 'store';
 import { RefObject, useEffect, useRef, useState } from 'react';
 import Konva from 'konva';
 import { getAlign } from 'utils';
-
-/* align: 'center' | 'left' | 'right'; */
 
 interface TitleTexProps {
   label: string;

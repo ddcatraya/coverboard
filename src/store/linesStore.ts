@@ -11,6 +11,7 @@ export interface UseLinesParams {
   createLine: (id: string, points: Point, pos: PosTypes) => void;
   removeLinesWithCoverTogether: (coverId: string, coverId2: string) => void;
   getLineTextById: (id: string) => Lines['text'];
+  isLine: (lineId: string) => boolean;
 }
 
 export const createLinesSlice: StateCreator<
@@ -20,6 +21,7 @@ export const createLinesSlice: StateCreator<
   UseLinesParams
 > = (set, get) => ({
   lines: [],
+  isLine: (id) => !!get().lines.find((line) => line.id === id),
   getLineTextById: (id: string) =>
     get().lines.find((line) => line.id === id)?.text ?? '',
   createLine(id, points, dir) {

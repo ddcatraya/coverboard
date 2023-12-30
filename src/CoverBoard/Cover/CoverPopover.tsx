@@ -7,7 +7,7 @@ import {
   Slider,
   Typography,
 } from '@mui/material';
-import { CoverValues, Covers, Elem, Media, PosTypes } from 'types';
+import { CoverValues, Covers, Media, PosTypes } from 'types';
 import { CommonDialog, DirectionRadio } from 'components';
 import { useMainStore, useUtilsStore } from 'store';
 
@@ -166,7 +166,7 @@ export const CoverPopover: React.FC<PopupProps> = ({ open, values, id }) => {
   return (
     <CommonDialog
       open={open}
-      onClose={() => setSelected({ id, elem: Elem.COVER, open: false })}
+      onClose={() => setSelected({ id, open: false })}
       title="Edit labels">
       <form onSubmit={handleSubmit}>
         <Grid container spacing={2}>

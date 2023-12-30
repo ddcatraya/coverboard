@@ -1,6 +1,5 @@
 import { useEffect } from 'react';
 import { useMainStore, useToolbarStore, useUtilsStore } from 'store';
-import { Elem } from 'types';
 
 interface UseEventListener {
   createGroup: () => void;
@@ -35,6 +34,10 @@ export const useKeysListener = ({
   const groups = useMainStore((state) => state.groups);
   const lines = useMainStore((state) => state.lines);
 
+  const isCover = useMainStore((state) => state.isCover);
+  const isGroup = useMainStore((state) => state.isGroup);
+  const isLine = useMainStore((state) => state.isLine);
+
   const removeCoverAndRelatedLines = useMainStore(
     (state) => state.removeCoverAndRelatedLines,
   );
@@ -43,165 +46,141 @@ export const useKeysListener = ({
   );
   const removeLine = useMainStore((state) => state.removeLine);
 
+  const preventKeys = openPopup || isContextModalOpen || isTextSelected;
+
   useEffect(() => {
     const keyFn = (e: KeyboardEvent) => {
       if ((e.ctrlKey || e.metaKey) && e.key === 'z') {
         undoAction();
         e.preventDefault();
-      } else if (
-        e.key === 'n' &&
-        !openPopup &&
-        !hasMode &&
-        !isContextModalOpen
-      ) {
+      } else if (e.key === 'n' && !preventKeys && !hasMode) {
         if (covers.length > 0) {
           setSelected({
             id: covers[covers.length - 1].id,
-            elem: Elem.COVER,
             open: false,
           });
           e.preventDefault();
         } else if (groups.length > 0) {
           setSelected({
             id: groups[groups.length - 1].id,
-            elem: Elem.GROUP,
             open: false,
           });
           e.preventDefault();
         }
       }
 
-      if (
-        !editTitle &&
-        !openPopup &&
-        !isContextModalOpen &&
-        !isTextSelected &&
-        selected?.elem !== Elem.ARROW
-      ) {
-        if (e.key === 'a') {
-          setOpenSearch(true);
-          e.preventDefault();
-        } else if (e.key === 'o') {
-          setOpenConfig(true);
-          e.preventDefault();
-        } else if (e.key === 's') {
-          setOpenShare(true);
-          e.preventDefault();
-        } else if (e.key === 'g') {
-          createGroup();
-          e.preventDefault();
-        } else if (e.key === 'c') {
-          takeScreenshot();
-          e.preventDefault();
-        } else if (e.key === 'u') {
-          undoAction();
-          e.preventDefault();
-        } else if (e.key === 'e') {
-          setEditTitle(true);
-          e.preventDefault();
+      if (!editTitle && !preventKeys) {
+        if (!(selected && isLine(selected.id))) {
+          if (e.key === 'a') {
+            setOpenSearch(true);
+            e.preventDefault();
+          } else if (e.key === 'o') {
+            setOpenConfig(true);
+            e.preventDefault();
+          } else if (e.key === 's') {
+            setOpenShare(true);
+            e.preventDefault();
+          } else if (e.key === 'g') {
+            createGroup();
+            e.preventDefault();
+          } else if (e.key === 'c') {
+            takeScreenshot();
+            e.preventDefault();
+          } else if (e.key === 'u') {
+            undoAction();
+            e.preventDefault();
+          } else if (e.key === 'e') {
+            setEditTitle(true);
+            e.preventDefault();
+          }
         }
       }
 
-      if (
-        !editTitle &&
-        !openPopup &&
-        !isTextSelected &&
-        !isContextModalOpen &&
-        selected &&
-        selected?.elem !== Elem.ARROW
-      ) {
+      if (!editTitle && !preventKeys && selected) {
         if (e.key === 'n') {
-          if (selected.elem === Elem.COVER) {
+          if (isCover(selected.id)) {
             const currentIndex = covers.findIndex(
               (cov) => cov.id === selected.id,
             );
             if (currentIndex > -1 && covers[currentIndex - 1]) {
               setSelected({
                 id: covers[currentIndex - 1].id,
-                elem: Elem.COVER,
                 open: false,
               });
               e.preventDefault();
             } else if (groups.length > 0) {
               setSelected({
                 id: groups[groups.length - 1].id,
-                elem: Elem.GROUP,
                 open: false,
               });
               e.preventDefault();
             } else {
               setSelected({
                 id: covers[covers.length - 1].id,
-                elem: Elem.COVER,
                 open: false,
               });
               e.preventDefault();
             }
-          } else if (selected.elem === Elem.GROUP) {
+          } else if (isGroup(selected.id)) {
             const currentIndex = groups.findIndex(
               (cov) => cov.id === selected.id,
             );
             if (currentIndex > -1 && groups[currentIndex - 1]) {
               setSelected({
                 id: groups[currentIndex - 1].id,
-                elem: Elem.GROUP,
                 open: false,
               });
               e.preventDefault();
             } else if (covers.length > 0) {
               setSelected({
                 id: covers[covers.length - 1].id,
-                elem: Elem.COVER,
                 open: false,
               });
               e.preventDefault();
             } else {
               setSelected({
                 id: groups[groups.length - 1].id,
-                elem: Elem.GROUP,
                 open: false,
               });
               e.preventDefault();
             }
           }
         } else if (e.key === 'p') {
-          if (selected.elem === Elem.COVER) {
+          if (isCover(selected.id)) {
             const currentIndex = covers.findIndex(
               (cov) => cov.id === selected.id,
             );
             if (currentIndex > -1 && covers[currentIndex + 1]) {
               setSelected({
                 id: covers[currentIndex + 1].id,
-                elem: Elem.COVER,
                 open: false,
               });
               e.preventDefault();
             } else {
-              setSelected({ id: covers[0].id, elem: Elem.COVER, open: false });
+              setSelected({ id: covers[0].id, open: false });
               e.preventDefault();
             }
-          } else if (selected.elem === Elem.GROUP) {
+          } else if (isGroup(selected.id)) {
             const currentIndex = groups.findIndex(
               (cov) => cov.id === selected.id,
             );
             if (currentIndex > -1 && groups[currentIndex + 1]) {
               setSelected({
                 id: groups[currentIndex + 1].id,
-                elem: Elem.GROUP,
                 open: false,
               });
               e.preventDefault();
             } else {
-              setSelected({ id: groups[0].id, elem: Elem.GROUP, open: false });
+              setSelected({ id: groups[0].id, open: false });
               e.preventDefault();
             }
           }
         } else if (e.key === 'Delete') {
-          if (selected.elem === Elem.GROUP) {
+          if (isGroup(selected.id)) {
             removeGroupAndRelatedLines(selected.id);
-          } else if (selected.elem === Elem.COVER) {
+          } else if (isCover(selected.id)) {
             removeCoverAndRelatedLines(selected.id);
-          } else if (selected.elem === 'arrow') {
+          } else if (isLine(selected.id)) {
             removeLine(selected.id);
           }
           e.preventDefault();
@@ -209,7 +188,7 @@ export const useKeysListener = ({
           setSelected(null);
           e.preventDefault();
         } else if (e.key === 'Enter') {
-          setSelected({ id: selected.id, elem: selected.elem, open: true });
+          setSelected({ id: selected.id, open: true });
           e.preventDefault();
         }
       }
@@ -224,10 +203,14 @@ export const useKeysListener = ({
     groups,
     hasMode,
     isContextModalOpen,
+    isCover,
+    isGroup,
+    isLine,
     isTextSelected,
     lines,
     openPopup,
     points,
+    preventKeys,
     removeCoverAndRelatedLines,
     removeGroupAndRelatedLines,
     removeLine,

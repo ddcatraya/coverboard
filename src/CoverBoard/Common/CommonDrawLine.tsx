@@ -1,7 +1,7 @@
 import React, { useCallback, useEffect } from 'react';
 import { Group, Rect } from 'react-konva';
 
-import { Covers, Elem, PosTypes } from 'types';
+import { Covers, PosTypes } from 'types';
 import { KonvaEventObject } from 'konva/lib/Node';
 import { useUtilsStore, useMainStore } from 'store';
 
@@ -9,21 +9,17 @@ interface CommonDrawLineProps {
   id: Covers['id'];
   scaleX?: number;
   scaleY?: number;
-  type: Elem;
 }
 
 export const CommonDrawLine: React.FC<CommonDrawLineProps> = ({
   id,
   scaleX = 1,
   scaleY = 1,
-  type,
 }) => {
   const points = useUtilsStore((state) => state.points);
   const setPoints = useUtilsStore((state) => state.setPoints);
   const createLine = useMainStore((state) => state.createLine);
-  const isSelected = useUtilsStore((state) =>
-    state.isSelected({ id, elem: type }),
-  );
+  const isSelected = useUtilsStore((state) => state.isSelected({ id }));
 
   const coverSizeWidth =
     useMainStore((state) => state.coverSizeWidth()) * scaleX;

@@ -3,13 +3,10 @@ import { Circle, Group } from 'react-konva';
 import { KonvaEventObject } from 'konva/lib/Node';
 
 import { useMainStore, useUtilsStore } from 'store';
-import { Elem } from 'types';
 
 export const LineCircle: React.FC<{ id: string }> = ({ id }) => {
   const circleRadius = useMainStore((state) => state.circleRadius());
-  const isSelected = useUtilsStore((state) =>
-    state.isSelected({ id, elem: Elem.ARROW }),
-  );
+  const isSelected = useUtilsStore((state) => state.isSelected({ id }));
   const setSelected = useUtilsStore((state) => state.setSelected);
   const color = useMainStore((state) => state.getArrowColor());
 
@@ -17,8 +14,8 @@ export const LineCircle: React.FC<{ id: string }> = ({ id }) => {
     <Group
       width={circleRadius * 3}
       height={circleRadius * 3}
-      onDblClick={() => setSelected({ id, elem: Elem.ARROW, open: true })}
-      onDblTap={() => setSelected({ id, elem: Elem.ARROW, open: true })}>
+      onDblClick={() => setSelected({ id, open: true })}
+      onDblTap={() => setSelected({ id, open: true })}>
       <Circle
         radius={isSelected ? circleRadius * 1.4 : circleRadius}
         fill={color}

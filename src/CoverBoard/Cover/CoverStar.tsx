@@ -1,6 +1,6 @@
 import { Group, Rect, Star } from 'react-konva';
 import { useMainStore, useUtilsStore } from 'store';
-import { Covers, Elem } from 'types';
+import { Covers } from 'types';
 
 interface CoverStarProps {
   id: Covers['id'];
@@ -32,9 +32,7 @@ export const CoverStar: React.FC<CoverStarProps> = ({ id, offset = 0 }) => {
   };
 
   const totalWidth = 4 * starRadius * 3;
-  const isSelected = useUtilsStore((state) =>
-    state.isSelected({ id, elem: Elem.COVER }),
-  );
+  const isSelected = useUtilsStore((state) => state.isSelected({ id }));
 
   if (editLines || isSelected) return null;
 

@@ -1,6 +1,6 @@
 import React from 'react';
 
-import { Elem, GroupCovers, PosTypes } from 'types';
+import { GroupCovers, PosTypes } from 'types';
 
 import { useMainStore, useUtilsStore } from 'store';
 import { shallow } from 'zustand/shallow';
@@ -69,12 +69,12 @@ const GroupCoverMemo: React.FC<CoverImageProps> = ({
   const offset2 = dir === subDir && title ? offset1 + fontSize * 1.5 : 0;
 
   const isSelectedModalOpen = useUtilsStore((state) =>
-    state.isSelectedModalOpen({ id, elem: Elem.GROUP }),
+    state.isSelectedModalOpen({ id }),
   );
 
   const refreshGroups = useMainStore((state) => state.refreshGroups);
   const handlesSelect = () => {
-    setSelected({ id, elem: Elem.GROUP, open: false });
+    setSelected({ id, open: false });
     refreshGroups(id);
   };
 
@@ -103,25 +103,16 @@ const GroupCoverMemo: React.FC<CoverImageProps> = ({
           x: windowSize.width - 3.5 * toobarIconSize,
           y: windowSize.height - 3.5 * toobarIconSize,
         }}>
-        <CommonDrawLine
-          id={id}
-          scaleX={scaleX}
-          scaleY={scaleY}
-          type={Elem.GROUP}
-        />
+        <CommonDrawLine id={id} scaleX={scaleX} scaleY={scaleY} />
         <>
           <Group
             onClick={handlesSelect}
             onTouchStart={handlesSelect}
             onDblclick={
-              canOpenPopover
-                ? () => setSelected({ id, elem: Elem.GROUP, open: true })
-                : undefined
+              canOpenPopover ? () => setSelected({ id, open: true }) : undefined
             }
             onDblTap={
-              canOpenPopover
-                ? () => setSelected({ id, elem: Elem.GROUP, open: true })
-                : undefined
+              canOpenPopover ? () => setSelected({ id, open: true }) : undefined
             }>
             <GroupSquare id={id} />
           </Group>

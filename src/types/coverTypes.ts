@@ -1,11 +1,5 @@
 import { PosTypes } from './generalTypes';
 
-export enum Elem {
-  COVER = 'cover',
-  GROUP = 'group',
-  ARROW = 'arrow',
-}
-
 export type SelectedText = {
   id: string;
   text: string;
@@ -13,7 +7,6 @@ export type SelectedText = {
 
 export type SelectedElement = {
   id: string;
-  elem: Elem;
   open: boolean;
 } | null;
 

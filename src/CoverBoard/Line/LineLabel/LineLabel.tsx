@@ -1,6 +1,6 @@
 import React from 'react';
 
-import { Elem, LineParams, Lines, PosTypes } from 'types';
+import { LineParams, Lines, PosTypes } from 'types';
 import { LineCircle, LineLabelDraggable, LinePopover } from '.';
 import { useMainStore, useUtilsStore } from 'store';
 import { Html } from 'react-konva-utils';
@@ -21,11 +21,9 @@ export const LineLabel: React.FC<LineProps> = ({ id, dir, lineParams }) => {
   const updateLineText = useMainStore((state) => state.updateLineText);
   const editLines = useUtilsStore((state) => state.points);
 
-  const isSelected = useUtilsStore((state) =>
-    state.isSelected({ id, elem: Elem.ARROW }),
-  );
+  const isSelected = useUtilsStore((state) => state.isSelected({ id }));
   const isSelectedModalOpen = useUtilsStore((state) =>
-    state.isSelectedModalOpen({ id, elem: Elem.ARROW }),
+    state.isSelectedModalOpen({ id }),
   );
 
   const getLabel = () => {

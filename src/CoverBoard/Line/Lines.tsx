@@ -1,7 +1,6 @@
 import { Group } from 'react-konva';
 import { useMainStore, useUtilsStore } from 'store';
 import { Line } from './Line';
-import { Elem } from 'types';
 
 export const Lines: React.FC = () => {
   const lines = useMainStore((state) => state.lines);
@@ -9,7 +8,7 @@ export const Lines: React.FC = () => {
 
   const handlesSelect = (evt, coverId: string) => {
     evt.cancelBubble = true;
-    setSelected({ id: coverId, elem: Elem.ARROW, open: false });
+    setSelected({ id: coverId, open: false });
   };
 
   return (

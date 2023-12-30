@@ -22,6 +22,7 @@ export interface UseGrouspParams {
     label: string,
   ) => void;
   refreshGroups: (groupId: string) => void;
+  isGroup: (groupId: string) => boolean;
 }
 
 export const createGroupsSlice: StateCreator<
@@ -31,6 +32,7 @@ export const createGroupsSlice: StateCreator<
   UseGrouspParams
 > = (set, get) => ({
   groups: [],
+  isGroup: (id) => !!get().groups.find((group) => group.id === id),
   getScale: (id: string) => ({
     scaleX: get().groups.find((group) => group.id === id)?.scaleX ?? 1,
     scaleY: get().groups.find((group) => group.id === id)?.scaleY ?? 1,
