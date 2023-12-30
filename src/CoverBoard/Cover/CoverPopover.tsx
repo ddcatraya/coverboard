@@ -37,7 +37,9 @@ const getButtons = (media: Media, currentCover: Covers) => {
         href: `https://www.themoviedb.org/search?query=${
           currentCover.title.search
         }${
-          currentCover.subtitle ? '&year=' + currentCover.subtitle.search : ''
+          currentCover.subtitle.search
+            ? '&year=' + currentCover.subtitle.search
+            : ''
         }`,
       },
       {
@@ -45,7 +47,7 @@ const getButtons = (media: Media, currentCover: Covers) => {
         href: `https://www.imdb.com/search/title/?title=${
           currentCover.title.search
         }${
-          currentCover.subtitle
+          currentCover.subtitle.search
             ? `&release_date=${currentCover.subtitle.search}-01-01,${currentCover.subtitle.search}-12-31`
             : ''
         }`,
@@ -65,30 +67,28 @@ const getButtons = (media: Media, currentCover: Covers) => {
           href: `https://www.google.com/search?tbo=p&tbm=bks&q=intitle:${
             currentCover.title.search
           }${
-            currentCover.subtitle
+            currentCover.subtitle.search
               ? '+inauthor:' + currentCover.subtitle.search
               : ''
           }`,
         },
       ];
     }
-  } else if (media === Media.GAME) {
-    return [
-      {
-        name: 'RAWG',
-        href: `https://rawg.io/search?query=${currentCover.title.search}`,
-      },
-      {
-        name: 'Steam',
-        href: `https://store.steampowered.com/search/?term=${currentCover.title.search}`,
-      },
-      {
-        name: 'Nintendo',
-        href: `https://www.nintendo.com/us/search/#q=${currentCover.title.search}`,
-      },
-    ];
   }
-  return [];
+  return [
+    {
+      name: 'RAWG',
+      href: `https://rawg.io/search?query=${currentCover.title.search}`,
+    },
+    {
+      name: 'Steam',
+      href: `https://store.steampowered.com/search/?term=${currentCover.title.search}`,
+    },
+    {
+      name: 'Nintendo',
+      href: `https://www.nintendo.com/us/search/#q=${currentCover.title.search}`,
+    },
+  ];
 };
 
 export const CoverPopover: React.FC<PopupProps> = ({ open, values, id }) => {
@@ -102,7 +102,7 @@ export const CoverPopover: React.FC<PopupProps> = ({ open, values, id }) => {
   const media = useMainStore((state) => state.configs.media);
   const currentCover = useMainStore((state) =>
     state.covers.find((cov) => cov.id === id),
-  )!;
+  );
   const removeCoverAndRelatedLines = useMainStore(
     (state) => state.removeCoverAndRelatedLines,
   );

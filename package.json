@@ -50,6 +50,7 @@
       "@typescript-eslint/no-unnecessary-condition": "error"
     },
     "parserOptions": {
+      "project": true,
       "tsconfigRootDir": "."
     }
   },

@@ -16,6 +16,12 @@ interface CoverImageParamsText {
   dir: PosTypes;
 }
 
+interface CoverImageParamsTextSubtitle {
+  search: string | null;
+  text: string | null;
+  dir: PosTypes;
+}
+
 interface GroupCoverParamsText {
   text: string | null;
   dir: PosTypes;
@@ -46,7 +52,7 @@ export interface Covers {
   x: number;
   y: number;
   title: CoverImageParamsText;
-  subtitle: CoverImageParamsText;
+  subtitle: CoverImageParamsTextSubtitle;
   star: {
     dir: PosTypes;
     count: number;
