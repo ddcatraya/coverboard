@@ -21,18 +21,24 @@ export const LineLabel: React.FC<LineProps> = ({ id, dir, lineParams }) => {
   const updateLineText = useMainStore((state) => state.updateLineText);
   const editLines = useUtilsStore((state) => state.points);
 
-  const isSelected = useUtilsStore((state) => state.isSelected({ id }));
   const isSelectedModalOpen = useUtilsStore((state) =>
     state.isSelectedModalOpen({ id }),
   );
+  const isSelected = useUtilsStore((state) => state.isSelected({ id }));
+  const isSelectedElem = useUtilsStore((state) => state.isSelectedElem());
 
-  const setEditingText = useUtilsStore((state) => state.setEditingText);
+  const setSelected = useUtilsStore((state) => state.setSelected);
+  const setEditingText = useUtilsStore((state) => state.setEditingTextCircle);
   const isCurrentTextSelected = useUtilsStore((state) =>
     state.isCurrentTextSelected({ id, text: 'linelabel' }),
   );
 
-  const handleSetOpen = (open) => {
-    open ? setEditingText({ id, text: 'linelabel' }) : setEditingText(null);
+  const handleSetOpen = (open: boolean) => {
+    if (isSelectedElem && !isSelected) {
+      setSelected(null);
+    }
+
+    setEditingText(open ? { id, text: 'linelabel' } : null);
   };
 
   const getLabel = () => {
@@ -53,8 +59,7 @@ export const LineLabel: React.FC<LineProps> = ({ id, dir, lineParams }) => {
       <LineLabelDraggable
         dir={dir}
         lineParams={lineParams}
-        setUpdate={handleUpdateDir}
-        listening={isSelected}>
+        setUpdate={handleUpdateDir}>
         <CommonTextLabel
           label={getLabel()}
           color={color}

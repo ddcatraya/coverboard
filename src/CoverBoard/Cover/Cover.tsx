@@ -111,13 +111,14 @@ const CoverMemo: React.FC<CoverImageProps> = ({
     starOffset = subtitleOffset + fontSize * 1.5;
   }
 
+  const isSelected = useUtilsStore((state) => state.isSelected({ id }));
   const isSelectedModalOpen = useUtilsStore((state) =>
     state.isSelectedModalOpen({ id }),
   );
 
   const refreshCovers = useMainStore((state) => state.refreshCovers);
   const handleSelect = () => {
-    setSelected({ id, open: false });
+    setSelected({ id, open: isSelected });
     refreshCovers(id);
   };
 
@@ -140,11 +141,7 @@ const CoverMemo: React.FC<CoverImageProps> = ({
         <CommonDrawLine id={id} />
 
         <Group>
-          <Group
-            onClick={handleSelect}
-            onTap={handleSelect}
-            onDblclick={() => setSelected({ id, open: true })}
-            onDblTap={() => setSelected({ id, open: true })}>
+          <Group onClick={handleSelect} onTap={handleSelect}>
             <CoverLoadImage link={link} renderTime={renderTime} />
           </Group>
 

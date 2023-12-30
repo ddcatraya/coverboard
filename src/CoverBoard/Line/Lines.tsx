@@ -1,23 +1,14 @@
 import { Group } from 'react-konva';
-import { useMainStore, useUtilsStore } from 'store';
+import { useMainStore } from 'store';
 import { Line } from './Line';
 
 export const Lines: React.FC = () => {
   const lines = useMainStore((state) => state.lines);
-  const setSelected = useUtilsStore((state) => state.setSelected);
-
-  const handlesSelect = (evt, coverId: string) => {
-    evt.cancelBubble = true;
-    setSelected({ id: coverId, open: false });
-  };
 
   return (
     <>
       {lines.map((line) => (
-        <Group
-          key={line.id}
-          onClick={(evt) => handlesSelect(evt, line.id)}
-          onTouchStart={(evt) => handlesSelect(evt, line.id)}>
+        <Group key={line.id}>
           <Line
             id={line.id}
             dir={line.dir}

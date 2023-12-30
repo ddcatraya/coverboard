@@ -43,7 +43,6 @@ const GroupCoverMemo: React.FC<CoverImageProps> = ({
   const fontSize = useMainStore((state) => state.fontSize());
   const toobarIconSize = useMainStore((state) => state.toobarIconSize());
   const windowSize = useMainStore((state) => state.windowSize);
-  const editLines = useUtilsStore((state) => state.points);
   const setSelected = useUtilsStore((state) => state.setSelected);
   const updateGroupLabel = useMainStore((state) => state.updateGroupLabel);
   const updateGroupPosition = useMainStore(
@@ -58,8 +57,6 @@ const GroupCoverMemo: React.FC<CoverImageProps> = ({
   const coverSizeWidth = useMainStore((state) => state.coverSizeWidth());
   const coverSizeHeight = useMainStore((state) => state.coverSizeHeight());
 
-  const canOpenPopover = !editLines;
-
   const offset1 =
     dir === subDir && subtitle && dir === PosTypes.TOP
       ? -fontSize * 1.5
@@ -68,13 +65,14 @@ const GroupCoverMemo: React.FC<CoverImageProps> = ({
       : 0;
   const offset2 = dir === subDir && title ? offset1 + fontSize * 1.5 : 0;
 
+  const isSelected = useUtilsStore((state) => state.isSelected({ id }));
   const isSelectedModalOpen = useUtilsStore((state) =>
     state.isSelectedModalOpen({ id }),
   );
 
   const refreshGroups = useMainStore((state) => state.refreshGroups);
   const handlesSelect = () => {
-    setSelected({ id, open: false });
+    setSelected({ id, open: isSelected });
     refreshGroups(id);
   };
 
@@ -105,15 +103,7 @@ const GroupCoverMemo: React.FC<CoverImageProps> = ({
         }}>
         <CommonDrawLine id={id} scaleX={scaleX} scaleY={scaleY} />
         <>
-          <Group
-            onClick={handlesSelect}
-            onTouchStart={handlesSelect}
-            onDblclick={
-              canOpenPopover ? () => setSelected({ id, open: true }) : undefined
-            }
-            onDblTap={
-              canOpenPopover ? () => setSelected({ id, open: true }) : undefined
-            }>
+          <Group onClick={handlesSelect} onTouchStart={handlesSelect}>
             <GroupSquare id={id} />
           </Group>
           <CommonLabelDraggable

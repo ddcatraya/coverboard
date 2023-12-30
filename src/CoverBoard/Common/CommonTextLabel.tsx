@@ -85,7 +85,7 @@ export const CommonTextLabel: React.FC<TitleTexProps> = ({
         <>
           <Rect
             onClick={editable ? () => setOpen(true) : undefined}
-            onDblTap={editable ? () => setOpen(true) : undefined}
+            onTap={editable ? () => setOpen(true) : undefined}
             x={getXTextPos()}
             y={y}
             fill={backColor}

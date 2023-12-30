@@ -8,14 +8,20 @@ export const LineCircle: React.FC<{ id: string }> = ({ id }) => {
   const circleRadius = useMainStore((state) => state.circleRadius());
   const isSelected = useUtilsStore((state) => state.isSelected({ id }));
   const setSelected = useUtilsStore((state) => state.setSelected);
+  const setEditingText = useUtilsStore((state) => state.setEditingText);
   const color = useMainStore((state) => state.getArrowColor());
+
+  const handleSelect = () => {
+    !isSelected && setEditingText({ id, text: 'linelabel' });
+    setSelected({ id, open: isSelected });
+  };
 
   return (
     <Group
       width={circleRadius * 3}
       height={circleRadius * 3}
-      onDblClick={() => setSelected({ id, open: true })}
-      onDblTap={() => setSelected({ id, open: true })}>
+      onClick={handleSelect}
+      onTap={handleSelect}>
       <Circle
         radius={isSelected ? circleRadius * 1.4 : circleRadius}
         fill={color}
