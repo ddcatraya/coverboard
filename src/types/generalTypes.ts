@@ -21,5 +21,5 @@ export enum Modes {
 }
 
 export const buildTitle = (saveId: string) => {
-  return `<Edit ${saveId} title>`;
+  return `<edit ${saveId} title>`;
 };
