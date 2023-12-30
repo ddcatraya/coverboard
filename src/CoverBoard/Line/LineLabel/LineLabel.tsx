@@ -25,7 +25,7 @@ export const LineLabel: React.FC<LineProps> = ({ id, dir, lineParams }) => {
     state.isSelectedModalOpen({ id }),
   );
 
-  const setEditingText = useUtilsStore((state) => state.setEditingTextCircle);
+  const setEditingText = useUtilsStore((state) => state.setEditingText);
   const isCurrentTextSelected = useUtilsStore((state) =>
     state.isCurrentTextSelected({ id, text: 'linelabel' }),
   );

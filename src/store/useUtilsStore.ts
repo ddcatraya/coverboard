@@ -10,7 +10,6 @@ interface UseUtilParams {
   setPoints: (value: Point | null) => void;
   setEditTitle: (value: boolean) => void;
   setEditingText: (value: SelectedText) => void;
-  setEditingTextCircle: (value: SelectedText) => void;
   hasMode: () => boolean;
   isSelected: (value: { id: string }) => boolean;
   isSelectedModalOpen: (value: { id: string }) => boolean;
@@ -45,10 +44,6 @@ export const useUtilsStore = createWithEqualityFn<UseUtilParams>()(
       setEditingText: (value) => {
         set({ points: null });
         set({ selected: null });
-        set({ editingText: value });
-      },
-      setEditingTextCircle: (value) => {
-        set({ points: null });
         set({ editingText: value });
       },
       setEditTitle: (value) => {
