@@ -100,12 +100,12 @@ export const MediaMap = {
   [Media.MUSIC]: {
     emoji: '🎵',
     title: {
-      label: MediaValues.ARTIST,
+      label: MediaValues.ALBUM,
       required: true,
       hidden: false,
     },
     subtitle: {
-      label: MediaValues.ALBUM,
+      label: MediaValues.ARTIST,
       required: true,
       hidden: false,
     },

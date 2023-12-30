@@ -14,8 +14,8 @@ export const getLastFMAlbums = async (
     bandArray.map((band) => {
       return axios.get(`${BASE_URL}/api/get-album`, {
         params: {
-          artist: band.title.trim(),
-          album: band.subtitle.trim(),
+          album: band.title.trim(),
+          artist: band.subtitle.trim(),
         },
       });
     }),
@@ -30,8 +30,8 @@ export const getLastFMAlbums = async (
       if (data.album.image[2]['#text']) {
         return {
           link: data.album.image[2]['#text'],
-          title: data.album.artist,
-          subtitle: data.album.name,
+          title: data.album.name,
+          subtitle: data.album.artist,
         };
       }
     }
