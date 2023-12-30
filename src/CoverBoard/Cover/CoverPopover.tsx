@@ -7,7 +7,7 @@ import {
   Slider,
   Typography,
 } from '@mui/material';
-import { CoverValues, Covers, Media, PosTypes } from 'types';
+import { CoverValues, Covers, LabelTypes, Media, PosTypes } from 'types';
 import { CommonDialog, DirectionRadio } from 'components';
 import { useMainStore, useUtilsStore } from 'store';
 
@@ -153,8 +153,8 @@ export const CoverPopover: React.FC<PopupProps> = ({ open, values, id }) => {
   };
 
   const handleReset = () => {
-    resetCoverLabel(id, 'title');
-    resetCoverLabel(id, 'subtitle');
+    resetCoverLabel(id, LabelTypes.TITLE);
+    resetCoverLabel(id, LabelTypes.SUBTITLE);
     setSelected(null);
   };
 

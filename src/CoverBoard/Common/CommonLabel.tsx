@@ -1,23 +1,19 @@
 import React from 'react';
 
-import { Covers, GroupCovers, PosTypes } from 'types';
+import { Covers, GroupCovers, PosTypes, LabelTypes } from 'types';
 import { useUtilsStore } from 'store';
 import { CommonTextLabel } from '.';
 
 interface CommonLabelProps {
   id: Covers['id'] | GroupCovers['id'];
-  coverLabel: 'title' | 'subtitle';
+  coverLabel: LabelTypes;
   text: string | null;
   fontStyle?: 'bold';
   scaleX?: GroupCovers['scaleX'];
   scaleY?: GroupCovers['scaleY'];
   dir: PosTypes;
   color: string;
-  updateLabel: (
-    coverId: string,
-    coverLabel: 'title' | 'subtitle',
-    label: string,
-  ) => void;
+  updateLabel: (coverId: string, coverLabel: LabelTypes, label: string) => void;
   x: number;
   y: number;
   width: number;

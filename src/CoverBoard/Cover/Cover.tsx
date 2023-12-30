@@ -1,6 +1,6 @@
 import React from 'react';
 
-import { Covers, PosTypes } from 'types';
+import { Covers, LabelTypes, PosTypes } from 'types';
 import { CoverPopover, CoverLoadImage, CoverStar, CoverStarDraggable } from '.';
 import {
   CommonDraggable,
@@ -155,7 +155,7 @@ const CoverMemo: React.FC<CoverImageProps> = ({
               <CommonLabel
                 updateLabel={updateCoverLabel}
                 dir={titleDir}
-                coverLabel="title"
+                coverLabel={LabelTypes.TITLE}
                 text={title}
                 id={id}
                 fontStyle="bold"
@@ -177,7 +177,7 @@ const CoverMemo: React.FC<CoverImageProps> = ({
               <CommonLabel
                 updateLabel={updateCoverLabel}
                 dir={subTitleDir}
-                coverLabel="subtitle"
+                coverLabel={LabelTypes.SUBTITLE}
                 text={subtitle}
                 id={id}
                 color={color}

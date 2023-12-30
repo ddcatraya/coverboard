@@ -1,6 +1,6 @@
 import React from 'react';
 
-import { LineParams, Lines, PosTypes } from 'types';
+import { LineParams, Lines, PosTypes, TextTypes } from 'types';
 import { LineCircle, LineLabelDraggable, LinePopover } from '.';
 import { useMainStore, useUtilsStore } from 'store';
 import { Html } from 'react-konva-utils';
@@ -31,11 +31,11 @@ export const LineLabel: React.FC<LineProps> = ({
 
   const setEditingText = useUtilsStore((state) => state.setEditingText);
   const isCurrentTextSelected = useUtilsStore((state) =>
-    state.isCurrentTextSelected({ id, text: 'linelabel' }),
+    state.isCurrentTextSelected({ id, text: TextTypes.LINELABEL }),
   );
 
   const handleSetOpen = (open: boolean) => {
-    setEditingText(open ? { id, text: 'linelabel' } : null);
+    setEditingText(open ? { id, text: TextTypes.LINELABEL } : null);
   };
 
   const getLabel = () => {

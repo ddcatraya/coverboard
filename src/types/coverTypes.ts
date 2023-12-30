@@ -1,8 +1,17 @@
 import { PosTypes } from './generalTypes';
 
+export enum LabelTypes {
+  TITLE = 'title',
+  SUBTITLE = 'subtitle',
+}
+
+export enum TextTypes {
+  LINELABEL = 'linelabel',
+}
+
 export type SelectedText = {
   id: string;
-  text: string;
+  text: TextTypes | LabelTypes;
 } | null;
 
 export type SelectedElement = {

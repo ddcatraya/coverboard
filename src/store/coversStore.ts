@@ -1,4 +1,4 @@
-import { Covers, PosTypes } from 'types';
+import { Covers, PosTypes, LabelTypes } from 'types';
 import { StateCreator } from 'zustand';
 
 export interface UseCoverParams {
@@ -8,10 +8,10 @@ export interface UseCoverParams {
   updateAllCoversDir: (dir: PosTypes) => void;
   updateAllStarsDir: (dir: PosTypes) => void;
   refreshCovers: (coverId: string) => void;
-  resetCoverLabel: (coverId: string, coverLabel: 'title' | 'subtitle') => void;
+  resetCoverLabel: (coverId: string, coverLabel: LabelTypes) => void;
   updateCoverLabel: (
     coverId: string,
-    coverLabel: 'title' | 'subtitle',
+    coverLabel: LabelTypes,
     label: string,
   ) => void;
   updateCoversText: (
