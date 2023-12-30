@@ -35,7 +35,7 @@ export const GroupSquare: React.FC<CoverImageProps> = ({ id }) => {
     if (trRef.current && rectRef.current && selected && selected.id === id) {
       trRef.current.nodes([rectRef.current]);
 
-      trRef.current?.getLayer()?.batchDraw();
+      trRef.current.getLayer()?.batchDraw();
     }
   }, [id, selected, removeCoverAndRelatedLines]);
 

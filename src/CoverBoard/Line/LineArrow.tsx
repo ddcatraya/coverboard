@@ -12,8 +12,6 @@ export const LineArrow: React.FC<LineProps> = ({ lineParams }) => {
   const fontSize = useMainStore((state) => state.fontSize());
   const color = useMainStore((state) => state.getArrowColor());
 
-  if (!lineParams) return null;
-
   return (
     <Arrow
       points={lineParams.points}

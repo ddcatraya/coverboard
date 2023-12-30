@@ -1,3 +1,4 @@
+import { KonvaEventObject } from 'konva/lib/Node';
 import { Group, Rect, Star } from 'react-konva';
 import { useMainStore, useUtilsStore } from 'store';
 import { Covers } from 'types';
@@ -17,7 +18,10 @@ export const CoverStar: React.FC<CoverStarProps> = ({ id, offset = 0 }) => {
   const updateStarCount = useMainStore((state) => state.updateStarCount);
   const editLines = useUtilsStore((state) => state.points);
 
-  const handleClick = (evt, index) => {
+  const handleClick = (
+    evt: KonvaEventObject<MouseEvent | Event>,
+    index: number,
+  ) => {
     evt.cancelBubble = true;
 
     if (index < 0 || index > 5) return;

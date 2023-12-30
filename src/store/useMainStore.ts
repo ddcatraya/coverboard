@@ -125,15 +125,14 @@ export const useMainStore = createWithEqualityFn<MainStoreUnion>()(
           if (item) {
             const parsedItem: LocalStorageData = JSON.parse(item);
             const parsedSchema = schema(parsedItem).parse(parsedItem);
-            if (parsedSchema) {
-              set({
-                configs: parsedSchema.configs,
-                lines: parsedSchema.lines,
-                covers: parsedSchema.covers,
-                groups: parsedSchema.groups,
-              });
-              return;
-            }
+
+            set({
+              configs: parsedSchema.configs,
+              lines: parsedSchema.lines,
+              covers: parsedSchema.covers,
+              groups: parsedSchema.groups,
+            });
+            return;
           }
 
           set(defaultValues());

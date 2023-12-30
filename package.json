@@ -45,7 +45,13 @@
       "react-app",
       "react-app/jest",
       "prettier"
-    ]
+    ],
+    "rules": {
+      "@typescript-eslint/no-unnecessary-condition": "error"
+    },
+    "parserOptions": {
+      "tsconfigRootDir": "."
+    }
   },
   "browserslist": {
     "production": [

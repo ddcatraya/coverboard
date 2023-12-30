@@ -4,6 +4,7 @@ import { Rect, Text } from 'react-konva';
 import { Covers } from 'types';
 import { useMainStore } from 'store';
 import { CoverImage } from '.';
+import { KonvaEventObject } from 'konva/lib/Node';
 
 interface CoverImageProps {
   link: Covers['link'];
@@ -24,7 +25,7 @@ export const CoverLoadImage: React.FC<CoverImageProps> = ({
   const [shouldRender, setShouldRender] = useState(false);
   const [hasRetries, setHasRetries] = useState(false);
 
-  const onRetry = (evt) => {
+  const onRetry = (evt: KonvaEventObject<MouseEvent>) => {
     evt.cancelBubble = true;
     setHasRetries(true);
     setShouldRender(false);

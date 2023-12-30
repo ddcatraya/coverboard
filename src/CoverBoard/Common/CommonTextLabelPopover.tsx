@@ -43,7 +43,7 @@ export const CommonTextLabelPopover: React.FC<PopupProps> = ({
   }, [onClose, onSubmit, text]);
 
   useEffect(() => {
-    const keyFn = (e) => {
+    const keyFn = (e: KeyboardEvent) => {
       if (e.key === 'Enter') {
         submitText();
         e.preventDefault();

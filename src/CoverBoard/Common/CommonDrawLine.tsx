@@ -77,7 +77,7 @@ export const CommonDrawLine: React.FC<CommonDrawLineProps> = ({
   useEffect(() => {
     if (!isSelected) return;
 
-    const keyFn = (e) => {
+    const keyFn = (e: KeyboardEvent) => {
       if (e.key === 'ArrowRight') {
         handleDrawLine(id, PosTypes.RIGHT);
         e.preventDefault();

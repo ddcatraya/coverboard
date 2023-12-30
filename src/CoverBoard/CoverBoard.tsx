@@ -18,6 +18,7 @@ import { formatDate } from 'utils';
 import { useMainStore, useUtilsStore } from 'store';
 import { shallow } from 'zustand/shallow';
 import Konva from 'konva';
+import { KonvaEventObject } from 'konva/lib/Node';
 
 export const CoverBoard: React.FC = () => {
   const color = useMainStore((state) => state.getColor());
@@ -36,7 +37,7 @@ export const CoverBoard: React.FC = () => {
   const setSelected = useUtilsStore((state) => state.setSelected);
   const setPoints = useUtilsStore((state) => state.setPoints);
   const checkDeselect = useCallback(
-    (e) => {
+    (e: KonvaEventObject<MouseEvent | Event>) => {
       const clickedOnEmpty = e.target === e.target.getStage();
       if (clickedOnEmpty) {
         setSelected(null);

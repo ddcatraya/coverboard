@@ -5,7 +5,7 @@ import {
   ToolbarIcon,
   ToolbarTooltip,
 } from '.';
-import { colorMap, Colors, PosTypes, ToolConfig, ToolConfigIDs } from 'types';
+import { colorMap, Colors, ToolConfig, ToolConfigIDs } from 'types';
 import { haxPrefix } from 'utils';
 import { useUtilsStore, useMainStore, useToolbarStore } from 'store';
 import React, { useCallback, useMemo } from 'react';
@@ -74,8 +74,8 @@ export const ToolbarMemo: React.FC<ToolbarProps> = ({
         id,
         x: 0,
         y: 0,
-        title: { text: null, dir: groupDir ?? PosTypes.TOP },
-        subtitle: { text: null, dir: groupDir ?? PosTypes.TOP },
+        title: { text: null, dir: groupDir },
+        subtitle: { text: null, dir: groupDir },
         scaleX: 3,
         scaleY: 3,
       },

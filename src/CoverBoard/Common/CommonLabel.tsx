@@ -43,7 +43,7 @@ export const CommonLabel: React.FC<CommonLabelProps> = ({
     state.isCurrentTextSelected({ id, text: coverLabel }),
   );
 
-  const handleSetOpen = (open) => {
+  const handleSetOpen = (open: boolean) => {
     open ? setEditingText({ id, text: coverLabel }) : setEditingText(null);
   };
 

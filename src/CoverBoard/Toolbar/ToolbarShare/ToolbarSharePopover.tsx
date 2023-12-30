@@ -39,10 +39,7 @@ const getMediaFromStorage = (storageString: string) => {
     if (item) {
       const curentData: LocalStorageData = JSON.parse(item);
 
-      if (
-        curentData &&
-        Object.values(Media).includes(curentData.configs.media)
-      ) {
+      if (Object.values(Media).includes(curentData.configs.media)) {
         return curentData.configs.media;
       }
     }
@@ -137,9 +134,7 @@ export const ToolbarSharePopover: React.FC<SaveProps> = ({
               const currentSave = removePrefix(currentSaveWithPrefix);
               const showDelete =
                 currentSave !== DEFAULT_KEY ||
-                (currentSave === DEFAULT_KEY &&
-                  currentSave === saveId &&
-                  hasDefault);
+                (currentSave === saveId && hasDefault);
 
               const currentMedia = getMediaFromStorage(currentSaveWithPrefix);
 

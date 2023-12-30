@@ -25,11 +25,10 @@ export const ToolbarShare: React.FC = () => {
 
       try {
         const parsedSchema = schema(parsedData).parse(parsedData);
-        if (parsedSchema) {
-          updateStoreValues(parsedSchema);
-          setOpenShare(false);
-          showSuccessMessage('JSON was applied with success');
-        }
+
+        updateStoreValues(parsedSchema);
+        setOpenShare(false);
+        showSuccessMessage('JSON was applied with success');
       } catch (err) {
         if (err instanceof ZodError) {
           showErrorMessage(JSON.parse(err.message)[0].message);

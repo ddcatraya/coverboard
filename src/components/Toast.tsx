@@ -14,8 +14,8 @@ export const Toast: React.FC = () => {
       open={!!toastMessage}
       autoHideDuration={3000}
       onClose={handleToastMessageClose}>
-      <Alert severity={toastMessage?.type} onClose={handleToastMessageClose}>
-        {toastMessage?.text}
+      <Alert severity={toastMessage.type} onClose={handleToastMessageClose}>
+        {toastMessage.text}
       </Alert>
     </Snackbar>
   );
