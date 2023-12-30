@@ -55,12 +55,8 @@ const GroupCoverMemo: React.FC<CoverImageProps> = ({
   const removeGroupAndRelatedLines = useMainStore(
     (state) => state.removeGroupAndRelatedLines,
   );
-  const coverSizeWidth = useMainStore(
-    (state) => state.coverSizeWidth() * scaleX,
-  );
-  const coverSizeHeight = useMainStore(
-    (state) => state.coverSizeHeight() * scaleY,
-  );
+  const coverSizeWidth = useMainStore((state) => state.coverSizeWidth());
+  const coverSizeHeight = useMainStore((state) => state.coverSizeHeight());
 
   const canOpenPopover = !editLines;
 
@@ -80,6 +76,15 @@ const GroupCoverMemo: React.FC<CoverImageProps> = ({
   const handlesSelect = () => {
     setSelected({ id, elem: Elem.GROUP, open: false });
     refreshGroups(id);
+  };
+
+  const getXPosition = () => {
+    if (dir === PosTypes.BOTTOM || dir === PosTypes.TOP) {
+      return (coverSizeWidth * scaleX) / 2 - (coverSizeWidth * 3) / 2;
+    } else if (dir === PosTypes.RIGHT) {
+      return -coverSizeWidth * scaleX;
+    }
+    return 0;
   };
 
   return (
@@ -138,8 +143,8 @@ const GroupCoverMemo: React.FC<CoverImageProps> = ({
               fontStyle="bold"
               scaleX={scaleX}
               scaleY={scaleY}
-              x={-coverSizeWidth}
-              y={coverSizeHeight + offset1}
+              x={getXPosition()}
+              y={coverSizeHeight * scaleY + offset1}
               width={coverSizeWidth * 3}
             />
           </CommonLabelDraggable>
@@ -162,8 +167,8 @@ const GroupCoverMemo: React.FC<CoverImageProps> = ({
               fontStyle="bold"
               scaleX={scaleX}
               scaleY={scaleY}
-              x={-coverSizeWidth}
-              y={coverSizeHeight + offset2}
+              x={getXPosition()}
+              y={coverSizeHeight * scaleY + offset2}
               width={coverSizeWidth * 3}
             />
           </CommonLabelDraggable>

@@ -51,7 +51,7 @@ export const CommonLabel: React.FC<CommonLabelProps> = ({
       hasReset
       open={open}
       setOpen={setOpen}
-      editable={false}
+      editable={true}
       label={text}
       onReset={() => void 0}
       setLabel={(label) => {
