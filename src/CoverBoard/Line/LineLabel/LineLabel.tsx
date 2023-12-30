@@ -2,7 +2,6 @@ import React from 'react';
 
 import { Elem, LineParams, Lines, PosTypes } from 'types';
 import { LineCircle, LineLabelDraggable, LinePopover } from '.';
-import { getAlign } from 'utils';
 import { useMainStore, useUtilsStore } from 'store';
 import { Html } from 'react-konva-utils';
 import { CommonTextLabel } from 'CoverBoard/Common';
@@ -58,12 +57,10 @@ export const LineLabel: React.FC<LineProps> = ({ id, dir, lineParams }) => {
           setOpen={() => void 0}
           onReset={() => void 0}
           setLabel={(text) => updateLineText(id, text)}
-          pos={{
-            x: -coverSizeWidth,
-            y: fontSize * 1.5,
-            width: coverSizeWidth * 2,
-            align: getAlign(dir),
-          }}
+          x={-coverSizeWidth}
+          y={fontSize * 1.5}
+          width={coverSizeWidth * 2}
+          dir={dir}
           wrap="word"
         />
       </LineLabelDraggable>

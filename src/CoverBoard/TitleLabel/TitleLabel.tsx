@@ -1,6 +1,6 @@
 import React, { useMemo } from 'react';
 
-import { buildTitle } from 'types';
+import { PosTypes, buildTitle } from 'types';
 import { useMainStore, useUtilsStore } from 'store';
 import { shallow } from 'zustand/shallow';
 import { CommonTextLabel } from 'CoverBoard/Common';
@@ -47,12 +47,10 @@ export const TitleLabel: React.FC = () => {
       onReset={handleReset}
       label={titleMode}
       setLabel={handleSetLabel}
-      pos={{
-        x: dragLimits.width / 21,
-        y: dragLimits.y + toobarIconSize / 2,
-        width: dragLimits.width * 0.9,
-        align: 'center',
-      }}
+      x={dragLimits.width / 21}
+      y={dragLimits.y + toobarIconSize / 2}
+      width={dragLimits.width * 0.9}
+      dir={PosTypes.TOP}
       labelSize={2}
     />
   );

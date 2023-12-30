@@ -2,22 +2,23 @@ import { Rect, Text } from 'react-konva';
 import { Html } from 'react-konva-utils';
 import { CommonTextLabelPopover } from './';
 import { KonvaEventObject } from 'konva/lib/Node';
-import { buildTitle } from 'types';
+import { PosTypes, buildTitle } from 'types';
 import { useMainStore } from 'store';
 import { RefObject, useEffect, useRef, useState } from 'react';
 import Konva from 'konva';
+import { getAlign } from 'utils';
+
+/* align: 'center' | 'left' | 'right'; */
 
 interface TitleTexProps {
   label: string;
   setLabel: (title: string) => void;
   open: boolean;
   setOpen: (open: boolean) => void;
-  pos: {
-    x: number;
-    y: number;
-    width: number;
-    align: 'center' | 'left' | 'right';
-  };
+  x: number;
+  y: number;
+  width: number;
+  dir: PosTypes;
   labelSize?: number;
   onReset: () => void;
   listening?: boolean;
@@ -32,7 +33,10 @@ interface TitleTexProps {
 export const CommonTextLabel: React.FC<TitleTexProps> = ({
   label,
   setLabel,
-  pos,
+  x,
+  y,
+  dir,
+  width,
   open,
   setOpen,
   labelSize = 1,
@@ -50,6 +54,7 @@ export const CommonTextLabel: React.FC<TitleTexProps> = ({
   const saveId = useMainStore((state) => state.saveId);
   const textRef: RefObject<Konva.Text> = useRef(null);
   const [textWidth, setTextWidth] = useState(0);
+  const align = getAlign(dir);
 
   const handleSubmit = (text: string) => {
     setOpen(false);
@@ -71,12 +76,12 @@ export const CommonTextLabel: React.FC<TitleTexProps> = ({
   }, [textRef, label, fontSize]);
 
   const getXTextPos = () => {
-    if (pos.align === 'left') {
-      return pos.x;
-    } else if (pos.align === 'right') {
-      return pos.x + pos.width - textWidth;
+    if (align === 'left') {
+      return x;
+    } else if (align === 'right') {
+      return x + width - textWidth;
     }
-    return pos.x + pos.width / 2 - textWidth / 2;
+    return x + width / 2 - textWidth / 2;
   };
 
   return (
@@ -86,7 +91,7 @@ export const CommonTextLabel: React.FC<TitleTexProps> = ({
           <Rect
             listening={false}
             x={getXTextPos()}
-            y={pos.y}
+            y={y}
             fill={backColor}
             width={textWidth}
             height={fontSize * labelSize}
@@ -94,14 +99,14 @@ export const CommonTextLabel: React.FC<TitleTexProps> = ({
           <Text
             ref={textRef}
             listening={listening}
-            align={pos.align}
+            align={align}
             text={label}
             fontStyle={fontStyle}
-            x={pos.x}
-            y={pos.y}
+            x={x}
+            y={y}
             wrap={wrap}
             ellipsis={true}
-            width={pos.width}
+            width={width}
             fontSize={fontSize * labelSize}
             fill={color}
             onClick={editable ? () => setOpen(true) : undefined}
@@ -138,7 +143,10 @@ export const CommonTextLabel: React.FC<TitleTexProps> = ({
             }}
             hasReset={hasReset}
             title={title}
-            pos={pos}
+            x={x}
+            y={y}
+            width={width}
+            align={align}
             fontSize={fontSize * labelSize}
             fill={color}
             fillBack={backColor}

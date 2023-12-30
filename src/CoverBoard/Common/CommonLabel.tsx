@@ -1,7 +1,6 @@
 import React, { useState } from 'react';
 
 import { Covers, GroupCovers, PosTypes } from 'types';
-import { getAlign } from 'utils';
 import { useMainStore, useUtilsStore } from 'store';
 import { CommonTextLabel } from '.';
 
@@ -58,12 +57,10 @@ export const CommonLabel: React.FC<CommonLabelProps> = ({
       setLabel={(label) => {
         updateLabel(id, coverLabel, label);
       }}
-      pos={{
-        x: -coverSizeWidth * scaleX,
-        y: coverSizeHeight * scaleY + offset,
-        width: coverSizeWidth * scaleX * 3,
-        align: getAlign(dir),
-      }}
+      x={-coverSizeWidth * scaleX}
+      y={coverSizeHeight * scaleY + offset}
+      width={coverSizeWidth * scaleX * 3}
+      dir={dir}
     />
   );
 };

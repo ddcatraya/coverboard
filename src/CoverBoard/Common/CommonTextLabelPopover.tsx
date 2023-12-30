@@ -9,12 +9,10 @@ interface PopupProps {
   defaultText: string;
   title?: string;
   hasReset?: boolean;
-  pos: {
-    x: number;
-    y: number;
-    width: number;
-    align: 'center' | 'left' | 'right';
-  };
+  x: number;
+  y: number;
+  width: number;
+  align: 'center' | 'left' | 'right';
   fontSize: number;
   fill: string;
   fillBack: string;
@@ -27,7 +25,10 @@ export const CommonTextLabelPopover: React.FC<PopupProps> = ({
   fontSize,
   fill,
   fillBack,
-  pos,
+  x,
+  y,
+  align,
+  width,
 }) => {
   const [text, setText] = useState(defaultText);
 
@@ -60,9 +61,9 @@ export const CommonTextLabelPopover: React.FC<PopupProps> = ({
     <div
       style={{
         position: 'absolute',
-        left: pos.x + 'px',
-        top: pos.y + 'px',
-        width: pos.width + 'px',
+        left: x + 'px',
+        top: y + 'px',
+        width: width + 'px',
       }}>
       <form
         onSubmit={(evt) => {
@@ -80,7 +81,7 @@ export const CommonTextLabelPopover: React.FC<PopupProps> = ({
           }}
           inputProps={{
             style: {
-              textAlign: pos.align,
+              textAlign: align,
               color: fill,
               fontSize: fontSize + 'px',
               height: fontSize + 'px',
