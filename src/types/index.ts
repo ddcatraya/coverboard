@@ -13,6 +13,7 @@ export type {
   GroupCovers,
   GroupCoverValues,
   SelectedElement,
+  SelectedText,
 } from './coverTypes';
 export * from './coverTypes';
 

@@ -55,7 +55,6 @@ export const CommonTextLabel: React.FC<TitleTexProps> = ({
   const textRef: RefObject<Konva.Text> = useRef(null);
   const [textWidth, setTextWidth] = useState(0);
   const align = getAlign(dir);
-  const coverSizeWidth = useMainStore((state) => state.coverSizeWidth());
 
   const handleSubmit = (text: string) => {
     setOpen(false);
@@ -92,22 +91,6 @@ export const CommonTextLabel: React.FC<TitleTexProps> = ({
           <Rect
             onClick={editable ? () => setOpen(true) : undefined}
             onDblTap={editable ? () => setOpen(true) : undefined}
-            onMouseMove={(evt: KonvaEventObject<MouseEvent>) => {
-              const container = evt.target.getStage()?.container();
-              if (editable && listening) {
-                evt.currentTarget.opacity(0.5);
-                if (container) {
-                  container.style.cursor = 'pointer';
-                }
-              }
-            }}
-            onMouseLeave={(evt: KonvaEventObject<MouseEvent>) => {
-              const container = evt.target.getStage()?.container();
-              evt.currentTarget.opacity(1);
-              if (container) {
-                container.style.cursor = 'default';
-              }
-            }}
             x={getXTextPos()}
             y={y}
             fill={backColor}

@@ -38,8 +38,14 @@ export const CommonLabel: React.FC<CommonLabelProps> = ({
   const editLines = useUtilsStore((state) => state.points);
   const selected = useUtilsStore((state) => state.selected);
   const isSelected = !!selected && selected.id === id;
+  const setEditingText = useUtilsStore((state) => state.setEditingText);
+  const isCurrentTextSelected = useUtilsStore((state) =>
+    state.isCurrentTextSelected({ id, text: coverLabel }),
+  );
 
-  const [open, setOpen] = useState(false);
+  const handleSetOpen = (open) => {
+    open ? setEditingText({ id, text: coverLabel }) : setEditingText(null);
+  };
 
   if (editLines || isSelected) return null;
 
@@ -49,8 +55,8 @@ export const CommonLabel: React.FC<CommonLabelProps> = ({
       color={color}
       fontStyle={fontStyle}
       hasReset
-      open={open}
-      setOpen={setOpen}
+      open={isCurrentTextSelected}
+      setOpen={handleSetOpen}
       editable={true}
       label={text}
       onReset={() => void 0}

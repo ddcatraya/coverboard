@@ -6,6 +6,11 @@ export enum Elem {
   ARROW = 'arrow',
 }
 
+export type SelectedText = {
+  id: string;
+  text: string;
+} | null;
+
 export type SelectedElement = {
   id: string;
   elem: Elem;

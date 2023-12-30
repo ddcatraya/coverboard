@@ -24,6 +24,8 @@ export const useKeysListener = ({
   const isContextModalOpen = useUtilsStore((state) =>
     state.isContextModalOpen(),
   );
+  const isTextSelected = useUtilsStore((state) => state.isTextSelected());
+
   const setSelected = useUtilsStore((state) => state.setSelected);
   const hasMode = useUtilsStore((state) => state.hasMode());
   const editTitle = useUtilsStore((state) => state.editTitle);
@@ -73,6 +75,7 @@ export const useKeysListener = ({
         !editTitle &&
         !openPopup &&
         !isContextModalOpen &&
+        !isTextSelected &&
         selected?.elem !== Elem.ARROW
       ) {
         if (e.key === 'a') {
@@ -102,6 +105,7 @@ export const useKeysListener = ({
       if (
         !editTitle &&
         !openPopup &&
+        !isTextSelected &&
         !isContextModalOpen &&
         selected &&
         selected?.elem !== Elem.ARROW
@@ -220,6 +224,7 @@ export const useKeysListener = ({
     groups,
     hasMode,
     isContextModalOpen,
+    isTextSelected,
     lines,
     openPopup,
     points,
