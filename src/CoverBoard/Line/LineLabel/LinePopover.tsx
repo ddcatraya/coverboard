@@ -17,7 +17,7 @@ interface PopupProps {
   id: Lines['id'];
 }
 
-export const DrawLinePopover: React.FC<PopupProps> = ({ open, values, id }) => {
+export const LinePopover: React.FC<PopupProps> = ({ open, values, id }) => {
   const [text, setText] = useState<PopupProps['values']>(values);
   const updateLineDir = useMainStore((state) => state.updateLineDir);
   const updateLineText = useMainStore((state) => state.updateLineText);

@@ -1,9 +1,9 @@
 import { Group } from 'react-konva';
 import { useMainStore, useUtilsStore } from 'store';
-import { DrawLine } from './DrawLine';
+import { Line } from './Line';
 import { Elem } from 'types';
 
-export const DrawLines: React.FC = () => {
+export const Lines: React.FC = () => {
   const lines = useMainStore((state) => state.lines);
   const setSelected = useUtilsStore((state) => state.setSelected);
 
@@ -19,7 +19,7 @@ export const DrawLines: React.FC = () => {
           key={line.id}
           onClick={(evt) => handlesSelect(evt, line.id)}
           onTouchStart={(evt) => handlesSelect(evt, line.id)}>
-          <DrawLine
+          <Line
             id={line.id}
             dir={line.dir}
             originId={line.origin.id}

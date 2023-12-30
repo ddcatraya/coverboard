@@ -1,7 +1,7 @@
 import React from 'react';
 
 import { Elem, LineParams, Lines, PosTypes } from 'types';
-import { DrawLineCircle, DrawLineLabelDraggable, DrawLinePopover } from '.';
+import { LineCircle, LineLabelDraggable, LinePopover } from '.';
 import { TextLabel } from 'components';
 import { getAlign } from 'utils';
 import { useMainStore, useUtilsStore } from 'store';
@@ -13,7 +13,7 @@ interface LineProps {
   lineParams: LineParams;
 }
 
-export const DrawLineLabel: React.FC<LineProps> = ({ id, dir, lineParams }) => {
+export const LineLabel: React.FC<LineProps> = ({ id, dir, lineParams }) => {
   const text = useMainStore((state) => state.getLineTextById(id));
   const coverSizeWidth = useMainStore((state) => state.coverSizeWidth());
   const fontSize = useMainStore((state) => state.fontSize());
@@ -44,7 +44,7 @@ export const DrawLineLabel: React.FC<LineProps> = ({ id, dir, lineParams }) => {
 
   return (
     <>
-      <DrawLineLabelDraggable
+      <LineLabelDraggable
         dir={dir}
         lineParams={lineParams}
         setUpdate={handleUpdateDir}
@@ -66,11 +66,11 @@ export const DrawLineLabel: React.FC<LineProps> = ({ id, dir, lineParams }) => {
           }}
           wrap="word"
         />
-      </DrawLineLabelDraggable>
-      <DrawLineCircle id={id} />
+      </LineLabelDraggable>
+      <LineCircle id={id} />
       {isSelectedModalOpen && (
         <Html>
-          <DrawLinePopover
+          <LinePopover
             id={id}
             open={isSelectedModalOpen}
             values={{

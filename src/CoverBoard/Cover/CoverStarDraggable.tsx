@@ -4,7 +4,7 @@ import { useMemo, useState } from 'react';
 import { Covers, PosTypes } from 'types';
 import { v4 as uuidv4 } from 'uuid';
 import { getClientPosition } from 'utils';
-import { useMainStore, useUtilsStore } from 'store';
+import { useMainStore } from 'store';
 import { shallow } from 'zustand/shallow';
 
 interface DraggableGroupProps {

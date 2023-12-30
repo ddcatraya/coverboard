@@ -1,6 +1,6 @@
 export * from './GroupCover';
 export * from './Cover';
-export * from './DrawLine';
+export * from './Line';
 export * from './Toolbar';
 export * from './TitleLabel';
 export * from './CoverBoard';

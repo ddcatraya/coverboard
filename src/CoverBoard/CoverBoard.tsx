@@ -4,7 +4,7 @@ import { Stage, Layer, Group, Rect } from 'react-konva';
 import {
   Covers,
   GroupCovers,
-  DrawLines,
+  Lines,
   Toolbar,
   TitleLabel,
   BoundaryCoverArrows,
@@ -94,7 +94,7 @@ export const CoverBoard: React.FC = () => {
             <TitleLabel />
             <GroupCovers />
             <Covers />
-            <DrawLines />
+            <Lines />
             <BoundaryCoverArrows />
             <BoundaryGroupArrows />
             <CoverCountLabel />

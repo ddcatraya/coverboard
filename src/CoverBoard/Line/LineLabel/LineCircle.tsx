@@ -5,7 +5,7 @@ import { KonvaEventObject } from 'konva/lib/Node';
 import { useMainStore, useUtilsStore } from 'store';
 import { Elem } from 'types';
 
-export const DrawLineCircle: React.FC<{ id: string }> = ({ id }) => {
+export const LineCircle: React.FC<{ id: string }> = ({ id }) => {
   const circleRadius = useMainStore((state) => state.circleRadius());
   const isSelected = useUtilsStore((state) =>
     state.isSelected({ id, elem: Elem.ARROW }),

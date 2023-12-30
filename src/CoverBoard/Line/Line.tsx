@@ -2,7 +2,7 @@ import React, { useMemo } from 'react';
 import { Group } from 'react-konva';
 
 import { LineParams, Lines, PosTypes } from 'types';
-import { DrawLineArrow, DrawLineLabel } from '.';
+import { LineArrow, LineLabel } from '.';
 import { useMainStore } from 'store';
 
 interface LineProps {
@@ -44,7 +44,7 @@ const convertPosToXY = (
   }
 };
 
-export const DrawLineMemo: React.FC<LineProps> = ({
+export const LineMemo: React.FC<LineProps> = ({
   id,
   dir,
   originId,
@@ -142,12 +142,12 @@ export const DrawLineMemo: React.FC<LineProps> = ({
 
   return (
     <Group>
-      <DrawLineArrow lineParams={lineParams} />
+      <LineArrow lineParams={lineParams} />
       <Group x={lineParams.midX} y={lineParams.midY}>
-        <DrawLineLabel id={id} dir={dir} lineParams={lineParams} />
+        <LineLabel id={id} dir={dir} lineParams={lineParams} />
       </Group>
     </Group>
   );
 };
 
-export const DrawLine = React.memo(DrawLineMemo);
+export const Line = React.memo(LineMemo);

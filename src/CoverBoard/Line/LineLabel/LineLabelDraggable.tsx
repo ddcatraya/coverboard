@@ -15,7 +15,7 @@ interface DraggableGroupProps {
   listening: boolean;
 }
 
-export const DrawLineLabelDraggable: React.FC<DraggableGroupProps> = ({
+export const LineLabelDraggable: React.FC<DraggableGroupProps> = ({
   dir,
   lineParams,
   setUpdate,
