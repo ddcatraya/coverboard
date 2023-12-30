@@ -84,7 +84,7 @@ const GroupCoverMemo: React.FC<CoverImageProps> = ({
     } else if (dir === PosTypes.RIGHT) {
       return -coverSizeWidth * scaleX;
     }
-    return 0;
+    return coverSizeWidth * scaleX * 2 - coverSizeWidth * 3;
   };
 
   return (
