@@ -55,6 +55,12 @@ const GroupCoverMemo: React.FC<CoverImageProps> = ({
   const removeGroupAndRelatedLines = useMainStore(
     (state) => state.removeGroupAndRelatedLines,
   );
+  const coverSizeWidth = useMainStore(
+    (state) => state.coverSizeWidth() * scaleX,
+  );
+  const coverSizeHeight = useMainStore(
+    (state) => state.coverSizeHeight() * scaleY,
+  );
 
   const canOpenPopover = !editLines;
 
@@ -132,7 +138,9 @@ const GroupCoverMemo: React.FC<CoverImageProps> = ({
               fontStyle="bold"
               scaleX={scaleX}
               scaleY={scaleY}
-              offset={offset1}
+              x={-coverSizeWidth}
+              y={coverSizeHeight + offset1}
+              width={coverSizeWidth * 3}
             />
           </CommonLabelDraggable>
 
@@ -154,7 +162,9 @@ const GroupCoverMemo: React.FC<CoverImageProps> = ({
               fontStyle="bold"
               scaleX={scaleX}
               scaleY={scaleY}
-              offset={offset2}
+              x={-coverSizeWidth}
+              y={coverSizeHeight + offset2}
+              width={coverSizeWidth * 3}
             />
           </CommonLabelDraggable>
         </>

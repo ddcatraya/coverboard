@@ -61,6 +61,8 @@ const CoverMemo: React.FC<CoverImageProps> = ({
   const removeCoverAndRelatedLines = useMainStore(
     (state) => state.removeCoverAndRelatedLines,
   );
+  const coverSizeWidth = useMainStore((state) => state.coverSizeWidth());
+  const coverSizeHeight = useMainStore((state) => state.coverSizeHeight());
 
   let titleOffset = 0;
   let subtitleOffset = 0;
@@ -160,8 +162,10 @@ const CoverMemo: React.FC<CoverImageProps> = ({
                 text={title}
                 id={id}
                 fontStyle="bold"
-                offset={titleOffset}
                 color={color}
+                x={-coverSizeWidth}
+                y={coverSizeHeight + titleOffset}
+                width={coverSizeWidth * 3}
               />
             </CommonLabelDraggable>
           )}
@@ -179,8 +183,10 @@ const CoverMemo: React.FC<CoverImageProps> = ({
                 coverLabel="subtitle"
                 text={subtitle}
                 id={id}
-                offset={subtitleOffset}
                 color={color}
+                x={-coverSizeWidth}
+                y={coverSizeHeight + subtitleOffset}
+                width={coverSizeWidth * 3}
               />
             </CommonLabelDraggable>
           )}
