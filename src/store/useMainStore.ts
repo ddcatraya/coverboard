@@ -39,10 +39,18 @@ interface CoverContextData {
   getStoreValues: () => LocalStorageData;
   offLimitCovers: () => Covers[];
   offLimitGroups: () => GroupCovers[];
-  removeCoverAndRelatedLines: (id: string) => void;
-  removeGroupAndRelatedLines: (id: string) => void;
-  updateGroupPosition: (coverId: string, { x, y }: Vector2d) => void;
-  updateCoverPosition: (coverId: string, { x, y }: Vector2d) => void;
+  removeCoverAndRelatedLines: (id: string, internal?: boolean) => void;
+  removeGroupAndRelatedLines: (id: string, internal?: boolean) => void;
+  updateGroupPosition: (
+    coverId: string,
+    { x, y }: Vector2d,
+    internal?: boolean,
+  ) => void;
+  updateCoverPosition: (
+    coverId: string,
+    { x, y }: Vector2d,
+    internal?: boolean,
+  ) => void;
   updateGroupScale: (
     coverId: string,
     scale: { scaleX: number; scaleY: number },
@@ -52,6 +60,7 @@ interface CoverContextData {
   getCoversInsideGroup: (coverId: string) => Covers[];
   getGroupsOfCover: (coverId: string) => GroupCovers[];
   getGroupsOfGroup: (groupId: string) => GroupCovers[];
+  removeConnectedLine: (id1: string, id2: string) => void;
 }
 
 type MainStoreUnion = UseCoverParams &
@@ -69,7 +78,9 @@ const defaultValues = () => ({
 
 export const useMainStore = createWithEqualityFn<MainStoreUnion>()(
   (set, get, api) => {
-    const saveLastAction = () => {
+    const saveLastAction = (isInternal = false) => {
+      if (isInternal) return;
+
       const { configs, lines, covers, groups } = get();
 
       set(({ actions }) => ({
@@ -96,7 +107,9 @@ export const useMainStore = createWithEqualityFn<MainStoreUnion>()(
       }));
     };
 
-    const saveLocalStorage = () => {
+    const saveLocalStorage = (isInternal = false) => {
+      if (isInternal) return;
+
       const { configs, lines, covers, groups } = get();
       window.localStorage.setItem(
         addPrefix(get().saveId),
@@ -116,13 +129,7 @@ export const useMainStore = createWithEqualityFn<MainStoreUnion>()(
       return save;
     };
 
-    return {
-      actions: [],
-      saveId: DEFAULT_KEY,
-      ...createConfigsSlice((value) => storageSet(value), get, api),
-      ...createLinesSlice((value) => storageSet(value), get, api),
-      ...createCoversSlice((value) => storageSet(value), get, api),
-      ...createGroupsSlice((value) => storageSet(value), get, api),
+    const storeActions = {
       setDefaultLocalStoreValues(saveId: string) {
         set({ saveId });
         try {
@@ -154,7 +161,7 @@ export const useMainStore = createWithEqualityFn<MainStoreUnion>()(
           saveLocalStorage();
         }
       },
-      updateStoreValues({ configs, lines, covers, groups }) {
+      updateStoreValues({ configs, lines, covers, groups }: LocalStorageData) {
         storageSet({ configs, lines, covers, groups });
       },
       resetStoreValues() {
@@ -188,6 +195,9 @@ export const useMainStore = createWithEqualityFn<MainStoreUnion>()(
           );
         }
       },
+    };
+
+    const getters = {
       offLimitCovers() {
         const { dragLimits, configs } = get();
 
@@ -220,53 +230,7 @@ export const useMainStore = createWithEqualityFn<MainStoreUnion>()(
           return [];
         });
       },
-      removeCoverAndRelatedLines(coverId) {
-        saveLastAction();
-
-        useUtilsStore.getState().setPoints(null);
-
-        set(({ covers }) => ({
-          covers: covers.filter((c) => c.id !== coverId),
-        }));
-
-        set(({ lines }) => ({
-          lines: lines.filter(
-            (l) => l.origin.id !== coverId || l.target.id !== coverId,
-          ),
-        }));
-
-        saveLocalStorage();
-      },
-      removeGroupAndRelatedLines(groupId: string) {
-        saveLastAction();
-
-        useUtilsStore.getState().setPoints(null);
-
-        const group = get().groups.find((group) => group.id === groupId);
-
-        if (group) {
-          get()
-            .getGroupsInsideGroup(group.id)
-            .forEach((group) => get().removeGroupAndRelatedLines(group.id));
-
-          get()
-            .getCoversInsideGroup(group.id)
-            .forEach((cover) => get().removeCoverAndRelatedLines(cover.id));
-        }
-
-        set(({ groups }) => ({
-          groups: groups.filter((c) => c.id !== groupId),
-        }));
-
-        set(({ lines }) => ({
-          lines: lines.filter(
-            (l) => l.origin.id !== groupId || l.target.id !== groupId,
-          ),
-        }));
-
-        saveLocalStorage();
-      },
-      getCoversInsideGroup(groupId) {
+      getCoversInsideGroup(groupId: string) {
         const group = get().groups.find(
           (currentGroup) => currentGroup.id === groupId,
         );
@@ -283,7 +247,7 @@ export const useMainStore = createWithEqualityFn<MainStoreUnion>()(
             )
           : [];
       },
-      getGroupsOfCover(coverId) {
+      getGroupsOfCover(coverId: string) {
         const cover = get().covers.find(
           (currentCover) => currentCover.id === coverId,
         );
@@ -302,7 +266,7 @@ export const useMainStore = createWithEqualityFn<MainStoreUnion>()(
             )
           : [];
       },
-      getGroupsOfGroup(groupId) {
+      getGroupsOfGroup(groupId: string) {
         const group = get().groups.find(
           (currentGroup) => currentGroup.id === groupId,
         );
@@ -321,7 +285,7 @@ export const useMainStore = createWithEqualityFn<MainStoreUnion>()(
             )
           : [];
       },
-      getGroupsInsideGroup(groupId) {
+      getGroupsInsideGroup(groupId: string) {
         const group = get().groups.find(
           (currentGroup) => currentGroup.id === groupId,
         );
@@ -339,8 +303,65 @@ export const useMainStore = createWithEqualityFn<MainStoreUnion>()(
             )
           : [];
       },
-      updateGroupPosition(groupId, { x, y }) {
-        saveLastAction();
+    };
+
+    const setters = {
+      removeCoverAndRelatedLines(coverId: string, isInternal?: boolean) {
+        saveLastAction(isInternal);
+
+        useUtilsStore.getState().setPoints(null);
+
+        set(({ covers }) => ({
+          covers: covers.filter((c) => c.id !== coverId),
+        }));
+
+        set(({ lines }) => ({
+          lines: lines.filter(
+            (l) => l.origin.id !== coverId || l.target.id !== coverId,
+          ),
+        }));
+
+        saveLocalStorage(isInternal);
+      },
+      removeGroupAndRelatedLines(groupId: string, isInternal?: boolean) {
+        saveLastAction(isInternal);
+
+        useUtilsStore.getState().setPoints(null);
+
+        const group = get().groups.find((group) => group.id === groupId);
+
+        if (group) {
+          get()
+            .getGroupsInsideGroup(group.id)
+            .forEach((group) =>
+              get().removeGroupAndRelatedLines(group.id, true),
+            );
+
+          get()
+            .getCoversInsideGroup(group.id)
+            .forEach((cover) =>
+              get().removeCoverAndRelatedLines(cover.id, true),
+            );
+        }
+
+        set(({ groups }) => ({
+          groups: groups.filter((c) => c.id !== groupId),
+        }));
+
+        set(({ lines }) => ({
+          lines: lines.filter(
+            (l) => l.origin.id !== groupId || l.target.id !== groupId,
+          ),
+        }));
+
+        saveLocalStorage(isInternal);
+      },
+      updateGroupPosition(
+        groupId: string,
+        { x, y }: Vector2d,
+        isInternal?: boolean,
+      ) {
+        saveLastAction(isInternal);
         const group = get().groups.find((group) => group.id === groupId);
 
         if (group) {
@@ -359,10 +380,14 @@ export const useMainStore = createWithEqualityFn<MainStoreUnion>()(
           };
 
           getCoversInsideGroup(group.id).forEach((cover) => {
-            updateCoverPosition(cover.id, {
-              x: cover.x - (prev.x - x),
-              y: cover.y - (prev.y - y),
-            });
+            updateCoverPosition(
+              cover.id,
+              {
+                x: cover.x - (prev.x - x),
+                y: cover.y - (prev.y - y),
+              },
+              true,
+            );
           });
 
           getGroupsInsideGroup(group.id).forEach((currentGroup) => {
@@ -405,9 +430,12 @@ export const useMainStore = createWithEqualityFn<MainStoreUnion>()(
           refreshGroups(group.id);
         }
 
-        saveLocalStorage();
+        saveLocalStorage(isInternal);
       },
-      updateGroupScale(groupId, scale) {
+      updateGroupScale(
+        groupId: string,
+        scale: { scaleX: number; scaleY: number },
+      ) {
         saveLastAction();
 
         const group = get().groups.find((group) => group.id === groupId);
@@ -451,8 +479,13 @@ export const useMainStore = createWithEqualityFn<MainStoreUnion>()(
         }
         saveLocalStorage();
       },
-      updateCoverPosition(coverId, { x, y }) {
-        saveLastAction();
+      updateCoverPosition(
+        coverId: string,
+        { x, y }: Vector2d,
+        isInternal?: boolean,
+      ) {
+        saveLastAction(isInternal);
+
         const cover = get().covers.find((cover) => cover.id === coverId);
 
         if (cover) {
@@ -467,9 +500,9 @@ export const useMainStore = createWithEqualityFn<MainStoreUnion>()(
             .getGroupsOfCover(cover.id)
             .forEach((group) => get().removeConnectedLine(coverId, group.id));
         }
-        saveLocalStorage();
+        saveLocalStorage(isInternal);
       },
-      refreshGroups(groupId) {
+      refreshGroups(groupId: string) {
         const foundGroup = get().groups.find((cov) => cov.id === groupId);
 
         if (foundGroup) {
@@ -485,6 +518,29 @@ export const useMainStore = createWithEqualityFn<MainStoreUnion>()(
             .forEach((group) => get().refreshGroups(group.id));
         }
       },
+      removeConnectedLine(id1: string, id2: string) {
+        set(({ lines }) => ({
+          lines: lines.filter(
+            (l) =>
+              !(
+                (l.origin.id === id1 && l.target.id === id2) ||
+                (l.origin.id === id2 && l.target.id === id1)
+              ),
+          ),
+        }));
+      },
+    };
+
+    return {
+      actions: [],
+      saveId: DEFAULT_KEY,
+      ...createConfigsSlice((value) => storageSet(value), get, api),
+      ...createLinesSlice((value) => storageSet(value), get, api),
+      ...createCoversSlice((value) => storageSet(value), get, api),
+      ...createGroupsSlice((value) => storageSet(value), get, api),
+      ...getters,
+      ...storeActions,
+      ...setters,
     };
   },
   Object.is,

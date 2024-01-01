@@ -9,7 +9,6 @@ export interface UseLinesParams {
   updateLineText: (linedId: string, text: string) => void;
   removeLine: (linedId: string) => void;
   createLine: (id: string, points: Point, pos: PosTypes) => void;
-  removeConnectedLine: (id1: string, id2: string) => void;
   isLine: (lineId: string) => boolean;
 }
 
@@ -110,17 +109,6 @@ export const createLinesSlice: StateCreator<
   removeLine(linedId) {
     set(({ lines }) => ({
       lines: lines.filter((currentLine) => !(currentLine.id === linedId)),
-    }));
-  },
-  removeConnectedLine(id1: string, id2: string) {
-    set(({ lines }) => ({
-      lines: lines.filter(
-        (l) =>
-          !(
-            (l.origin.id === id1 && l.target.id === id2) ||
-            (l.origin.id === id2 && l.target.id === id1)
-          ),
-      ),
     }));
   },
 });
