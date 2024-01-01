@@ -93,8 +93,8 @@ export const CoverBoard: React.FC = () => {
           )}
           <Group name="board" x={dragLimits.x} y={dragLimits.y}>
             <GroupCovers />
-            <Covers />
             <Lines />
+            <Covers />
             <TitleLabel />
             <BoundaryCoverArrows />
             <BoundaryGroupArrows />
