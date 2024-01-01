@@ -93,16 +93,16 @@ export const LineLabelDraggable: React.FC<DraggableGroupProps> = ({
       draggable
       onDragStart={handleDragStart}
       onDragEnd={handleDragEnd}
-      onMouseMove={(evt: KonvaEventObject<MouseEvent>) => {
+      onMouseEnter={(evt: KonvaEventObject<MouseEvent>) => {
         const container = evt.target.getStage()?.container();
-
+        evt.currentTarget.opacity(0.5);
         if (container) {
           container.style.cursor = 'grab';
         }
       }}
       onMouseLeave={(evt: KonvaEventObject<MouseEvent>) => {
         const container = evt.target.getStage()?.container();
-
+        evt.currentTarget.opacity(1);
         if (container) {
           container.style.cursor = 'default';
         }
