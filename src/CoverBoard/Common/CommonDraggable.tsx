@@ -56,9 +56,19 @@ export const CommonDraggable: React.FC<CommonDraggableProps> = ({
     };
   };
 
+  const refreshGroups = useMainStore((state) => state.refreshGroups);
+  const refreshCovers = useMainStore((state) => state.refreshCovers);
+
   const handleDragStart = (e: KonvaEventObject<DragEvent>) => {
     e.cancelBubble = true;
     e.currentTarget.opacity(0.5);
+
+    if (covers.find((cov) => cov.id == id)) {
+      refreshCovers(id);
+    } else if (groups.find((group) => group.id == id)) {
+      refreshGroups(id);
+    }
+
     const container = e.target.getStage()?.container();
 
     if (container) {

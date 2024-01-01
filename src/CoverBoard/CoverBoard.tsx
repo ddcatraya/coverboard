@@ -92,10 +92,10 @@ export const CoverBoard: React.FC = () => {
             />
           )}
           <Group name="board" x={dragLimits.x} y={dragLimits.y}>
-            <TitleLabel />
             <GroupCovers />
             <Covers />
             <Lines />
+            <TitleLabel />
             <BoundaryCoverArrows />
             <BoundaryGroupArrows />
             <CoverCountLabel />
