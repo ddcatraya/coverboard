@@ -46,11 +46,11 @@ export enum ToolbarConfigValues {
   SHOW_MAIN_TITLE = 'showMainTitle',
   SHOW_TITLE = 'showTitle',
   SHOW_SUBTITLE = 'showSubtitle',
+  SHOW_ARROW = 'showArrow',
+  SHOW_STARS = 'showStars',
   LABEL_DIR = 'labelDir',
   GROUP_DIR = 'groupDir',
   STARS_DIR = 'starsDir',
-  SHOW_STARS = 'showStars',
-  SHOW_ARROW = 'showArrow',
 }
 
 export const ColorSettings = [
@@ -188,9 +188,9 @@ export interface ToolbarConfigParams {
   [ToolbarConfigValues.SHOW_MAIN_TITLE]: boolean;
   [ToolbarConfigValues.SHOW_TITLE]: boolean;
   [ToolbarConfigValues.SHOW_SUBTITLE]: boolean;
+  [ToolbarConfigValues.SHOW_STARS]: boolean;
+  [ToolbarConfigValues.SHOW_ARROW]: boolean;
   [ToolbarConfigValues.LABEL_DIR]: PosTypes;
   [ToolbarConfigValues.STARS_DIR]: PosTypes;
   [ToolbarConfigValues.GROUP_DIR]: PosTypes;
-  [ToolbarConfigValues.SHOW_STARS]: boolean;
-  [ToolbarConfigValues.SHOW_ARROW]: boolean;
 }
