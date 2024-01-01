@@ -7,13 +7,18 @@ import Konva from 'konva';
 
 interface CoverImageProps {
   id: GroupCovers['id'];
+  scaleX: number;
+  scaleY: number;
 }
 
-export const GroupSquare: React.FC<CoverImageProps> = ({ id }) => {
+export const GroupSquare: React.FC<CoverImageProps> = ({
+  id,
+  scaleX,
+  scaleY,
+}) => {
   const selected = useUtilsStore((state) => state.selected);
   const color = useMainStore((state) => state.getGroupColor());
   const backColor = useMainStore((state) => state.getBackColor());
-  const scale = useMainStore((state) => state.getScale(id));
 
   const boxRef = useRef<null | { width: number; height: number }>(null);
 
@@ -21,8 +26,8 @@ export const GroupSquare: React.FC<CoverImageProps> = ({ id }) => {
 
   const coverSizeWidth = useMainStore((state) => state.coverSizeWidth());
   const coverSizeHeight = useMainStore((state) => state.coverSizeHeight());
-  const coverSizeWidthScaled = coverSizeWidth * scale.scaleX;
-  const coverSizeHeightScaled = coverSizeHeight * scale.scaleY;
+  const coverSizeWidthScaled = coverSizeWidth * scaleX;
+  const coverSizeHeightScaled = coverSizeHeight * scaleY;
 
   const removeCoverAndRelatedLines = useMainStore(
     (state) => state.removeGroupAndRelatedLines,

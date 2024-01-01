@@ -12,10 +12,6 @@ export interface UseGrouspParams {
     subtitleText: string,
   ) => void;
   addGroups: (filteredResults: Array<GroupCovers>) => void;
-  getScale: (id: string) => {
-    scaleX: GroupCovers['scaleX'];
-    scaleY: GroupCovers['scaleY'];
-  };
   updateGroupLabel: (
     groupId: string,
     coverLabel: 'title' | 'subtitle',
@@ -32,10 +28,6 @@ export const createGroupsSlice: StateCreator<
 > = (set, get) => ({
   groups: [],
   isGroup: (id) => !!get().groups.find((group) => group.id === id),
-  getScale: (id: string) => ({
-    scaleX: get().groups.find((group) => group.id === id)?.scaleX ?? 1,
-    scaleY: get().groups.find((group) => group.id === id)?.scaleY ?? 1,
-  }),
   updateAllGroupsDir(dir) {
     set(({ groups }) => ({
       groups: groups.map((group) => ({

@@ -20,8 +20,6 @@ export interface UseCoverParams {
     subTitleText: string,
   ) => void;
   addCovers: (filteredResults: Array<Covers>) => void;
-  getStarCount: (id: string) => number;
-  getStarDirById: (id: string) => PosTypes;
   updateCoverTitleDir: (coverId: string, dir: PosTypes) => void;
   updateCoverSubtitleDir: (coverId: string, dir: PosTypes) => void;
   isCover: (coverId: string) => boolean;
@@ -35,10 +33,6 @@ export const createCoversSlice: StateCreator<
 > = (set, get) => ({
   covers: [],
   isCover: (id) => !!get().covers.find((cov) => cov.id === id),
-  getStarDirById: (id: string) =>
-    get().covers.find((cover) => cover.id === id)?.star.dir ?? PosTypes.TOP,
-  getStarCount: (id: string) =>
-    get().covers.find((cover) => cover.id === id)?.star.count ?? 0,
   updateAllCoversDir(dir) {
     set(({ covers }) => ({
       covers: covers.map((cover) => ({

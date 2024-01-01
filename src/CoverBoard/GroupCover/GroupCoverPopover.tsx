@@ -8,16 +8,19 @@ interface PopupProps {
   open: boolean;
   values: GroupCoverValues;
   id: GroupCovers['id'];
+  scaleX: number;
+  scaleY: number;
 }
 
 export const GroupCoverPopover: React.FC<PopupProps> = ({
   open,
   values,
   id,
+  scaleX,
+  scaleY,
 }) => {
-  const scale = useMainStore((state) => state.getScale(id));
   const [text, setText] = useState<PopupProps['values']>(values);
-  const [currentScale, setCurrentScale] = useState(scale);
+  const [currentScale, setCurrentScale] = useState({ scaleX, scaleY });
   const updateGroupsText = useMainStore((state) => state.updateGroupsText);
   const updateGroupScale = useMainStore((state) => state.updateGroupScale);
   const updateGroupDir = useMainStore((state) => state.updateGroupDir);
@@ -60,7 +63,7 @@ export const GroupCoverPopover: React.FC<PopupProps> = ({
     updateGroupsText(id, text.title, text.subtitle);
     updateGroupDir(id, text.titleDir);
     updateGroupSubDir(id, text.subTitleDir);
-    updateGroupScale(id, scale);
+    updateGroupScale(id, currentScale);
     setSelected(null);
   };
 

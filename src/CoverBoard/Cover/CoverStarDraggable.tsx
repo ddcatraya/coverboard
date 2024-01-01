@@ -12,15 +12,16 @@ interface DraggableGroupProps {
   id: Covers['id'];
   x: Covers['x'];
   y: Covers['y'];
+  starDir: PosTypes;
 }
 
 export const CoverStarDraggable = ({
   id,
   x,
   y,
+  starDir,
   children,
 }: DraggableGroupProps) => {
-  const dir = useMainStore((state) => state.getStarDirById(id));
   const updateCoverStarDir = useMainStore((state) => state.updateCoverStarDir);
   const dragLimits = useMainStore((state) => state.dragLimits(), shallow);
   const coverSizeWidth = useMainStore((state) => state.coverSizeWidth());
@@ -67,17 +68,17 @@ export const CoverStarDraggable = ({
   const totalWidth = 4 * starRadius * 3;
 
   const newPos = useMemo(() => {
-    if (dir === PosTypes.BOTTOM) {
+    if (starDir === PosTypes.BOTTOM) {
       return {
         x: 0,
         y: starRadius * 2,
       };
-    } else if (dir === PosTypes.TOP) {
+    } else if (starDir === PosTypes.TOP) {
       return {
         x: 0,
         y: -coverSizeHeight - 2 * starRadius,
       };
-    } else if (dir === PosTypes.RIGHT) {
+    } else if (starDir === PosTypes.RIGHT) {
       return {
         x: coverSizeWidth + starRadius * 2.5,
         y: -coverSizeHeight / 2 - starRadius,
@@ -88,7 +89,7 @@ export const CoverStarDraggable = ({
         y: -coverSizeHeight / 2 - starRadius,
       };
     }
-  }, [coverSizeHeight, coverSizeWidth, dir, starRadius, totalWidth]);
+  }, [coverSizeHeight, coverSizeWidth, starDir, starRadius, totalWidth]);
 
   return (
     <Group

@@ -11,13 +11,6 @@ import { CoverValues, Covers, LabelTypes, Media, PosTypes } from 'types';
 import { CommonDialog, DirectionRadio } from 'components';
 import { useMainStore, useUtilsStore } from 'store';
 
-interface PopupProps {
-  open: boolean;
-  values: CoverValues;
-  title?: string;
-  id: Covers['id'];
-}
-
 const getButtons = (media: Media, currentCover: Covers) => {
   if (media === Media.MUSIC) {
     return [
@@ -91,9 +84,22 @@ const getButtons = (media: Media, currentCover: Covers) => {
   ];
 };
 
-export const CoverPopover: React.FC<PopupProps> = ({ open, values, id }) => {
-  const starCount = useMainStore((state) => state.getStarCount(id));
-  const starDir = useMainStore((state) => state.getStarDirById(id));
+interface PopupProps {
+  open: boolean;
+  values: CoverValues;
+  title?: string;
+  id: Covers['id'];
+  starCount: number;
+  starDir: PosTypes;
+}
+
+export const CoverPopover: React.FC<PopupProps> = ({
+  open,
+  values,
+  id,
+  starCount,
+  starDir,
+}) => {
   const [text, setText] = useState<PopupProps['values']>(values);
   const [rating, setRating] = useState(starCount);
   const [currentStarDir, setStarDir] = useState(starDir);

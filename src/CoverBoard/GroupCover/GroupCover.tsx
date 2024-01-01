@@ -105,7 +105,7 @@ const GroupCoverMemo: React.FC<CoverImageProps> = ({
         <CommonDrawLine id={id} scaleX={scaleX} scaleY={scaleY} />
         <>
           <Group onClick={handlesSelect} onTap={handlesSelect}>
-            <GroupSquare id={id} />
+            <GroupSquare id={id} scaleX={scaleX} scaleY={scaleY} />
           </Group>
           <CommonLabelDraggable
             updateDir={updateGroupDir}
@@ -161,6 +161,8 @@ const GroupCoverMemo: React.FC<CoverImageProps> = ({
       {isSelectedModalOpen && (
         <Html>
           <GroupCoverPopover
+            scaleX={scaleX}
+            scaleY={scaleY}
             id={id}
             open={isSelectedModalOpen}
             values={{

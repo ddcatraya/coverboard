@@ -60,7 +60,6 @@ interface CoverContextData {
   getCoversInsideGroup: (coverId: string) => Covers[];
   getGroupsOfCover: (coverId: string) => GroupCovers[];
   getGroupsOfGroup: (groupId: string) => GroupCovers[];
-  removeConnectedLine: (id1: string, id2: string) => void;
 }
 
 type MainStoreUnion = UseCoverParams &
@@ -331,17 +330,20 @@ export const useMainStore = createWithEqualityFn<MainStoreUnion>()(
         const group = get().groups.find((group) => group.id === groupId);
 
         if (group) {
-          get()
-            .getGroupsInsideGroup(group.id)
-            .forEach((group) =>
-              get().removeGroupAndRelatedLines(group.id, true),
-            );
+          const {
+            getGroupsInsideGroup,
+            removeGroupAndRelatedLines,
+            getCoversInsideGroup,
+            removeCoverAndRelatedLines,
+          } = get();
 
-          get()
-            .getCoversInsideGroup(group.id)
-            .forEach((cover) =>
-              get().removeCoverAndRelatedLines(cover.id, true),
-            );
+          getGroupsInsideGroup(group.id).forEach((group) =>
+            removeGroupAndRelatedLines(group.id, true),
+          );
+
+          getCoversInsideGroup(group.id).forEach((cover) =>
+            removeCoverAndRelatedLines(cover.id, true),
+          );
         }
 
         set(({ groups }) => ({
@@ -467,15 +469,22 @@ export const useMainStore = createWithEqualityFn<MainStoreUnion>()(
 
           set({ groups: filteredGroups });
 
-          get()
-            .getCoversInsideGroup(group.id)
-            .forEach((cov) => get().removeConnectedLine(groupId, cov.id));
+          const {
+            getCoversInsideGroup,
+            removeConnectedLine,
+            getGroupsInsideGroup,
+            refreshGroups,
+          } = get();
 
-          get()
-            .getGroupsInsideGroup(group.id)
-            .forEach((group) => get().removeConnectedLine(groupId, group.id));
+          getCoversInsideGroup(group.id).forEach((cov) =>
+            removeConnectedLine(groupId, cov.id),
+          );
 
-          get().refreshGroups(group.id);
+          getGroupsInsideGroup(group.id).forEach((group) =>
+            removeConnectedLine(groupId, group.id),
+          );
+
+          refreshGroups(group.id);
         }
         saveLocalStorage();
       },
@@ -503,31 +512,31 @@ export const useMainStore = createWithEqualityFn<MainStoreUnion>()(
         saveLocalStorage(isInternal);
       },
       refreshGroups(groupId: string) {
-        const foundGroup = get().groups.find((cov) => cov.id === groupId);
+        const group = get().groups.find((cov) => cov.id === groupId);
 
-        if (foundGroup) {
+        if (group) {
           const filteredGroups = get().groups.filter(
-            (cov) => cov.id !== foundGroup.id,
+            (cov) => cov.id !== group.id,
           );
-          filteredGroups.push(foundGroup);
+          filteredGroups.push(group);
 
           set({ groups: filteredGroups });
 
-          get()
-            .getGroupsInsideGroup(foundGroup.id)
-            .forEach((group) => get().refreshGroups(group.id));
+          const {
+            refreshGroups,
+            refreshCovers,
+            getGroupsInsideGroup,
+            getCoversInsideGroup,
+          } = get();
+
+          getGroupsInsideGroup(group.id).forEach((group) =>
+            refreshGroups(group.id),
+          );
+
+          getCoversInsideGroup(group.id).forEach((covers) =>
+            refreshCovers(covers.id),
+          );
         }
-      },
-      removeConnectedLine(id1: string, id2: string) {
-        set(({ lines }) => ({
-          lines: lines.filter(
-            (l) =>
-              !(
-                (l.origin.id === id1 && l.target.id === id2) ||
-                (l.origin.id === id2 && l.target.id === id1)
-              ),
-          ),
-        }));
       },
     };
 

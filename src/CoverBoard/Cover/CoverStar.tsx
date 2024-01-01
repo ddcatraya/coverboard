@@ -6,11 +6,15 @@ import { Covers } from 'types';
 interface CoverStarProps {
   id: Covers['id'];
   offset?: number;
+  starCount: number;
 }
 
-export const CoverStar: React.FC<CoverStarProps> = ({ id, offset = 0 }) => {
+export const CoverStar: React.FC<CoverStarProps> = ({
+  id,
+  offset = 0,
+  starCount,
+}) => {
   const starRadius = useMainStore((state) => state.starRadius());
-  const starCount = useMainStore((state) => state.getStarCount(id));
   const coverSizeWidth = useMainStore((state) => state.coverSizeWidth());
   const coverSizeHeight = useMainStore((state) => state.coverSizeHeight());
   const color = useMainStore((state) => state.getCoverColor());

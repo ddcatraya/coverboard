@@ -17,6 +17,7 @@ export const Covers: React.FC = () => {
           titleDir={cover.title.dir}
           subTitleDir={cover.subtitle.dir}
           starDir={cover.star.dir}
+          starCount={cover.star.count}
           link={cover.link}
           renderTime={400 * index}
         />

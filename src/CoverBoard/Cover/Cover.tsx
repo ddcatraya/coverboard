@@ -22,6 +22,7 @@ interface CoverImageProps {
   titleDir: PosTypes;
   subTitleDir: PosTypes;
   starDir: PosTypes;
+  starCount: number;
   link: Covers['link'];
   renderTime: number;
 }
@@ -35,6 +36,7 @@ const CoverMemo: React.FC<CoverImageProps> = ({
   titleDir,
   subTitleDir,
   starDir,
+  starCount,
   link,
   renderTime,
 }) => {
@@ -189,8 +191,8 @@ const CoverMemo: React.FC<CoverImageProps> = ({
           )}
 
           {showStars && (
-            <CoverStarDraggable id={id} x={x} y={y}>
-              <CoverStar id={id} offset={starOffset} />
+            <CoverStarDraggable id={id} x={x} y={y} starDir={starDir}>
+              <CoverStar id={id} offset={starOffset} starCount={starCount} />
             </CoverStarDraggable>
           )}
         </Group>
@@ -198,6 +200,8 @@ const CoverMemo: React.FC<CoverImageProps> = ({
       {isSelectedModalOpen && (
         <Html>
           <CoverPopover
+            starDir={starDir}
+            starCount={starCount}
             id={id}
             open={isSelectedModalOpen}
             values={{
