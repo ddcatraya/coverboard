@@ -18,6 +18,7 @@ export const ToolbarIcon: React.FC<ToolbarIconProps> = ({ config, index }) => {
   const getCurrentY = useMainStore((state) => state.getCurrentY);
   const setTooltip = useToolbarStore((state) => state.setTooltip);
 
+  const selected = useUtilsStore((state) => state.selected);
   const editTitle = useUtilsStore((state) => state.editTitle);
   const hasMode = useUtilsStore((state) => state.hasMode());
   const isContextModalOpen = useUtilsStore((state) =>
@@ -42,10 +43,14 @@ export const ToolbarIcon: React.FC<ToolbarIconProps> = ({ config, index }) => {
       : config.valueModifier(true);
   };
 
-  const showBadgeKey =
+  let showBadgeKey =
     config.shortcut === 'C'
       ? !isContextModalOpen && !isPopupOpen && !hasMode
       : !isContextModalOpen && !isPopupOpen && !editTitle;
+
+  if (config.shortcut === 'D' && !selected) {
+    showBadgeKey = false;
+  }
 
   return (
     <Group

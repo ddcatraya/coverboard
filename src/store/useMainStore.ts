@@ -18,6 +18,7 @@ import { UseCoverParams, createCoversSlice } from './coversStore';
 import { UseLinesParams, createLinesSlice } from './linesStore';
 import { UseGrouspParams, createGroupsSlice } from './groupStore';
 import { Vector2d } from 'konva/lib/types';
+import { useUtilsStore } from './useUtilsStore';
 
 const MAX_UNDO = 10;
 
@@ -217,6 +218,8 @@ export const useMainStore = createWithEqualityFn<MainStoreUnion>()(
       removeCoverAndRelatedLines(coverId) {
         saveLastAction();
 
+        useUtilsStore.getState().setPoints(null);
+
         set(({ covers }) => ({
           covers: covers.filter((c) => c.id !== coverId),
         }));
@@ -231,6 +234,8 @@ export const useMainStore = createWithEqualityFn<MainStoreUnion>()(
       },
       removeGroupAndRelatedLines(groupId: string) {
         saveLastAction();
+
+        useUtilsStore.getState().setPoints(null);
 
         const group = get().groups.find((group) => group.id === groupId);
 

@@ -37,7 +37,7 @@ const ToolbarActionIcon: React.FC = () => {
     [actionsLength, undoAction],
   );
 
-  return <ToolbarIcon config={actionConfig} index={5} />;
+  return <ToolbarIcon config={actionConfig} index={6} />;
 };
 
 export const ToolbarMemo: React.FC<ToolbarProps> = ({
@@ -82,6 +82,48 @@ export const ToolbarMemo: React.FC<ToolbarProps> = ({
     ]);
     setSelected({ id, open: false });
   }, [addGroups, groupDir, setSelected]);
+
+  const removeCoverAndRelatedLines = useMainStore(
+    (state) => state.removeCoverAndRelatedLines,
+  );
+  const removeGroupAndRelatedLines = useMainStore(
+    (state) => state.removeGroupAndRelatedLines,
+  );
+
+  const isCover = useMainStore((state) => state.isCover);
+  const isGroup = useMainStore((state) => state.isGroup);
+  const isLine = useMainStore((state) => state.isLine);
+
+  const getElemName = () => {
+    if (!selected) return '';
+
+    if (isCover(selected.id)) return '(cover)';
+    if (isGroup(selected.id)) return '(group)';
+    if (isLine(selected.id)) return '(arrow)';
+
+    return '';
+  };
+
+  const removeLine = useMainStore((state) => state.removeLine);
+  const deleteElem = useCallback(() => {
+    if (!selected) return;
+
+    if (isGroup(selected.id)) {
+      removeGroupAndRelatedLines(selected.id);
+    } else if (isCover(selected.id)) {
+      removeCoverAndRelatedLines(selected.id);
+    } else if (isLine(selected.id)) {
+      removeLine(selected.id);
+    }
+  }, [
+    isCover,
+    isGroup,
+    isLine,
+    removeCoverAndRelatedLines,
+    removeGroupAndRelatedLines,
+    removeLine,
+    selected,
+  ]);
 
   const savesNumber = Object.keys(window.localStorage).filter((key) =>
     haxPrefix(key),
@@ -132,6 +174,17 @@ export const ToolbarMemo: React.FC<ToolbarProps> = ({
       badge: groupsLength,
       enabled: true,
       shortcut: 'G',
+    },
+    {
+      id: ToolConfigIDs.DELETE,
+      tooltip: `Delete selected ${getElemName()}`,
+      color: colorMap[Colors.RED],
+      emoji: '🗑️',
+      value: !selected,
+      valueModifier: deleteElem,
+      badge: groupsLength + coversLength + linesLength,
+      enabled: !!selected,
+      shortcut: 'D',
     },
     {
       id: ToolConfigIDs.SCREENSHOT,

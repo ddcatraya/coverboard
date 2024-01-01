@@ -95,7 +95,7 @@ export const useKeysListener = ({
       }
 
       if (!editTitle && !openPopup && !isContextModalOpen && selected) {
-        if (e.key === 'Delete') {
+        if (e.key === 'Delete' || e.key === 'd') {
           if (isGroup(selected.id)) {
             removeGroupAndRelatedLines(selected.id);
           } else if (isCover(selected.id)) {

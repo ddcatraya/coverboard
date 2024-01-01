@@ -7,6 +7,7 @@ export interface TooltipValues {
 export enum ToolConfigIDs {
   SEARCH = 'search',
   CONFIG = 'config',
+  DELETE = 'delete',
   SHARE = 'share',
   UNDO = 'undo',
   GROUP = 'group',
