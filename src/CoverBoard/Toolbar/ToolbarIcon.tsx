@@ -18,14 +18,6 @@ export const ToolbarIcon: React.FC<ToolbarIconProps> = ({ config, index }) => {
   const getCurrentY = useMainStore((state) => state.getCurrentY);
   const setTooltip = useToolbarStore((state) => state.setTooltip);
 
-  const selected = useUtilsStore((state) => state.selected);
-  const editTitle = useUtilsStore((state) => state.editTitle);
-  const hasMode = useUtilsStore((state) => state.hasMode());
-  const isContextModalOpen = useUtilsStore((state) =>
-    state.isContextModalOpen(),
-  );
-  const isPopupOpen = useToolbarStore((state) => state.isPopupOpen());
-
   const handleMouseMove = (evt: KonvaEventObject<MouseEvent>, tip: string) => {
     setTooltip({
       text: tip,
@@ -42,15 +34,6 @@ export const ToolbarIcon: React.FC<ToolbarIconProps> = ({ config, index }) => {
       ? config.valueModifier(false)
       : config.valueModifier(true);
   };
-
-  let showBadgeKey =
-    config.shortcut === 'C'
-      ? !isContextModalOpen && !isPopupOpen && !hasMode
-      : !isContextModalOpen && !isPopupOpen && !editTitle;
-
-  if (config.shortcut === 'D' && !selected) {
-    showBadgeKey = false;
-  }
 
   return (
     <Group
@@ -106,7 +89,7 @@ export const ToolbarIcon: React.FC<ToolbarIconProps> = ({ config, index }) => {
         text={!!config.badge ? String(config.badge) : ''}
         fontSize={toobarIconSize / 4}
       />
-      {showBadgeKey && (
+      {config.enabled && (
         <Text
           x={1}
           y={1}
