@@ -67,6 +67,7 @@ export const LineMemo: React.FC<LineProps> = ({
   const targetSquareGroup = useMainStore((state) =>
     state.groups.find((cov) => cov.id === targetId),
   );
+  const showArrow = useMainStore((state) => state.configs.showArrow);
 
   const origin = originSquareCover ? 'cover' : 'group';
   const target = targetSquareCover ? 'cover' : 'group';
@@ -145,9 +146,11 @@ export const LineMemo: React.FC<LineProps> = ({
   return (
     <Group>
       <LineArrow lineParams={lineParams} />
-      <Group x={lineParams.midX} y={lineParams.midY}>
-        <LineLabel id={id} dir={dir} lineParams={lineParams} text={text} />
-      </Group>
+      {showArrow && (
+        <Group x={lineParams.midX} y={lineParams.midY}>
+          <LineLabel id={id} dir={dir} lineParams={lineParams} text={text} />
+        </Group>
+      )}
     </Group>
   );
 };

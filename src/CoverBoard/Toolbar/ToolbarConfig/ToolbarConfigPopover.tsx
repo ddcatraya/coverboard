@@ -234,6 +234,17 @@ export const ToolbarConfigPopover: React.FC<ToolbarConfigPopoverProps> = ({
             <FormControlLabel
               control={
                 <Switch
+                  checked={param[ToolbarConfigValues.SHOW_ARROW]}
+                  onChange={(evt) =>
+                    handleSwitchChange(evt, ToolbarConfigValues.SHOW_ARROW)
+                  }
+                />
+              }
+              label={`Show arrow labels`}
+            />
+            <FormControlLabel
+              control={
+                <Switch
                   checked={param[ToolbarConfigValues.SHOW_STARS]}
                   onChange={(evt) =>
                     handleSwitchChange(evt, ToolbarConfigValues.SHOW_STARS)

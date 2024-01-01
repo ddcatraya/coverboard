@@ -25,6 +25,7 @@ export const initialConfigValues = (): ToolbarConfigParams => ({
   backColor: BackColors.DARK,
   showTitle: true,
   showSubtitle: true,
+  showArrow: true,
   showMainTitle: true,
   labelDir: PosTypes.BOTTOM,
   starsDir: PosTypes.BOTTOM,

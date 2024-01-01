@@ -50,6 +50,7 @@ export enum ToolbarConfigValues {
   GROUP_DIR = 'groupDir',
   STARS_DIR = 'starsDir',
   SHOW_STARS = 'showStars',
+  SHOW_ARROW = 'showArrow',
 }
 
 export const ColorSettings = [
@@ -191,4 +192,5 @@ export interface ToolbarConfigParams {
   [ToolbarConfigValues.STARS_DIR]: PosTypes;
   [ToolbarConfigValues.GROUP_DIR]: PosTypes;
   [ToolbarConfigValues.SHOW_STARS]: boolean;
+  [ToolbarConfigValues.SHOW_ARROW]: boolean;
 }

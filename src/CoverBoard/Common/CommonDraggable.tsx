@@ -63,9 +63,9 @@ export const CommonDraggable: React.FC<CommonDraggableProps> = ({
     e.cancelBubble = true;
     e.currentTarget.opacity(0.5);
 
-    if (covers.find((cov) => cov.id == id)) {
+    if (covers.find((cov) => cov.id === id)) {
       refreshCovers(id);
-    } else if (groups.find((group) => group.id == id)) {
+    } else if (groups.find((group) => group.id === id)) {
       refreshGroups(id);
     }
 

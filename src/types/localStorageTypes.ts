@@ -94,6 +94,10 @@ export const schema = (parsedData: LocalStorageData) =>
           invalid_type_error: 'configs:showTitle must be a boolean',
           required_error: 'configs:showTitle is required',
         }),
+        showArrow: z.boolean({
+          invalid_type_error: 'configs:showArrow must be a boolean',
+          required_error: 'configs:showArrow is required',
+        }),
         showSubtitle: z.boolean({
           invalid_type_error: 'configs:showSubtitle must be a boolean',
           required_error: 'configs:showSubtitle is required',
