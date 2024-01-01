@@ -102,6 +102,13 @@ export const CommonLabelDraggable = ({
       draggable
       onDragStart={handleDragStart}
       onDragEnd={handleDragEnd}
+      onMouseUp={(evt: KonvaEventObject<MouseEvent>) => {
+        const container = evt.target.getStage()?.container();
+        evt.currentTarget.opacity(1);
+        if (container) {
+          container.style.cursor = 'default';
+        }
+      }}
       onMouseEnter={(evt: KonvaEventObject<MouseEvent>) => {
         const container = evt.target.getStage()?.container();
         evt.currentTarget.opacity(0.5);
