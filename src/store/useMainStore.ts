@@ -48,6 +48,10 @@ interface CoverContextData {
     scale: { scaleX: number; scaleY: number },
   ) => void;
   refreshGroups: (groupId: string) => void;
+  getGroupsInsideGroup: (groupId: string) => GroupCovers[];
+  getCoversInsideGroup: (coverId: string) => Covers[];
+  getGroupsOfCover: (coverId: string) => GroupCovers[];
+  getGroupsOfGroup: (groupId: string) => GroupCovers[];
 }
 
 type MainStoreUnion = UseCoverParams &
@@ -241,40 +245,13 @@ export const useMainStore = createWithEqualityFn<MainStoreUnion>()(
         const group = get().groups.find((group) => group.id === groupId);
 
         if (group) {
-          if (group.x !== 0 || group.y !== 0) {
-            const groupsDetected = get().groups.filter(
-              (currentGroup) =>
-                currentGroup.id !== group.id &&
-                currentGroup.x > group.x &&
-                currentGroup.x + get().coverSizeWidth() * currentGroup.scaleX <
-                  group.x + get().coverSizeWidth() * group.scaleX &&
-                currentGroup.y > group.y &&
-                currentGroup.y + get().coverSizeHeight() * currentGroup.scaleY <
-                  group.y + get().coverSizeHeight() * group.scaleY,
-            );
+          get()
+            .getGroupsInsideGroup(group.id)
+            .forEach((group) => get().removeGroupAndRelatedLines(group.id));
 
-            if (groupsDetected.length > 0) {
-              groupsDetected.forEach((grp) =>
-                get().removeGroupAndRelatedLines(grp.id),
-              );
-            }
-
-            const coversDetect = get().covers.filter(
-              (cover) =>
-                cover.x > group.x &&
-                cover.x + get().coverSizeWidth() <
-                  group.x + get().coverSizeWidth() * group.scaleX &&
-                cover.y > group.y &&
-                cover.y + get().coverSizeHeight() <
-                  group.y + get().coverSizeHeight() * group.scaleY,
-            );
-
-            if (coversDetect.length > 0) {
-              coversDetect.forEach((cover) => {
-                get().removeCoverAndRelatedLines(cover.id);
-              });
-            }
-          }
+          get()
+            .getCoversInsideGroup(group.id)
+            .forEach((cover) => get().removeCoverAndRelatedLines(cover.id));
         }
 
         set(({ groups }) => ({
@@ -289,90 +266,145 @@ export const useMainStore = createWithEqualityFn<MainStoreUnion>()(
 
         saveLocalStorage();
       },
+      getCoversInsideGroup(groupId) {
+        const group = get().groups.find(
+          (currentGroup) => currentGroup.id === groupId,
+        );
+
+        return group
+          ? get().covers.filter(
+              (currentCover) =>
+                currentCover.x > group.x &&
+                currentCover.x + get().coverSizeWidth() <
+                  group.x + get().coverSizeWidth() * group.scaleX &&
+                currentCover.y > group.y &&
+                currentCover.y + get().coverSizeHeight() <
+                  group.y + get().coverSizeHeight() * group.scaleY,
+            )
+          : [];
+      },
+      getGroupsOfCover(coverId) {
+        const cover = get().covers.find(
+          (currentCover) => currentCover.id === coverId,
+        );
+
+        return cover
+          ? get().groups.filter(
+              (currentGroup) =>
+                cover.x > currentGroup.x &&
+                cover.x + get().coverSizeWidth() <
+                  currentGroup.x +
+                    get().coverSizeWidth() * currentGroup.scaleX &&
+                cover.y > currentGroup.y &&
+                cover.y + get().coverSizeHeight() <
+                  currentGroup.y +
+                    get().coverSizeHeight() * currentGroup.scaleY,
+            )
+          : [];
+      },
+      getGroupsOfGroup(groupId) {
+        const group = get().groups.find(
+          (currentGroup) => currentGroup.id === groupId,
+        );
+
+        return group
+          ? get().groups.filter(
+              (currentGroup) =>
+                group.x > currentGroup.x &&
+                group.x + get().coverSizeWidth() <
+                  currentGroup.x +
+                    get().coverSizeWidth() * currentGroup.scaleX &&
+                group.y > currentGroup.y &&
+                group.y + get().coverSizeHeight() <
+                  currentGroup.y +
+                    get().coverSizeHeight() * currentGroup.scaleY,
+            )
+          : [];
+      },
+      getGroupsInsideGroup(groupId) {
+        const group = get().groups.find(
+          (currentGroup) => currentGroup.id === groupId,
+        );
+
+        return group
+          ? get().groups.filter(
+              (currentGroup) =>
+                currentGroup.id !== group.id &&
+                currentGroup.x > group.x &&
+                currentGroup.x + get().coverSizeWidth() * currentGroup.scaleX <
+                  group.x + get().coverSizeWidth() * group.scaleX &&
+                currentGroup.y > group.y &&
+                currentGroup.y + get().coverSizeHeight() * currentGroup.scaleY <
+                  group.y + get().coverSizeHeight() * group.scaleY,
+            )
+          : [];
+      },
       updateGroupPosition(groupId, { x, y }) {
         saveLastAction();
         const group = get().groups.find((group) => group.id === groupId);
 
         if (group) {
+          const {
+            getCoversInsideGroup,
+            updateCoverPosition,
+            getGroupsInsideGroup,
+            getGroupsOfGroup,
+            removeConnectedLine,
+            refreshGroups,
+          } = get();
+
           const prev = {
             x: group.x,
             y: group.y,
           };
 
-          const filteredGroups = get().groups.filter(
-            (cov) => cov.id !== groupId,
-          );
-          filteredGroups.push({ ...group, x, y });
+          getCoversInsideGroup(group.id).forEach((cover) => {
+            updateCoverPosition(cover.id, {
+              x: cover.x - (prev.x - x),
+              y: cover.y - (prev.y - y),
+            });
+          });
 
-          set({ groups: filteredGroups });
-
-          if (group.x !== 0 || group.y !== 0) {
-            const colGroup = get().covers.find(
-              (cover) =>
-                cover.x > x &&
-                cover.x + get().coverSizeWidth() <
-                  x + get().coverSizeWidth() * group.scaleX &&
-                cover.y > y &&
-                cover.y + get().coverSizeHeight() <
-                  y + get().coverSizeHeight() * group.scaleY,
-            );
-
-            if (colGroup) {
-              get().removeLinesWithCoverTogether(groupId, colGroup.id);
-            }
-
-            const groupsDetected = get().groups.filter(
-              (currentGroup) =>
-                currentGroup.id !== group.id &&
-                currentGroup.x > prev.x &&
-                currentGroup.x + get().coverSizeWidth() * currentGroup.scaleX <
-                  prev.x + get().coverSizeWidth() * group.scaleX &&
-                currentGroup.y > prev.y &&
-                currentGroup.y + get().coverSizeHeight() * currentGroup.scaleY <
-                  prev.y + get().coverSizeHeight() * group.scaleY,
-            );
-
-            if (groupsDetected.length > 0) {
-              groupsDetected.forEach((currentGroup) => {
-                set(({ groups }) => {
-                  const newGroup = groups.filter(
-                    (grp) => grp.id !== currentGroup.id,
-                  );
-                  newGroup.push({
-                    ...currentGroup,
-                    x: currentGroup.x - (prev.x - x),
-                    y: currentGroup.y - (prev.y - y),
-                  });
-
-                  return {
-                    groups: newGroup,
-                  };
-                });
+          getGroupsInsideGroup(group.id).forEach((currentGroup) => {
+            set(({ groups }) => {
+              const newGroup = groups.filter(
+                (grp) => grp.id !== currentGroup.id,
+              );
+              newGroup.push({
+                ...currentGroup,
+                x: currentGroup.x - (prev.x - x),
+                y: currentGroup.y - (prev.y - y),
               });
-            }
 
-            const coversDetect = get().covers.filter(
-              (cover) =>
-                cover.x > prev.x &&
-                cover.x + get().coverSizeWidth() <
-                  prev.x + get().coverSizeWidth() * group.scaleX &&
-                cover.y > prev.y &&
-                cover.y + get().coverSizeWidth() <
-                  prev.y + get().coverSizeHeight() * group.scaleY,
-            );
+              return {
+                groups: newGroup,
+              };
+            });
+          });
 
-            if (coversDetect.length > 0) {
-              coversDetect.forEach((cover) => {
-                get().updateCoverPosition(cover.id, {
-                  x: cover.x - (prev.x - x),
-                  y: cover.y - (prev.y - y),
-                });
-              });
-            }
-          }
+          set({
+            groups: get().groups.map((currentGroup) =>
+              currentGroup.id !== group.id
+                ? currentGroup
+                : { ...currentGroup, x, y },
+            ),
+          });
 
-          get().refreshGroups(group.id);
+          getCoversInsideGroup(group.id).forEach((cover) => {
+            removeConnectedLine(group.id, cover.id);
+          });
+
+          getGroupsInsideGroup(group.id).forEach((currentGroup) => {
+            removeConnectedLine(group.id, currentGroup.id);
+          });
+
+          getGroupsOfGroup(group.id).forEach((currentGroup) => {
+            removeConnectedLine(group.id, currentGroup.id);
+          });
+
+          refreshGroups(group.id);
         }
+
         saveLocalStorage();
       },
       updateGroupScale(groupId, scale) {
@@ -407,19 +439,13 @@ export const useMainStore = createWithEqualityFn<MainStoreUnion>()(
 
           set({ groups: filteredGroups });
 
-          const colGroup = get().covers.find(
-            (cover) =>
-              cover.x > newPos.x &&
-              cover.x + get().coverSizeWidth() <
-                newPos.x + get().coverSizeWidth() * scale.scaleX &&
-              cover.y > newPos.y &&
-              cover.y + get().coverSizeHeight() <
-                newPos.y + get().coverSizeHeight() * scale.scaleY,
-          );
+          get()
+            .getCoversInsideGroup(group.id)
+            .forEach((cov) => get().removeConnectedLine(groupId, cov.id));
 
-          if (colGroup) {
-            get().removeLinesWithCoverTogether(groupId, colGroup.id);
-          }
+          get()
+            .getGroupsInsideGroup(group.id)
+            .forEach((group) => get().removeConnectedLine(groupId, group.id));
 
           get().refreshGroups(group.id);
         }
@@ -437,19 +463,9 @@ export const useMainStore = createWithEqualityFn<MainStoreUnion>()(
 
           set({ covers: filteredCovers });
 
-          const colGroup = get().groups.find(
-            (group) =>
-              x > group.x &&
-              x + get().coverSizeWidth() <
-                group.x + get().coverSizeWidth() * group.scaleX &&
-              y > group.y &&
-              y + get().coverSizeHeight() <
-                group.y + get().coverSizeHeight() * group.scaleY,
-          );
-
-          if (colGroup) {
-            get().removeLinesWithCoverTogether(coverId, colGroup.id);
-          }
+          get()
+            .getGroupsOfCover(cover.id)
+            .forEach((group) => get().removeConnectedLine(coverId, group.id));
         }
         saveLocalStorage();
       },
@@ -464,22 +480,9 @@ export const useMainStore = createWithEqualityFn<MainStoreUnion>()(
 
           set({ groups: filteredGroups });
 
-          const groupsDetected = get().groups.filter(
-            (currentGroup) =>
-              currentGroup.id !== foundGroup.id &&
-              currentGroup.x > foundGroup.x &&
-              currentGroup.x + get().coverSizeWidth() * currentGroup.scaleX <
-                foundGroup.x + get().coverSizeWidth() * foundGroup.scaleX &&
-              currentGroup.y > foundGroup.y &&
-              currentGroup.y + get().coverSizeHeight() * currentGroup.scaleY <
-                foundGroup.y + get().coverSizeHeight() * foundGroup.scaleY,
-          );
-
-          if (groupsDetected.length > 0) {
-            groupsDetected.forEach((currentGroup) =>
-              get().refreshGroups(currentGroup.id),
-            );
-          }
+          get()
+            .getGroupsInsideGroup(foundGroup.id)
+            .forEach((group) => get().refreshGroups(group.id));
         }
       },
     };

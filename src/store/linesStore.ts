@@ -9,7 +9,7 @@ export interface UseLinesParams {
   updateLineText: (linedId: string, text: string) => void;
   removeLine: (linedId: string) => void;
   createLine: (id: string, points: Point, pos: PosTypes) => void;
-  removeLinesWithCoverTogether: (coverId: string, coverId2: string) => void;
+  removeConnectedLine: (id1: string, id2: string) => void;
   isLine: (lineId: string) => boolean;
 }
 
@@ -112,7 +112,7 @@ export const createLinesSlice: StateCreator<
       lines: lines.filter((currentLine) => !(currentLine.id === linedId)),
     }));
   },
-  removeLinesWithCoverTogether(id1: string, id2: string) {
+  removeConnectedLine(id1: string, id2: string) {
     set(({ lines }) => ({
       lines: lines.filter(
         (l) =>
