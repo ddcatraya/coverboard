@@ -21,7 +21,6 @@ export interface UseGrouspParams {
     coverLabel: 'title' | 'subtitle',
     label: string,
   ) => void;
-  refreshGroups: (groupId: string) => void;
   isGroup: (groupId: string) => boolean;
 }
 
@@ -120,17 +119,5 @@ export const createGroupsSlice: StateCreator<
     set(({ groups }) => ({
       groups: [...groups, ...filteredResults],
     }));
-  },
-  refreshGroups(groupId) {
-    const foundCover = get().groups.find((cov) => cov.id !== groupId);
-
-    if (foundCover) {
-      const filteredGroups = get().groups.filter(
-        (cov) => cov.id !== foundCover.id,
-      );
-      filteredGroups.push(foundCover);
-
-      set({ groups: filteredGroups });
-    }
   },
 });

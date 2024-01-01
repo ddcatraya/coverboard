@@ -47,6 +47,7 @@ interface CoverContextData {
     coverId: string,
     scale: { scaleX: number; scaleY: number },
   ) => void;
+  refreshGroups: (groupId: string) => void;
 }
 
 type MainStoreUnion = UseCoverParams &
@@ -241,12 +242,31 @@ export const useMainStore = createWithEqualityFn<MainStoreUnion>()(
 
         if (group) {
           if (group.x !== 0 || group.y !== 0) {
+            const groupsDetected = get().groups.filter(
+              (currentGroup) =>
+                currentGroup.id !== group.id &&
+                currentGroup.x > group.x &&
+                currentGroup.x + get().coverSizeWidth() * currentGroup.scaleX <
+                  group.x + get().coverSizeWidth() * group.scaleX &&
+                currentGroup.y > group.y &&
+                currentGroup.y + get().coverSizeHeight() * currentGroup.scaleY <
+                  group.y + get().coverSizeHeight() * group.scaleY,
+            );
+
+            if (groupsDetected.length > 0) {
+              groupsDetected.forEach((grp) =>
+                get().removeGroupAndRelatedLines(grp.id),
+              );
+            }
+
             const coversDetect = get().covers.filter(
               (cover) =>
                 cover.x > group.x &&
-                cover.x < group.x + get().coverSizeWidth() * group.scaleX &&
+                cover.x + get().coverSizeWidth() <
+                  group.x + get().coverSizeWidth() * group.scaleX &&
                 cover.y > group.y &&
-                cover.y < group.y + get().coverSizeHeight() * group.scaleY,
+                cover.y + get().coverSizeHeight() <
+                  group.y + get().coverSizeHeight() * group.scaleY,
             );
 
             if (coversDetect.length > 0) {
@@ -286,43 +306,72 @@ export const useMainStore = createWithEqualityFn<MainStoreUnion>()(
 
           set({ groups: filteredGroups });
 
-          const colGroup = get().covers.find(
-            (cover) =>
-              cover.x > x &&
-              cover.x < x + get().coverSizeWidth() * group.scaleX &&
-              cover.y > y &&
-              cover.y < y + get().coverSizeHeight() * group.scaleY,
-          );
-
-          if (colGroup) {
-            get().removeLinesWithCoverTogether(groupId, colGroup.id);
-          }
-
           if (group.x !== 0 || group.y !== 0) {
+            const colGroup = get().covers.find(
+              (cover) =>
+                cover.x > x &&
+                cover.x + get().coverSizeWidth() <
+                  x + get().coverSizeWidth() * group.scaleX &&
+                cover.y > y &&
+                cover.y + get().coverSizeHeight() <
+                  y + get().coverSizeHeight() * group.scaleY,
+            );
+
+            if (colGroup) {
+              get().removeLinesWithCoverTogether(groupId, colGroup.id);
+            }
+
+            const groupsDetected = get().groups.filter(
+              (currentGroup) =>
+                currentGroup.id !== group.id &&
+                currentGroup.x > prev.x &&
+                currentGroup.x + get().coverSizeWidth() * currentGroup.scaleX <
+                  prev.x + get().coverSizeWidth() * group.scaleX &&
+                currentGroup.y > prev.y &&
+                currentGroup.y + get().coverSizeHeight() * currentGroup.scaleY <
+                  prev.y + get().coverSizeHeight() * group.scaleY,
+            );
+
+            if (groupsDetected.length > 0) {
+              groupsDetected.forEach((currentGroup) => {
+                set(({ groups }) => {
+                  const newGroup = groups.filter(
+                    (grp) => grp.id !== currentGroup.id,
+                  );
+                  newGroup.push({
+                    ...currentGroup,
+                    x: currentGroup.x - (prev.x - x),
+                    y: currentGroup.y - (prev.y - y),
+                  });
+
+                  return {
+                    groups: newGroup,
+                  };
+                });
+              });
+            }
+
             const coversDetect = get().covers.filter(
               (cover) =>
                 cover.x > prev.x &&
-                cover.x < prev.x + get().coverSizeWidth() * group.scaleX &&
+                cover.x + get().coverSizeWidth() <
+                  prev.x + get().coverSizeWidth() * group.scaleX &&
                 cover.y > prev.y &&
-                cover.y < prev.y + get().coverSizeHeight() * group.scaleY,
+                cover.y + get().coverSizeWidth() <
+                  prev.y + get().coverSizeHeight() * group.scaleY,
             );
 
             if (coversDetect.length > 0) {
               coversDetect.forEach((cover) => {
-                set(({ covers }) => ({
-                  covers: covers.map((currentCover) => {
-                    return cover.id === currentCover.id
-                      ? {
-                          ...currentCover,
-                          x: currentCover.x - (prev.x - x),
-                          y: currentCover.y - (prev.y - y),
-                        }
-                      : currentCover;
-                  }),
-                }));
+                get().updateCoverPosition(cover.id, {
+                  x: cover.x - (prev.x - x),
+                  y: cover.y - (prev.y - y),
+                });
               });
             }
           }
+
+          get().refreshGroups(group.id);
         }
         saveLocalStorage();
       },
@@ -361,14 +410,18 @@ export const useMainStore = createWithEqualityFn<MainStoreUnion>()(
           const colGroup = get().covers.find(
             (cover) =>
               cover.x > newPos.x &&
-              cover.x < newPos.x + get().coverSizeWidth() * scale.scaleX &&
+              cover.x + get().coverSizeWidth() <
+                newPos.x + get().coverSizeWidth() * scale.scaleX &&
               cover.y > newPos.y &&
-              cover.y < newPos.y + get().coverSizeHeight() * scale.scaleY,
+              cover.y + get().coverSizeHeight() <
+                newPos.y + get().coverSizeHeight() * scale.scaleY,
           );
 
           if (colGroup) {
             get().removeLinesWithCoverTogether(groupId, colGroup.id);
           }
+
+          get().refreshGroups(group.id);
         }
         saveLocalStorage();
       },
@@ -387,9 +440,11 @@ export const useMainStore = createWithEqualityFn<MainStoreUnion>()(
           const colGroup = get().groups.find(
             (group) =>
               x > group.x &&
-              x < group.x + get().coverSizeWidth() * group.scaleX &&
+              x + get().coverSizeWidth() <
+                group.x + get().coverSizeWidth() * group.scaleX &&
               y > group.y &&
-              y < group.y + get().coverSizeHeight() * group.scaleY,
+              y + get().coverSizeHeight() <
+                group.y + get().coverSizeHeight() * group.scaleY,
           );
 
           if (colGroup) {
@@ -397,6 +452,35 @@ export const useMainStore = createWithEqualityFn<MainStoreUnion>()(
           }
         }
         saveLocalStorage();
+      },
+      refreshGroups(groupId) {
+        const foundGroup = get().groups.find((cov) => cov.id === groupId);
+
+        if (foundGroup) {
+          const filteredGroups = get().groups.filter(
+            (cov) => cov.id !== foundGroup.id,
+          );
+          filteredGroups.push(foundGroup);
+
+          set({ groups: filteredGroups });
+
+          const groupsDetected = get().groups.filter(
+            (currentGroup) =>
+              currentGroup.id !== foundGroup.id &&
+              currentGroup.x > foundGroup.x &&
+              currentGroup.x + get().coverSizeWidth() * currentGroup.scaleX <
+                foundGroup.x + get().coverSizeWidth() * foundGroup.scaleX &&
+              currentGroup.y > foundGroup.y &&
+              currentGroup.y + get().coverSizeHeight() * currentGroup.scaleY <
+                foundGroup.y + get().coverSizeHeight() * foundGroup.scaleY,
+          );
+
+          if (groupsDetected.length > 0) {
+            groupsDetected.forEach((currentGroup) =>
+              get().refreshGroups(currentGroup.id),
+            );
+          }
+        }
       },
     };
   },

@@ -178,7 +178,7 @@ export const createCoversSlice: StateCreator<
     }));
   },
   refreshCovers(coverId) {
-    const foundCover = get().covers.find((cov) => cov.id !== coverId);
+    const foundCover = get().covers.find((cov) => cov.id === coverId);
 
     if (foundCover) {
       const filteredGroups = get().covers.filter(
