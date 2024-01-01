@@ -65,7 +65,7 @@ export const ToolbarConfigPopover: React.FC<ToolbarConfigPopoverProps> = ({
   };
 
   const handleButtonChange = (
-    event: React.MouseEvent<HTMLButtonElement>,
+    event: SelectChangeEvent<string | number | boolean>,
     updatedParam: ToolbarConfigValues,
   ) => {
     const obj = {
@@ -135,7 +135,7 @@ export const ToolbarConfigPopover: React.FC<ToolbarConfigPopoverProps> = ({
                   label={colorSetting.label}
                   value={param[colorSetting.name]}
                   onChange={(evt) =>
-                    handleButtonChange(evt as any, colorSetting.name)
+                    handleButtonChange(evt, colorSetting.name)
                   }>
                   {Object.values(Colors).map((clr) => (
                     <MenuItem value={clr} key={clr}>
@@ -172,7 +172,7 @@ export const ToolbarConfigPopover: React.FC<ToolbarConfigPopoverProps> = ({
                 value={param[ToolbarConfigValues.BACK_COLOR]}
                 label="Back Color"
                 onChange={(evt) =>
-                  handleButtonChange(evt as any, ToolbarConfigValues.BACK_COLOR)
+                  handleButtonChange(evt, ToolbarConfigValues.BACK_COLOR)
                 }>
                 {Object.values(BackColors).map((clr) => (
                   <MenuItem value={clr} key={clr}>

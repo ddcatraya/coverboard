@@ -78,7 +78,7 @@ export const BoundaryArrowMemo: React.FC<BoundaryArrowProps> = ({
   ]);
 
   const handleBringIntoView = () => {
-    let newPos: Vector2d = { x, y };
+    const newPos: Vector2d = { x, y };
     if (newPos.x > dragLimits.width) {
       newPos.x = dragLimits.width - coverSizeWidth;
     }

@@ -31,7 +31,7 @@ export const schema = (parsedData: LocalStorageData) =>
           .min(50, 'configs:size must be a number higher than 50')
           .max(150, 'configs:size must be a number lower than 150'),
         media: z.nativeEnum(Media, {
-          errorMap: (_, _ctx) => {
+          errorMap: () => {
             return {
               message: `configs:media must be ${Object.values(Media).join(
                 ' | ',
@@ -46,7 +46,7 @@ export const schema = (parsedData: LocalStorageData) =>
           })
           .trim(),
         color: z.nativeEnum(Colors, {
-          errorMap: (_, _ctx) => {
+          errorMap: () => {
             return {
               message: `configs:color must be ${Object.values(Colors).join(
                 ' | ',
@@ -55,7 +55,7 @@ export const schema = (parsedData: LocalStorageData) =>
           },
         }),
         arrowColor: z.nativeEnum(Colors, {
-          errorMap: (_, _ctx) => {
+          errorMap: () => {
             return {
               message: `configs:arrowColor must be ${Object.values(Colors).join(
                 ' | ',
@@ -64,7 +64,7 @@ export const schema = (parsedData: LocalStorageData) =>
           },
         }),
         coverColor: z.nativeEnum(Colors, {
-          errorMap: (_, _ctx) => {
+          errorMap: () => {
             return {
               message: `configs:coverColor must be ${Object.values(Colors).join(
                 ' | ',
@@ -73,7 +73,7 @@ export const schema = (parsedData: LocalStorageData) =>
           },
         }),
         groupColor: z.nativeEnum(Colors, {
-          errorMap: (_, _ctx) => {
+          errorMap: () => {
             return {
               message: `configs:groupColor must be ${Object.values(Colors).join(
                 ' | ',
@@ -82,7 +82,7 @@ export const schema = (parsedData: LocalStorageData) =>
           },
         }),
         backColor: z.nativeEnum(BackColors, {
-          errorMap: (_, _ctx) => {
+          errorMap: () => {
             return {
               message: `configs:backColor must be ${Object.values(
                 BackColors,
@@ -111,7 +111,7 @@ export const schema = (parsedData: LocalStorageData) =>
           required_error: 'configs:showStars is required',
         }),
         labelDir: z.nativeEnum(PosTypes, {
-          errorMap: (_, _ctx) => {
+          errorMap: () => {
             return {
               message: `configs:labelDir must be ${Object.values(PosTypes).join(
                 ' | ',
@@ -120,7 +120,7 @@ export const schema = (parsedData: LocalStorageData) =>
           },
         }),
         starsDir: z.nativeEnum(PosTypes, {
-          errorMap: (_, _ctx) => {
+          errorMap: () => {
             return {
               message: `configs:starsDir must be ${Object.values(PosTypes).join(
                 ' | ',
@@ -129,7 +129,7 @@ export const schema = (parsedData: LocalStorageData) =>
           },
         }),
         groupDir: z.nativeEnum(PosTypes, {
-          errorMap: (_, _ctx) => {
+          errorMap: () => {
             return {
               message: `configs:starsDir must be ${Object.values(PosTypes).join(
                 ' | ',
@@ -181,7 +181,7 @@ export const schema = (parsedData: LocalStorageData) =>
             .trim()
             .nullable(),
           dir: z.nativeEnum(PosTypes, {
-            errorMap: (_, _ctx) => {
+            errorMap: () => {
               return {
                 message: `covers:dir must be ${Object.values(PosTypes).join(
                   ' | ',
@@ -203,7 +203,7 @@ export const schema = (parsedData: LocalStorageData) =>
             .trim()
             .nullable(),
           dir: z.nativeEnum(PosTypes, {
-            errorMap: (_, _ctx) => {
+            errorMap: () => {
               return {
                 message: `covers:dir must be ${Object.values(PosTypes).join(
                   ' | ',
@@ -214,7 +214,7 @@ export const schema = (parsedData: LocalStorageData) =>
         }),
         star: z.object({
           dir: z.nativeEnum(PosTypes, {
-            errorMap: (_, _ctx) => {
+            errorMap: () => {
               return {
                 message: `covers:star:dir must be ${Object.values(
                   PosTypes,
@@ -278,7 +278,7 @@ export const schema = (parsedData: LocalStorageData) =>
             })
             .nullable(),
           dir: z.nativeEnum(PosTypes, {
-            errorMap: (_, _ctx) => {
+            errorMap: () => {
               return {
                 message: `groups:title:dir must be ${Object.values(
                   PosTypes,
@@ -295,7 +295,7 @@ export const schema = (parsedData: LocalStorageData) =>
             })
             .nullable(),
           dir: z.nativeEnum(PosTypes, {
-            errorMap: (_, _ctx) => {
+            errorMap: () => {
               return {
                 message: `groups:subtitle:dir must be ${Object.values(
                   PosTypes,
@@ -324,7 +324,7 @@ export const schema = (parsedData: LocalStorageData) =>
           .trim()
           .nullable(),
         dir: z.nativeEnum(PosTypes, {
-          errorMap: (_, _ctx) => {
+          errorMap: () => {
             return {
               message: `lines:dir must be ${Object.values(PosTypes).join(
                 ' | ',
@@ -348,7 +348,7 @@ export const schema = (parsedData: LocalStorageData) =>
               );
             }, 'lines:origin:id does not exist'),
           dir: z.nativeEnum(PosTypes, {
-            errorMap: (_, _ctx) => {
+            errorMap: () => {
               return {
                 message: `lines:origin:dir must be ${Object.values(
                   PosTypes,
@@ -373,7 +373,7 @@ export const schema = (parsedData: LocalStorageData) =>
               );
             }, 'lines:target:id does not exist'),
           dir: z.nativeEnum(PosTypes, {
-            errorMap: (_, _ctx) => {
+            errorMap: () => {
               return {
                 message: `lines:target:dir must be ${Object.values(
                   PosTypes,

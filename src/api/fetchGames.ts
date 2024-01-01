@@ -23,7 +23,7 @@ export const getGames = async (
 
   const fullPosters = posters.filter(isFulfilled);
 
-  return fullPosters.flatMap(({ value: game }: any) => {
+  return fullPosters.flatMap(({ value: game }) => {
     const gameCount = game.data ?? [];
 
     if (gameCount.length > 0) {

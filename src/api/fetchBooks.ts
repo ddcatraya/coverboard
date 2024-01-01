@@ -26,7 +26,7 @@ export const getBookCovers = async (
   );
   const fullPosters = posters.filter(isFulfilled);
 
-  return fullPosters.flatMap((response: any) => {
+  return fullPosters.flatMap((response) => {
     const { items } = response.value.data;
     if (items && items.length > 0 && items[0].volumeInfo.imageLinks) {
       const isbm = items[0].volumeInfo.industryIdentifiers.find(
