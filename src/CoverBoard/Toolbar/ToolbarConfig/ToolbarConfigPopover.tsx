@@ -12,6 +12,7 @@ import {
   MenuItem,
   InputLabel,
   Tooltip,
+  SelectChangeEvent,
 } from '@mui/material';
 import {
   backColorMap,
