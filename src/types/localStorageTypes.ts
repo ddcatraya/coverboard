@@ -240,47 +240,47 @@ export const schema = (parsedData: LocalStorageData) =>
       z.object({
         id: z
           .string({
-            invalid_type_error: 'covers:id must be a string',
-            required_error: 'covers:id is required',
+            invalid_type_error: 'groups:id must be a string',
+            required_error: 'groups:id is required',
           })
           .refine((id) => {
             return validate(id);
-          }, 'covers:id has invalid format'),
+          }, 'groups:id has invalid format'),
         x: z
           .number({
-            invalid_type_error: 'covers:x position must be a number',
-            required_error: 'covers:x is required',
+            invalid_type_error: 'groups:x position must be a number',
+            required_error: 'groups:x is required',
           })
-          .min(0, 'covers:x position must be positive number'),
+          .min(0, 'groups:x position must be positive number'),
         y: z
           .number({
-            invalid_type_error: 'covers:y position must be a number',
-            required_error: 'covers:y is required',
+            invalid_type_error: 'groups:y position must be a number',
+            required_error: 'groups:y is required',
           })
-          .min(0, 'covers:y position must be positive number'),
+          .min(0, 'groups:y position must be positive number'),
         scaleX: z
           .number({
-            invalid_type_error: 'covers:x position must be a number',
-            required_error: 'covers:x is required',
+            invalid_type_error: 'groups:x position must be a number',
+            required_error: 'groups:x is required',
           })
-          .min(0, 'covers:x position must be positive number'),
+          .min(0, 'groups:x position must be positive number'),
         scaleY: z
           .number({
-            invalid_type_error: 'covers:y position must be a number',
-            required_error: 'covers:y is required',
+            invalid_type_error: 'groups:y position must be a number',
+            required_error: 'groups:y is required',
           })
-          .min(0, 'covers:y position must be positive number'),
+          .min(0, 'groups:y position must be positive number'),
         title: z.object({
           text: z
             .string({
-              invalid_type_error: 'covers:title:text must be a string',
-              required_error: 'covers:title:text is required',
+              invalid_type_error: 'groups:title:text must be a string',
+              required_error: 'groups:title:text is required',
             })
             .nullable(),
           dir: z.nativeEnum(PosTypes, {
             errorMap: (_, _ctx) => {
               return {
-                message: `covers:title:dir must be ${Object.values(
+                message: `groups:title:dir must be ${Object.values(
                   PosTypes,
                 ).join(' | ')}`,
               };
@@ -290,14 +290,14 @@ export const schema = (parsedData: LocalStorageData) =>
         subtitle: z.object({
           text: z
             .string({
-              invalid_type_error: 'covers:subtitle:text must be a string',
-              required_error: 'covers:subtitle:text is required',
+              invalid_type_error: 'groups:subtitle:text must be a string',
+              required_error: 'groups:subtitle:text is required',
             })
             .nullable(),
           dir: z.nativeEnum(PosTypes, {
             errorMap: (_, _ctx) => {
               return {
-                message: `covers:subtitle:dir must be ${Object.values(
+                message: `groups:subtitle:dir must be ${Object.values(
                   PosTypes,
                 ).join(' | ')}`,
               };
