@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect } from 'react';
+import React, { useCallback, useEffect, useMemo } from 'react';
 import { Group, Rect } from 'react-konva';
 
 import { Covers, PosTypes } from 'types';
@@ -20,6 +20,45 @@ export const CommonDrawLine: React.FC<CommonDrawLineProps> = ({
   const setPoints = useUtilsStore((state) => state.setPoints);
   const createLine = useMainStore((state) => state.createLine);
   const isSelected = useUtilsStore((state) => state.isSelected({ id }));
+
+  const groups = useMainStore((state) => state.groups);
+  const covers = useMainStore((state) => state.covers);
+  const getGroupsOfCover = useMainStore((state) => state.getGroupsOfCover);
+  const getGroupsOfGroup = useMainStore((state) => state.getGroupsOfGroup);
+  const getGroupsInsideGroup = useMainStore(
+    (state) => state.getGroupsInsideGroup,
+  );
+  const getCoversInsideGroup = useMainStore(
+    (state) => state.getCoversInsideGroup,
+  );
+
+  const showArrow = useMemo(() => {
+    if (points) {
+      const cover = covers.find((cover) => cover.id === points.id);
+      if (cover) {
+        return !getGroupsOfCover(cover.id).find((val) => val.id === id);
+      }
+
+      const group = groups.find((group) => group.id === points.id);
+      if (group) {
+        return !(
+          !!getGroupsOfGroup(group.id).find((val) => val.id === id) ||
+          !!getGroupsInsideGroup(group.id).find((val) => val.id === id) ||
+          !!getCoversInsideGroup(group.id).find((val) => val.id === id)
+        );
+      }
+    }
+    return true;
+  }, [
+    covers,
+    getCoversInsideGroup,
+    getGroupsInsideGroup,
+    getGroupsOfCover,
+    getGroupsOfGroup,
+    groups,
+    id,
+    points,
+  ]);
 
   const coverSizeWidth =
     useMainStore((state) => state.coverSizeWidth()) * scaleX;
@@ -100,7 +139,7 @@ export const CommonDrawLine: React.FC<CommonDrawLineProps> = ({
     return () => document.removeEventListener('keydown', keyFn);
   }, [handleDrawLine, id, isSelected, setPoints]);
 
-  if (!points && !isSelected) return null;
+  if ((!points && !isSelected) || !showArrow) return null;
 
   return (
     <Group>
