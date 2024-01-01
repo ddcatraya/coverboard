@@ -104,7 +104,7 @@ const GroupCoverMemo: React.FC<CoverImageProps> = ({
         }}>
         <CommonDrawLine id={id} scaleX={scaleX} scaleY={scaleY} />
         <>
-          <Group onClick={handlesSelect} onTouchStart={handlesSelect}>
+          <Group onClick={handlesSelect} onTap={handlesSelect}>
             <GroupSquare id={id} />
           </Group>
           <CommonLabelDraggable
