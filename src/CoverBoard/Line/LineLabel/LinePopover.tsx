@@ -35,8 +35,8 @@ export const LinePopover: React.FC<PopupProps> = ({ open, values, id }) => {
 
   const handleSubmit = (evt: React.SyntheticEvent<HTMLFormElement>) => {
     evt.preventDefault();
-    updateLineText(id, values.text);
-    updateLineDir(id, values.dir);
+    updateLineText(id, text.text);
+    updateLineDir(id, text.dir);
     setSelected(null);
   };
 

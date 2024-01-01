@@ -31,7 +31,6 @@ export const CoverStarDraggable = ({
 
   const handleDragStart = (e: KonvaEventObject<DragEvent>) => {
     e.cancelBubble = true;
-    // e.currentTarget.opacity(0.5);
     const container = e.target.getStage()?.container();
 
     if (container) {
@@ -40,7 +39,6 @@ export const CoverStarDraggable = ({
   };
 
   const handleDragEnd = (e: KonvaEventObject<DragEvent | TouchEvent>) => {
-    // e.currentTarget.opacity(1);
     e.cancelBubble = true;
     const container = e.target.getStage()?.container();
 
