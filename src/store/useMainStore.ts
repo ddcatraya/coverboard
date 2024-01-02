@@ -310,13 +310,10 @@ export const useMainStore = createWithEqualityFn<MainStoreUnion>()(
 
         useUtilsStore.getState().setPoints(null);
 
-        set(({ covers }) => ({
+        set(({ covers, lines }) => ({
           covers: covers.filter((c) => c.id !== coverId),
-        }));
-
-        set(({ lines }) => ({
           lines: lines.filter(
-            (l) => l.origin.id !== coverId || l.target.id !== coverId,
+            (l) => l.origin.id !== coverId && l.target.id !== coverId,
           ),
         }));
 
@@ -346,14 +343,11 @@ export const useMainStore = createWithEqualityFn<MainStoreUnion>()(
           );
         }
 
-        set(({ groups }) => ({
-          groups: groups.filter((c) => c.id !== groupId),
-        }));
-
-        set(({ lines }) => ({
+        set(({ lines, groups }) => ({
           lines: lines.filter(
-            (l) => l.origin.id !== groupId || l.target.id !== groupId,
+            (l) => l.origin.id !== groupId && l.target.id !== groupId,
           ),
+          groups: groups.filter((c) => c.id !== groupId),
         }));
 
         saveLocalStorage(isInternal);
@@ -409,13 +403,13 @@ export const useMainStore = createWithEqualityFn<MainStoreUnion>()(
             });
           });
 
-          set({
-            groups: get().groups.map((currentGroup) =>
+          set(({ groups }) => ({
+            groups: groups.map((currentGroup) =>
               currentGroup.id !== group.id
                 ? currentGroup
                 : { ...currentGroup, x, y },
             ),
-          });
+          }));
 
           getCoversInsideGroup(group.id).forEach((cover) => {
             removeConnectedLine(group.id, cover.id);

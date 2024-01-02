@@ -5,8 +5,8 @@ export const GroupCountLabel: React.FC = () => {
   const pos0 = useMainStore(
     (state) => state.groups.filter((cov) => cov.x === 0 && cov.y === 0).length,
   );
-  const coverSizeWidth = useMainStore((state) => state.coverSizeWidth()) * 4;
-  const coverSizeHeight = useMainStore((state) => state.coverSizeHeight()) * 4;
+  const coverSizeWidth = useMainStore((state) => state.coverSizeWidth()) * 3;
+  const coverSizeHeight = useMainStore((state) => state.coverSizeHeight()) * 3;
   const fontSize = useMainStore((state) => state.fontSize());
 
   return (

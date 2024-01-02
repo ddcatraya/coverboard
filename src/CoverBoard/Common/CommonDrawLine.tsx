@@ -66,7 +66,7 @@ export const CommonDrawLine: React.FC<CommonDrawLineProps> = ({
     useMainStore((state) => state.coverSizeHeight()) * scaleY;
   const selection: PosTypes | null = points?.id === id ? points.dir : null;
 
-  const square = 40 + coverSizeWidth / 20;
+  const square = 25 + coverSizeWidth / 20;
 
   const handleDrawLine = useCallback(
     (id: string, dir: PosTypes) => {
